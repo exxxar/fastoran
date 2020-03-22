@@ -4,8 +4,8 @@
     @include("partials.main-slider")
     @include("partials.filters")
     @include("partials.kitchens")
-{{--    @include("partials.restorans")--}}
-{{--    @include("partials.discount")
+    @include("partials.restorans")
+    @include("partials.discount")
     @include("partials.points")
-    @include("partials.delivery")--}}
+    @include("partials.delivery")
 @endsection
