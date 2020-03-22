@@ -51,11 +51,12 @@ class RestController extends Controller
 
     public function getRestListByKitchen(Request $request, $kitchenId)
     {
-        $restorans = (Kitchen::with(["restorans"])
+        $kitchen = Kitchen::with(["restorans"])
             ->where("id", $kitchenId)
-            ->first())
-            ->restorans()
-            ->get();
+            ->first();
+
+
+        $restorans = is_null($kitchen) ? null : $kitchen->restorans()->get();
 
         if ($request->ajax())
             return response()
