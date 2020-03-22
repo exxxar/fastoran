@@ -45,6 +45,9 @@ Vue.component('rest-menu', require('./components/RestMenu.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import store from '../js/store'
+
 const app = new Vue({
+    store,
     el: '#app',
 });

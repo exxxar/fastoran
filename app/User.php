@@ -9,7 +9,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens,Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,27 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+
+        'active',
+
+
+        'social',
+        'phone',
+        'reg_dat',
+        'aut_code',
+        'dostavka',
+        'bonus',
+        'famil',
+
+        'birthday',
+        'user_city',
+        'user_home',
+        'user_flat',
+        'user_region',
+        'user_street',
     ];
 
     /**

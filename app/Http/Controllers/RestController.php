@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Order;
+use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Region;
 use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RestController extends Controller
 {
@@ -79,5 +82,75 @@ class RestController extends Controller
                 ]);
 
         return view("rest", compact("restoran"));
+    }
+
+    public function getOrderHistory()
+    {
+
+        $orders = Order::with(["details"])
+            ->where("user_id", auth()->guard('api')->user()->id)
+            ->get();
+
+        return response()
+            ->json([
+                "message" => "success",
+                "orders" => $orders,
+                "status" => 200
+            ]);
+
+    }
+
+    public function makeOrder(Request $request)
+    {
+
+        $order = Order::create($request->all());
+        $order->user_id = auth()->guard('api')->user()->id;
+        $order->save();
+
+        $order_details = $request->get("order_details");
+
+        foreach ($order_details as $od) {
+            $detail = OrderDetail::create($od);
+            $detail->order_id = $order->id;
+            $detail->save();
+        }
+
+        return response()
+            ->json([
+                "message" => "success",
+                "data" => $request->all(),
+                "status" => 200
+            ]);
+
+    }
+
+    public function sendWish(Request $request)
+    {
+        $phone = $request->get("phone");
+        $email = $request->get("email");
+        $from = $request->get("from");
+
+        Log::info("$phone $email $from");
+
+        return response()
+            ->json([
+                "message" => "success",
+                "status" => 200
+            ]);
+
+    }
+
+    public function sendRequest(Request $request)
+    {
+        $name = $request->get("name") ?? '';
+        $phone = $request->get("phone") ?? '';
+        $message = $request->get("message") ?? '';
+
+        Telegram::sendMessage([
+            'chat_id' => env("CHANNEL_ID"),
+            'parse_mode' => 'Markdown',
+            'text' => sprintf("*Заявка на обратный звонок*\n_%s_\n_%s_\n%s", $name, $phone, $message),
+            'disable_notification' => 'false'
+        ]);
     }
 }

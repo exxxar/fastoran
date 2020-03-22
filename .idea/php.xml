@@ -107,6 +107,7 @@
       <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/grkamil/laravel-telegram-logging" />
+      <path value="$PROJECT_DIR$/vendor/irazasyed/telegram-bot-sdk" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

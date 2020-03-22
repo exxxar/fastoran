@@ -31,8 +31,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Электронная почта*"
-                                               required="true" name="user_mail" id="user_mail">
+                                        <input type="text" class="form-control" placeholder="Номер телефона*"
+                                               required="true" name="user_phone" id="user_phone">
                                         <input type="password" class="form-control" placeholder="Пароль*"
                                                required="true" name="user_pass" id="user_pass">
                                         <input type="password" class="form-control" placeholder="Повторите пароль*"
@@ -62,8 +62,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <input type="text" class="form-control" placeholder="Электронная почта*"
-                                               name="enter_mail" id="enter_mail">
+                                        <input type="text" class="form-control" placeholder="Номер телефона*"
+                                               name="enter_phone" id="enter_mail">
                                         <input type="password" class="form-control" placeholder="Пароль*"
                                                name="enter_pass" id="enter_pass">
                                     </div>

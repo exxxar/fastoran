@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Fastoran;
 
-use App\Content;
+use App\Http\Controllers\Controller;
+use App\Parts\Models\Fastoran\MenuRazdel;
 use Illuminate\Http\Request;
 
-class ContentController extends Controller
+class MenuRazdelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,10 @@ class ContentController extends Controller
      */
     public function index()
     {
-        //
+        return response()
+            ->json([
+                "menu_razdels"=>MenuRazdel::all()
+            ]);
     }
 
     /**
@@ -41,10 +45,10 @@ class ContentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Content  $content
+     * @param  \App\MenuRazdel  $menuRazdel
      * @return \Illuminate\Http\Response
      */
-    public function show(Content $content)
+    public function show(MenuRazdel $menuRazdel)
     {
         //
     }
@@ -52,10 +56,10 @@ class ContentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Content  $content
+     * @param  \App\MenuRazdel  $menuRazdel
      * @return \Illuminate\Http\Response
      */
-    public function edit(Content $content)
+    public function edit(MenuRazdel $menuRazdel)
     {
         //
     }
@@ -64,10 +68,10 @@ class ContentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Content  $content
+     * @param  \App\MenuRazdel  $menuRazdel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Content $content)
+    public function update(Request $request, MenuRazdel $menuRazdel)
     {
         //
     }
@@ -75,24 +79,11 @@ class ContentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Content  $content
+     * @param  \App\MenuRazdel  $menuRazdel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Content $content)
+    public function destroy(MenuRazdel $menuRazdel)
     {
         //
-    }
-
-    public function save(Request $request){
-
-        $request->validate([
-            "test"=>"required"
-        ]);
-        $test = $request->get("test")??"undefined";
-
-        Content::create([
-            "test"=>$test
-        ]);
-        return view('welcome',compact('test'));
     }
 }

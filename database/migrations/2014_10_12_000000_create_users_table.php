@@ -35,12 +35,12 @@ class CreateUsersTable extends Migration
 
             $table->string('social', 100)->default('');
             $table->string('phone', 50)->default('');
+
             $table->dateTime('reg_dat');
             $table->integer('aut_code');
             $table->string('dostavka', 120);
             $table->integer('bonus');
             $table->string('famil', 80);
-            $table->string('pass', 35);
             $table->date('birthday');
             $table->string('user_city', 20);
             $table->string('user_home', 10);

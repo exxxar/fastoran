@@ -31,3 +31,61 @@ Route::get('/kitchen-list', 'RestController@getKitchenList');
 
 Route::get('/rest-list', 'RestController@getRestList');
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen');
+
+Route::post('/send-request', 'RestController@sendRequest')->name("callback.request");
+
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('/wish', 'RestController@sendWish');
+
+    Route::group([
+        'namespace' => 'Fastoran',
+        'prefix' => 'fastoran'
+    ], function () {
+        Route::resource('restorans', 'RestoransController');
+        Route::resource('cetegories', 'CategoryController');
+        Route::resource('kitchens', 'KitchenController');
+        Route::resource('menu_categories', 'MenuCategoryController');
+        Route::resource('menu', 'MenuController');
+        Route::resource('menu_razdels', 'MenuRazdelController');
+        Route::resource('menu_rubriks', 'MenuRubrikController');
+        Route::resource('orders', 'OrderController');
+        Route::resource('order_details', 'OrderDetailController');
+    });
+
+    Route::group([
+        'namespace' => 'Api',
+        'prefix' => 'auth'
+    ], function () {
+        Route::post('login', 'AuthController@login');
+        Route::post('signup', 'AuthController@signup');
+        Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");
+
+        Route::group([
+            'middleware' => 'auth:api'
+        ], function () {
+            Route::any('logout', 'AuthController@logout');
+            Route::any('user', 'AuthController@user');
+        });
+    });
+
+    Route::group([
+        'namespace' => 'Api',
+        'middleware' => 'api',
+        'prefix' => 'password'
+    ], function () {
+        Route::post('create', 'PasswordResetController@create');
+        Route::get('find/{token}', 'PasswordResetController@find');
+        Route::post('reset', 'PasswordResetController@reset');
+        Route::get('test', function () {
+            return "test";
+        });
+    });
+
+    Route::group([
+        'prefix' => 'methods',
+        'middleware' => 'auth:api'
+    ], function () {
+        Route::any('history','RestController@getOrderHistory');
+        Route::post('order', 'RestContoller@makeOrder');
+    });
+});
