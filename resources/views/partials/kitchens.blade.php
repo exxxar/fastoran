@@ -1,4 +1,4 @@
-{{dd($kitchens)}}
+
 @isset($kitchens)
     <div class="l-kitchen">
         <div class="container">

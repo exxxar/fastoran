@@ -20,10 +20,14 @@ class RestController extends Controller
         $kitchens = Kitchen::where("view", 1)
             ->get();
 
+        dd($kitchens);
+
         $restorans = Restoran::where("moderation", true)
             ->take(12)
             ->skip(0)
             ->get();
+
+
 
         if ($request->ajax())
             return response()
