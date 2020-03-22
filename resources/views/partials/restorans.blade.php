@@ -17,7 +17,7 @@
                         </a>
                     </div>
                 </div>
-                @endfor
+                @endforeach
             </div>
 
             <div class="row">
