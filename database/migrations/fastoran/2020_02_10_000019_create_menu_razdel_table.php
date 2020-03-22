@@ -24,8 +24,9 @@ class CreateMenuRazdelTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('name', 50);
-            $table->integer('rubr');
-            $table->integer('rest');
+            $table->unsignedInteger('rubr_id');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 

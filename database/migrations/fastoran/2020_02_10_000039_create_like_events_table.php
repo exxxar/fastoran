@@ -23,11 +23,11 @@ class CreateLikeEventsTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->string('ip', 18);
+            $table->string('ip', 18)->unique();
             $table->date('dat');
             $table->integer('event');
+            $table->timestamps();
 
-            $table->index(["ip"], 'ip');
         });
     }
 

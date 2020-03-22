@@ -23,10 +23,11 @@ class CreateBanketFoodsTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('banket');
+            $table->unsignedInteger('banket_id');
             $table->string('food', 200);
             $table->integer('count');
             $table->float('price');
+            $table->timestamps();
         });
     }
 

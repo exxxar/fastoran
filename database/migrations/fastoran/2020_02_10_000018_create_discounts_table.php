@@ -25,13 +25,14 @@ class CreateDiscountsTable extends Migration
             $table->increments('id');
             $table->string('name', 200);
             $table->string('img', 80);
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
             $table->date('dat');
             $table->integer('recurce');
             $table->integer('day');
             $table->date('from_dat');
-            $table->integer('likes');
+            $table->unsignedInteger('likes_id');
             $table->integer('budnie');
+            $table->timestamps();
         });
     }
 

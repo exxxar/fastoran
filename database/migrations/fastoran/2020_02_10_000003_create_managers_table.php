@@ -25,6 +25,7 @@ class CreateManagersTable extends Migration
             $table->increments('id');
             $table->string('name', 80);
             $table->integer('kassa');
+            $table->timestamps();
         });
     }
 

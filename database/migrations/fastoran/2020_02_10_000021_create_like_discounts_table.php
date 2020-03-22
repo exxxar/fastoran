@@ -26,6 +26,7 @@ class CreateLikeDiscountsTable extends Migration
             $table->string('ip', 15);
             $table->date('dat');
             $table->integer('discount');
+            $table->timestamps();
         });
     }
 

@@ -26,7 +26,8 @@ class CreateBillUsersTable extends Migration
             $table->text('login');
             $table->text('password');
             $table->string('code', 32);
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 

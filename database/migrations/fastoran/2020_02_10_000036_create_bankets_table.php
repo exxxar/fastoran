@@ -29,9 +29,8 @@ class CreateBanketsTable extends Migration
             $table->date('dat');
             $table->string('tim', 12);
             $table->text('remark');
-            $table->integer('rest');
-
-            $table->index(["rest"], 'rest');
+            $table->integer('rest_id')->unique();
+            $table->timestamps();
         });
     }
 

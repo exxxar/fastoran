@@ -28,10 +28,11 @@ class CreateEventsTable extends Migration
             $table->date('dat');
             $table->string('tim', 10);
             $table->string('img', 80);
-            $table->integer('rest');
-            $table->integer('likes');
-            $table->integer('comment');
+            $table->unsignedInteger('rest_id');
+            $table->unsignedInteger('likes_id');
+            $table->unsignedInteger('comment_id');
             $table->integer('home');
+            $table->timestamps();
         });
     }
 

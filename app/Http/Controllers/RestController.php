@@ -54,7 +54,7 @@ class RestController extends Controller
         $restorans = (Kitchen::with(["restorans"])
             ->where("id", $kitchenId)
             ->get())
-            ->restorans()
+            ->restorans
             ->get();
 
         if ($request->ajax())

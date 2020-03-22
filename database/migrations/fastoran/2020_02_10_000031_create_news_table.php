@@ -26,12 +26,13 @@ class CreateNewsTable extends Migration
             $table->string('header', 240);
             $table->text('remark');
             $table->string('img', 80);
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
             $table->date('dat');
             $table->integer('home');
             $table->date('home_dat');
             $table->integer('likes');
             $table->integer('comment');
+            $table->timestamps();
         });
     }
 

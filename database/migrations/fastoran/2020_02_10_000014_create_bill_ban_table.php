@@ -26,6 +26,7 @@ class CreateBillBanTable extends Migration
             $table->text('time');
             $table->increments('number');
             $table->text('comment');
+            $table->timestamps();
         });
     }
 

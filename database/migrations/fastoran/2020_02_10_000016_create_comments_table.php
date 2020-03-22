@@ -31,8 +31,9 @@ class CreateCommentsTable extends Migration
             $table->integer('doc_num');
             $table->integer('moder');
             $table->string('user_name', 50);
-            $table->integer('like');
-            $table->integer('antilike');
+            $table->unsignedInteger('like_id');
+            $table->unsignedInteger('antilike_id');
+            $table->timestamps();
         });
     }
 

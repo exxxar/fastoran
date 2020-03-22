@@ -27,6 +27,7 @@ class CreateBonusTable extends Migration
             $table->integer('bonus_price');
             $table->string('img', 80);
             $table->text('remark');
+            $table->timestamps();
         });
     }
 

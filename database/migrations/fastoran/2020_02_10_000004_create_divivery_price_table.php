@@ -34,6 +34,7 @@ class CreateDiviveryPriceTable extends Migration
             $table->integer('r_7');
             $table->integer('r_4');
             $table->integer('r_10');
+            $table->timestamps();
         });
     }
 

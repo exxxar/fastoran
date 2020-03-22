@@ -28,6 +28,7 @@ class CreateWorksTable extends Migration
             $table->integer('rest');
             $table->string('zp', 16);
             $table->date('dat');
+            $table->timestamps();
         });
     }
 

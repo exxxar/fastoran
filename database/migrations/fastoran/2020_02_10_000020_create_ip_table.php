@@ -26,7 +26,8 @@ class CreateIpTable extends Migration
             $table->string('ip', 20);
             $table->date('dat');
             $table->string('tim', 5);
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 

@@ -24,7 +24,8 @@ class CreateImagesTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->text('name');
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 

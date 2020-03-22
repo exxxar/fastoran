@@ -24,6 +24,7 @@ class CreateCityTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('name', 50);
+            $table->timestamps();
         });
     }
 

@@ -26,8 +26,9 @@ class CreateLikeRestTable extends Migration
             $table->string('ip', 15);
             $table->integer('likes');
             $table->integer('antilikes');
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
             $table->date('dat');
+            $table->timestamps();
         });
     }
 

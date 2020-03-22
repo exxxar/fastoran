@@ -24,8 +24,9 @@ class CreateReportImgTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('link', 80);
-            $table->integer('report');
-            $table->integer('rest');
+            $table->unsignedInteger('report_id');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 

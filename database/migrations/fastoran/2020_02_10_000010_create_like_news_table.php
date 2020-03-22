@@ -26,6 +26,7 @@ class CreateLikeNewsTable extends Migration
             $table->string('ip', 18);
             $table->date('dat');
             $table->integer('new');
+            $table->timestamps();
         });
     }
 

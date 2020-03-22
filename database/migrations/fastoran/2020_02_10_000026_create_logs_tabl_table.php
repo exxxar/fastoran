@@ -26,7 +26,8 @@ class CreateLogsTablTable extends Migration
             $table->date('dat');
             $table->time('tim');
             $table->text('remark');
-            $table->integer('rest');
+            $table->integer('rest_id');
+            $table->timestamps();
         });
     }
 

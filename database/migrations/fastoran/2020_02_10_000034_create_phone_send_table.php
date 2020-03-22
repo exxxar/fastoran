@@ -24,6 +24,7 @@ class CreatePhoneSendTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('phone', 50);
+            $table->timestamps();
         });
     }
 

@@ -41,6 +41,7 @@ class CreateGradationTable extends Migration
             $table->integer('4_max_summ');
             $table->integer('4_max_money');
             $table->integer('km_price');
+            $table->timestamps();
         });
     }
 

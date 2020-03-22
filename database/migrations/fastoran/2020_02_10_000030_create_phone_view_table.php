@@ -25,7 +25,8 @@ class CreatePhoneViewTable extends Migration
             $table->increments('id');
             $table->string('ip', 18);
             $table->date('dat');
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 

@@ -25,6 +25,7 @@ class CreateStreetTable extends Migration
             $table->increments('id');
             $table->string('name', 120);
             $table->integer('region');
+            $table->timestamps();
         });
     }
 

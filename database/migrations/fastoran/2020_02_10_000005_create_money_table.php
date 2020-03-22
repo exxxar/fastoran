@@ -25,8 +25,9 @@ class CreateMoneyTable extends Migration
             $table->increments('id');
             $table->integer('money');
             $table->date('dat');
-            $table->integer('rest');
-            $table->integer('manager');
+            $table->unsignedInteger('rest_id');
+            $table->unsignedInteger('manager_id');
+            $table->timestamps();
         });
     }
 

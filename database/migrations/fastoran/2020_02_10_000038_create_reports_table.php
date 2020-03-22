@@ -25,7 +25,8 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->string('name', 80);
             $table->date('dat');
-            $table->integer('rest');
+            $table->unsignedInteger('rest_id');
+            $table->timestamps();
         });
     }
 
