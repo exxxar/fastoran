@@ -24,7 +24,7 @@ class CreateRestoransTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('name', 150)->comment('Название заведения');
-            $table->integer('category')->comment('Категория заведения');
+            $table->unsignedInteger('category_id')->comment('Категория заведения');
             $table->string('adress', 200)->comment('адрес');
             $table->string('orientir', 100)->comment('ориентир');
             $table->integer('city')->comment('город');
@@ -85,6 +85,7 @@ class CreateRestoransTable extends Migration
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('region_id')->references('id')->on('region');
+                $table->foreign('category_id')->references('id')->on('category');
             }
 
             $table->timestamps();

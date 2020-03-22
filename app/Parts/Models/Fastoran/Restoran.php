@@ -2,7 +2,6 @@
 
 namespace App\Parts\Models\Fastoran;
 
-use App\Region;
 use Illuminate\Database\Eloquent\Model;
 
 class Restoran extends Model
