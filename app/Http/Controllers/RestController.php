@@ -9,6 +9,7 @@ use App\Parts\Models\Fastoran\Region;
 use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RestController extends Controller
 {
