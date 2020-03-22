@@ -12,7 +12,7 @@
 */
 
 
-Route::view('/', 'main');
+Route::get('/', 'RestController@getMainPage');
 
 
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
