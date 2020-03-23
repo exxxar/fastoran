@@ -12,10 +12,11 @@
     <link href='http://fastoran.com/css/easydropdown.css' rel='stylesheet' type='text/css'>
     <link href='http://fastoran.com/css/owl.carousel.css' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="{{asset('js/app.js')}}"></script>
+
 
 </head>
 <body>
+
 <div class="register-overplay hidden hidden-sm hidden-md hidden-lg"></div>
 @include("partials.register")
 <section class="content" id="app">
@@ -294,13 +295,15 @@
 
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQFFj02ZGKEZFW8J_Eq2MQV9DxWJLatl0"></script>
-<script type="text/javascript" src="http://fastoran.com//js/gmap.routes.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/gmap.routes.js"></script>
 <!--END modal-->
-<script type="text/javascript" src="http://fastoran.com//js/jquery.cookie.js"></script>
-<script type="text/javascript" src="http://fastoran.com//js/jquery.easydropdown.js"></script>
-<script type="text/javascript" src="http://fastoran.com//js/jquery.maskedinput.min.js"></script>
-<script type="text/javascript" src="http://fastoran.com//js/scripts.js"></script>
-<script type="text/javascript" src="http://fastoran.com//js/owl.carousel.js"></script>
-<script type="text/javascript" src="http://fastoran.com//js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/jquery.easydropdown.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/scripts.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/owl.carousel.js"></script>
+<script type="text/javascript" src="http://fastoran.com/js/bootstrap.min.js"></script>
+
+<script src="{{asset('js/app.js')}}"></script>
 </body>
 </html>

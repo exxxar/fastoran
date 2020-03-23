@@ -149,7 +149,7 @@
 </template>
 <script>
     export default {
-        props: ["rest_id"],
+        //props: ["rest_id"],
         data() {
             return {
                 filter: {
@@ -160,6 +160,7 @@
             }
         },
         mounted() {
+            console.log("Test");
         },
         methods: {
             loadData() {

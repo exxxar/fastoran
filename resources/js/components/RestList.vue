@@ -18,7 +18,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <!--     <div class="l-rest-list__filtres&#45;&#45;section">
+                        <!--     <div class="l-rest-list__filtres--section">
                                  <h4 class="text-uppercase">Критерии</h4>
                                  <ul class="criterion">
                                      <li><input type="checkbox" class="rest-filter" id="9"><label for="9">Бесплатная
@@ -157,6 +157,7 @@
                     });
             },
             getFilteredRestorans() {
+
                 let tmp = this.restorans;
 
                 if (this.filter.region != null)
@@ -166,18 +167,22 @@
 
                 if (this.filter.kitchen != null)
                     tmp = tmp.filter(item => {
-                        return item.kitchens.filter(sub_item => {
+
+                        let kitchens = item.kitchens.filter(sub_item => {
                             return sub_item.id === this.filter.kitchen
                         });
+
+                        return kitchens.length > 0
                     });
 
+                console.log(tmp.length)
                 return tmp;
             },
             setRegionFilter(regionId) {
-                this.filter.region = regionId
+                this.filter.region = this.filter.region === regionId ? null : regionId
             },
             setKitchenFilter(kitchenId) {
-                this.filter.kitchen = kitchenId
+                this.filter.kitchen = this.filter.kitchen === kitchenId ? null : kitchenId;
             },
             clearFilters() {
                 this.filter.region = null;

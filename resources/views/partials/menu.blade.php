@@ -1,1 +1,1 @@
-<rest-menu :rest_id="{{$restoran->id}}"></rest-menu>
+<rest-menu></rest-menu>

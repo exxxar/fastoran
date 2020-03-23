@@ -19,6 +19,7 @@ class RestoransTableSeeder extends Seeder
 
        foreach (\App\Parts\Models\Fastoran\Kitchen::all() as $kitchen){
 
+           $rest = null;
            for ($i=0;$i<10;$i++) {
                $rest = Restoran::create([
                    'name'=>"test $i",
@@ -52,7 +53,7 @@ class RestoransTableSeeder extends Seeder
                    'seo_title'=>'',
                    'seo_h1'=>'',
                    'seo_description'=>'',
-                   'url'=>'',
+                   'url'=>'test'.$i,
                    'view'=>true,
                    'comments'=>0,
                    'images'=>0,
@@ -82,9 +83,10 @@ class RestoransTableSeeder extends Seeder
                    'end_lanch'=>0,
                ]);
 
-               $kitchen->restorans()->attach($rest->id);
+
            }
 
+           $kitchen->restorans()->attach($rest->id);
        }
 
     }
