@@ -38,14 +38,28 @@ Vue.component(
 Vue.component('rest-list', require('./components/RestList.vue').default);
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
 
+Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
+Vue.component('orders', require('./components/admin/Orders.vue').default);
+Vue.component('order_details', require('./components/admin/OrderDetails.vue').default);
+Vue.component('menus', require('./components/admin/Menus.vue').default);
+Vue.component('regions-list', require('./components/admin/Regions.vue').default);
+Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);
+Vue.component('rest-info', require('./components/RestInfo.vue').default);
+Vue.component('cart', require('./components/Cart.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
-
+import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
+import Notifications from 'vue-notification'
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+Vue.use(Notifications)
 import store from '../js/store'
 
 const app = new Vue({

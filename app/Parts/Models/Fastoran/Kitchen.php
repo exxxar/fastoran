@@ -16,6 +16,10 @@ class Kitchen extends Model
         'alt_description'
     ];
 
+    protected $hidden = [
+        "created_at","updated_at"
+    ];
+
     protected $appends = ["rest_count"];
 
     public function getRestCountAttribute(){

@@ -73,8 +73,11 @@
         </nav>
 
         <main class="py-4">
+
             @yield('content')
         </main>
     </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
 </body>
 </html>

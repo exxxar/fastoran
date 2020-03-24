@@ -1,5 +1,6 @@
 <template>
     <div class="l-menu">
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -13,9 +14,11 @@
                                                                                             alt=""></a>
                         <div class="l-rest-list__filtres--section">
                             <ul>
-                                <li v-for="category in categories" @click="setCategoryFilter(category.id)">
-                                    <input type="checkbox" class="menu-filter" :id="'category'+category.id"><label
-                                    :for="'category'+category.id">{{category.name}}</label>
+                                <li v-for="category in categories" v-if="category.in_category_count>0" >
+                                    <input type="checkbox" class="menu-filter" :id="'category-menu-'+category.id"
+                                           :value="category.id" v-model="filter.categories"><label
+                                    :for="'category-menu-'+category.id">{{category.name}} </label>
+                                    <i data-toggle="collapse" role="button" :data-target="'#category'+category.id"  class="fas fa-angle-up"></i>
                                 </li>
                             </ul>
                             <!-- <a href="#" class="save-menu"><img src="/img/save-menu.png" alt=""><span>Скачать меню</span></a> -->
@@ -35,20 +38,21 @@
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="l-menu-list">
-                        <div v-for="category in categories" class="l-menu-list-item"
+                        <div v-for="category in getFilteredCategories()" v-if="category.in_category_count>0"
+                             class="l-menu-list-item"
                              :data-menu-item="'category'+category.id">
-                            <div class="l-menu-list-item__title" role="" data-toggle=""
-                                 :href="'#item-category'+category.id"
-                                 aria-expanded="true" aria-controls="item-f428" style="">
+                            <div class="l-menu-list-item__title" aria-labelledby="headingOne" data-toggle="collapse" role="button" :data-target="'#category'+category.id"
+                                 :href="'#category'+category.id"
+                                 aria-expanded="true" :aria-controls="'category'+category.id" style="">
                                 <div>
-                                    <h2 class="text-uppercase">{{category.name}}</h2>
+                                    <h2 class="text-uppercase footer-title">{{category.name}}</h2>
                                 </div>
                                 <div>
                                     <span class="caret hidden-sm hidden-md hidden-lg"><img src="img/menu-caret.png"
                                                                                            alt=""></span>
                                 </div>
                             </div>
-                            <div class="l-menu-list-item__body" aria-expanded="" id="item-f428" style="">
+                            <div class="l-menu-list-item__body collapse"  :id="'category'+category.id" :data-parent="'#category'+category.id" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" style="">
                                 <div class="row">
                                     <div v-for="menu in getMenuByCategories(category.id)"
                                          class="col-md-4 col-sm-6 col-xs-12">
@@ -59,7 +63,7 @@
                                                     alt="">
                                                 <a href="#" class="item-zoom hidden-xs" data-toggle="modal"
                                                    data-target="#modal-menu-item">
-                                                    <div class="round"><i class="glyphicon glyphicon-search"></i></div>
+                                                    <div class="round"><i class="fas fa-search"></i></div>
                                                 </a>
                                             </div>
                                             <div class="menu-item__description">
@@ -74,15 +78,18 @@
                                                 <div class="price-info">
                                                     <div><h4>{{menu.food_price}}</h4></div>
                                                     <div>
-                                                        <button type="button" class="btn btn-warning add-btn hidden"
-                                                                :data-target="'menu'+menu.id">Заказать
+                                                        <button type="button" class="btn btn-warning add-btn"
+                                                                v-if="inCart(menu.id)===0"
+                                                                :data-target="'menu'+menu.id" @click="addToCart(menu)">
+                                                            Заказать
                                                         </button>
-                                                        <div class="cnt-container">
-                                                            <button class="btn-minus" :data-target="'menu'+menu.id"><span>-</span>
+                                                        <div class="cnt-container" v-if="inCart(menu.id)>0">
+                                                            <button class="btn-minus" @click="decProduct(menu.id)">
+                                                                <span>-</span>
                                                             </button>
-                                                            <input type="text" readonly="true" value="6"
-                                                                   data-input="5300">
-                                                            <button class="btn-plus" :data-target="'menu'+menu.id"><span>+</span>
+                                                            <input type="text" readonly="true" :value="inCart(menu.id)">
+                                                            <button class="btn-plus" @click="incProduct(menu.id)">
+                                                                <span>+</span>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -149,51 +156,71 @@
 </template>
 <script>
     export default {
-        //props: ["rest_id"],
+        props: ["rest"],
         data() {
             return {
                 filter: {
-                    category: null
+                    categories: []
                 },
                 categories: [],
                 menus: []
             }
+        }, watch: {
+            products: function (newVal, oldVal) {
+                return newVal
+            }
+        },
+        computed: {
+            products() {
+                return this.$store.getters.cartProducts;
+            }
         },
         mounted() {
-            console.log("Test");
+            this.loadData()
         },
         methods: {
+
+            inCart(menuId) {
+                let tmp = this.products.filter(item => item.product.id === menuId);
+                return tmp.length === 0 ? 0 : tmp[0].quantity
+            },
+            addToCart(menu_item) {
+                this.$store.dispatch('addProductToCart', menu_item)
+            },
+            incProduct(menuId) {
+                this.$store.dispatch('incQuantity', menuId)
+            },
+            decProduct(menuId) {
+                this.$store.dispatch('decQuantity', menuId)
+            },
             loadData() {
                 axios
-                    .get('/menu/' + this.rest_id)
+                    .get('/api/menu/' + this.rest)
                     .then((resp) => {
                         this.categories = resp.data.categories;
-                        this.menus = resp.data.menus;
+                        this.menus = resp.data.restoran.menus;
                     });
             },
             getFoodImg(menu) {
                 return menu.food_img == null ? 'no-img.png' : menu.food_img;
             },
             getMenuByCategories(categoryId) {
-                return this.menus.filter(item => {
-                    return item.food_category_id === categoryId
-                })
-            },
-            getFilteredRestorans() {
                 let tmp = this.menus;
 
-                if (this.filter.category != null)
-                    tmp = tmp.filter(item => {
-                        return item.food_category_id === this.filter.category
-                    });
+                return tmp.filter(item => item.food_category_id === categoryId);
+            },
+
+            getFilteredCategories() {
+                let tmp = this.categories;
+
+                if (this.filter.categories.length > 0)
+                    tmp = tmp.filter(item => this.filter.categories.includes(item.id));
 
                 return tmp;
             },
-            setCategoryFilter(categoryId) {
-                this.filter.category = categoryId
-            },
+
             clearFilter() {
-                this.filter.category = null
+                this.filter.categories = [];
             }
         }
     }

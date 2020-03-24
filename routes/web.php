@@ -12,7 +12,14 @@
 */
 
 
+use App\Parts\Models\Fastoran\Restoran;
+
 Route::get('/', 'RestController@getMainPage');
+Route::get('/test', function (){
+    $rest = Restoran::with(["menus"])->where('url',"test7")->first();
+
+    dd($rest);
+});
 
 
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
@@ -34,6 +41,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('admin')->group(function () {
     Route::view("/", "admin.main");
     Route::resources([
-        'kitchens' => 'KitchenController'
+        'kitchens' => 'Fastoran\KitchenController',
+        'menus' => 'Fastoran\MenuController',
+        'regions' => 'Fastoran\RegionController',
+        'menu_categories' => 'Fastoran\MenuCategoryController',
+        'orders' => 'Fastoran\OrderController',
+        'order_details' => 'Fastoran\OrderDetailController',
     ]);
 });

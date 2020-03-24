@@ -28,6 +28,9 @@ const actions = {
     getProductList({state, commit}) {
         return state.items
     },
+    inCart({state, commit}, id){
+      return (state.items.filter(item=>item.product.id===id)).length
+    },
     addProductToCart({state, commit}, product) {
         commit('pushProductToCart', product);
     },

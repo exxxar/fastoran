@@ -1,5 +1,6 @@
 <?php
 
+use App\Parts\Models\Fastoran\Kitchen;
 use Illuminate\Http\Request;
 
 /*
@@ -45,11 +46,16 @@ Route::group(['prefix' => 'v1'], function () {
         Route::resource('cetegories', 'CategoryController');
         Route::resource('kitchens', 'KitchenController');
         Route::resource('menu_categories', 'MenuCategoryController');
-        Route::resource('menu', 'MenuController');
+        Route::resource('menus', 'MenuController');
+        Route::resource('regions', 'RegionController');
         Route::resource('menu_razdels', 'MenuRazdelController');
         Route::resource('menu_rubriks', 'MenuRubrikController');
         Route::resource('orders', 'OrderController');
         Route::resource('order_details', 'OrderDetailController');
+
+        Route::get("restorans/like/{id}",'RestoransController@like');
+        Route::get("restorans/dislike/{id}",'RestoransController@dislike');
+
     });
 
     Route::group([
@@ -85,7 +91,11 @@ Route::group(['prefix' => 'v1'], function () {
         'prefix' => 'methods',
         'middleware' => 'auth:api'
     ], function () {
-        Route::any('history','RestController@getOrderHistory');
+        Route::any('history', 'RestController@getOrderHistory');
         Route::post('order', 'RestContoller@makeOrder');
     });
+
 });
+
+
+

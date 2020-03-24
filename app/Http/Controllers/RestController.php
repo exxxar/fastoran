@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Region;
@@ -24,7 +25,6 @@ class RestController extends Controller
             ->take(12)
             ->skip(0)
             ->get();
-
 
 
         if ($request->ajax())
@@ -49,7 +49,7 @@ class RestController extends Controller
                 ->json([
                     'restorans' => $restorans,
                     'regions' => Region::all(),
-                    'kitchens' => Kitchen::all()
+                    'kitchens' => Kitchen::where("view",1)->get()
                 ]);
 
         return view("rest-list", compact("restorans"));
@@ -70,13 +70,14 @@ class RestController extends Controller
                     'restorans' => $restorans
                 ]);
 
-        return view("rest-list", compact("restorans"));
+        return view("rest-list", compact("restorans", "kitchenId"));
     }
 
     public function getRestByDomain(Request $request, $domain)
     {
         $restoran = Restoran::where("url", $domain)
             ->first();
+
 
         if ($request->ajax())
             return response()
@@ -85,6 +86,22 @@ class RestController extends Controller
                 ]);
 
         return view("rest", compact("restoran"));
+    }
+
+    public function getMenuByRestoran(Request $request, $id)
+    {
+        $restoran = Restoran::with(["menus"])
+            ->where("id", $id)
+            ->first();
+
+        $categories = MenuCategory::all();
+
+
+        return response()
+            ->json([
+                'restoran' => $restoran,
+                "categories" => $categories
+            ]);
     }
 
     public function getOrderHistory()

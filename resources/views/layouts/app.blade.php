@@ -47,7 +47,7 @@
             <div class="modal-body">
                 <!-- <p class="isempty hidden-sm hidden-md hidden-lg">К сожалению, в Вашей корзине ничего нет, <br/>попробуйте добавить блюда из <a href="#">каталога.</a></p> 	 -->
                 <ul class="basket-list">
-
+                        <cart></cart>
                 </ul>
                 <div class="total-info">
                     <div><p>Сумма заказа <span><span class="total-price-order">0</span> руб</span></p></div>
@@ -296,7 +296,8 @@
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQFFj02ZGKEZFW8J_Eq2MQV9DxWJLatl0"></script>
 <script type="text/javascript" src="http://fastoran.com/js/gmap.routes.js"></script>
-<!--END modal-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+
 <script type="text/javascript" src="http://fastoran.com/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="http://fastoran.com/js/jquery.easydropdown.js"></script>
 <script type="text/javascript" src="http://fastoran.com/js/jquery.maskedinput.min.js"></script>

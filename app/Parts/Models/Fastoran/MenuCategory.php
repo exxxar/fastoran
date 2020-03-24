@@ -17,6 +17,12 @@ class MenuCategory extends Model
         'sort',
     ];
 
+    protected $appends = ["in_category_count"];
+
+    public function getInCategoryCountAttribute(){
+        return $this->restoran()->with(["menus"])->count();
+    }
+
     public function menu()
     {
         return $this->hasMany(Menu::class, 'food_category_id', 'id');

@@ -2,6 +2,7 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\RestLike;
 use Illuminate\Database\Eloquent\Model;
 
 class Restoran extends Model
@@ -70,6 +71,16 @@ class Restoran extends Model
         'start_lanch',
         'end_lanch',
     ];
+
+   /* protected $appends = ["likes","dislikes"];
+
+    public function getLikesAttribute(){
+        return RestLike::where("rest_id",$this->id)->get()like??0;
+    }
+
+    public function getDislikesAttribute(){
+        return RestLike::where("rest_id",$this->id)->antilikes??0;
+    }*/
 
     public function kitchens()
     {

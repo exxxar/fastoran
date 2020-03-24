@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Fastoran;
 use App\Http\Controllers\Controller;
 
 use App\Parts\Models\Fastoran\MenuCategory;
+use App\Parts\Models\Fastoran\Region;
 use Illuminate\Http\Request;
 
 class MenuCategoryController extends Controller
@@ -14,12 +15,19 @@ class MenuCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()
-            ->json([
-                "menu_categories"=>MenuCategory::all()
-            ]);
+        $menu_categories = MenuCategory::orderBy('id', 'DESC')
+            ->paginate(15);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'menu_categories' => MenuCategory::all(),
+                ]);
+
+        return view('admin.menu_categories.index', compact('menu_categories'))
+            ->with('i', ($request->get('page', 1) - 1) * 15);
     }
 
     /**

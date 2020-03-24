@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Restoran;
+use App\RestLike;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RestoransController extends Controller
@@ -86,5 +88,44 @@ class RestoransController extends Controller
     public function destroy(Restoran $restorans)
     {
         //
+    }
+
+    public function like(Request $request,$id){
+
+     /*   $restLike = RestLike::where("rest_id",$id)->first();
+
+        if (is_null($restLike)) {
+            RestLike::create([
+                'ip' => $request->ip(),
+                'likes' => 1,
+                'antilikes' => 0,
+                'rest_id' => $id,
+                'dat' => Carbon::now("+3:00"),
+            ]);
+        }
+        else {
+            $restLike->likes
+        }
+        $rest = Restoran::find($id);
+        $rest->rest_like+=$rest->rest_like>0?1:0;
+        $rest->save();
+
+        return response()
+            ->json([
+                "message"=>"Success",
+                "status"=>200
+            ]);*/
+    }
+
+    public function dislike($id){
+        $rest = Restoran::find($id);
+        $rest->rest_antilike+=$rest->rest_like>0?1:0;
+        $rest->save();
+
+        return response()
+            ->json([
+                "message"=>"Success",
+                "status"=>200
+            ]);
     }
 }

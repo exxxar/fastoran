@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
+use App\Parts\Models\Fastoran\Region;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -13,9 +14,19 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $orders = Order::orderBy('id', 'DESC')
+            ->paginate(15);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'orders' => Order::all(),
+                ]);
+
+        return view('admin.orders.index', compact('orders'))
+            ->with('i', ($request->get('page', 1) - 1) * 15);
     }
 
     /**

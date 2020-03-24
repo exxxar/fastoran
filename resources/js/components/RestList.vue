@@ -13,8 +13,10 @@
                             <h4 class="text-uppercase">Направление кухни</h4>
                             <ul class="kitchen">
                                 <li v-for="kitchen in kitchens">
-                                    <input type="checkbox" class="rest-filter" :id="'kitchen'+kitchen.id"
-                                           @click="setKitchenFilter(kitchen.id)"><label :for="'kitchen'+kitchen.id">{{kitchen.name}}</label>
+                                    <input type="checkbox" v-model="filter.kitchens" class="rest-filter"
+                                           :value="kitchen.id"
+                                           :id="'kitchen'+kitchen.id"
+                                    ><label :for="'kitchen'+kitchen.id">{{kitchen.name}}</label>
                                 </li>
                             </ul>
                         </div>
@@ -32,9 +34,9 @@
                         <div class="l-rest-list__filtres--section">
                             <h4 class="text-uppercase">Район доставки</h4>
                             <ul class="region">
-                                <li v-for="region in regions" @click="setRegionFilter(region.id)"><input type="checkbox"
-                                                                                                         class="rest-filter"
-                                                                                                         :id="'region'+region.id"><label
+                                <li v-for="region in regions"><input type="checkbox"
+                                                                     class="rest-filter"
+                                                                     :id="'region'+region.id"><label
                                     :for="'region'+region.id">{{region.name}}</label>
                                 </li>
                             </ul>
@@ -94,7 +96,7 @@
                                                 <div>
                                                     <div class="like-container" data-target="197">
                                                         <div>
-                                                            <img src="/img/svg/like.svg" alt="">
+                                                            <i class="far fa-thumbs-up"></i>
                                                         </div>
                                                         <div>
                                                             <h4>{{restoran.rest_like}}</h4>
@@ -102,7 +104,7 @@
                                                     </div>
                                                     <div class="disslike-container" data-target="197">
                                                         <div>
-                                                            <img src="/img/svg/disslike.svg" alt="">
+                                                            <i class="far fa-thumbs-down"></i>
                                                         </div>
                                                         <div>
                                                             <h4>{{restoran.rest_antilike}}</h4>
@@ -131,11 +133,12 @@
 
 <script>
     export default {
+        props: ["kitchen"],
         data() {
             return {
                 filter: {
-                    region: null,
-                    kitchen: null
+                    regions: [],
+                    kitchens: []
                 },
                 restorans: [],
                 kitchens: [],
@@ -145,6 +148,8 @@
         },
         mounted() {
             this.loadData()
+            if (this.kitchen)
+                this.filter.kitchens.push(this.kitchen)
         },
         methods: {
             loadData() {
@@ -160,29 +165,17 @@
 
                 let tmp = this.restorans;
 
-                if (this.filter.region != null)
+                if (this.filter.regions.length > 0)
+                    tmp = tmp.filter(item => this.filter.regions.includes(item.region_id));
+
+                if (this.filter.kitchens.length > 0)
                     tmp = tmp.filter(item => {
-                        return item.region_id === this.filter.region
+                        let intersection = item.kitchens.filter(x => this.filter.kitchens.includes(x.id));
+                        return intersection.length > 0
                     });
 
-                if (this.filter.kitchen != null)
-                    tmp = tmp.filter(item => {
 
-                        let kitchens = item.kitchens.filter(sub_item => {
-                            return sub_item.id === this.filter.kitchen
-                        });
-
-                        return kitchens.length > 0
-                    });
-
-                console.log(tmp.length)
                 return tmp;
-            },
-            setRegionFilter(regionId) {
-                this.filter.region = this.filter.region === regionId ? null : regionId
-            },
-            setKitchenFilter(kitchenId) {
-                this.filter.kitchen = this.filter.kitchen === kitchenId ? null : kitchenId;
             },
             clearFilters() {
                 this.filter.region = null;

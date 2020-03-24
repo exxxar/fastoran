@@ -1,2 +1,5 @@
-
-<rest-list></rest-list>
+@isset($kitchenId)
+    <rest-list :kitchen="{{$kitchenId}}"></rest-list>
+@else
+    <rest-list></rest-list>
+@endisset

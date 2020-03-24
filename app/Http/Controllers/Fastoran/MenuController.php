@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
+use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\Menu;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -14,12 +16,19 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()
-            ->json([
-                "menu" => Menu::all()
-            ]);
+        $menus = Menu::orderBy('id', 'DESC')
+            ->paginate(15);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'menus' => Menu::all(),
+                ]);
+
+        return view('admin.menus.index', compact('menus'))
+            ->with('i', ($request->get('page', 1) - 1) * 15);
     }
 
     /**
@@ -40,7 +49,46 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'food_name'=> 'required',
+            'food_remark'=> 'required',
+            'food_ext'=> 'required',
+            'food_price'=> 'required',
+            'food_rubr_id'=> 'required',
+            'food_razdel_id'=> 'required',
+            'rest_id'=> 'required',
+            'food_category_id'=> 'required',
+            'food_img'=> 'required',
+            'bonus'=> 'required',
+        ]);
+
+        Menu::create([
+
+            'food_name'=> $request->get('food_name') ?? '',
+            'food_remark'=> $request->get('food_remark') ?? '',
+            'food_ext'=> $request->get('food_ext') ??0,
+            'food_price'=> $request->get('food_price') ?? 0,
+            'food_rubr_id'=> $request->get('food_rubr_id') ?? 0,
+            'food_razdel_id'=> $request->get('food_razdel_id') ?? 0,
+            'rest_id'=> $request->get('rest_id') ?? 0,
+            'food_category_id'=> $request->get('food_category_id') ?? 0,
+            'food_img'=> $request->get('food_img') ?? '',
+            'bonus'=> $request->get('bonus') ?? 0,
+
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'status' => 200,
+                    "message" => "Success"
+                ]);
+
+        return redirect()
+            ->route('menus.index')
+            ->with('success', 'Меню успешно добавлено');
     }
 
     /**
@@ -76,9 +124,25 @@ class MenuController extends Controller
      * @param \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'param' => 'required',
+            'value' => 'required',
+        ]);
+
+        $param = $request->get("param");
+        $value = $request->get("value");
+
+        $menu = Menu::find($id);
+        $menu[$param]=$value;
+        $menu->save();
+
+        return response()
+            ->json([
+                "message" => "success",
+                "status" => 200
+            ]);
     }
 
     /**
@@ -87,8 +151,21 @@ class MenuController extends Controller
      * @param \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Menu $menu)
+    public function destroy(Request $request,$id)
     {
-        //
+
+        $menu = Menu::find($id);
+        $menu->delete();
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'status' => 200,
+                    "message" => "Success"
+                ]);
+
+        return redirect()
+            ->route('menus.index')
+            ->with('success', 'Меню успешно удалено');
     }
 }

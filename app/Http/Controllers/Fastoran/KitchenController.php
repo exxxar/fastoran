@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Fastoran;
 
+use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class KitchenController extends Controller
 {
     public function __construct()
     {
-       // $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -22,6 +23,12 @@ class KitchenController extends Controller
     {
         $kitchens = Kitchen::orderBy('id', 'DESC')
             ->paginate(15);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'kitchens' => Kitchen::all(),
+                ]);
 
         return view('admin.kitchens.index', compact('kitchens'))
             ->with('i', ($request->get('page', 1) - 1) * 15);
@@ -40,7 +47,7 @@ class KitchenController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -51,11 +58,18 @@ class KitchenController extends Controller
         ]);
 
         Kitchen::create([
-            'title' => $request->get('name') ?? '',
-            'description' => $request->get('img') ?? '',
+            'name' => $request->get('name') ?? '',
+            'img' => $request->get('img') ?? '',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'status' => 200,
+                    "message" => "Success"
+                ]);
 
         return redirect()
             ->route('kitchens.index')
@@ -65,7 +79,7 @@ class KitchenController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -76,7 +90,7 @@ class KitchenController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -87,23 +101,47 @@ class KitchenController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $param = $request->get("param");
+        $value = $request->get("value");
+
+        $kitchen = Kitchen::find($id);
+        $kitchen[$param]=$value;
+        $kitchen->save();
+
+        return response()
+            ->json([
+                "message" => "success",
+                "status" => 200
+            ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $kitchen = Kitchen::find($id);
+        $kitchen->delete();
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'status' => 200,
+                    "message" => "Success"
+                ]);
+
+        return redirect()
+            ->route('kitchens.index')
+            ->with('success', 'Кухня успешно удалена');
     }
 }
