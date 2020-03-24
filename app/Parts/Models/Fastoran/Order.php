@@ -32,9 +32,24 @@ class Order extends Model
         "receiver_domophone",
     ];
 
+    protected $appends = ["summary_count","summary_price"];
+
     public function details()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
+
+    public function restoran()
+    {
+        return $this->hasOne(Restoran::class, 'id', 'rest_id');
+    }
+
+    public function getSummaryCountAttribute(){
+        return $this->details()->sum("count");
+    }
+
+    public function getSummaryPriceAttribute(){
+        return $this->details()->sum("price");
+    }
 }

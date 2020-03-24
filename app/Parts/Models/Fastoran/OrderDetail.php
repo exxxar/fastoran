@@ -12,6 +12,7 @@ class OrderDetail extends Model
         'product_name',
         'product_id',
         'count',
-        'price'
+        'price',
+        'order_id'
     ];
 }

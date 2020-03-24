@@ -107,7 +107,7 @@ class RestController extends Controller
     public function getOrderHistory()
     {
 
-        $orders = Order::with(["details"])
+        $orders = Order::with(["details","restoran"])
             ->where("user_id", auth()->guard('api')->user()->id)
             ->get();
 
