@@ -32,11 +32,12 @@ class CreateOrdersTable extends Migration
             $table->date('dat');
             $table->time('tim');
             $table->text('remark');
-            $table->integer('gosti');
-            $table->integer('sdacha');
-            $table->integer('delivery_price');
-            $table->integer('status');
+            $table->integer('gosti')->default(0);
+            $table->integer('sdacha')->default(0);
+            $table->integer('delivery_price')->default(0);
+            $table->integer('status')->default(0);
             $table->string('delivery_range', 10);
+            $table->string('delivery_note', 2000)->default('');
 
             $table->string('receiver_name')->nullable();
             $table->string('receiver_phone')->nullable();

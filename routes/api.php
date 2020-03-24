@@ -56,6 +56,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get("restorans/like/{id}",'RestoransController@like');
         Route::get("restorans/dislike/{id}",'RestoransController@dislike');
 
+        Route::any('kitchens', 'KitchenController@index');
+        Route::any('menu_categories', 'MenuCategoryController@index');
+
     });
 
     Route::group([
