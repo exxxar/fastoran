@@ -42,6 +42,7 @@ class CreateRestoransTable extends Migration
             $table->integer('parking')->comment('Парковка');
             $table->integer('children')->comment('Детское меню');
             $table->text('remark')->comment('Описание');
+            $table->string('telegram_channel', 120)->comment('Канал в телеграм');
             $table->string('cont_face', 120)->comment('Контактное лицо');
             $table->string('cont_phone', 50)->comment('Контактный телефон');
             $table->string('vk_page', 120)->comment('Страница Вконтакте');

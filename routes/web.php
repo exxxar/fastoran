@@ -47,5 +47,6 @@ Route::prefix('admin')->group(function () {
         'menu_categories' => 'Fastoran\MenuCategoryController',
         'orders' => 'Fastoran\OrderController',
         'order_details' => 'Fastoran\OrderDetailController',
+        'restorans' => 'Fastoran\RestoransController',
     ]);
 });

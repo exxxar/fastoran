@@ -70,6 +70,7 @@ class Restoran extends Model
         'sms',
         'start_lanch',
         'end_lanch',
+        'telegram_channel'
     ];
 
    /* protected $appends = ["likes","dislikes"];

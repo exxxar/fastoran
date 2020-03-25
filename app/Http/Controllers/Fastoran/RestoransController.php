@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
+use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\Restoran;
 use App\RestLike;
 use Carbon\Carbon;
@@ -15,13 +16,19 @@ class RestoransController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return response()
-            ->json([
-                "restorans"=>Restoran::all()
-            ]);
+        $restorans = Restoran::orderBy('id', 'DESC')
+            ->paginate(15);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'restorans' => Kitchen::all(),
+                ]);
+
+        return view('admin.restorans.index', compact('restorans'))
+            ->with('i', ($request->get('page', 1) - 1) * 15);
     }
 
     /**

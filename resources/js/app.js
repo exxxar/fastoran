@@ -46,6 +46,7 @@ Vue.component('regions-list', require('./components/admin/Regions.vue').default)
 Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);
+Vue.component('restorans-list', require('./components/admin/Restorans.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -55,6 +56,21 @@ Vue.component('cart', require('./components/Cart.vue').default);
 
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Notifications from 'vue-notification'
+
+import VuePreloaders from 'vue-preloaders'
+
+Vue.use(VuePreloaders, {
+
+    loaders: { //Object
+        myAwesomeLoader: {
+            container: '#app',
+            cssStyle: {backgroundColor: 'pink'},
+            overlayStyle: {opacity: 1},
+            component: "Hexagon"
+        },
+
+    }
+})
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin

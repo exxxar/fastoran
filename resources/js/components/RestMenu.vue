@@ -1,10 +1,10 @@
 <template>
     <div class="l-menu">
-
+        <notifications group="message"/>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <button type="button" class="btn btn-warning btn-filtres hidden-xs hidden-sm hidden-md hidden-lg">
+                    <button type="button" class="btn btn-warning btn-filtres  hidden-md hidden-lg">
                         Фильтры и сортировка
                     </button>
                 </div>
@@ -14,11 +14,12 @@
                                                                                             alt=""></a>
                         <div class="l-rest-list__filtres--section">
                             <ul>
-                                <li v-for="category in categories" v-if="category.in_category_count>0" >
+                                <li v-for="category in categories" v-if="category.in_category_count>0">
                                     <input type="checkbox" class="menu-filter" :id="'category-menu-'+category.id"
                                            :value="category.id" v-model="filter.categories"><label
                                     :for="'category-menu-'+category.id">{{category.name}} </label>
-                                    <i data-toggle="collapse" role="button" :data-target="'#category'+category.id"  class="fas fa-angle-up"></i>
+                                    <i data-toggle="collapse" role="button" :data-target="'#category'+category.id"
+                                       class="fas fa-angle-up"></i>
                                 </li>
                             </ul>
                             <!-- <a href="#" class="save-menu"><img src="/img/save-menu.png" alt=""><span>Скачать меню</span></a> -->
@@ -41,7 +42,8 @@
                         <div v-for="category in getFilteredCategories()" v-if="category.in_category_count>0"
                              class="l-menu-list-item"
                              :data-menu-item="'category'+category.id">
-                            <div class="l-menu-list-item__title" aria-labelledby="headingOne" data-toggle="collapse" role="button" :data-target="'#category'+category.id"
+                            <div class="l-menu-list-item__title" aria-labelledby="headingOne" data-toggle="collapse"
+                                 role="button" :data-target="'#category'+category.id"
                                  :href="'#category'+category.id"
                                  aria-expanded="true" :aria-controls="'category'+category.id" style="">
                                 <div>
@@ -52,7 +54,9 @@
                                                                                            alt=""></span>
                                 </div>
                             </div>
-                            <div class="l-menu-list-item__body collapse"  :id="'category'+category.id" :data-parent="'#category'+category.id" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true" style="">
+                            <div class="l-menu-list-item__body collapse" :id="'category'+category.id"
+                                 :data-parent="'#category'+category.id" role="tabpanel" aria-labelledby="headingOne"
+                                 aria-expanded="true" style="">
                                 <div class="row">
                                     <div v-for="menu in getMenuByCategories(category.id)"
                                          class="col-md-4 col-sm-6 col-xs-12">
@@ -188,17 +192,27 @@
                 this.$store.dispatch('addProductToCart', menu_item)
             },
             incProduct(menuId) {
+                this.sendMessage("Товар добавлен в корзину!")
                 this.$store.dispatch('incQuantity', menuId)
             },
             decProduct(menuId) {
+                this.sendMessage("Лишний товар убран из корзины!")
+
+                if (this.inCart(menuId) === 1) {
+                    this.$store.dispatch('removeProduct', menuId)
+                    return;
+                }
+
                 this.$store.dispatch('decQuantity', menuId)
             },
             loadData() {
+                this.$preloaders.open(/*{ options }*/);
                 axios
                     .get('/api/menu/' + this.rest)
                     .then((resp) => {
                         this.categories = resp.data.categories;
                         this.menus = resp.data.restoran.menus;
+                        this.$preloaders.close(/*{ options }*/)
                     });
             },
             getFoodImg(menu) {
@@ -218,10 +232,18 @@
 
                 return tmp;
             },
-
+            sendMessage(message) {
+                this.$notify({
+                    group: 'message',
+                    type: 'success',
+                    title: 'Меню',
+                    text: message
+                });
+            },
             clearFilter() {
                 this.filter.categories = [];
             }
+
         }
     }
 </script>

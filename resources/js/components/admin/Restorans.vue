@@ -2,7 +2,7 @@
     <div>
         <notifications group="message"/>
 
-        <b-button v-b-toggle.collapse-1 variant="primary">Форма добавления кухни</b-button>
+        <b-button v-b-toggle.collapse-1 variant="primary">Форма добавления ресторана</b-button>
         <b-collapse id="collapse-1" class="mt-2">
             <b-container fluid>
                 <!-- User Interface controls -->
@@ -12,31 +12,16 @@
 
                         <b-form @submit="onSubmit" class="mb-2">
 
-                            <b-input-group size="sm"
-                                           label="Добавление новой кухни"
-                                           label-cols-sm="3"
-                                           label-align-sm="right"
-                                           label-size="sm"
-                                           label-for="sortBySelect"
-                                           class="mb-0"
-                            >
-                                <b-form-input
-                                    v-model="form.name"
-                                    type="text"
-                                    id="filterInput"
-                                    placeholder="Название кухни"
-                                ></b-form-input>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4  mt-2" v-for="field in included_fields">
+                                    <b-form-group label-cols-lg="4" label="field" label-size="sm"
+                                                  class="mb-0">
+                                        <b-form-input :name="field"
+                                                      placeholder="Введите наименование продукта"></b-form-input>
+                                    </b-form-group>
+                                </div>
+                            </div>
 
-                                <b-form-input
-                                    v-model="form.img"
-                                    type="text"
-                                    id="filterInput"
-                                    placeholder="URL картинки"
-                                ></b-form-input>
-                                <b-input-group-append>
-                                    <b-button type="submit">Добавить</b-button>
-                                </b-input-group-append>
-                            </b-input-group>
 
 
                         </b-form>
@@ -223,6 +208,68 @@
             return {
                 sortBy: 'name',
                 sortDesc: false,
+                included_fields: [
+                    'name',
+                    'category',
+                    'adress',
+                    'orientir',
+                    'city',
+                    'region_id',
+                    'phone1',
+                    'phone2',
+                    'www',
+                    'mail',
+                    'tim',
+                    'checkout',
+                    'dance',
+                    'karaoke',
+                    'wifi',
+                    'bussines',
+                    'parking',
+                    'children',
+                    'remark',
+                    'cont_face',
+                    'cont_phone',
+                    'vk_page',
+                    'odn_page',
+                    'inst_page',
+                    'manager',
+                    'logo',
+                    'money',
+                    'rating',
+                    'seo_domen',
+                    'seo_title',
+                    'seo_h1',
+                    'seo_description',
+                    'url',
+                    'view',
+                    'comments',
+                    'images',
+                    'reg_dat',
+                    'rest_like',
+                    'rest_antilike',
+                    'rest_img',
+                    'moderation',
+                    'tarif',
+                    'fav',
+                    'count_people',
+                    'special',
+                    'discount',
+                    'dir_mail',
+                    'bron_phone',
+                    'discount_text',
+                    'phone_view',
+                    'child',
+                    'min_sum',
+                    'price_delivery',
+                    'time_delivery',
+                    'filters',
+                    'fastoran_money',
+                    'sms',
+                    'start_lanch',
+                    'end_lanch',
+                    'telegram_channel'
+                ],
                 fields: [
                     {key: 'name', label: 'Название кухни', sortable: true, sortDirection: 'desc'},
                     {key: 'img', label: 'Картинка', sortable: true, sortDirection: 'desc'},
@@ -283,14 +330,14 @@
                 this.items[foundIndex].id = null;
 
                 axios
-                    .delete(`/api/v1/fastoran/kitchens/${id}`)
+                    .delete(`/api/v1/fastoran/restorans/${id}`)
                     .then(() => {
                         this.loadData()
                     });
             },
             save(value, id, key) {
                 axios
-                    .put(`/api/v1/fastoran/kitchens/${id}`, {
+                    .put(`/api/v1/fastoran/restorans/${id}`, {
                         param: key,
                         value: value
                     }).then(() => {
@@ -301,9 +348,9 @@
 
             loadData() {
                 axios
-                    .get('/api/v1/fastoran/kitchens')
+                    .get('/api/v1/fastoran/restorans')
                     .then(resp => {
-                        this.items = resp.data.kitchens
+                        this.items = resp.data.restorans
                         this.totalRows = this.items.length
                     });
             },
@@ -326,7 +373,7 @@
                 })
 
                 axios
-                    .post('/api/v1/fastoran/kitchens', {
+                    .post('/api/v1/fastoran/restorans', {
                         name: this.form.name,
                         img: this.form.img
                     }).then((resp) => {
