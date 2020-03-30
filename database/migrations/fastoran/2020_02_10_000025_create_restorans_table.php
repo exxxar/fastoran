@@ -90,7 +90,6 @@ class CreateRestoransTable extends Migration
             $table->unsignedInteger('rating_id');
 
             if (env("DB_CONNECTION") == 'mysql') {
-                $table->foreign('region_id')->references('id')->on('region');
                 $table->foreign('category_id')->references('id')->on('category');
             }
 
