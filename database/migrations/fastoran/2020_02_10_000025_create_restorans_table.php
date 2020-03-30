@@ -89,10 +89,6 @@ class CreateRestoransTable extends Migration
 
             $table->unsignedInteger('rating_id');
 
-            if (env("DB_CONNECTION") == 'mysql') {
-                $table->foreign('category_id')->references('id')->on('category');
-            }
-
             $table->timestamps();
             $table->softDeletes();
         });
@@ -103,8 +99,8 @@ class CreateRestoransTable extends Migration
      *
      * @return void
      */
-     public function down()
-     {
-       Schema::dropIfExists($this->tableName);
-     }
+    public function down()
+    {
+        Schema::dropIfExists($this->tableName);
+    }
 }
