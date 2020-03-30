@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
-
+    @laravelPWA
 
 </head>
 <body>
@@ -313,18 +313,6 @@
 
 <script src="{{asset('js/app.js')}}"></script>
 
-<script>
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-                // Registration was successful
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, function(err) {
-                // registration failed :(
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }
-</script>
+
 </body>
 </html>

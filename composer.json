@@ -20,9 +20,9 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^1.1",
         "maatwebsite/excel": "^3.1",
+        "silviolleite/laravelpwa": "^1.0",
         "socialiteproviders/vkontakte": "^4.0",
         "socialiteproviders/yandex": "^3.0"
-
     },
     "require-dev": {
         "facade/ignition": "^1.4",
