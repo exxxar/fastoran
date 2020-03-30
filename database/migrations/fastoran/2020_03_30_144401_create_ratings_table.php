@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRaitingsTable extends Migration
+class CreateRatingsTable extends Migration
 {
 
     public $tableName = 'ratings';
