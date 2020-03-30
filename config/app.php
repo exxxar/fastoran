@@ -175,8 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Telegram\Bot\Laravel\TelegramServiceProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class
-
+        \SocialiteProviders\Manager\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Allanvb\LaravelSemysms\SemySmsServiceProvider::class,
 
     ],
 
@@ -228,7 +229,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class
+        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'SemySMS' => Allanvb\LaravelSemysms\Facades\SemySMS::class,
     ],
 
 ];

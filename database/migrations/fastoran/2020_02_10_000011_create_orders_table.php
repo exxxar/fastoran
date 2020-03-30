@@ -41,7 +41,7 @@ class CreateOrdersTable extends Migration
 
             $table->string('receiver_name')->nullable();
             $table->string('receiver_phone')->nullable();
-            $table->string('receiver_region')->nullable();
+
             $table->string('receiver_delivery_time')->nullable();
             $table->string('receiver_address')->nullable();
             $table->string('receiver_pers')->nullable();

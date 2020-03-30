@@ -26,27 +26,24 @@ class CreateUsersTable extends Migration
 
             $table->string('name');
             $table->string('email')->unique();
-            //$table->string('avatar')->default('avatar.png');
+            $table->string('phone')->unique();
+            $table->integer('auth_code')->nullable();
+            $table->integer('user_type')->default(\App\Enums\UserTypeEnum::User);
+
+            $table->string('telegram_chat_id')->nullable();
+
+            $table->date('birthday')->nullable();
+
+            $table->integer('bonus')->default(0);
+
+            $table->string('adress', 20)->default('');
+
+            $table->string('social', 100)->default('');
 
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('active')->default(false);
             $table->string('activation_token');
             $table->string('password');
-
-            $table->string('social', 100)->default('');
-            $table->string('phone', 50)->default('');
-
-            $table->dateTime('reg_dat');
-            $table->integer('aut_code');
-            $table->string('dostavka', 120);
-            $table->integer('bonus');
-            $table->string('famil', 80);
-            $table->date('birthday');
-            $table->string('user_city', 20);
-            $table->string('user_home', 10);
-            $table->string('user_flat', 5);
-            $table->integer('user_region');
-            $table->string('user_street', 30);
 
             $table->rememberToken();
             $table->timestamps();

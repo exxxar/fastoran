@@ -57,20 +57,7 @@ Vue.component('restorans-list', require('./components/admin/Restorans.vue').defa
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 
-import VuePreloaders from 'vue-preloaders'
 
-Vue.use(VuePreloaders, {
-
-    loaders: { //Object
-        myAwesomeLoader: {
-            container: '#app',
-            cssStyle: {backgroundColor: 'pink'},
-            overlayStyle: {opacity: 1},
-            component: "Hexagon"
-        },
-
-    }
-})
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin

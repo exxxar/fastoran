@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Region;
 use App\Parts\Models\Fastoran\Restoran;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -173,4 +175,6 @@ class RestController extends Controller
             'disable_notification' => 'false'
         ]);
     }
+
+
 }

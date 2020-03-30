@@ -2,42 +2,40 @@
 
 namespace App;
 
+use App\Enums\UserTypeEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Enum\Laravel\HasEnums;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasEnums;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
+    protected $enums = [
+        'user_type' => UserTypeEnum::class,
+    ];
+
     protected $fillable = [
         'name',
         'email',
-        'password',
-
-        'active',
-
-
-        'social',
         'phone',
-        'reg_dat',
-        'aut_code',
-        'dostavka',
-        'bonus',
-        'famil',
-
+        'auth_code',
+        'user_type',
+        'telegram_chat_id',
         'birthday',
-        'user_city',
-        'user_home',
-        'user_flat',
-        'user_region',
-        'user_street',
+        'bonus',
+        'adress',
+        'social',
+        'active',
+        'password',
     ];
 
     /**

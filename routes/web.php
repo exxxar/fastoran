@@ -12,16 +12,10 @@
 */
 
 
+use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Parts\Models\Fastoran\Restoran;
 
 Route::get('/', 'RestController@getMainPage');
-Route::get('/test', function (){
-    $rest = Restoran::with(["menus"])->where('url',"test7")->first();
-
-    dd($rest);
-});
-
-
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
@@ -48,5 +42,6 @@ Route::prefix('admin')->group(function () {
         'orders' => 'Fastoran\OrderController',
         'order_details' => 'Fastoran\OrderDetailController',
         'restorans' => 'Fastoran\RestoransController',
+        'users' => 'UserController',
     ]);
 });

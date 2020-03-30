@@ -206,13 +206,13 @@
                 this.$store.dispatch('decQuantity', menuId)
             },
             loadData() {
-                this.$preloaders.open(/*{ options }*/);
+
                 axios
                     .get('/api/menu/' + this.rest)
                     .then((resp) => {
                         this.categories = resp.data.categories;
                         this.menus = resp.data.restoran.menus;
-                        this.$preloaders.close(/*{ options }*/)
+
                     });
             },
             getFoodImg(menu) {

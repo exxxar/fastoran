@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "allanvb/laravel-semysms": "^1.0",
         "fideloper/proxy": "^4.0",
         "grkamil/laravel-telegram-logging": "^1.2",
         "irazasyed/telegram-bot-sdk": "^3.0",
@@ -17,8 +18,10 @@
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^1.1",
+        "maatwebsite/excel": "^3.1",
         "socialiteproviders/vkontakte": "^4.0",
-        "socialiteproviders/yandex": "^3.0"
+        "socialiteproviders/yandex": "^3.0",
+        "spatie/laravel-enum": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

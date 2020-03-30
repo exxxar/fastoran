@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
+
 Route::get('/rest/{domain}', 'RestController@getRestByDomain');
 
 Route::get('/categories', 'RestController@getCategories');
@@ -37,6 +40,9 @@ Route::post('/send-request', 'RestController@sendRequest')->name("callback.reque
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/wish', 'RestController@sendWish');
+
+
+
 
     Route::group([
         'namespace' => 'Fastoran',
@@ -65,6 +71,10 @@ Route::group(['prefix' => 'v1'], function () {
         'namespace' => 'Api',
         'prefix' => 'auth'
     ], function () {
+
+        Route::post('/check/{type}', 'AuthController@checkUserExist')->where(["type"=>"[0-9]+"]);
+        Route::post('/sms', 'AuthController@sendSmsVerify');
+
         Route::post('login', 'AuthController@login');
         Route::post('signup', 'AuthController@signup');
         Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");
