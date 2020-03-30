@@ -27,13 +27,6 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('rest_id');
             $table->unsignedInteger('user_id');
 
-            $table->integer('summ')->default(0);
-            $table->integer('pers')->default(1);
-            $table->date('dat');
-            $table->time('tim')->default('');
-            $table->text('remark');
-            $table->integer('gosti')->default(0);
-            $table->integer('sdacha')->default(0);
             $table->integer('delivery_price')->default(0);
             $table->integer('status')->default(0);
             $table->string('delivery_range', 10);
@@ -44,7 +37,6 @@ class CreateOrdersTable extends Migration
 
             $table->string('receiver_delivery_time')->nullable();
             $table->string('receiver_address')->nullable();
-            $table->string('receiver_pers')->nullable();
             $table->string('receiver_order_note')->nullable();
             $table->string('receiver_domophone')->nullable();
 

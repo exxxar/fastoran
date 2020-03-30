@@ -12,16 +12,13 @@ class Order extends Model
     protected $fillable = [
         "rest_id",
         "user_id",
-        "summ",
-        "pers",
-        "dat",
-        "tim",
-        "remark",
-        "gosti",
-        "sdacha",
-        "delivery_price",
+
         "status",
+
+        "delivery_price",
         "delivery_range",
+        "delivery_note",
+
         "receiver_name",
         "receiver_phone",
         "receiver_region",
@@ -30,7 +27,6 @@ class Order extends Model
         "receiver_pers",
         "receiver_order_note",
         "receiver_domophone",
-        "delivery_note",
     ];
 
     protected $appends = ["summary_count","summary_price"];
