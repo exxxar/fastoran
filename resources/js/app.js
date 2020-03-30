@@ -42,7 +42,6 @@ Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
 Vue.component('orders', require('./components/admin/Orders.vue').default);
 Vue.component('order_details', require('./components/admin/OrderDetails.vue').default);
 Vue.component('menus', require('./components/admin/Menus.vue').default);
-Vue.component('regions-list', require('./components/admin/Regions.vue').default);
 Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);

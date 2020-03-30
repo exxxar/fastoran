@@ -34,7 +34,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-/*Route::prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::view("/", "admin.main");
     Route::resources([
         'kitchens' => 'Fastoran\KitchenController',
@@ -46,4 +46,4 @@ Route::get('/home', 'HomeController@index')->name('home');
         'restorans' => 'Fastoran\RestoransController',
         'users' => 'UserController',
     ]);
-});*/
+});
