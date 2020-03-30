@@ -21,7 +21,7 @@
         "laravel/ui": "^1.1",
         "maatwebsite/excel": "^3.1",
         "socialiteproviders/vkontakte": "^4.0",
-        "socialiteproviders/yandex": "^3.0",
+        "socialiteproviders/yandex": "^3.0"
 
     },
     "require-dev": {
