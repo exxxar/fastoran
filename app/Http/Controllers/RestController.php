@@ -20,7 +20,7 @@ class RestController extends Controller
 
     public function getMainPage(Request $request)
     {
-        $kitchens = Kitchen::where("view", 1)
+        $kitchens = Kitchen::where("is_active", 1)
             ->get();
 
         $restorans = Restoran::where("moderation", true)
@@ -50,7 +50,6 @@ class RestController extends Controller
             return response()
                 ->json([
                     'restorans' => $restorans,
-                    'regions' => Region::all(),
                     'kitchens' => Kitchen::where("view",1)->get()
                 ]);
 
