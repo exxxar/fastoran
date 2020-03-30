@@ -31,7 +31,7 @@ class CreateOrdersTable extends Migration
             $table->integer('pers')->default(1);
             $table->date('dat');
             $table->time('tim')->default('');
-            $table->text('remark')->default('');
+            $table->text('remark');
             $table->integer('gosti')->default(0);
             $table->integer('sdacha')->default(0);
             $table->integer('delivery_price')->default(0);
