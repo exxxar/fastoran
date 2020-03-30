@@ -16,8 +16,6 @@ class Kitchen extends Model
         'user_type' => UserTypeEnum::class,
     ];
 
-    protected $table = "kitchen";
-
     protected $fillable = [
         'name',
         'img',
