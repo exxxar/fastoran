@@ -21,7 +21,7 @@ class MenuCategory extends Model
 
     public function menu()
     {
-        return $this->hasMany(Menu::class, 'food_category_id', 'id');
+        return $this->hasMany(RestMenu::class, 'food_category_id', 'id');
     }
 
     public function restoran()

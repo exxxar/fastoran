@@ -1,6 +1,6 @@
 <?php
 
-use App\Parts\Models\Fastoran\Menu;
+use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\MenuCategory;
 use Illuminate\Database\Seeder;
 
@@ -28,7 +28,7 @@ class MenuTableSeeder extends Seeder
 
         foreach ($tmp as $t) {
             for ($i = 0; $i < 10; $i++)
-                Menu::create([
+                RestMenu::create([
                     'food_name' => "eда $i",
                     'food_remark' => "Описание еды $i",
                     'food_ext' => "250",

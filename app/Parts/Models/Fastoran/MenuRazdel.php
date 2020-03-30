@@ -9,6 +9,6 @@ class MenuRazdel extends Model
 
     public function menu()
     {
-        return $this->hasMany(Menu::class, 'food_razdel_id', 'id');
+        return $this->hasMany(RestMenu::class, 'food_razdel_id', 'id');
     }
 }

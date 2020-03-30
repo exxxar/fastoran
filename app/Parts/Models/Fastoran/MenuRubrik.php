@@ -10,6 +10,6 @@ class MenuRubrik extends Model
 
     public function menu()
     {
-        return $this->hasMany(Menu::class, 'food_rubr_id', 'id');
+        return $this->hasMany(RestMenu::class, 'food_rubr_id', 'id');
     }
 }

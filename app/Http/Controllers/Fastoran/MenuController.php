@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
-use App\Parts\Models\Fastoran\Menu;
+use App\Parts\Models\Fastoran\RestMenu;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -18,13 +18,13 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-        $menus = Menu::orderBy('id', 'DESC')
+        $menus = RestMenu::orderBy('id', 'DESC')
             ->paginate(15);
 
         if ($request->ajax())
             return response()
                 ->json([
-                    'menus' => Menu::all(),
+                    'menus' => RestMenu::all(),
                 ]);
 
         return view('admin.menus.index', compact('menus'))
@@ -62,7 +62,7 @@ class MenuController extends Controller
             'bonus'=> 'required',
         ]);
 
-        Menu::create([
+        RestMenu::create([
 
             'food_name'=> $request->get('food_name') ?? '',
             'food_remark'=> $request->get('food_remark') ?? '',
@@ -99,7 +99,7 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $menu = Menu::where("rest", $id)->get();
+        $menu = RestMenu::where("rest", $id)->get();
         return response()->json([
             "menu_items" => $menu
         ]);
@@ -112,7 +112,7 @@ class MenuController extends Controller
      * @param \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function edit(Menu $menu)
+    public function edit(RestMenu $menu)
     {
         //
     }
@@ -134,7 +134,7 @@ class MenuController extends Controller
         $param = $request->get("param");
         $value = $request->get("value");
 
-        $menu = Menu::find($id);
+        $menu = RestMenu::find($id);
         $menu[$param]=$value;
         $menu->save();
 
@@ -154,7 +154,7 @@ class MenuController extends Controller
     public function destroy(Request $request,$id)
     {
 
-        $menu = Menu::find($id);
+        $menu = RestMenu::find($id);
         $menu->delete();
 
         if ($request->ajax())

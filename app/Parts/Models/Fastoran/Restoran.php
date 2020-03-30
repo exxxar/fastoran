@@ -87,7 +87,7 @@ class Restoran extends Model
 
     public function menus()
     {
-        return $this->hasMany(Menu::class, 'rest_id', 'id');
+        return $this->hasMany(RestMenu::class, 'rest_id', 'id');
     }
 
     public function region()
