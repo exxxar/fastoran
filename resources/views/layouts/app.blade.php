@@ -7,10 +7,8 @@
     <title>Fastoran - доставка блюд из любимых ресторанов в Донецке</title>
     <meta name="description"
           content="Быстрый и удобный сервис доставки еды со всех ресторанов города, суши, пицца, бургеры и много другое прямо к Вам домой"/>
-    <link href='http://fastoran.com/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-    <link href='http://fastoran.com/css/style.css' rel='stylesheet' type='text/css'>
-    <link href='http://fastoran.com/css/easydropdown.css' rel='stylesheet' type='text/css'>
-    <link href='http://fastoran.com/css/owl.carousel.css' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 
