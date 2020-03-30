@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta http-equiv="text/html" charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>Fastoran - доставка блюд из любимых ресторанов в Донецке</title>
     <meta name="description"
           content="Быстрый и удобный сервис доставки еды со всех ресторанов города, суши, пицца, бургеры и много другое прямо к Вам домой"/>
 
-    <link href='http://fastoran.com/css/easydropdown.css' rel='stylesheet' type='text/css'>
-    <link href='http://fastoran.com/css/owl.carousel.css' rel='stylesheet' type='text/css'>
+    <link href='css/easydropdown.css' rel='stylesheet' type='text/css'>
+    <link href='css/owl.carousel.css' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
@@ -32,7 +34,7 @@
         <div class="modal-dialog" role="document">
             <button type="button" class="close hidden-sm hidden-md hidden-lg" data-dismiss="modal" aria-label="Close">
                 <img
-                    src="http://fastoran.com/img/register-close-xs.png" alt=""></button>
+                    src="img/register-close-xs.png" alt=""></button>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close hidden-xs" data-dismiss="modal" aria-label="Close"><span
@@ -156,7 +158,7 @@
         <div class="modal-dialog" role="document">
             <button type="button" class="close hidden-sm hidden-md hidden-lg" data-dismiss="modal" aria-label="Close">
                 <img
-                    src="http://fastoran.com/img/register-close-xs.png" alt=""></button>
+                    src="img/register-close-xs.png" alt=""></button>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close hidden-xs" data-dismiss="modal" aria-label="Close"><span
@@ -270,7 +272,7 @@
         <div class="modal-dialog" role="document">
             <button type="button" class="close hidden-sm hidden-md hidden-lg" data-dismiss="modal" aria-label="Close">
                 <img
-                    src="http://fastoran.com/img/register-close-xs.png" alt=""></button>
+                    src="img/register-close-xs.png" alt=""></button>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close hidden-xs" data-dismiss="modal" aria-label="Close"><span
@@ -301,15 +303,15 @@
 </div>
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQFFj02ZGKEZFW8J_Eq2MQV9DxWJLatl0"></script>
-<script type="text/javascript" src="http://fastoran.com/js/gmap.routes.js"></script>
+<script type="text/javascript" src="js/gmap.routes.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
 
-<script type="text/javascript" src="http://fastoran.com/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="http://fastoran.com/js/jquery.easydropdown.js"></script>
-<script type="text/javascript" src="http://fastoran.com/js/jquery.maskedinput.min.js"></script>
-<script type="text/javascript" src="http://fastoran.com/js/scripts.js"></script>
-<script type="text/javascript" src="http://fastoran.com/js/owl.carousel.js"></script>
-<script type="text/javascript" src="http://fastoran.com/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery.easydropdown.js"></script>
+<script type="text/javascript" src="js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
+<script type="text/javascript" src="js/owl.carousel.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <script src="{{asset('js/app.js')}}"></script>
 
