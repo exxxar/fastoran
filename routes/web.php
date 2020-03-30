@@ -14,6 +14,7 @@
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Parts\Models\Fastoran\Restoran;
+use TCG\Voyager\Facades\Voyager;
 
 Route::get('/', 'RestController@getMainPage');
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
@@ -32,7 +33,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::prefix('admin')->group(function () {
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
+
+/*Route::prefix('admin')->group(function () {
     Route::view("/", "admin.main");
     Route::resources([
         'kitchens' => 'Fastoran\KitchenController',
@@ -44,4 +49,4 @@ Route::prefix('admin')->group(function () {
         'restorans' => 'Fastoran\RestoransController',
         'users' => 'UserController',
     ]);
-});
+});*/
