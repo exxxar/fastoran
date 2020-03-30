@@ -178,6 +178,7 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Allanvb\LaravelSemysms\SemySmsServiceProvider::class,
+        BenSampo\Enum\EnumServiceProvider::class,
 
     ],
 

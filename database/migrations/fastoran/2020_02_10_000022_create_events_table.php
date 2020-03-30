@@ -20,20 +20,28 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->string('name', 90);
-            $table->text('remark');
-            $table->date('dat');
-            $table->string('tim', 10);
-            $table->string('img', 80);
+            $table->string('name', 90)->default('');
+            $table->text('description');
+            $table->dateTime('start_at');
+            $table->dateTime('end_at');
+            $table->string('img', 1000)->default('');
+
             $table->unsignedInteger('rest_id');
-            $table->unsignedInteger('likes_id');
             $table->unsignedInteger('comment_id');
-            $table->integer('home');
+            $table->unsignedInteger('rating_id');
+
+            if (env("DB_CONNECTION") == 'mysql') {
+                $table->foreign('rest_id')->references('id')->on('restorans');
+                $table->foreign('comment_id')->references('id')->on('comments');
+            }
+
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

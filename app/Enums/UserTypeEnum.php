@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use Spatie\Enum\Enum;
+use BenSampo\Enum\Enum;
 
 final class UserTypeEnum extends Enum
 {

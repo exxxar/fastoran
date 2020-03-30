@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuRazdel extends Model
 {
-    //
-
-    protected $table = "menu_razdel";
 
     public function menu()
     {

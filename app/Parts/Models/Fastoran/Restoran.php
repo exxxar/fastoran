@@ -8,80 +8,76 @@ use Illuminate\Database\Eloquent\Model;
 class Restoran extends Model
 {
     //
-    protected $table = "restorans";
 
     protected $fillable = [
         'name',
-        'category',
+        'description',
+
+        'category_id',
+
         'adress',
         'orientir',
+
         'city',
-        'region_id',
+
+        'region',
+
         'phone1',
         'phone2',
-        'www',
-        'mail',
-        'tim',
-        'checkout',
-        'dance',
-        'karaoke',
-        'wifi',
-        'bussines',
-        'parking',
-        'children',
-        'remark',
+        'site',
+        'email',
+        'work_time',
+
+        'has_dance',
+        'has_karaoke',
+        'has_wifi',
+        'has_parking',
+        'has_business',
+        'has_children',
+        'has_special',
+
+
+        'telegram_channel',
         'cont_face',
         'cont_phone',
         'vk_page',
         'odn_page',
         'inst_page',
-        'manager',
+
         'logo',
-        'money',
-        'rating',
-        'seo_domen',
+
+        'rest_rating',
+        'seo_domain',
         'seo_title',
         'seo_h1',
         'seo_description',
         'url',
-        'view',
-        'comments',
-        'images',
-        'reg_dat',
-        'rest_like',
-        'rest_antilike',
+        'view_count',
         'rest_img',
         'moderation',
         'tarif',
-        'fav',
-        'count_people',
-        'special',
         'discount',
-        'dir_mail',
-        'bron_phone',
         'discount_text',
-        'phone_view',
-        'child',
         'min_sum',
         'price_delivery',
-        'time_delivery',
-        'filters',
         'fastoran_money',
-        'sms',
-        'start_lanch',
-        'end_lanch',
-        'telegram_channel'
+        'rating_id',
+
     ];
 
-   /* protected $appends = ["likes","dislikes"];
+     protected $appends = ["likes","dislikes","comments_count"];
 
-    public function getLikesAttribute(){
-        return RestLike::where("rest_id",$this->id)->get()like??0;
+    public function getCommentsCountAttribute(){
+        return 0;
     }
 
-    public function getDislikesAttribute(){
-        return RestLike::where("rest_id",$this->id)->antilikes??0;
-    }*/
+     public function getLikesAttribute(){
+         return 0;
+     }
+
+     public function getDislikesAttribute(){
+         return 0;
+     }
 
     public function kitchens()
     {

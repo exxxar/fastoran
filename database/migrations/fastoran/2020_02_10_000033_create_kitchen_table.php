@@ -10,7 +10,7 @@ class CreateKitchenTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'kitchen';
+    public $tableName = 'kitchens';
 
     /**
      * Run the migrations.
@@ -24,10 +24,13 @@ class CreateKitchenTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->string('name', 50);
-            $table->string('img', 1000);
-            $table->boolean('view')->default(0);
+            $table->string('name', 50)->default('');
+            $table->string('img', 1000)->default('');
+            $table->boolean('is_active')->default(true);
             $table->text('alt_description');
+
+            $table->unsignedInteger('rating_id');
+
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
-    //
-    protected $table = "menu";
+
 
     protected $fillable = [
         'food_name',
@@ -19,9 +18,10 @@ class Menu extends Model
         'rest_id',
         'food_category_id',
         'food_img',
-        'bonus',
         'stop_list',
+        'rating_id'
     ];
+
 
     public function category()
     {

@@ -2,34 +2,40 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\Enums\ContentTypeEnum;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    //
-    protected $table = "orders";
 
-    protected $fillable = [
-        "rest_id",
-        "user_id",
+    use CastsEnums;
 
-        "status",
-
-        "delivery_price",
-        "delivery_range",
-        "delivery_note",
-
-        "receiver_name",
-        "receiver_phone",
-        "receiver_region",
-        "receiver_delivery_time",
-        "receiver_address",
-        "receiver_pers",
-        "receiver_order_note",
-        "receiver_domophone",
+    protected $enumCasts = [
+        'status' => ContentTypeEnum::class,
     ];
 
-    protected $appends = ["summary_count","summary_price"];
+
+    protected $fillable = [
+        'rest_id',
+        'user_id',
+
+        'status',
+
+        'delivery_price',
+        'delivery_range',
+        'delivery_note',
+
+        'receiver_name',
+        'receiver_phone',
+
+        'receiver_delivery_time',
+        'receiver_address',
+        'receiver_order_note',
+        'receiver_domophone',
+    ];
+
+    protected $appends = ["summary_count", "summary_price"];
 
     public function details()
     {
@@ -42,11 +48,13 @@ class Order extends Model
         return $this->hasOne(Restoran::class, 'id', 'rest_id');
     }
 
-    public function getSummaryCountAttribute(){
+    public function getSummaryCountAttribute()
+    {
         return $this->details()->sum("count");
     }
 
-    public function getSummaryPriceAttribute(){
+    public function getSummaryPriceAttribute()
+    {
         return $this->details()->sum("price");
     }
 }

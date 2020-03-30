@@ -10,7 +10,7 @@ class CreateMenuRubrikTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'menu_rubrik';
+    public $tableName = 'menu_rubriks';
 
     /**
      * Run the migrations.
@@ -20,12 +20,19 @@ class CreateMenuRubrikTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('name', 50);
             $table->unsignedInteger('rest_id');
             $table->unsignedInteger('cat_id');
+
+            if (env("DB_CONNECTION") == 'mysql') {
+                $table->foreign('rest_id')->references('id')->on('restorans');
+                $table->foreign('cat_id')->references('id')->on('menu_categories');
+            }
+
             $table->timestamps();
         });
     }

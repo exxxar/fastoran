@@ -26,25 +26,24 @@ class CreateRestoransTable extends Migration
             $table->string('name', 150)->comment('Название заведения');
             $table->text('description')->comment('Описание');
 
-            $table->unsignedInteger('category_id')->comment('Категория заведения');
-
             $table->string('adress', 200)->default('')->comment('адрес');
             $table->string('orientir', 100)->default('')->comment('ориентир');
-            $table->integer('city')->default('')->comment('город');
 
-            $table->unsignedInteger('region_id')->comment('район');
+            $table->string('city')->default('')->comment('город');
+
+            $table->string('region')->default('')->comment('район');
 
             $table->string('phone1', 50)->default('')->comment('Телефон1');
             $table->string('phone2', 50)->default('')->comment('Телефон2');
-            $table->string('www', 50)->default('')->comment('сайт');
-            $table->string('mail', 50)->default('')->comment('email');
+            $table->string('site', 50)->default('')->comment('сайт');
+            $table->string('email', 50)->default('')->comment('email');
             $table->string('work_time', 50)->default('10:00-22:00')->comment('Время работы');
 
             $table->boolean('has_dance')->default(false)->comment('Танцпол');
             $table->boolean('has_karaoke')->default(false)->comment('Караоке');
             $table->boolean('has_wifi')->default(true)->comment('wifi');
             $table->boolean('has_parking')->default(true)->comment('Парковка');
-            $table->boolean('has_bussines')->default(true)->comment('Бизнес ланчи');
+            $table->boolean('has_business')->default(true)->comment('Бизнес ланчи');
             $table->boolean('has_children')->default(true)->comment('Детское меню');
             $table->boolean('has_special')->default(false)->comment('Спец. предложение');
 
@@ -55,11 +54,11 @@ class CreateRestoransTable extends Migration
             $table->string('vk_page', 120)->default('')->comment('Страница Вконтакте');
             $table->string('odn_page', 120)->default('')->comment('Старница Однокласники');
             $table->string('inst_page', 120)->default('')->comment('Страница Инстаграмм');
-            $table->integer('manager')->default('')->comment('Менеджер в ресте');
+
 
             $table->string('logo', 1000)->comment('Логотип заведения');
 
-            $table->integer('rating')->comment('Рейтинг заведения');
+            $table->integer('rest_rating')->comment('Рейтинг заведения');
 
             $table->string('seo_domain', 50)->comment('Домен заведения');
             $table->string('seo_title', 120)->comment('title заведения');
@@ -69,10 +68,7 @@ class CreateRestoransTable extends Migration
 
             $table->string('url', 50)->comment('Короткий адрес заведения');
             $table->integer('view_count')->comment('Кол-во просмотров');
-            $table->integer('comments_count')->comment('Кол-во отзывов');
 
-            $table->integer('rest_like')->default(0);
-            $table->integer('rest_antilike')->default(0);
 
             $table->string('rest_img', 1000)->default('');
 
@@ -91,6 +87,7 @@ class CreateRestoransTable extends Migration
 
             $table->integer('fastoran_money')->default(0);
 
+            $table->unsignedInteger('rating_id');
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('region_id')->references('id')->on('region');

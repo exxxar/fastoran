@@ -8,8 +8,6 @@ class MenuRubrik extends Model
 {
     //
 
-    protected $table = "menu_rubrik";
-
     public function menu()
     {
         return $this->hasMany(Menu::class, 'food_rubr_id', 'id');

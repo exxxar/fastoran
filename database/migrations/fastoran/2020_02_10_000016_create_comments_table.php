@@ -20,19 +20,25 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->integer('doc_type');
-            $table->text('remark');
-            $table->integer('user');
-            $table->date('dat');
-            $table->time('tim');
-            $table->integer('doc_num');
-            $table->integer('moder');
-            $table->string('user_name', 50);
-            $table->unsignedInteger('like_id');
-            $table->unsignedInteger('antilike_id');
+            $table->string('title',1000)->default('');
+            $table->text('message');
+
+            $table->boolean('in_moderation')->default(true);
+
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('rating_id');
+
+            $table->integer('content_type')->default(\App\Enums\ContentTypeEnum::Restoran);
+            $table->unsignedInteger('content_id');
+
+            if (env("DB_CONNECTION") == 'mysql') {
+                $table->foreign('user_id')->references('id')->on('users');
+            }
+
             $table->timestamps();
         });
     }

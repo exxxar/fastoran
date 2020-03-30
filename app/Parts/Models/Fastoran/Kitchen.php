@@ -2,11 +2,20 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\Enums\UserTypeEnum;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 
 class Kitchen extends Model
 {
     //
+    use CastsEnums;
+
+    protected $enumCasts = [
+        // 'attribute_name' => Enum::class
+        'user_type' => UserTypeEnum::class,
+    ];
+
     protected $table = "kitchen";
 
     protected $fillable = [

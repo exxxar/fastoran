@@ -20,14 +20,22 @@ class CreateOrderDetailsTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->integer('order_id');
-            $table->string('product_name', 80);
-            $table->integer('product_id');
-            $table->integer('count');
-            $table->integer('price');
+
+            $table->integer('count')->default(0);
+            $table->integer('price')->default(0);
+
+            $table->unsignedInteger('order_id');
+            $table->unsignedInteger('product_id');
+
+            if (env("DB_CONNECTION") == 'mysql') {
+                $table->foreign('product_id')->references('id')->on('menus');
+                $table->foreign('order_id')->references('id')->on('orders');
+            }
+
             $table->timestamps();
         });
     }

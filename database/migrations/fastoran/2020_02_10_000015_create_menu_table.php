@@ -10,7 +10,7 @@ class CreateMenuTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'menu';
+    public $tableName = 'menus';
 
     /**
      * Run the migrations.
@@ -24,17 +24,21 @@ class CreateMenuTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->string('food_name', 100);
+            $table->string('food_name', 100)->default('');
             $table->text('food_remark');
-            $table->string('food_ext', 50);
-            $table->integer('food_price');
+            $table->integer('food_ext')->default(0);
+            $table->integer('food_price')->default(0);
+
             $table->unsignedInteger('food_rubr_id');
             $table->unsignedInteger('food_razdel_id');
             $table->unsignedInteger('rest_id');
             $table->unsignedInteger('food_category_id');
-            $table->string('food_img', 80);
-            $table->integer('bonus')->default(0);
+
+            $table->string('food_img', 1000)->default('');
+
             $table->boolean('stop_list')->default(false);
+
+            $table->unsignedInteger('rating_id');
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('rest_id')->references('id')->on('restorans');

@@ -20,13 +20,19 @@ class CreateMenuCategoryTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
-            $table->string('name', 80);
+            $table->string('name', 80)->default('');
+            $table->integer('sort')->default(0);
+
             $table->unsignedInteger('rest_id');
-            $table->integer('business');
-            $table->integer('sort');
+
+            if (env("DB_CONNECTION") == 'mysql') {
+                $table->foreign('rest_id')->references('id')->on('restorans');
+            }
+
             $table->timestamps();
         });
     }
