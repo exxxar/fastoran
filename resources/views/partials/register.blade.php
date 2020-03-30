@@ -1,7 +1,7 @@
 <section class="register my-hidden">
     <div class="register-wrap-overflou">
         <a href="#" class="register-close hidden-sm hidden-md hidden-lg"><img
-                src="http://fastoran.com/img/register-close-xs.png" alt=""></a>
+                src="img/register-close-xs.png" alt=""></a>
         <div class="container">
             <div class="register-wrap">
                 <div class="row">
@@ -87,11 +87,11 @@
                                     <!--    <img src="vkontakte.png" data-uloginbutton="vkontakte"/>
                                        <img src="facebook.png" data-uloginbutton="facebook"/> -->
                                     <div data-uloginbutton="facebook" class="login-fb enter-soc">
-                                        <img src="http://fastoran.com//img/svg/fb-icon.svg" alt="">
+                                        <img src="/img/svg/fb-icon.svg" alt="">
                                         <span>Facebook</span>
                                     </div>
                                     <div data-uloginbutton="vkontakte" class="login-vk enter-soc">
-                                        <img src="http://fastoran.com//img/svg/vk-icon.svg" alt="">
+                                        <img src="/img/svg/vk-icon.svg" alt="">
                                         <span>Вконтакте</span>
                                     </div>
                                 </div>

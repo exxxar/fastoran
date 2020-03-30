@@ -75,9 +75,9 @@
                 <div class="footer-item">
                     <h4 class="footer-title">мы в социальных сетях</h4>
                     <ul class="footer-social">
-                        <li><a href="https://facebook.com/fastorancom" target="black"><img src="http://fastoran.com/img/svg/fb-icon.svg" alt=""></a></li>
-                        <li><a href="https://vk.com/fastorancom" target="black"><img src="http://fastoran.com/img/svg/vk-icon.svg" alt=""></a></li>
-                        <li><a href="https://instagram.com/fastorancom" target="black"><img src="http://fastoran.com/img/svg/inst-icon.svg" alt=""></a></li>
+                        <li><a href="https://facebook.com/fastorancom" target="black"><img src="img/svg/fb-icon.svg" alt=""></a></li>
+                        <li><a href="https://vk.com/fastorancom" target="black"><img src="img/svg/vk-icon.svg" alt=""></a></li>
+                        <li><a href="https://instagram.com/fastorancom" target="black"><img src="img/svg/inst-icon.svg" alt=""></a></li>
                     </ul>
                 </div>
             </div>

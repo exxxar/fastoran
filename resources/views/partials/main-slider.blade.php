@@ -5,9 +5,9 @@
                 <div class="slider">
                     <div class="owl-carousel main">
                         <div class="item">
-                            <img class="hidden-xs" src="http://fastoran.com//img/slider-new.jpg" alt="">
+                            <img class="hidden-xs" src="/img/slider-new.jpg" alt="">
                             <img class="hidden-sm hidden-md hidden-lg"
-                                 src="http://fastoran.com/img/slider-new-xs.jpg" alt="">
+                                 src="img/slider-new-xs.jpg" alt="">
                             <div class="slider-title">
                                 <div class="container">
                                     <div class="row">
@@ -20,9 +20,9 @@
                             </div>
                         </div>
                         <div class="item">
-                            <img class="hidden-xs" src="http://fastoran.com/img/slider-new.jpg" alt="">
+                            <img class="hidden-xs" src="img/slider-new.jpg" alt="">
                             <img class="hidden-sm hidden-md hidden-lg"
-                                 src="http://fastoran.com/img/slider-new-xs.jpg" alt="">
+                                 src="img/slider-new-xs.jpg" alt="">
                             <div class="slider-title">
                                 <div class="container">
                                     <div class="row">

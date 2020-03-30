@@ -11,7 +11,7 @@
                     <div class="owl-carousel discount">
                         <div class="item l-discount-item">
                             <div class="l-discount-item__media">
-                                <img src="http://fastoran.com/js/timthumb.php?src=&h=140&w=280&zc=1&f=3,-20|4,-5&s=1" alt="">
+                                <img src="js/timthumb.php?src=&h=140&w=280&zc=1&f=3,-20|4,-5&s=1" alt="">
                             </div>
                             <div class="l-discount-item__description text-center">
                                 <div>
