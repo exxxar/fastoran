@@ -26,7 +26,7 @@ class CreateKitchenTable extends Migration
             $table->string('name', 50);
             $table->string('img', 1000);
             $table->boolean('view')->default(0);
-            $table->text('alt_description')->default('');
+            $table->text('alt_description');
             $table->timestamps();
         });
     }
