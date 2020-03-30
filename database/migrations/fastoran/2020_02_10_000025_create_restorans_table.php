@@ -24,65 +24,73 @@ class CreateRestoransTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('name', 150)->comment('Название заведения');
+            $table->text('description')->comment('Описание');
+
             $table->unsignedInteger('category_id')->comment('Категория заведения');
-            $table->string('adress', 200)->comment('адрес');
-            $table->string('orientir', 100)->comment('ориентир');
-            $table->integer('city')->comment('город');
+
+            $table->string('adress', 200)->default('')->comment('адрес');
+            $table->string('orientir', 100)->default('')->comment('ориентир');
+            $table->integer('city')->default('')->comment('город');
+
             $table->unsignedInteger('region_id')->comment('район');
-            $table->string('phone1', 50)->comment('Телефон1');
-            $table->string('phone2', 50)->comment('Телефон2');
-            $table->string('www', 50)->comment('сайт');
-            $table->string('mail', 50)->comment('email');
-            $table->string('tim', 50)->comment('Время работы');
-            $table->integer('checkout')->comment('Средний чек');
-            $table->integer('dance')->comment('Танцпол');
-            $table->integer('karaoke')->comment('Караоке');
-            $table->integer('wifi')->comment('wifi');
-            $table->integer('bussines')->comment('Бизнес ланчи');
-            $table->integer('parking')->comment('Парковка');
-            $table->integer('children')->comment('Детское меню');
-            $table->text('remark')->comment('Описание');
-            $table->string('telegram_channel', 120)->comment('Канал в телеграм');
-            $table->string('cont_face', 120)->comment('Контактное лицо');
-            $table->string('cont_phone', 50)->comment('Контактный телефон');
-            $table->string('vk_page', 120)->comment('Страница Вконтакте');
-            $table->string('odn_page', 120)->comment('Старница Однокласники');
-            $table->string('inst_page', 120)->comment('Страница Инстаграмм');
-            $table->integer('manager')->comment('Менеджер в ресте');
+
+            $table->string('phone1', 50)->default('')->comment('Телефон1');
+            $table->string('phone2', 50)->default('')->comment('Телефон2');
+            $table->string('www', 50)->default('')->comment('сайт');
+            $table->string('mail', 50)->default('')->comment('email');
+            $table->string('work_time', 50)->default('10:00-22:00')->comment('Время работы');
+
+            $table->boolean('has_dance')->default(false)->comment('Танцпол');
+            $table->boolean('has_karaoke')->default(false)->comment('Караоке');
+            $table->boolean('has_wifi')->default(true)->comment('wifi');
+            $table->boolean('has_parking')->default(true)->comment('Парковка');
+            $table->boolean('has_bussines')->default(true)->comment('Бизнес ланчи');
+            $table->boolean('has_children')->default(true)->comment('Детское меню');
+            $table->boolean('has_special')->default(false)->comment('Спец. предложение');
+
+
+            $table->string('telegram_channel', 120)->default('')->comment('Канал в телеграм');
+            $table->string('cont_face', 120)->default('')->comment('Контактное лицо');
+            $table->string('cont_phone', 50)->default('')->comment('Контактный телефон');
+            $table->string('vk_page', 120)->default('')->comment('Страница Вконтакте');
+            $table->string('odn_page', 120)->default('')->comment('Старница Однокласники');
+            $table->string('inst_page', 120)->default('')->comment('Страница Инстаграмм');
+            $table->integer('manager')->default('')->comment('Менеджер в ресте');
+
             $table->string('logo', 1000)->comment('Логотип заведения');
-            $table->integer('money')->comment('Баланс заведения');
+
             $table->integer('rating')->comment('Рейтинг заведения');
-            $table->string('seo_domen', 50)->comment('Домен заведения');
+
+            $table->string('seo_domain', 50)->comment('Домен заведения');
             $table->string('seo_title', 120)->comment('title заведения');
+
             $table->string('seo_h1', 130)->comment('h1 заведения');
             $table->string('seo_description', 245)->comment('description заведения');
+
             $table->string('url', 50)->comment('Короткий адрес заведения');
-            $table->integer('view')->comment('Кол-во просмотров');
-            $table->integer('comments')->comment('Кол-во отзывов');
-            $table->integer('images')->comment('Кол-во фото ');
-            $table->date('reg_dat')->comment('Дата регистрации');
-            $table->integer('rest_like')->comment('кол-во like');
-            $table->integer('rest_antilike');
-            $table->string('rest_img', 120);
+            $table->integer('view_count')->comment('Кол-во просмотров');
+            $table->integer('comments_count')->comment('Кол-во отзывов');
+
+            $table->integer('rest_like')->default(0);
+            $table->integer('rest_antilike')->default(0);
+
+            $table->string('rest_img', 1000)->default('');
+
             $table->boolean('moderation')->default(true);
-            $table->integer('tarif');
-            $table->string('fav', 80);
-            $table->string('count_people', 20);
-            $table->integer('special');
-            $table->integer('discount');
-            $table->string('dir_mail', 35);
-            $table->string('bron_phone', 80);
+
+            $table->integer('tarif')->default(0);
+
+            $table->integer('discount')->default(0);
+
+            $table->string('dir_mail', 35)->default('');
+
             $table->text('discount_text');
-            $table->integer('phone_view');
-            $table->integer('child');
-            $table->integer('min_sum');
-            $table->string('price_delivery', 40);
-            $table->string('time_delivery', 20);
-            $table->string('filters', 40);
-            $table->integer('fastoran_money');
-            $table->integer('sms');
-            $table->string('start_lanch', 8);
-            $table->string('end_lanch', 8);
+
+            $table->integer('min_sum')->default(0);
+            $table->integer('price_delivery')->default(0);
+
+            $table->integer('fastoran_money')->default(0);
+
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('region_id')->references('id')->on('region');

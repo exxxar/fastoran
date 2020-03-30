@@ -20,6 +20,7 @@ class CreateKitchenTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
@@ -29,6 +30,7 @@ class CreateKitchenTable extends Migration
             $table->text('alt_description');
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
