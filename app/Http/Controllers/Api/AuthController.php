@@ -41,7 +41,7 @@ class AuthController extends Controller
             'email' => $request->email ?? $request->phone . "@fastoran.com",
             'password' => bcrypt($code),
             'phone' => $request->phone,
-            'active' => true,
+            'active' => false,
             'auth_code' => $code,
             'telegram_chat_id' => $request->telegram_chat_id,
             'activation_token' => Str::random(60)
