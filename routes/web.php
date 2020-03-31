@@ -110,15 +110,17 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
                     'food_img' => $item2["thumb_photo"],
                     'stop_list' => false,
                 ]);
+
+                $rate = Rating::create([
+                    'content_type' => \App\Enums\ContentTypeEnum::Menu,
+                    'content_id' => $product->id,
+                ]);
+
+                $product->rating_id = $rate->id;
+                $product->save();
             }
 
-            $rate = Rating::create([
-                'content_type' => \App\Enums\ContentTypeEnum::Menu,
-                'content_id' => $product->id,
-            ]);
 
-            $product->rating_id = $rate->id;
-            $product->save();
 
             sleep(2);
 
