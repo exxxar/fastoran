@@ -18,6 +18,7 @@ use App\Parts\Models\Fastoran\Restoran;
 use App\Rating;
 use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', 'RestController@getMainPage');
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
@@ -95,6 +96,7 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
 
                 $price = $matches[0][0] ?? 0;
 
+               Log::info($item["title"]);
                 $rest = Restoran::where("name", $item["title"])->first();
 
                 if (is_null($rest))
