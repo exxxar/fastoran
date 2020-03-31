@@ -14,15 +14,22 @@
                             </div>
                         @endif
 
-                        <div class="row">
-                            <div class="col" id="app">
-                                <passport-clients></passport-clients>
-                                <passport-authorized-clients></passport-authorized-clients>
-                                <passport-personal-access-tokens></passport-personal-access-tokens>
-                            </div>
-                        </div>
+                        @isset($token)
+                            <p>{{$token}}</p>
+                        @endisset
+                        <hr>
+                        @isset($auth)
+                            <a class="btn btn-primary" href="{{$auth->getUrl()}}">Обновить товар через ВК</a>
+                        @endisset
+                        {{-- <div class="row">
+                             <div class="col" id="app">
+                                 <passport-clients></passport-clients>
+                                 <passport-authorized-clients></passport-authorized-clients>
+                                 <passport-personal-access-tokens></passport-personal-access-tokens>
+                             </div>
+                         </div>--}}
 
-                        You are logged in!
+                        {{-- You are logged in!--}}
                     </div>
                 </div>
             </div>

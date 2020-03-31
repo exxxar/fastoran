@@ -13,8 +13,6 @@ class RestMenu extends Model
         'food_remark',
         'food_ext',
         'food_price',
-        'food_rubr_id',
-        'food_razdel_id',
         'rest_id',
         'food_category_id',
         'food_img',

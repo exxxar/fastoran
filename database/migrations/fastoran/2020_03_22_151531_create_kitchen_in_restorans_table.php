@@ -13,6 +13,7 @@ class CreateKitchenInRestoransTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('kitchen_in_restorans', function (Blueprint $table) {
             $table->increments('id');
 
@@ -25,6 +26,7 @@ class CreateKitchenInRestoransTable extends Migration
             }
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

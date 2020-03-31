@@ -179,6 +179,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Allanvb\LaravelSemysms\SemySmsServiceProvider::class,
         BenSampo\Enum\EnumServiceProvider::class,
+        ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
 
     ],
 

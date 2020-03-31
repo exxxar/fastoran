@@ -25,16 +25,14 @@ class CreateRestMenuTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('food_name', 100)->default('');
-            $table->text('food_remark');
+            $table->text('food_remark')->default('');
             $table->integer('food_ext')->default(0);
             $table->integer('food_price')->default(0);
             $table->integer('time_to_prepare')->default(0);
             $table->integer('food_rating')->default(0);
 
-            $table->unsignedInteger('food_rubr_id');
-            $table->unsignedInteger('food_razdel_id');
             $table->unsignedInteger('rest_id');
-            $table->unsignedInteger('food_category_id');
+            $table->unsignedInteger('food_category_id')->nullable();
 
             $table->string('food_img', 1000)->default('');
 
@@ -44,9 +42,7 @@ class CreateRestMenuTable extends Migration
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('rest_id')->references('id')->on('restorans');
-                $table->foreign('food_rubr_id')->references('id')->on('menu_rubrik');
-                $table->foreign('food_razdel_id')->references('id')->on('menu_razdel');
-                $table->foreign('food_category_id')->references('id')->on('menu_category');
+                $table->foreign('food_category_id')->references('id')->on('menu_categories');
             }
 
             $table->timestamps();
