@@ -94,7 +94,7 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
 
                 $price = $matches[0][0] ?? 0;
 
-                $rest = Restoran::where("title", $item["title"])->first();
+                $rest = Restoran::where("name", $item["title"])->first();
 
                 if (is_null($rest))
                     continue;
