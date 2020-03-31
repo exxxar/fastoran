@@ -15,6 +15,7 @@
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
+use App\Rating;
 use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
 
