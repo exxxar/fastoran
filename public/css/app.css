@@ -24835,7 +24835,6 @@ body {
   min-height: 0;
   padding: 60px 0;
   box-sizing: border-box;
-  display: none;
   /* Firefox 19+ */
   /* Firefox 18- */
 }
@@ -24998,12 +24997,8 @@ body {
 }
 
 .header {
-  background-color: rgba(0, 0, 0, 0.55);
-  position: absolute;
+  background-color: rgba(0, 0, 0, 0.96);
   width: 100%;
-  left: 0;
-  top: 0;
-  z-index: 5;
 }
 
 .header .logo {

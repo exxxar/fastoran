@@ -37,6 +37,7 @@ Vue.component(
 
 Vue.component('rest-list', require('./components/RestList.vue').default);
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
+Vue.component('rest-filter', require('./components/RestFilter.vue').default);
 
 Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
 Vue.component('orders', require('./components/admin/Orders.vue').default);
@@ -46,6 +47,9 @@ Vue.component('menu-categories-list', require('./components/admin/MenuCategories
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);
 Vue.component('restorans-list', require('./components/admin/Restorans.vue').default);
+Vue.component('rest-main-slider', require('./components/RestMainSlider.vue').default);
+Vue.component('header-fastoran', require('./components/Header.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

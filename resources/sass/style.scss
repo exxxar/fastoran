@@ -93,7 +93,6 @@ h1,h2,h3,h4,h5,h6,p,li,a {
 	min-height: 0;
 	padding: 60px 0;
 	box-sizing: border-box;
-	display: none;
 	input {
 		font-size: 16px;
 		line-height: 16px;
@@ -221,12 +220,12 @@ h1,h2,h3,h4,h5,h6,p,li,a {
 	}
 }
 .header {
-	background-color: rgba(0, 0, 0, 0.55);
-	position: absolute;
+	background-color: rgba(0, 0, 0, 0.96);
+	//position: absolute;
 	width: 100%;
-	left: 0;
-	top: 0;
-	z-index: 5;
+	//left: 0;
+	//top: 0;
+	//z-index: 5;
 	.logo {
 		width: 100%;
 		max-width: 180px;

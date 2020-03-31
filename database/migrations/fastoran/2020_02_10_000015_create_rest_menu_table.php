@@ -28,6 +28,8 @@ class CreateRestMenuTable extends Migration
             $table->text('food_remark');
             $table->integer('food_ext')->default(0);
             $table->integer('food_price')->default(0);
+            $table->integer('time_to_prepare')->default(0);
+            $table->integer('food_rating')->default(0);
 
             $table->unsignedInteger('food_rubr_id');
             $table->unsignedInteger('food_razdel_id');
@@ -38,7 +40,7 @@ class CreateRestMenuTable extends Migration
 
             $table->boolean('stop_list')->default(false);
 
-            $table->unsignedInteger('rating_id');
+            $table->unsignedInteger('rating_id')->nullable();
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('rest_id')->references('id')->on('restorans');

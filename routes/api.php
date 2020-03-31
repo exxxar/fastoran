@@ -18,29 +18,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-
-Route::get('/rest/{domain}', 'RestController@getRestByDomain');
-
-Route::get('/categories', 'RestController@getCategories');
-Route::get('/razdels', 'RestController@getRazdels');
-Route::get('/rubricks', 'RestController@getRubriks');
-
-Route::get('/menu/{id}', 'RestController@getMenuByRestoran');
-
-Route::get('/region-list', 'RestController@getRestByDomain');
-
-Route::get('/kitchen-list', 'RestController@getKitchenList');
-
-Route::get('/rest-list', 'RestController@getRestList');
-Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen');
-
-Route::post('/send-request', 'RestController@sendRequest')->name("callback.request");
-
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/wish', 'RestController@sendWish');
 
+    Route::get('/kitchen-list', 'RestController@getKitchenList');
+
+    Route::get('/rest/{domain}', 'RestController@getRestByDomain');
+
+    Route::get('/categories', 'RestController@getCategories');
+    Route::get('/razdels', 'RestController@getRazdels');
+    Route::get('/rubricks', 'RestController@getRubriks');
+
+    Route::get('/menu/{id}', 'RestController@getMenuByRestoran');
+
+    Route::get('/rest-list', 'RestController@getRestList');
+    Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen');
+    Route::post('/send-request', 'RestController@sendRequest')->name("callback.request");
 
 
 

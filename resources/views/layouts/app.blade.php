@@ -10,25 +10,21 @@
     <meta name="description"
           content="Быстрый и удобный сервис доставки еды со всех ресторанов города, суши, пицца, бургеры и много другое прямо к Вам домой"/>
 
-    <link href='css/easydropdown.css' rel='stylesheet' type='text/css'>
-    <link href='css/owl.carousel.css' rel='stylesheet' type='text/css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     @laravelPWA
-
 </head>
 <body>
 <div id="app">
-    <div class="register-overplay hidden hidden-sm hidden-md hidden-lg"></div>
     @include("partials.register")
+    @include("partials.header")
     <section class="content">
-        @include("partials.header")
+
+
         @yield("content")
     </section>
 @include("partials.footer")
 
-<!-- modal -->
+{{--<!-- modal -->
 
     <div class="modal fade" tabindex="-1" role="dialog" id="basket">
         <div class="modal-dialog" role="document">
@@ -299,20 +295,10 @@
 
             </div><!-- .modal-content -->
         </div><!-- .modal-dialog -->
-    </div>
+    </div>--}}
 </div>
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQFFj02ZGKEZFW8J_Eq2MQV9DxWJLatl0"></script>
-<script type="text/javascript" src="js/gmap.routes.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
-
-<script type="text/javascript" src="js/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/jquery.easydropdown.js"></script>
-<script type="text/javascript" src="js/jquery.maskedinput.min.js"></script>
-<script type="text/javascript" src="js/scripts.js"></script>
-<script type="text/javascript" src="js/owl.carousel.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-
 <script src="{{asset('js/app.js')}}"></script>
 
 

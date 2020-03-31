@@ -181,7 +181,7 @@ class AuthController extends Controller
         if (is_null($user))
             return response()
                 ->json([
-                    "message" => "User not found by telegram id",
+                    "message" => "User not found by $key",
                     "is_deliveryman"=>false,
                     "status" => 404
                 ]);

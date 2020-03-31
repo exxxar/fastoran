@@ -20,7 +20,7 @@ class CreateKitchenInRestoransTable extends Migration
             $table->unsignedInteger('restoran_id');
 
             if (env("DB_CONNECTION") == 'mysql') {
-                $table->foreign('kitchen_id')->references('id')->on('kitchen');
+                $table->foreign('kitchen_id')->references('id')->on('kitchens');
                 $table->foreign('restoran_id')->references('id')->on('restorans');
             }
             $table->timestamps();

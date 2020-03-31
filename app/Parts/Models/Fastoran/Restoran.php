@@ -13,8 +13,6 @@ class Restoran extends Model
         'name',
         'description',
 
-        'category_id',
-
         'adress',
         'orientir',
 
@@ -24,6 +22,7 @@ class Restoran extends Model
 
         'phone1',
         'phone2',
+
         'site',
         'email',
         'work_time',

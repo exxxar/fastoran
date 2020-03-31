@@ -36,8 +36,9 @@ class CreateRestoransTable extends Migration
             $table->string('phone1', 50)->default('')->comment('Телефон1');
             $table->string('phone2', 50)->default('')->comment('Телефон2');
             $table->string('site', 50)->default('')->comment('сайт');
+
             $table->string('email', 50)->default('')->comment('email');
-            $table->string('work_time', 50)->default('10:00-22:00')->comment('Время работы');
+            $table->string('work_time', 50)->default('10:00-20:00')->comment('Время работы');
 
             $table->boolean('has_dance')->default(false)->comment('Танцпол');
             $table->boolean('has_karaoke')->default(false)->comment('Караоке');
@@ -58,16 +59,16 @@ class CreateRestoransTable extends Migration
 
             $table->string('logo', 1000)->comment('Логотип заведения');
 
-            $table->integer('rest_rating')->comment('Рейтинг заведения');
+            $table->integer('rest_rating')->default(0)->comment('Рейтинг заведения');
 
-            $table->string('seo_domain', 50)->comment('Домен заведения');
-            $table->string('seo_title', 120)->comment('title заведения');
+            $table->string('seo_domain', 50)->default('')->comment('Домен заведения');
+            $table->string('seo_title', 120)->default('')->comment('title заведения');
 
-            $table->string('seo_h1', 130)->comment('h1 заведения');
-            $table->string('seo_description', 245)->comment('description заведения');
+            $table->string('seo_h1', 130)->default('')->comment('h1 заведения');
+            $table->string('seo_description', 245)->default('')->comment('description заведения');
 
-            $table->string('url', 50)->comment('Короткий адрес заведения');
-            $table->integer('view_count')->comment('Кол-во просмотров');
+            $table->string('url', 50)->default('')->comment('Короткий адрес заведения');
+            $table->integer('view_count')->default(0)->comment('Кол-во просмотров');
 
 
             $table->string('rest_img', 1000)->default('');
@@ -80,15 +81,14 @@ class CreateRestoransTable extends Migration
 
             $table->string('dir_mail', 35)->default('');
 
-            $table->text('discount_text');
+            $table->text('discount_text')->default('');
 
             $table->integer('min_sum')->default(0);
             $table->integer('price_delivery')->default(0);
 
             $table->integer('fastoran_money')->default(0);
 
-            $table->unsignedInteger('rating_id');
-
+            $table->unsignedInteger('rating_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

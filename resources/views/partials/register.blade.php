@@ -1,3 +1,5 @@
+{{--
+
 <section class="register my-hidden">
     <div class="register-wrap-overflou">
         <a href="#" class="register-close hidden-sm hidden-md hidden-lg"><img
@@ -200,7 +202,7 @@
 
                                     </div>
                                 </li>
-                                </li>
+
                             </ul>
                             <button type="button" class="btn btn-warning new-data-save hidden">Сохранить изменения
                             </button>
@@ -226,3 +228,5 @@
         </div>
     </div>
 </section>
+
+--}}

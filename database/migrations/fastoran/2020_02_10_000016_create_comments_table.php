@@ -30,7 +30,7 @@ class CreateCommentsTable extends Migration
             $table->boolean('in_moderation')->default(true);
 
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('rating_id');
+            $table->unsignedInteger('rating_id')->nullable();
 
             $table->integer('content_type')->default(\App\Enums\ContentTypeEnum::Restoran);
             $table->unsignedInteger('content_id');

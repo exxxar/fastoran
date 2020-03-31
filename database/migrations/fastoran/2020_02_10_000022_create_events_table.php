@@ -32,7 +32,7 @@ class CreateEventsTable extends Migration
 
             $table->unsignedInteger('rest_id');
             $table->unsignedInteger('comment_id');
-            $table->unsignedInteger('rating_id');
+            $table->unsignedInteger('rating_id')->nullable();
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('rest_id')->references('id')->on('restorans');

@@ -29,7 +29,7 @@ class CreateKitchenTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->text('alt_description');
 
-            $table->unsignedInteger('rating_id');
+            $table->unsignedInteger('rating_id')->nullable();
 
             $table->timestamps();
         });
