@@ -66,7 +66,7 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
         $api->setDefaultToken($token);
 
         $response = $api->request('market.getAlbums', [
-            'owner_id' => -142695628,
+            'owner_id' => -136275935,
             'count' => 50
         ]);
 
@@ -77,7 +77,7 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
             //echo $item["id"].$item["title"]." ".$item["photo"]["photo_807"]."<br>";
 
             $response2 = $api->request('market.get', [
-                'owner_id' => -142695628,
+                'owner_id' => -136275935,
                 'album_id' => $item["id"],
                 'count' => 200
             ]);
