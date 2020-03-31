@@ -17,15 +17,48 @@ use Laravolt\Avatar\Facade as Avatar;
 
 class AuthController extends Controller
 {
+
     /**
-     * Create user
+     * Login user and create token
      *
      * @param  [string] name
+     * @param  [string] phone
      * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @return [string] message
+     * @param  [string] telegram_chat_id
      */
+    public function signupTelegram(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|unique:users',
+            'telegram_chat_id' => 'required',
+        ]);
+
+        $code = random_int(100000, 999999);
+
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email ?? $request->phone . "@fastoran.com",
+            'password' => bcrypt($code),
+            'phone' => $request->phone,
+            'active' => true,
+            'auth_code' => $code,
+            'telegram_chat_id' => $request->telegram_chat_id,
+            'activation_token' => Str::random(60)
+        ]);
+
+        $user->save();
+
+        SemySMS::sendOne([
+            'to' => $request->phone,
+            'text' => "You password and verify: $code"
+        ]);
+
+        return response()->json([
+            'message' => 'Пользователь успешно создан!'
+        ], 201);
+    }
+
     public function signup(Request $request)
     {
         $request->validate([
@@ -47,7 +80,7 @@ class AuthController extends Controller
         ]);
         $user->save();
 
-        //$user->notify(new SignupActivate($user));
+        $user->notify(new SignupActivate($user));
 
         return response()->json([
             'message' => 'Пользователь успешно создан!'
@@ -145,7 +178,7 @@ class AuthController extends Controller
             return response()
                 ->json([
                     "message" => "User not found",
-                    "is_deliveryman"=>false,
+                    "is_deliveryman" => false,
                     "status" => 404
                 ]);
 
@@ -162,7 +195,43 @@ class AuthController extends Controller
         return response()
             ->json([
                 "message" => "Success user found",
-                "is_deliveryman"=>true,
+                "is_deliveryman" => false,
+                "status" => 200
+            ]);
+
+    }
+
+    public function checkVerifyUser(Request $request)
+    {
+        $code = $request->get("code");
+        $phone = $request->get("phone");
+
+        $user = User::where("phone", $phone)->first();
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "User not found",
+                    "verify" => false,
+                    "status" => 404
+                ]);
+
+        if ($user->auth_code !== $code)
+            return response()
+                ->json([
+                    "message" => "Bad code",
+                    "verify" => false,
+                    "status" => 400
+                ]);
+
+        $user->auth_code = null;
+        $user->active = true;
+        $user->save();
+
+        return response()
+            ->json([
+                "message" => "Success",
+                "verify" => true,
                 "status" => 200
             ]);
 
@@ -182,14 +251,16 @@ class AuthController extends Controller
             return response()
                 ->json([
                     "message" => "User not found by $key",
-                    "is_deliveryman"=>false,
+                    "is_deliveryman" => false,
+                    "verify" => false,
                     "status" => 404
                 ]);
 
         return response()
             ->json([
                 "message" => "Success user found",
-                "is_deliveryman"=>$user->user_type===UserTypeEnum::Deliveryman,
+                "is_deliveryman" => $user->user_type === UserTypeEnum::Deliveryman,
+                "verify"=>$user->active,
                 "status" => 200
             ]);
     }

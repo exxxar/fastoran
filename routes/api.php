@@ -66,10 +66,14 @@ Route::group(['prefix' => 'v1'], function () {
     ], function () {
 
         Route::post('/check/{type}', 'AuthController@checkUserExist')->where(["type"=>"[0-9]+"]);
+
         Route::post('/sms', 'AuthController@sendSmsVerify');
+        Route::post('/verify', 'AuthController@checkVerifyUser');
 
         Route::post('login', 'AuthController@login');
+        Route::post('signup_telegram', 'AuthController@signupTelegram');
         Route::post('signup', 'AuthController@signup');
+
         Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");
 
         Route::group([

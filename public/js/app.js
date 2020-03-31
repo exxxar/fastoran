@@ -83285,7 +83285,7 @@ var render = function() {
             indicators: "",
             background: "#ababab",
             "img-width": "1024",
-            "img-height": "480"
+            "img-height": "280"
           },
           on: {
             "sliding-start": _vm.onSlideStart,
