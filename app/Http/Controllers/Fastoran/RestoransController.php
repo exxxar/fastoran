@@ -19,7 +19,7 @@ class RestoransController extends Controller
     public function index(Request $request)
     {
         $restorans = Restoran::with(["menus","kitchens"])->orderBy('id', 'DESC')
-            ->get();
+            ->paginate(15);
 
         if ($request->ajax())
             return response()
