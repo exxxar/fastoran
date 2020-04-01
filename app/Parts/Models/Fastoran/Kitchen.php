@@ -42,6 +42,7 @@ class Kitchen extends Model
     public function getRatingAttribute()
     {
         return Rating::where("content_type", ContentTypeEnum::Kitchen)
+            ->select(["dislike_count","like_count"])
             ->where('content_id', $this->id)
             ->first();
     }
