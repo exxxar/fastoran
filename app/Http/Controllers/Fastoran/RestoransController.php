@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Fastoran;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\Restoran;
-use App\RestLike;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

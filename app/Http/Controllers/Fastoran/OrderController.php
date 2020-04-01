@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Fastoran;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
 
+use App\Parts\Models\Fastoran\OrderDetail;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -47,10 +48,24 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $result = Order::create($request->all());
+
+        $order = Order::create($request->all());
+        $order->user_id = auth()->guard('api')->user()->id;
+        $order->save();
+
+        $order_details = $request->get("order_details");
+
+        foreach ($order_details as $od) {
+            $detail = OrderDetail::create($od);
+            $detail->order_id = $order->id;
+            $detail->save();
+        }
+
         return response()
             ->json([
-                'order'=>$result
+                "message" => "success",
+                "data" => $request->all(),
+                "status" => 200
             ]);
     }
 
