@@ -3082,7 +3082,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/v1/fastoran/restorans/menu/' + this.rest).then(function (resp) {
-        _this.categories = resp.data.categories;
+        //this.categories = resp.data.categories;
         _this.menus = resp.data.restoran.menus;
       });
     },
