@@ -83,10 +83,7 @@ class Restoran extends Model
         return $this->hasMany(RestMenu::class, 'rest_id', 'id');
     }
 
-    public function region()
-    {
-        return $this->hasOne(Region::class, 'id', 'region_id');
-    }
+
 
     public function getRatingAttribute()
     {

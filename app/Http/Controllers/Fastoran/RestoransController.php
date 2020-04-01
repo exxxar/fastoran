@@ -18,7 +18,7 @@ class RestoransController extends Controller
      */
     public function index(Request $request)
     {
-        $restorans = Restoran::with(["menus","kitchens"])->orderBy('id', 'DESC')
+        $restorans = Restoran::orderBy('id', 'DESC')
             ->paginate(5);
 
         if ($request->ajax())
