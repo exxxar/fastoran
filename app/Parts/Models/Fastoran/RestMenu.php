@@ -2,6 +2,8 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\Enums\ContentTypeEnum;
+use App\Rating;
 use Illuminate\Database\Eloquent\Model;
 
 class RestMenu extends Model
@@ -20,19 +22,21 @@ class RestMenu extends Model
         'rating_id'
     ];
 
+    protected $appends = [
+        'ratings'
+    ];
 
     public function category()
     {
         return $this->hasOne(MenuCategory::class, 'id', 'food_category_id');
     }
 
-    public function rubrik()
+    public function getRatingsAttribute()
     {
-        return $this->hasOne(MenuRubrik::class, 'id', 'food_rubr_id');
+        return Rating::where("content_type", ContentTypeEnum::Menu)
+            ->where('content_id', $this->id)
+            ->get();
     }
 
-    public function razdel()
-    {
-        return $this->hasOne(MenuRazdel::class, 'id', 'food_razdel_id');
-    }
+
 }
