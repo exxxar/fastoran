@@ -50,30 +50,30 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'food_name'=> 'required',
-            'food_remark'=> 'required',
-            'food_ext'=> 'required',
-            'food_price'=> 'required',
-            'food_rubr_id'=> 'required',
-            'food_razdel_id'=> 'required',
-            'rest_id'=> 'required',
-            'food_category_id'=> 'required',
-            'food_img'=> 'required',
-            'bonus'=> 'required',
+            'food_name' => 'required',
+            'food_remark' => 'required',
+            'food_ext' => 'required',
+            'food_price' => 'required',
+            'food_rubr_id' => 'required',
+            'food_razdel_id' => 'required',
+            'rest_id' => 'required',
+            'food_category_id' => 'required',
+            'food_img' => 'required',
+            'bonus' => 'required',
         ]);
 
         RestMenu::create([
 
-            'food_name'=> $request->get('food_name') ?? '',
-            'food_remark'=> $request->get('food_remark') ?? '',
-            'food_ext'=> $request->get('food_ext') ??0,
-            'food_price'=> $request->get('food_price') ?? 0,
-            'food_rubr_id'=> $request->get('food_rubr_id') ?? 0,
-            'food_razdel_id'=> $request->get('food_razdel_id') ?? 0,
-            'rest_id'=> $request->get('rest_id') ?? 0,
-            'food_category_id'=> $request->get('food_category_id') ?? 0,
-            'food_img'=> $request->get('food_img') ?? '',
-            'bonus'=> $request->get('bonus') ?? 0,
+            'food_name' => $request->get('food_name') ?? '',
+            'food_remark' => $request->get('food_remark') ?? '',
+            'food_ext' => $request->get('food_ext') ?? 0,
+            'food_price' => $request->get('food_price') ?? 0,
+            'food_rubr_id' => $request->get('food_rubr_id') ?? 0,
+            'food_razdel_id' => $request->get('food_razdel_id') ?? 0,
+            'rest_id' => $request->get('rest_id') ?? 0,
+            'food_category_id' => $request->get('food_category_id') ?? 0,
+            'food_img' => $request->get('food_img') ?? '',
+            'bonus' => $request->get('bonus') ?? 0,
 
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -135,7 +135,7 @@ class MenuController extends Controller
         $value = $request->get("value");
 
         $menu = RestMenu::find($id);
-        $menu[$param]=$value;
+        $menu[$param] = $value;
         $menu->save();
 
         return response()
@@ -151,7 +151,7 @@ class MenuController extends Controller
      * @param \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {
 
         $menu = RestMenu::find($id);
@@ -167,5 +167,14 @@ class MenuController extends Controller
         return redirect()
             ->route('menus.index')
             ->with('success', 'Меню успешно удалено');
+    }
+
+    public function getMenuByRestId($restId)
+    {
+        return response()
+            ->json([
+                "menus" => RestMenu::where("rest_id", $restId)
+                    ->get()
+            ]);;
     }
 }

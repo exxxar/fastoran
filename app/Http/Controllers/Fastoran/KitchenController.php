@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\RestMenu;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -112,7 +113,7 @@ class KitchenController extends Controller
         $value = $request->get("value");
 
         $kitchen = Kitchen::find($id);
-        $kitchen[$param]=$value;
+        $kitchen[$param] = $value;
         $kitchen->save();
 
         return response()
@@ -128,7 +129,7 @@ class KitchenController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {
         $kitchen = Kitchen::find($id);
         $kitchen->delete();
@@ -144,4 +145,19 @@ class KitchenController extends Controller
             ->route('kitchens.index')
             ->with('success', 'Кухня успешно удалена');
     }
+
+    public function getMenuByKitchenId($kitchenId)
+    {
+        return response()
+            ->json([
+                "menus" => (Kitchen::with(["restorans", "restorans.menus"])
+                    ->where("id", $kitchenId)
+                    ->get())
+                    ->restorans
+                    ->menus
+                    ->get()
+
+            ]);;
+    }
+
 }

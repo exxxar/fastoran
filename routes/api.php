@@ -53,9 +53,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::resource('kitchens', 'KitchenController');
         Route::resource('menu_categories', 'MenuCategoryController');
         Route::resource('menus', 'MenuController');
-       // Route::resource('regions', 'RegionController');
-        //Route::resource('menu_razdels', 'MenuRazdelController');
-       // Route::resource('menu_rubriks', 'MenuRubrikController');
         Route::resource('orders', 'OrderController');
         Route::resource('order_details', 'OrderDetailController');
 
@@ -66,6 +63,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('menu_categories', 'MenuCategoryController@index');
         Route::any('restorans', 'RestoransController@index');
         Route::any('menus', 'MenuController@index');
+
+        Route::any('/menus/{restId}', 'MenuController@getMenuByRestId');
+        Route::any('/kitchens/{kitchenId}', 'KitchenController@getMenuByKitchenId');
 
     });
 
