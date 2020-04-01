@@ -127,6 +127,13 @@ class AuthController extends Controller
             'remember_me' => 'boolean'
         ]);
 
+        $user = User::where("auth_code",$request->get("password"))
+            ->where("phone",$request->get("phone"))
+            ->first();
+
+        $user->active = true;
+        $user->save();
+
         $credentials = request(['password']);
         $credentials['active'] = 1;
         $credentials['email'] = $request->get("phone")."@fastoran.com";
