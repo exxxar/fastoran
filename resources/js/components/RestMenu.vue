@@ -208,7 +208,7 @@
             loadData() {
 
                 axios
-                    .get('/api/menu/' + this.rest)
+                    .get('/api/v1/menu/' + this.rest)
                     .then((resp) => {
                         this.categories = resp.data.categories;
                         this.menus = resp.data.restoran.menus;
