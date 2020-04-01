@@ -23,7 +23,7 @@ class RestMenu extends Model
     ];
 
     protected $appends = [
-        'ratings'
+        'rating'
     ];
 
     public function category()
@@ -35,7 +35,7 @@ class RestMenu extends Model
     {
         return Rating::where("content_type", ContentTypeEnum::Menu)
             ->where('content_id', $this->id)
-            ->get();
+            ->first();
     }
 
 

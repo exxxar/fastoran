@@ -27,7 +27,7 @@ class Kitchen extends Model
         "created_at","updated_at"
     ];
 
-    protected $appends = ["rest_count","ratings"];
+    protected $appends = ["rest_count","rating"];
 
     public function getRestCountAttribute(){
         return 0;
@@ -39,10 +39,10 @@ class Kitchen extends Model
             ->withTimestamps();
     }
 
-    public function getRatingsAttribute()
+    public function getRatingAttribute()
     {
         return Rating::where("content_type", ContentTypeEnum::Kitchen)
             ->where('content_id', $this->id)
-            ->get();
+            ->first();
     }
 }

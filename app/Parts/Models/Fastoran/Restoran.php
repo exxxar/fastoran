@@ -66,7 +66,7 @@ class Restoran extends Model
 
     ];
 
-     protected $appends = ["likes","dislikes","comments_count","ratings"];
+     protected $appends = ["likes","dislikes","comments_count","rating"];
 
     public function getCommentsCountAttribute(){
         return 0;
@@ -96,10 +96,10 @@ class Restoran extends Model
         return $this->hasOne(Region::class, 'id', 'region_id');
     }
 
-    public function getRatingsAttribute()
+    public function getRatingAttribute()
     {
         return Rating::where("content_type", ContentTypeEnum::Restoran)
             ->where('content_id', $this->id)
-            ->get();
+            ->first();
     }
 }
