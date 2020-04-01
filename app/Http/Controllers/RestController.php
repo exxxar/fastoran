@@ -7,7 +7,7 @@ use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
-use App\Parts\Models\Fastoran\Region;
+
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
