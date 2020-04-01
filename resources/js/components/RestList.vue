@@ -154,11 +154,11 @@
         methods: {
             loadData() {
                 axios
-                    .get('/rest-list')
+                    .get('/restorans')
                     .then((resp) => {
-                        this.restorans = resp.data.restorans;
-                        this.kitchens = resp.data.kitchens;
-                        this.regions = resp.data.regions;
+                        this.restorans = resp.data.restorans.data;
+                  /*      this.kitchens = resp.data.kitchens;
+                        this.regions = resp.data.regions;*/
                     });
             },
             getFilteredRestorans() {

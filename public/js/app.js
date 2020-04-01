@@ -2748,10 +2748,10 @@ __webpack_require__.r(__webpack_exports__);
     loadData: function loadData() {
       var _this = this;
 
-      axios.get('/rest-list').then(function (resp) {
-        _this.restorans = resp.data.restorans;
-        _this.kitchens = resp.data.kitchens;
-        _this.regions = resp.data.regions;
+      axios.get('/restorans').then(function (resp) {
+        _this.restorans = resp.data.restorans.data;
+        /*      this.kitchens = resp.data.kitchens;
+              this.regions = resp.data.regions;*/
       });
     },
     getFilteredRestorans: function getFilteredRestorans() {
