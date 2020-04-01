@@ -34,6 +34,8 @@ class Order extends Model
         'receiver_address',
         'receiver_order_note',
         'receiver_domophone',
+
+        'created_at'
     ];
 
     protected $appends = ["summary_count", "summary_price"];
