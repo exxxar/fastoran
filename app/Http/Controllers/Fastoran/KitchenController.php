@@ -153,8 +153,8 @@ class KitchenController extends Controller
                 "menus" => (Kitchen::with(["restorans", "restorans.menus"])
                     ->where("id", $kitchenId)
                     ->get())
-                    ->restorans
-                    ->menus
+                    ->restorans()
+                    ->menus()
                     ->get()
 
             ]);;
