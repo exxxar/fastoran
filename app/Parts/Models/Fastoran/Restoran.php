@@ -66,19 +66,11 @@ class Restoran extends Model
 
     ];
 
-     protected $appends = ["likes","dislikes","comments_count","rating"];
+     protected $appends = ["comments_count","rating"];
 
     public function getCommentsCountAttribute(){
         return 0;
     }
-
-     public function getLikesAttribute(){
-         return 0;
-     }
-
-     public function getDislikesAttribute(){
-         return 0;
-     }
 
     public function kitchens()
     {
