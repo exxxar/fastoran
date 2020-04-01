@@ -18,14 +18,28 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+
         $orders = Order::orderBy('id', 'DESC')
             ->paginate(15);
 
-        if ($request->ajax())
+        if ($request->ajax()) {
+            $user = User::find(auth()->guard('api')->user()->id ?? 0);
+
+            if (is_null($user))
+                return response()
+                    ->json([
+                        "message" => "User not found",
+                        "orders" => [],
+                        "status" => 404
+                    ]);
+
             return response()
                 ->json([
-                    'orders' => Order::all(),
+                    "message" => "Success",
+                    'orders' => Order::where("user_id", $user->id)->get(),
+                    "status" => 200
                 ]);
+        }
 
         return view('admin.orders.index', compact('orders'))
             ->with('i', ($request->get('page', 1) - 1) * 15);
