@@ -72,7 +72,7 @@ class OrderController extends Controller
 
     public function getOrderHistory()
     {
-        $user = User::find(auth()->guard('api') ? auth()->guard('api')->user()->id : 0);
+        $user = User::find(!is_null(auth()->guard('api')) ? auth()->guard('api')->user()->id : 0);
 
         if (is_null($user))
             return response()
