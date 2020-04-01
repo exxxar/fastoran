@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
 
 use App\Parts\Models\Fastoran\OrderDetail;
+use App\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -71,9 +72,18 @@ class OrderController extends Controller
 
     public function getOrderHistory()
     {
+        $user = User::find( auth()->guard('api')->user()->id);
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "User not found",
+                    "orders" => [],
+                    "status" => 404
+                ]);
 
         $orders = Order::with(["details","restoran"])
-            ->where("user_id", auth()->guard('api')->user()->id)
+            ->where("user_id",$user->id)
             ->get();
 
         return response()

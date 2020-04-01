@@ -42,7 +42,7 @@ class RestController extends Controller
 
     public function getRestList(Request $request)
     {
-        $restorans = Restoran::with(["region", "kitchens", "menus"])
+        $restorans = Restoran::with([ "kitchens", "menus"])
             ->where("moderation", true)
             ->get();
 
