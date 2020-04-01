@@ -131,8 +131,10 @@ class AuthController extends Controller
             ->where("phone",$request->get("phone"))
             ->first();
 
-        $user->active = true;
-        $user->save();
+        if (!is_null($user)) {
+            $user->active = true;
+            $user->save();
+        }
 
         $credentials = request(['password']);
         $credentials['active'] = 1;

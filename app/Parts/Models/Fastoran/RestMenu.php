@@ -34,6 +34,7 @@ class RestMenu extends Model
     public function getRatingAttribute()
     {
         return Rating::where("content_type", ContentTypeEnum::Menu)
+            ->select([""])
             ->where('content_id', $this->id)
             ->first();
     }
