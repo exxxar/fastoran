@@ -4,7 +4,6 @@ namespace App\Parts\Models\Fastoran;
 
 use App\Enums\ContentTypeEnum;
 use App\Rating;
-use App\RestLike;
 use Illuminate\Database\Eloquent\Model;
 
 class Restoran extends Model
