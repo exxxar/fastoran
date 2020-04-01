@@ -150,10 +150,9 @@ class KitchenController extends Controller
     {
         return response()
             ->json([
-                "menus" => (Kitchen::with(["restorans", "restorans.menus"])
+                "menus" =>Kitchen::with(["restorans", "restorans.menus"])
                     ->where("id", $kitchenId)
-                    ->get())
-                    ->restorans->get()
+                    ->get()
 
             ]);;
     }
