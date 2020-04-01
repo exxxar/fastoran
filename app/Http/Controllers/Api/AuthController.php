@@ -128,7 +128,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::where("auth_code",$request->get("password"))
-            ->where("phone",$request->get("phone"))
+            ->where("email",$request->get("phone")."@fastoran.com")
             ->first();
 
         if (!is_null($user)) {
