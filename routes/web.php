@@ -20,6 +20,7 @@ use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
 use Illuminate\Support\Facades\Log;
 
+
 Route::get('/', 'RestController@getMainPage');
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");

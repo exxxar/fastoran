@@ -10,7 +10,7 @@
 
             <div class="row">
                 @foreach($kitchens as $kitchen)
-                    <div class="col-md-3 col-sm-3 col-xs-6">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="l-kitchen-item">
                             <div class="l-kitchen-item__media">
                                 <img src="{{$kitchen->img}}" alt="{{$kitchen->alt_description}}">

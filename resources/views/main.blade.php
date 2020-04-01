@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include("partials.main-slider")
+    {{--@include("partials.main-slider")--}}
     @include("partials.filters")
     @include("partials.kitchens")
     @include("partials.restorans")

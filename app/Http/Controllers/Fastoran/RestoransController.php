@@ -18,13 +18,13 @@ class RestoransController extends Controller
      */
     public function index(Request $request)
     {
-        $restorans = Restoran::orderBy('id', 'DESC')
+        $restorans = Restoran::with(["menus","kitchens"])->orderBy('id', 'DESC')
             ->paginate(15);
 
         if ($request->ajax())
             return response()
                 ->json([
-                    'restorans' => Kitchen::all(),
+                    'restorans' => $restorans,
                 ]);
 
         return view('admin.restorans.index', compact('restorans'))
