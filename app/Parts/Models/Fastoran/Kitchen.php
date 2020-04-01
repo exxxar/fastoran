@@ -2,7 +2,9 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\Enums\ContentTypeEnum;
 use App\Enums\UserTypeEnum;
+use App\Rating;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +27,7 @@ class Kitchen extends Model
         "created_at","updated_at"
     ];
 
-    protected $appends = ["rest_count"];
+    protected $appends = ["rest_count","ratings"];
 
     public function getRestCountAttribute(){
         return 0;
@@ -35,5 +37,12 @@ class Kitchen extends Model
     {
         return $this->belongsToMany(Restoran::class, 'kitchen_in_restorans', 'restoran_id', 'kitchen_id')
             ->withTimestamps();
+    }
+
+    public function getRatingsAttribute()
+    {
+        return Rating::where("content_type", ContentTypeEnum::Kitchen)
+            ->where('content_id', $this->id)
+            ->get();
     }
 }

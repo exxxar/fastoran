@@ -53,9 +53,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::resource('kitchens', 'KitchenController');
         Route::resource('menu_categories', 'MenuCategoryController');
         Route::resource('menus', 'MenuController');
-        Route::resource('regions', 'RegionController');
-        Route::resource('menu_razdels', 'MenuRazdelController');
-        Route::resource('menu_rubriks', 'MenuRubrikController');
+       // Route::resource('regions', 'RegionController');
+        //Route::resource('menu_razdels', 'MenuRazdelController');
+       // Route::resource('menu_rubriks', 'MenuRubrikController');
         Route::resource('orders', 'OrderController');
         Route::resource('order_details', 'OrderDetailController');
 
@@ -64,6 +64,8 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::any('kitchens', 'KitchenController@index');
         Route::any('menu_categories', 'MenuCategoryController@index');
+        Route::any('restorans', 'RestoranController@index');
+        Route::any('menus', 'MenuController@index');
 
     });
 
@@ -78,7 +80,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/verify', 'AuthController@checkVerifyUser');
 
         Route::post('login', 'AuthController@login');
+        Route::post('login_phone', 'AuthController@loginPhone');
         Route::post('signup_telegram', 'AuthController@signupTelegram');
+        Route::post('signup_phone', 'AuthController@signupPhone');
         Route::post('signup', 'AuthController@signup');
 
         Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");

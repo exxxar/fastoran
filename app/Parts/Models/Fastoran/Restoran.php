@@ -2,6 +2,8 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\Enums\ContentTypeEnum;
+use App\Rating;
 use App\RestLike;
 use Illuminate\Database\Eloquent\Model;
 
@@ -64,7 +66,7 @@ class Restoran extends Model
 
     ];
 
-     protected $appends = ["likes","dislikes","comments_count"];
+     protected $appends = ["likes","dislikes","comments_count","ratings"];
 
     public function getCommentsCountAttribute(){
         return 0;
@@ -92,5 +94,12 @@ class Restoran extends Model
     public function region()
     {
         return $this->hasOne(Region::class, 'id', 'region_id');
+    }
+
+    public function getRatingsAttribute()
+    {
+        return Rating::where("content_type", ContentTypeEnum::Restoran)
+            ->where('content_id', $this->id)
+            ->get();
     }
 }

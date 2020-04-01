@@ -59,6 +59,38 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function signupPhone(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|unique:users',
+        ]);
+
+        $code = random_int(100000, 999999);
+
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email ?? $request->phone . "@fastoran.com",
+            'password' => bcrypt($code),
+            'phone' => $request->phone,
+            'active' => false,
+            'auth_code' => $code,
+            'telegram_chat_id' => null,
+            'activation_token' => Str::random(60)
+        ]);
+
+        $user->save();
+
+        SemySMS::sendOne([
+            'to' => $request->phone,
+            'text' => "You password and verify: $code"
+        ]);
+
+        return response()->json([
+            'message' => 'Пользователь успешно создан!'
+        ], 201);
+    }
+
     public function signup(Request $request)
     {
         $request->validate([
@@ -85,6 +117,41 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Пользователь успешно создан!'
         ], 201);
+    }
+
+    public function loginPhone(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
+        ]);
+
+        $credentials = request(['password']);
+        $credentials['active'] = 1;
+        $credentials['email'] = $request->get("phone")."@fastoran.com";
+        $credentials['deleted_at'] = null;
+
+        if (!Auth::attempt($credentials))
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+
+        $user = $request->user();
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
+
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString()
+        ]);
     }
 
     /**
