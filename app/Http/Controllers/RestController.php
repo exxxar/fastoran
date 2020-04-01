@@ -105,45 +105,9 @@ class RestController extends Controller
             ]);
     }
 
-    public function getOrderHistory()
-    {
 
-        $orders = Order::with(["details","restoran"])
-            ->where("user_id", auth()->guard('api')->user()->id)
-            ->get();
 
-        return response()
-            ->json([
-                "message" => "success",
-                "orders" => $orders,
-                "status" => 200
-            ]);
 
-    }
-
-    public function makeOrder(Request $request)
-    {
-
-        $order = Order::create($request->all());
-        $order->user_id = auth()->guard('api')->user()->id;
-        $order->save();
-
-        $order_details = $request->get("order_details");
-
-        foreach ($order_details as $od) {
-            $detail = OrderDetail::create($od);
-            $detail->order_id = $order->id;
-            $detail->save();
-        }
-
-        return response()
-            ->json([
-                "message" => "success",
-                "data" => $request->all(),
-                "status" => 200
-            ]);
-
-    }
 
     public function sendWish(Request $request)
     {

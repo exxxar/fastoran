@@ -58,6 +58,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('restorans', 'RestoransController@index');
         Route::any('menus', 'MenuController@index');
 
+        Route::any('/history', 'OrderController@getOrderHistory');
         Route::any('/restorans/menu/{restId}', 'MenuController@getMenuByRestId');
         Route::any('/kitchens/menu/{kitchenId}', 'KitchenController@getMenuByKitchenId');
 
@@ -106,7 +107,7 @@ Route::group(['prefix' => 'v1'], function () {
         'prefix' => 'methods',
         'middleware' => 'auth:api'
     ], function () {
-        Route::any('history', 'RestController@getOrderHistory');
+
         Route::post('order', 'RestContoller@makeOrder');
     });
 

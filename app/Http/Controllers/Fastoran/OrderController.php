@@ -69,6 +69,22 @@ class OrderController extends Controller
             ]);
     }
 
+    public function getOrderHistory()
+    {
+
+        $orders = Order::with(["details","restoran"])
+            ->where("user_id", auth()->guard('api')->user()->id)
+            ->get();
+
+        return response()
+            ->json([
+                "message" => "success",
+                "orders" => $orders,
+                "status" => 200
+            ]);
+
+    }
+
     /**
      * Display the specified resource.
      *
