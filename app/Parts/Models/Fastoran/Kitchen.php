@@ -35,7 +35,7 @@ class Kitchen extends Model
 
     public function restorans()
     {
-        return $this->belongsToMany(Restoran::class, 'kitchen_in_restorans', 'restoran_id', 'kitchen_id')
+        return $this->belongsToMany(Restoran::class, 'kitchen_in_restorans', 'kitchen_id', 'restoran_id')
             ->withTimestamps();
     }
 
