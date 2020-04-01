@@ -31,7 +31,7 @@ class RestMenu extends Model
         return $this->hasOne(MenuCategory::class, 'id', 'food_category_id');
     }
 
-    public function getRatingsAttribute()
+    public function getRatingAttribute()
     {
         return Rating::where("content_type", ContentTypeEnum::Menu)
             ->where('content_id', $this->id)
