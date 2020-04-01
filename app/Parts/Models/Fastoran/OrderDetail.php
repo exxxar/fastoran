@@ -14,4 +14,9 @@ class OrderDetail extends Model
         'price',
         'order_id'
     ];
+
+    public function product()
+    {
+        return $this->hasOne(RestMenu::class, 'id', 'product_id');
+    }
 }

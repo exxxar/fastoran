@@ -19,8 +19,6 @@ class OrderController extends Controller
     public function index(Request $request)
     {
 
-        $orders = Order::orderBy('id', 'DESC')
-            ->paginate(15);
 
         if ($request->ajax()) {
             $user = User::find(auth()->guard('api')->user()->id ?? 0);
@@ -40,6 +38,9 @@ class OrderController extends Controller
                     "status" => 200
                 ]);
         }
+
+        $orders = Order::orderBy('id', 'DESC')
+            ->paginate(15);
 
         return view('admin.orders.index', compact('orders'))
             ->with('i', ($request->get('page', 1) - 1) * 15);
@@ -96,7 +97,7 @@ class OrderController extends Controller
                     "status" => 404
                 ]);
 
-        $orders = Order::with(["details", "restoran"])
+        $orders = Order::with(["details", "restoran","details.product"])
             ->where("user_id", $user->id)
             ->get();
 
