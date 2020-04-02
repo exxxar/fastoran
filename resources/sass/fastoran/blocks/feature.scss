@@ -6,7 +6,7 @@
     background: #fff none repeat scroll 0 0;
     box-shadow: 0 0px 8px 0px rgba(1, 26, 27, 0.1);
     padding-bottom: 30px;
-    padding-top: 30px;
+    padding-top: 0px;
     transition: 0.3s;
     &:hover{
         box-shadow: 0 0px 16px 11px rgba(191, 191, 191, 0.1);
@@ -14,7 +14,10 @@
     .feature__thumb{
         a{
             img{
-                max-height: 198px;
+               // max-height: 198px;
+                height: 100%;
+                object-fit: fill;
+                width: 100%;
             }
         }
     }

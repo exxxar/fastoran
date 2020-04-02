@@ -12,10 +12,6 @@ class Kitchen extends Model
 {
     use CastsEnums;
 
-    protected $enumCasts = [
-        'user_type' => UserTypeEnum::class,
-    ];
-
     protected $fillable = [
         'name',
         'img',

@@ -27,26 +27,26 @@ class RestController extends Controller
             ->take(8)
             ->skip(0);
 
-       /* $kitchens = Kitchen::where("is_active", 1)
+        $kitchens = Kitchen::where("is_active", 1)
             ->get();
+        /*
+
+                $restorans = Restoran::where("moderation", true)
+                    ->take(12)
+                    ->skip(0)
+                    ->get();
 
 
-        $restorans = Restoran::where("moderation", true)
-            ->take(12)
-            ->skip(0)
-            ->get();
+                if ($request->ajax())
+                    return response()
+                        ->json([
+                            'kitchens' => $kitchens,
+                            'restorans' => $restorans
+                        ]);
 
+                return view("main", compact("kitchens", "restorans"));*/
 
-        if ($request->ajax())
-            return response()
-                ->json([
-                    'kitchens' => $kitchens,
-                    'restorans' => $restorans
-                ]);
-
-        return view("main", compact("kitchens", "restorans"));*/
-
-       return view("main",compact("random_menu"));
+       return view("main",compact("random_menu","kitchens"));
 
     }
 

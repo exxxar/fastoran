@@ -73,7 +73,7 @@ class AuthController extends Controller
             ]);
 
         return response()->json([
-            'message' => 'Пользователь успешно создан!'
+            'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
         ], 201);
     }
 
@@ -113,7 +113,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Пользователь успешно создан!'
+            'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
         ], 201);
     }
 
