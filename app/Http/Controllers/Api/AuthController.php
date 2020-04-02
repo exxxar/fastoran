@@ -69,7 +69,7 @@ class AuthController extends Controller
         if ($needSms)
             SemySMS::sendOne([
                 'to' => $request->phone,
-                'text' => "You password and verify: $code"
+                'text' => "Ваш пароль для доступа к ресурсу https://fastoran.com: $code"
             ]);
 
         return response()->json([
@@ -109,7 +109,7 @@ class AuthController extends Controller
 
         SemySMS::sendOne([
             'to' => $request->phone,
-            'text' => "You password and verify: $code"
+            'text' => "Ваш пароль для доступа к ресурсу https://fastoran.com: $code"
         ]);
 
         return response()->json([

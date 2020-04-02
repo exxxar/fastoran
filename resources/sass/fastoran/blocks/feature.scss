@@ -74,7 +74,7 @@
 
 
 
-    
+
 }
 
 @media #{$md-layout}{
@@ -102,7 +102,7 @@
 
 /*---------------------------
   Choose Us Area
-------------------------------*/ 
+------------------------------*/
 
 .choose__wrap{
   p{
@@ -152,7 +152,7 @@
 
 
 
-    
+
 }
 
 @media #{$md-layout}{
@@ -225,7 +225,7 @@
 
 /*---------------------------
   Special Offer Area
-------------------------------*/ 
+------------------------------*/
 
 
 
@@ -246,7 +246,7 @@
             width: 86px;
             z-index: 1;
             &::before {
-                background: #60ba62 none repeat scroll 0 0;
+                background: #f47101 none repeat scroll 0 0;
                 content: "";
                 height: 100%;
                 margin-left: -62px;
@@ -254,12 +254,13 @@
                 transform: skewX(-25deg);
                 transition: all 0.5s ease 0s;
                 width: 100%;
+                border-radius: 0px 20px 20px 0px;
                 z-index: -1;
             }
             span{
                 color: #ffffff;
                 display: block;
-                font-size: 26px;
+                font-size: 20px;
                 font-weight: 700;
                 margin-left: -25px;
 
@@ -316,7 +317,7 @@
 
 @media #{$lg-layout}{
 
-    
+
 }
 
 @media #{$md-layout}{

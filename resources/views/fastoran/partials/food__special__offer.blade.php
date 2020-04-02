@@ -3,34 +3,36 @@
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="section__title title__style--2 service__align--center">
-                    <h2 class="title__line">Our Special Offer</h2>
-                    <p>The process of our service </p>
+                    <h2 class="title__line">Случайные товары<br>наших партнеров</h2>
+                    <p>Возможно, это то что ты ищещь! </p>
                 </div>
             </div>
         </div>
         <div class="row mt--40">
+            @foreach($random_menu as $product)
             <!-- Start Single Offer -->
             <div class="col-md-6 col-sm-12 col-lg-3">
                 <div class="food__offer text-center foo">
                     <div class="offer__thumb poss--relative">
-                        <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/product/offer-product/1.jpg"
+                        <img src="{{$product->food_img}}"
                              alt="offer images">
                         <div class="offer__product__prize">
-                            <span>$25</span>
+                            <span>{{$product->food_price}}₽</span>
                         </div>
                     </div>
                     <div class="offer__details">
-                        <h2><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/menu-details.html">Pastry Combo
-                                Pack</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.</p>
+                        <h2><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/menu-details.html">{{$product->food_name}}</a></h2>
+                        <p>{{$product->food_remark}}</p>
                         <div class="offer__btn">
-                            <a class="food__btn grey--btn mid-height" href="menu-details.html">Order Now</a>
+                            <a class="food__btn grey--btn mid-height" href="menu-details.html">Заказать сейчас</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Start Single Offer -->
-            <!-- Start Single Offer -->
+
+            @endforeach
+      {{--      <!-- Start Single Offer -->
             <div class="col-md-6 col-sm-12 col-lg-3">
                 <div class="food__offer text-center foo">
                     <div class="offer__thumb poss--relative">
@@ -94,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Start Single Offer -->
+            <!-- Start Single Offer -->--}}
         </div>
     </div>
     <!-- Start Banner Area -->

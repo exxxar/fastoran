@@ -8,6 +8,7 @@ use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 
+use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
@@ -20,8 +21,15 @@ class RestController extends Controller
 
     public function getMainPage(Request $request)
     {
+
+        $random_menu = RestMenu::all()
+            ->shuffle()
+            ->take(8)
+            ->skip(0);
+
        /* $kitchens = Kitchen::where("is_active", 1)
             ->get();
+
 
         $restorans = Restoran::where("moderation", true)
             ->take(12)
@@ -38,7 +46,7 @@ class RestController extends Controller
 
         return view("main", compact("kitchens", "restorans"));*/
 
-       return view("main");
+       return view("main",compact("random_menu"));
 
     }
 
