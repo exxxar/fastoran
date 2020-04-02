@@ -50,7 +50,7 @@ class RestController extends Controller
             return response()
                 ->json([
                     'restorans' => $restorans,
-                    'kitchens' => Kitchen::where("view",1)->get()
+                    'kitchens' => Kitchen::where("is_active",1)->get()
                 ]);
 
         return view("rest-list", compact("restorans"));

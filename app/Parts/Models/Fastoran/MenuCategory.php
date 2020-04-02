@@ -11,7 +11,6 @@ class MenuCategory extends Model
 
     protected $fillable = [
         'name',
-        'rest_id',
         'sort',
     ];
 
@@ -26,8 +25,10 @@ class MenuCategory extends Model
         return $this->hasMany(RestMenu::class, 'food_category_id', 'id');
     }
 
-    public function restoran()
+    public function restorans()
     {
-        return $this->hasOne(Restoran::class, 'id', 'rest_id');
+        return $this->belongsToMany(Restoran::class, 'restoran_in_categories', 'restoran_id', 'category_id')
+            ->withTimestamps();
     }
+
 }

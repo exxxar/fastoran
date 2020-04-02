@@ -30,29 +30,46 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
             'telegram_chat_id' => 'required',
         ]);
 
         $code = random_int(100000, 999999);
 
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email ?? $request->phone . "@fastoran.com",
-            'password' => bcrypt($code),
-            'phone' => $request->phone,
-            'active' => false,
-            'auth_code' => $code,
-            'telegram_chat_id' => $request->telegram_chat_id,
-            'activation_token' => Str::random(60)
-        ]);
+        $user = User::where("phone", $request->get("phone"))->first();
 
-        $user->save();
+        $needSms = false;
 
-        SemySMS::sendOne([
-            'to' => $request->phone,
-            'text' => "You password and verify: $code"
-        ]);
+        if (!is_null($user))
+            if (is_null($user->telegram_chat_id)) {
+                $user->telegram_chat_id = $request->get("telegram_chat_id");
+                $user->auth_code = $code;
+                $user->password = bcrypt($code);
+                $user->save();
+
+                $needSms = true;
+            }
+
+
+        if (is_null($user)) {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email ?? $request->phone . "@fastoran.com",
+                'password' => bcrypt($code),
+                'phone' => $request->phone,
+                'active' => false,
+                'auth_code' => $code,
+                'telegram_chat_id' => $request->telegram_chat_id,
+                'activation_token' => Str::random(60)
+            ]);
+            $needSms = true;
+        }
+
+        if ($needSms)
+            SemySMS::sendOne([
+                'to' => $request->phone,
+                'text' => "You password and verify: $code"
+            ]);
 
         return response()->json([
             'message' => 'Пользователь успешно создан!'
@@ -127,8 +144,8 @@ class AuthController extends Controller
             'remember_me' => 'boolean'
         ]);
 
-        $user = User::where("auth_code",$request->get("password"))
-            ->where("phone",$request->get("phone"))
+        $user = User::where("auth_code", $request->get("password"))
+            ->where("phone", $request->get("phone"))
             ->first();
 
         if (!is_null($user)) {
@@ -138,7 +155,7 @@ class AuthController extends Controller
 
         $credentials = request(['password']);
         $credentials['active'] = 1;
-        $credentials['email'] = $request->get("phone")."@fastoran.com";
+        $credentials['email'] = $request->get("phone") . "@fastoran.com";
         $credentials['deleted_at'] = null;
 
         if (!Auth::attempt($credentials))
@@ -336,7 +353,7 @@ class AuthController extends Controller
             ->json([
                 "message" => "Success user found",
                 "is_deliveryman" => $user->user_type === UserTypeEnum::Deliveryman,
-                "verify"=>$user->active,
+                "verify" => $user->active == true,
                 "status" => 200
             ]);
     }

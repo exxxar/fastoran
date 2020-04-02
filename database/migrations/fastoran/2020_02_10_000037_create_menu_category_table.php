@@ -27,11 +27,11 @@ class CreateMenuCategoryTable extends Migration
             $table->string('name', 80)->default('');
             $table->integer('sort')->default(0);
 
-            $table->unsignedInteger('rest_id');
+           /* $table->unsignedInteger('rest_id');
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('rest_id')->references('id')->on('restorans');
-            }
+            }*/
 
             $table->timestamps();
         });

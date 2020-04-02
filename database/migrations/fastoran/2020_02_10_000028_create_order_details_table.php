@@ -28,7 +28,7 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('count')->default(0);
             $table->integer('price')->default(0);
 
-            $table->unsignedInteger('order_id');
+            $table->unsignedInteger('order_id')->nullable();
             $table->unsignedInteger('product_id');
 
             if (env("DB_CONNECTION") == 'mysql') {

@@ -25,7 +25,7 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('rest_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
 
             $table->unsignedInteger('deliveryman_id')->nullable();
 
