@@ -303,7 +303,7 @@ class OrderController extends Controller
 
                 'status' => \App\Enums\OrderStatusEnum::InProcessing,
 
-                'delivery_price' => (20 + (10 * 15)),
+                'delivery_price' => (20 + ($range * 15)),
                 'delivery_range' => $range,
                 'delivery_note' => "Доставить крабиком",
 
