@@ -10,6 +10,7 @@ use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class OrderController extends Controller
@@ -294,7 +295,9 @@ class OrderController extends Controller
 
         foreach ($restorans as $rest) {
 
-            $range =$this->calculateTheDistance($lat,$lon,$rest->latitude, $rest->longitude);
+            $range = ($this->calculateTheDistance($lat,$lon,$rest->latitude, $rest->longitude)/1000);
+
+            Log::info("RANGE=$range");
 
             $order = Order::create([
                 'rest_id' => $rest->id,
