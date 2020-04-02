@@ -35,6 +35,10 @@ class CreateUsersTable extends Migration
             $table->date('birthday')->nullable();
 
             $table->integer('bonus')->default(0);
+            $table->integer('trusted_count')->default(0);
+            $table->integer('trusted_limit')->default(1000);
+
+            $table->boolean('is_trusted')->default(false);
 
             $table->string('adress', 20)->default('');
 

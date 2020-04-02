@@ -35,6 +35,9 @@ class User extends Authenticatable
         'social',
         'active',
         'password',
+        'trusted_count',
+        'trusted_limit',
+        'is_trusted',
     ];
 
     /**

@@ -1,0 +1,106 @@
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,800');
+@import url('https://fonts.googleapis.com/css?family=Alegreya:400,400i,500,500i,600,700i,700,900');
+
+/*Basic styles*/
+@import 'basic/reset';
+@import 'basic/typography';
+@import 'basic/helper-class';
+
+@import 'elements/section-title';
+@import 'elements/button';
+
+/*Blocks*/
+
+@import 'blocks/header';
+@import 'blocks/navigation';
+@import 'blocks/banner';
+@import 'blocks/footer';
+@import 'blocks/slider';
+@import 'blocks/service';
+@import 'blocks/product';
+@import 'blocks/testimonial';
+@import 'blocks/blog';
+@import 'blocks/about';
+@import 'blocks/pizza';
+@import 'blocks/counterup';
+@import 'blocks/feature';
+@import 'blocks/team';
+@import 'blocks/contact';
+@import 'blocks/bradcaump';
+@import 'blocks/menu-grid';
+@import 'blocks/pagination';
+@import 'blocks/menu-list';
+@import 'blocks/gallery';
+@import 'blocks/blog-list';
+@import 'blocks/blog-masonry';
+@import 'blocks/about-us';
+@import 'blocks/accordion';
+@import 'blocks/sidebar';
+@import 'blocks/blog-grid';
+@import 'blocks/blog-details';
+@import 'blocks/cart';
+@import 'blocks/menu-details';
+@import 'blocks/login';
+@import 'blocks/cartbox';
+@import 'blocks/checkout';
+@import 'blocks/responsive';
+
+
+@import "plugins";
+
+.countdown {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.countdown span {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 3rem;
+    margin-left: 0.8rem;
+}
+
+.countdown span:first-of-type {
+    margin-left: 0;
+}
+
+.countdown-circles {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.countdown-circles span {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.countdown-circles span:first-of-type {
+    margin-left: 0;
+}
+
+.bg-gradient-3 {
+    background: transparent;
+    // background: -webkit-linear-gradient(to right, #ff416c, #ff4b2b);
+    // background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
+
+.text-orange {
+    color:darkorange;
+    p {
+        font-size: 54px;
+        line-height: 150%;
+        font-family: "Alegreya", serif;
+    }
+}
+
+div#sticky-header-with-topbar {
+    background: #ffd84a;
+}
+
+// Practise
