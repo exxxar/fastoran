@@ -83,14 +83,19 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");
 
         Route::group([
-            'middleware' => 'auth:api'
+            'middleware' => 'auth:api',
+
         ], function () {
             Route::any('logout', 'AuthController@logout');
             Route::any('user', 'AuthController@user');
 
-            Route::any("accept_order/{id}","OrderController@acceptOrder");
-            Route::any("deliveryman_orders","OrderController@getDeliverymanOrders");
-            Route::any("decline_order/{id}","OrderController@declineOrder");
+            Route::group([
+                'namespace' => 'Fastoran',
+            ], function () {
+                Route::any("accept_order/{id}", "OrderController@acceptOrder");
+                Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
+                Route::any("decline_order/{id}", "OrderController@declineOrder");
+            });
         });
     });
 
