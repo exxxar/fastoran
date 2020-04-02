@@ -138,4 +138,4 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
     return view('home', compact("auth", "token"));
 });
 
-Route::get("/test_order", 'Fastoran/OrderController@testOrder');
+Route::get("/test_order", 'Fastoran\OrderController@testOrder');
