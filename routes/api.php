@@ -107,9 +107,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('create', 'PasswordResetController@create');
         Route::get('find/{token}', 'PasswordResetController@find');
         Route::post('reset', 'PasswordResetController@reset');
-        Route::get('test', function () {
-            return "test";
-        });
+
     });
 
     Route::group([
