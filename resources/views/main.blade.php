@@ -21,18 +21,20 @@
     <!-- Start Choose us Area -->
     @include("fastoran.partials.food_choose_us")
     <!-- End Choose us Area -->
+    <!-- Start Food Staf Area -->
+    @include("fastoran.partials.food__stuff__area")
+    <!-- End Food Staf Area -->
     <!-- Start Special Offer -->
     @include("fastoran.partials.food__special__offer")
     <!-- End Special Offer -->
+
     <!-- Start Popular Food Area -->
     @include("fastoran.partials.popular__food__area")
     <!-- End Popular Food Area -->
     <!-- Start Our Team Area -->
     {{--@include("fastoran.partials.food__team__area")--}}
     <!-- End Our Team Area -->
-    <!-- Start Food Staf Area -->
-    {{--  @include("fastoran.partials.food__stuff__area")--}}
-    <!-- End Food Staf Area -->
+
     <!-- Start Blog Area -->
     {{--@include("fastoran.partials.fb__blog__area")--}}
     <!-- End Blog Area -->

@@ -81,8 +81,16 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
         ]);
+
+        $user = User::where("phone",$request->get("phone"))
+            ->first();
+
+        if (!is_null($user))
+            return response()->json([
+                'message' => 'Пользователь с таким телефоном уже зарегестрирован'
+            ], 200);
 
         $code = random_int(100000, 999999);
 
