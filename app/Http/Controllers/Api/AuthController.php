@@ -42,6 +42,7 @@ class AuthController extends Controller
 
         if (!is_null($user))
             if (is_null($user->telegram_chat_id)) {
+                $user->name = $request->get("name")??$user->name??$request->get("phone");
                 $user->telegram_chat_id = $request->get("telegram_chat_id");
                 $user->auth_code = $code;
                 $user->password = bcrypt($code);
