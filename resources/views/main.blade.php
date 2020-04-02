@@ -56,7 +56,7 @@
     <!-- End Subscribe Area -->
 
     <!-- Start Footer Area -->
-    @include("fastoran.partials.food__contact")
+  {{--  @include("fastoran.partials.food__contact")--}}
     @include("fastoran.partials.food__contact__form")
     @include("fastoran.partials.footer__area")
 

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
 
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\User;
 use Illuminate\Http\Request;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class OrderController extends Controller
 {
@@ -97,7 +99,7 @@ class OrderController extends Controller
                     "status" => 404
                 ]);
 
-        $orders = Order::with(["details", "restoran","details.product"])
+        $orders = Order::with(["details", "restoran", "details.product"])
             ->where("user_id", $user->id)
             ->get();
 
@@ -153,5 +155,121 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function acceptOrder(Request $request, $orderId)
+    {
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = User::find($request->user()->id);
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Deliveryman not found!"
+                ], 200);
+
+        if ($user->user_type !== UserTypeEnum::Deliveryman)
+            return response()
+                ->json([
+                    "message" => "You are not deliveryman"
+                ], 200);
+
+        if (is_null($order))
+            return response()
+                ->json([
+                    "message" => "Order not found!"
+                ], 404);
+
+        if (!is_null($order->deliveryman_id))
+            return response()
+                ->json([
+                    "message" => "Order was already taken!"
+                ], 200);
+
+        $order->deliveryman_id = $user->id;
+        $order->save();
+
+        $message = sprintf("Заказ *#%s* взят доставщиком *#%s*",
+            $order->id,
+            $user->id
+        );
+
+        Telegram::sendMessage([
+            'chat_id' => $order->restoran->telegram_channel,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+        ]);
+
+        return response()
+            ->json([
+                "message" => "Success"
+            ], 200);
+    }
+
+    public function declineOrder(Request $request, $orderId)
+    {
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = User::find($request->user()->id);
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Deliveryman not found!"
+                ], 200);
+
+        if ($user->user_type !== UserTypeEnum::Deliveryman)
+            return response()
+                ->json([
+                    "message" => "You are not deliveryman"
+                ], 200);
+
+        if (is_null($order))
+            return response()
+                ->json([
+                    "message" => "Order not found!"
+                ], 404);
+
+        if ($order->deliveryman_id !== $user->id)
+            return response()
+                ->json([
+                    "message" => "Order linked with another Deliveryman!"
+                ], 200);
+
+        $order->deliveryman_id = null;
+        $order->save();
+
+        $message = sprintf("Доставщик *#%s* отказался от заказа *#%s*",
+            $user->id,
+            $order->id
+        );
+
+        Telegram::sendMessage([
+            'chat_id' => $order->restoran->telegram_channel,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+        ]);
+
+        return response()
+            ->json([
+                "message" => "Success"
+            ], 200);
+    }
+
+    public function getDeliverymanOrders(Request $request)
+    {
+        $orders = Order::with(["details"])
+            ->where("deliveryman_id", $request->user()->id)
+            ->get();
+
+        return response()
+            ->json([
+                "orders" => $orders
+            ]);
     }
 }

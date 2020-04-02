@@ -87,6 +87,10 @@ Route::group(['prefix' => 'v1'], function () {
         ], function () {
             Route::any('logout', 'AuthController@logout');
             Route::any('user', 'AuthController@user');
+
+            Route::any("accept_order/{id}","OrderController@acceptOrder");
+            Route::any("deliveryman_orders","OrderController@getDeliverymanOrders");
+            Route::any("decline_order/{id}","OrderController@declineOrder");
         });
     });
 
