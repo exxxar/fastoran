@@ -7,12 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
 
 use App\Parts\Models\Fastoran\OrderDetail;
+use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class OrderController extends Controller
 {
+
+    const EARTH_RADIUS =  6372795;
     /**
      * Display a listing of the resource.
      *
@@ -263,7 +266,7 @@ class OrderController extends Controller
 
     public function getDeliverymanOrders(Request $request)
     {
-        $orders = Order::with(["details"])
+        $orders = Order::with(["details","restoran"])
             ->where("deliveryman_id", $request->user()->id)
             ->get();
 
@@ -271,5 +274,137 @@ class OrderController extends Controller
             ->json([
                 "orders" => $orders
             ]);
+    }
+
+
+    public function testOrder(){
+        $restorans = Restoran::with(["menus"])->get();
+
+        $user = User::where("phone", "+380713007745")->first();
+
+        // $deliveryman = User::where("user_type", \App\Enums\UserTypeEnum::Deliveryman)->first();
+
+        $phone = $user->phone;
+
+        $lat = 48.009458;
+        $lon = 37.801970;
+
+
+
+
+        foreach ($restorans as $rest) {
+
+            $range =$this->calculateTheDistance($lat,$lon,$rest->latitude, $rest->longitude);
+
+            $order = Order::create([
+                'rest_id' => $rest->id,
+                'user_id' => $user->id,
+                'deliveryman_id' => null,
+
+                'status' => \App\Enums\OrderStatusEnum::InProcessing,
+
+                'delivery_price' => (20 + (10 * 15)),
+                'delivery_range' => $range,
+                'delivery_note' => "Доставить крабиком",
+
+                'receiver_name' => $user->name,
+                'receiver_phone' => $user->phone,
+
+                'receiver_delivery_time' => "18:00",
+                'receiver_address' => "г.Донецк, ул. Артема, 2а",
+                'receiver_order_note' => "TEST",
+                'receiver_domophone' => "0000",
+
+                'created_at' => \Carbon\Carbon::now("+3:00")
+            ]);
+
+            $menus = $rest->menus->shuffle();
+
+            $limit = random_int(1, min(count($menus), 10));
+            $delivery_order_tmp = "";
+            $summ = 0;
+            foreach ($menus as $product) {
+
+                $order_detail = OrderDetail::create([
+                    'product_id' => $product->id,
+                    'count' => 5,
+                    'price' => $product->food_price,
+                    'order_id' => $order->id
+                ]);
+
+                $local_tmp = sprintf("#%s %s %s шт. %s руб.\n",
+                    $product->id,
+                    $product->food_name,
+                    5,
+                    $product->food_price
+                );
+
+                $summ += $product->food_price * 5;
+
+                $delivery_order_tmp .= $local_tmp;
+
+                $limit--;
+
+                if ($limit === 0)
+                    break;
+            }
+
+            $channel = $rest->telegram_channel;
+
+            $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
+                $rest->name,
+                $user->name,
+                $phone,
+                $delivery_order_tmp,
+                $order->delivery_price,
+                $summ
+            );
+
+            $tmp = "" . $order->id;
+            while (strlen($tmp) < 10)
+                $tmp = "0" . $tmp;
+
+            Telegram::sendMessage([
+                'chat_id' => $channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => [
+                        [
+                            ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                            ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                        ]
+                    ]
+                ])
+
+            ]);
+        }
+    }
+    protected function calculateTheDistance ($fA, $lA, $fB, $lB) {
+
+// перевести координаты в радианы
+        $lat1 = $fA * M_PI / 180;
+        $lat2 = $fB * M_PI / 180;
+        $long1 = $lA * M_PI / 180;
+        $long2 = $lB * M_PI / 180;
+
+// косинусы и синусы широт и разницы долгот
+        $cl1 = cos($lat1);
+        $cl2 = cos($lat2);
+        $sl1 = sin($lat1);
+        $sl2 = sin($lat2);
+        $delta = $long2 - $long1;
+        $cdelta = cos($delta);
+        $sdelta = sin($delta);
+
+// вычисления длины большого круга
+        $y = sqrt(pow($cl2 * $sdelta, 2) + pow($cl1 * $sl2 - $sl1 * $cl2 * $cdelta, 2));
+        $x = $sl1 * $sl2 + $cl1 * $cl2 * $cdelta;
+
+//
+        $ad = atan2($y, $x);
+        $dist = $ad * self::EARTH_RADIUS;
+
+        return $dist;
     }
 }

@@ -33,6 +33,10 @@ class CreateRestoransTable extends Migration
 
             $table->string('region')->default('')->comment('район');
 
+
+            $table->string('latitude')->nullable()->comment('широта');
+            $table->string('longitude')->nullable()->comment('долгота');
+
             $table->string('phone1', 50)->default('')->comment('Телефон1');
             $table->string('phone2', 50)->default('')->comment('Телефон2');
             $table->string('site', 50)->default('')->comment('сайт');

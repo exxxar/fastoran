@@ -14,6 +14,9 @@ class Restoran extends Model
         'name',
         'description',
 
+        'latitude',
+        'longitude',
+
         'adress',
         'orientir',
 
