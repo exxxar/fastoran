@@ -43,7 +43,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price", "restoran_name";
+    protected $appends = ["summary_count", "summary_price", "restoran_name"];
 
     public function details()
     {

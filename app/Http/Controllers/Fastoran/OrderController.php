@@ -74,10 +74,12 @@ class OrderController extends Controller
     {
 
         $user = User::find(auth()->guard('api')->user()->id);
+
         $order = Order::create($request->all());
+
         $order->user_id = $user->id;
-        $order->latitude = $request->get("receiver_latitude");
-        $order->longitude = $request->get("receiver_longitude");
+        $order->latitude = $request->get("receiver_latitude")??null;
+        $order->longitude = $request->get("receiver_longitude")??null;
         $order->save();
 
         $order_details = $request->get("order_details");
