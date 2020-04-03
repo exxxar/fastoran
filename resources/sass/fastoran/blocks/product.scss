@@ -41,19 +41,22 @@
 			    z-index: 1;
 			    transition: 0.5s;
 			    &:before {
-				    position:  absolute;
-				    content:  "";
-				    width: 302px;
-				    z-index: -1;
-				    top: 50%;
-				    height: 99px;
-				    background: url("images/icon/lg-shape/1.png");
-				    left:  50%;
-				    transform: translateX(-50%) translateY(-50%);
+                    position: absolute;
+                    content: "";
+                    width: 200px;
+                    z-index: -1;
+                    top: 50%;
+                    height: 99px;
+                    background: url(../images/icon/lg-shape/1.png);
+                    left: 50%;
+                    transform: translateX(-50%) translateY(-50%);
+                    background-size: contain;
+                    background-position: center center;
+                    background-repeat: no-repeat;
 				}
 				a{
 					color: #fff;
-					font-size:  26px;
+					font-size:  20px;
     				color: #ffffff;
     				@include transition(0.4s);
     				&:hover{
@@ -62,13 +65,33 @@
 				}
 			}
 		}
+
+        .food__label {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            margin: auto;
+            z-index: 5;
+
+            color: white;
+            display: flex;
+            justify-content: center;
+            border-radius: 10px 10px 0px 0px;
+            p {
+                font-size: 10px;
+                background: #d50c0d;
+                padding: 5px 15px;
+                border-radius: 10px 10px 0px 0px;
+            }
+        }
 	}
 }
 
 
 @media #{$lg-layout}{
 
-	
+
 }
 
 @media #{$md-layout}{
@@ -291,7 +314,7 @@
 	}
 }
 
-	
+
 }
 @media #{$md-layout}{
 
@@ -502,7 +525,7 @@
 
 
 @media #{$lg-layout}{
-			
+
 	.food__sideimg--1 {
 	  left: 8%;
 	  top: 35px;
@@ -525,7 +548,7 @@
 
 
 
-	
+
 }
 
 @media #{$md-layout}{
@@ -553,7 +576,7 @@
 
 
 
-	
+
 }
 @media #{$sm-layout}{
 
@@ -566,7 +589,7 @@
 	.food__sideimg--1 {
 	  display: none;
 	}
-	
+
 	.single__tab__content + .single__tab__content {
 	  margin-top: 110px;
 	}

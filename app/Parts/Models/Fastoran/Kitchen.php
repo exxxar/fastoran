@@ -26,7 +26,7 @@ class Kitchen extends Model
     protected $appends = ["rest_count","rating"];
 
     public function getRestCountAttribute(){
-        return 0;
+        return $this->restorans()->count();
     }
 
     public function restorans()

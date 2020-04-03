@@ -22,6 +22,7 @@ class RestController extends Controller
     public function getMainPage(Request $request)
     {
 
+        $sliderIndex = random_int(1,3);
         $random_menu = RestMenu::all()
             ->shuffle()
             ->take(8)
@@ -46,7 +47,7 @@ class RestController extends Controller
 
                 return view("main", compact("kitchens", "restorans"));*/
 
-       return view("main",compact("random_menu","kitchens"));
+       return view("main",compact("random_menu","kitchens","sliderIndex"));
 
     }
 

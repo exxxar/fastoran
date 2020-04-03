@@ -31,10 +31,11 @@ Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->name("kitchen");
 
-Route::view("/about", "about")->name("about");
-Route::view("/partner", "partner")->name("partner");
-Route::view("/agreement", "agreement")->name("agreement");
-Route::view("/questions", "questions")->name("questions");
+Route::view("/about", "fastoran.about")->name("about");
+Route::view("/partner", "fastoran.partner")->name("partner");
+Route::view("/agreement", "fastoran.agreement")->name("agreement");
+Route::view("/questions", "fastoran.questions")->name("questions");
+Route::view("/contacts", "fastoran.contacts")->name("contacts");
 
 Route::post('/save', 'ContentController@save')->name("test.save");
 

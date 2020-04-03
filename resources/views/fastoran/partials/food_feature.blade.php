@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="section__title title__style--2 service__align--center">
-                    <h2 class="title__line">Широкий выбор кухни</h2>
+                    <h2 class="title__line">Широкий выбор кухонь</h2>
                     <p>Возможно, это то что ты ищещь! </p>
                 </div>
             </div>

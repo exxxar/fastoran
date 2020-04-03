@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicons -->
-    <link rel="shortcut icon" href="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/favicon.ico">
-    <link rel="apple-touch-icon" href="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon.png">
+    <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
+    <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
 
     <!-- Stylesheets -->
 

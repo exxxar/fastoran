@@ -14,8 +14,8 @@
                     <div class="main__menu__wrap">
                         <nav class="main__menu__nav d-none d-lg-block">
                             <ul class="mainmenu">
-                                <li><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/about-us.html">О Нас</a></li>
-                                <li><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/contact.html">Контакты</a></li>
+                                <li><a href="{{route("about")}}">О Нас</a></li>
+                                <li><a href="{{route("contacts")}}">Контакты</a></li>
                             </ul>
                         </nav>
 
