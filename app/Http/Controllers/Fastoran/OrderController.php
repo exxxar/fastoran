@@ -119,7 +119,7 @@ class OrderController extends Controller
         );
 
         $order->delivery_price = $deliver_price;
-        $order->delivery_range = $range;
+        $order->delivery_range = floatval(sprintf("%.2f",$range));
 
         $order->save();
 

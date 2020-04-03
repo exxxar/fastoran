@@ -14,7 +14,7 @@
 	.choose__img--1 img {
 	  width: 69%;
 	}
-			
+
 	.choose__img--2 {
 	  bottom: 1px;
 	  left: -64px;
@@ -35,7 +35,7 @@
 	.slide__pizza--3 {
 	  bottom: -17%;
 	  right: -132px;
-	}	
+	}
 	.slide__pizza--3 img {
 	  width: 77%;
 	}
@@ -106,7 +106,7 @@
 	.slide__pizza--3 {
 	  bottom: -17%;
 	  right: -132px;
-	}	
+	}
 	.slide__pizza--3 img {
 	  width: 77%;
 	}
@@ -116,7 +116,7 @@
 	.slide__pizza--2 {
 	  left: -22%;
 	  top: -59%;
-	}	
+	}
 	.slider--three .slide .slider__content .slider__inner h1 {
 	  font-size: 130px;
 	  margin-bottom: 26px;
@@ -125,7 +125,7 @@
 	  font-size: 99px;
 	  margin-bottom: 26px;
 	  line-height: 124px;
-	}	
+	}
 
 	.slider__inner h1 img {
 	  width: 89%;
@@ -197,6 +197,9 @@
 }
 
 @media #{$sm-layout}{
+    .countdown {
+        font-size: 10px;
+    }
 	.header__right {
 		left: 114px;
 		position: relative;
@@ -207,7 +210,15 @@
 	.slide__pizza--3,
 	.subscri__shape--1{
 	  display: none;
-	}	
+	}
+    .slider--three .slide .slider__content .slider__inner h2 {
+        font-size: 24px;
+    }
+
+    .slider--three .slide .slider__content .slider__inner .text-orange p {
+        font-size: 36px;
+    }
+
 	.slider--three .slide .slider__content .slider__inner h1 {
 	  font-size: 130px;
 	  margin-bottom: 26px;
@@ -469,9 +480,6 @@
 
 
 }
-
-
-
 
 @media #{$xs-layout}{
 
