@@ -24,7 +24,8 @@
                 <div class="col-lg-1 col-sm-4 col-md-4 order-2 order-lg-3">
                     <div class="header__right d-flex justify-content-end">
                         <div class="log__in">
-                            <a class="accountbox-trigger" href="#"><i class="zmdi zmdi-account-o"></i></a>
+                           {{-- <a class="accountbox-trigger" href="#"><i class="zmdi zmdi-account-o"></i></a>--}}
+                            
                         </div>
                         <div class="shopping__cart">
                             <a class="minicart-trigger" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>

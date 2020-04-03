@@ -4,6 +4,7 @@ namespace App\Parts\Models\Fastoran;
 
 use App\Classes\Utilits;
 use App\Enums\ContentTypeEnum;
+use App\Enums\OrderStatusEnum;
 use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class Order extends Model
     use CastsEnums, Utilits;
 
     protected $enumCasts = [
-        'status' => ContentTypeEnum::class,
+        'status' => OrderStatusEnum::class,
     ];
 
 
@@ -43,7 +44,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price", "restoran_name"];
+    protected $appends = ["summary_count", "summary_price", "restoran_name","status_text"];
 
     public function details()
     {
@@ -64,6 +65,17 @@ class Order extends Model
     public function restoran()
     {
         return $this->hasOne(Restoran::class, 'id', 'rest_id');
+    }
+
+    public function getStatusTextAttribute()
+    {
+        switch ($this->status){
+            default:
+            case 0: return "В обрабокте";
+            case 1: return "Готовится";
+            case 2: return "Доставляется";
+            case 3: return "Доставлено";
+        }
     }
 
     public function getRestoranNameAttribute()

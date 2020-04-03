@@ -1,10 +1,10 @@
-<div class="custom-cartbox-wrap">
+<div class="cartbox-wrap custom-cartbox-wrap">
     <div class="cartbox text-right">
         <button class="cartbox-close"><i class="zmdi zmdi-close"></i></button>
         <div class="cartbox__inner text-left">
             <div class="cartbox__items">
                 <!-- Cartbox Single Item -->
-                <div class="cartbox__item">
+     {{--           <div class="cartbox__item">
                     <div class="cartbox__item__thumb">
                         <a href="product-details.html">
                             <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/blog/sm-img/1.jpg"
@@ -56,7 +56,7 @@
                     <button class="cartbox__item__remove">
                         <i class="fa fa-trash"></i>
                     </button>
-                </div><!-- //Cartbox Single Item -->
+                </div><!-- //Cartbox Single Item -->--}}
             </div>
             <div class="cartbox__total">
                 <ul>

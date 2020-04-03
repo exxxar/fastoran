@@ -15,7 +15,7 @@
                                 </div>
                                 <h1>“FASTORAN”</h1>
                                 <div class="slider__btn">
-                                    <a class="food__btn minicart-trigger" href="#">Заказать что угодно!</a>
+                                    <a class="food__btn custom-minicart-trigger" href="#">Заказать что угодно!</a>
                                 </div>
                             </div>
                         </div>
