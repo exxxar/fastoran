@@ -14,13 +14,14 @@
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
-                                    <span class="count">2456</span>
+                                    <span class="count">{{$kitchens_count}}</span>
                                 </div>
                             </div>
                             <div class="fact__title">
-                                <h2>Menu</h2>
+                                <h2>Кухонь</h2>
                             </div>
                         </div>
+
                     </div>
                     <!-- End Single Fact -->
                     <!-- Start Single Fact -->
@@ -33,11 +34,11 @@
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
-                                    <span class="count">2456</span>
+                                    <span class="count">{{$restorans_count}}</span>
                                 </div>
                             </div>
                             <div class="fact__title">
-                                <h2>Foods</h2>
+                                <h2>Ресторанов-партнеров</h2>
                             </div>
                         </div>
                     </div>
@@ -52,11 +53,12 @@
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
-                                    <span class="count">2456</span>
+                                    <span class="count">{{$menus_count}}</span>
                                 </div>
+
                             </div>
                             <div class="fact__title">
-                                <h2>Chef</h2>
+                                <h2>Товаров в меню</h2>
                             </div>
                         </div>
                     </div>
@@ -71,11 +73,11 @@
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
-                                    <span class="count">2456</span>
+                                    <span class="count">{{$user_count}}</span>
                                 </div>
                             </div>
                             <div class="fact__title">
-                                <h2>Happy Client</h2>
+                                <h2>Довольный клиентов</h2>
                             </div>
                         </div>
                     </div>

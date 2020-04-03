@@ -27,6 +27,9 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('rest_id');
             $table->unsignedInteger('user_id')->nullable();
 
+            $table->string('latitude')->nullable()->comment('широта');
+            $table->string('longitude')->nullable()->comment('долгота');
+
             $table->unsignedInteger('deliveryman_id')->nullable();
 
             $table->integer('status')->default(\App\Enums\OrderStatusEnum::InProcessing);

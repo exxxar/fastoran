@@ -2,14 +2,16 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use App\Classes\Utilits;
 use App\Enums\ContentTypeEnum;
+use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
 
-    use CastsEnums;
+    use CastsEnums, Utilits;
 
     protected $enumCasts = [
         'status' => ContentTypeEnum::class,
@@ -20,6 +22,9 @@ class Order extends Model
         'rest_id',
         'user_id',
         'deliveryman_id',
+
+        'latitude',
+        'longitude',
 
         'status',
 
@@ -38,17 +43,32 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price"];
+    protected $appends = ["summary_count", "summary_price", "restoran_name"];
 
     public function details()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function deliveryman()
+    {
+        return $this->hasOne(User::class, 'id', 'deliveryman_id');
+    }
+
 
     public function restoran()
     {
         return $this->hasOne(Restoran::class, 'id', 'rest_id');
+    }
+
+    public function getRestoranNameAttribute()
+    {
+        return ($this->restoran()->first())->name;
     }
 
     public function getSummaryCountAttribute()
@@ -58,6 +78,10 @@ class Order extends Model
 
     public function getSummaryPriceAttribute()
     {
-        return $this->details()->sum("price");
+        $restoran = $this->restoran()->first();
+
+        $range = ($this->calculateTheDistance($this->latitude, $this->longitude, $restoran->latitude, $restoran->longitude) / 1000);
+
+        return $this->details()->sum("price") + ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
     }
 }

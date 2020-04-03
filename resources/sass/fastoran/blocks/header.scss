@@ -12,6 +12,9 @@
 			height: 100px;
 			@include align-items(center);
 			@include flexbox();
+            img {
+                height:25px;
+            }
 		}
 	}
 }

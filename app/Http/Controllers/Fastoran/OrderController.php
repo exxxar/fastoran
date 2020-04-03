@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use App\Classes\Utilits;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
 
 use App\Parts\Models\Fastoran\OrderDetail;
+use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,8 +17,8 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class OrderController extends Controller
 {
+    use Utilits;
 
-    const EARTH_RADIUS =  6372795;
     /**
      * Display a listing of the resource.
      *
@@ -71,17 +73,63 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
+        $user = User::find(auth()->guard('api')->user()->id);
         $order = Order::create($request->all());
-        $order->user_id = auth()->guard('api')->user()->id;
+        $order->user_id = $user->id;
+        $order->latitude = $request->get("receiver_latitude");
+        $order->longitude = $request->get("receiver_longitude");
         $order->save();
 
         $order_details = $request->get("order_details");
 
+        $delivery_order_tmp = "";
         foreach ($order_details as $od) {
             $detail = OrderDetail::create($od);
             $detail->order_id = $order->id;
             $detail->save();
+
+            $product = RestMenu::find($detail->product_id);
+            $local_tmp = sprintf("#%s %s %s шт. %s руб.\n",
+                $detail->product_id,
+                $product->food_name,
+                $detail->count,
+                $product->food_price
+            );
+
+            $delivery_order_tmp .= $local_tmp;
         }
+
+        $rest = Restoran::find($order->rest_id);
+
+        $channel = $rest->telegram_channel;
+
+        $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
+            $rest->name,
+            $user->name,
+            $user->phone,
+            $delivery_order_tmp,
+            $order->delivery_price,
+            $order->summary_price
+        );
+
+        $tmp = "" . $order->id;
+        while (strlen($tmp) < 10)
+            $tmp = "0" . $tmp;
+
+        Telegram::sendMessage([
+            'chat_id' => $channel,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+            'reply_markup' => json_encode([
+                'inline_keyboard' => [
+                    [
+                        ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                        ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                    ]
+                ]
+            ])
+
+        ]);
 
         return response()
             ->json([
@@ -106,6 +154,8 @@ class OrderController extends Controller
         $orders = Order::with(["details", "restoran", "details.product"])
             ->where("user_id", $user->id)
             ->get();
+
+
 
         return response()
             ->json([
@@ -267,7 +317,7 @@ class OrderController extends Controller
 
     public function getDeliverymanOrders(Request $request)
     {
-        $orders = Order::with(["details","restoran"])
+        $orders = Order::with(["details", "restoran"])
             ->where("deliveryman_id", $request->user()->id)
             ->get();
 
@@ -278,7 +328,8 @@ class OrderController extends Controller
     }
 
 
-    public function testOrder(){
+    public function testOrder()
+    {
         $restorans = Restoran::with(["menus"])->get();
 
         $user = User::where("phone", "+380713007745")->first();
@@ -291,11 +342,9 @@ class OrderController extends Controller
         $lon = 37.801970;
 
 
-
-
         foreach ($restorans as $rest) {
 
-            $range = ($this->calculateTheDistance($lat,$lon,$rest->latitude, $rest->longitude)/1000);
+            $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude, $rest->longitude) / 1000);
 
             Log::info("RANGE=$range");
 
@@ -304,9 +353,12 @@ class OrderController extends Controller
                 'user_id' => $user->id,
                 'deliveryman_id' => null,
 
+                'latitude'=>$lat,
+                'longitude'=>$lon,
+
                 'status' => \App\Enums\OrderStatusEnum::InProcessing,
 
-                'delivery_price' => ceil (20 + ($range * 15)),
+                'delivery_price' => ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))),
                 'delivery_range' => $range,
                 'delivery_note' => "Доставить крабиком",
 
@@ -383,31 +435,5 @@ class OrderController extends Controller
             ]);
         }
     }
-    protected function calculateTheDistance ($fA, $lA, $fB, $lB) {
 
-// перевести координаты в радианы
-        $lat1 = $fA * M_PI / 180;
-        $lat2 = $fB * M_PI / 180;
-        $long1 = $lA * M_PI / 180;
-        $long2 = $lB * M_PI / 180;
-
-// косинусы и синусы широт и разницы долгот
-        $cl1 = cos($lat1);
-        $cl2 = cos($lat2);
-        $sl1 = sin($lat1);
-        $sl2 = sin($lat2);
-        $delta = $long2 - $long1;
-        $cdelta = cos($delta);
-        $sdelta = sin($delta);
-
-// вычисления длины большого круга
-        $y = sqrt(pow($cl2 * $sdelta, 2) + pow($cl1 * $sl2 - $sl1 * $cl2 * $cdelta, 2));
-        $x = $sl1 * $sl2 + $cl1 * $cl2 * $cdelta;
-
-//
-        $ad = atan2($y, $x);
-        $dist = $ad * self::EARTH_RADIUS;
-
-        return $dist;
-    }
 }

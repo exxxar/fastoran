@@ -30,6 +30,12 @@ class RestController extends Controller
 
         $kitchens = Kitchen::where("is_active", 1)
             ->get();
+
+        $kitchens_count = count($kitchens);
+        $restorans_count = Restoran::all()->count();
+        $menus_count = RestMenu::all()->count();
+        $user_count = User::all()->count();
+
         /*
 
                 $restorans = Restoran::where("moderation", true)
@@ -47,7 +53,12 @@ class RestController extends Controller
 
                 return view("main", compact("kitchens", "restorans"));*/
 
-       return view("main",compact("random_menu","kitchens","sliderIndex"));
+       return view("main",compact("random_menu","kitchens","sliderIndex"))
+           ->with("kitchens_count",$kitchens_count)
+           ->with("restorans_count",$restorans_count)
+           ->with("menus_count",$menus_count)
+           ->with("user_count",$user_count);
+
 
     }
 
