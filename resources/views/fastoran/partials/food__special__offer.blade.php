@@ -113,7 +113,7 @@
             <div class="row">
             @foreach($random_menu as $product)
                 <!-- Start Single Banner -->
-                <div class="col-md-6 col-lg-3 col-sm-12">
+                <div class="col-md-6 col-lg-3 col-sm-6">
                     <div class="banner--2 foo">
                         <div class="banner__thumb">
                             <a href="#"><img
@@ -177,9 +177,9 @@
                    <div class="col-lg-12 col-md-12">
                        <div class="fd__order__now text-center">
                            <div class="order__now__inner">
-                               <h6>We Offer Free Delivery</h6>
-                               <h2>Order Now: +123654789</h2>
-                               <p>Extremely thin ,juicy,cheeze,fluffy,crispy &amp; light weight Pizza</p>
+                               <h6>У нас есть доставка ЛЮБЫХ товаров!</h6>
+                               <h2>Закажи сейчас:<br><a href="tel:+380715071752">+38(071) 507-17-52</a></h2>
+                               <p>Продукты из магазина, цветы, медикаменты и многое другое!</p>
                            </div>
                        </div>
                    </div>

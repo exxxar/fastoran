@@ -318,7 +318,7 @@ class AuthController extends Controller
                     "status" => 404
                 ]);
 
-        if ($user->auth_code !== $code)
+        if ($user->auth_code != $code)
             return response()
                 ->json([
                     "message" => "Bad code",
@@ -326,7 +326,7 @@ class AuthController extends Controller
                     "status" => 400
                 ]);
 
-        $user->auth_code = null;
+        //$user->auth_code = null;
         $user->active = true;
         $user->save();
 

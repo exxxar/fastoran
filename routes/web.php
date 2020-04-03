@@ -95,8 +95,9 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
 
                 preg_match_all('|\d+|', $item2["description"], $matches);
 
-                $count = $matches[0][0] ?? 0;
-                $weight = $matches[0][1] ?? 0;
+               // $count = $matches[0][0] ?? 0;
+
+                $weight = count($matches[0])>=2?($matches[0][0] ?? 0):0;
 
                 preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
