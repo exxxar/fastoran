@@ -63,7 +63,7 @@
     @include("fastoran.partials.fd__counterup__area")
     <!-- End Counter Up Area -->
     <!-- Start Our Brand Area -->
-    @include("fastoran.partials.food__brand__area")
+{{--    @include("fastoran.partials.food__brand__area")--}}
     <!-- End Our Brand Area -->
 
     <!-- Start Google Map -->

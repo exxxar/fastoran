@@ -1,4 +1,4 @@
-<section class="food__special__offer bg--white section-padding--lg">
+<section class="food__special__offer bg-image--25 section-padding--lg">
    {{-- <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
@@ -171,4 +171,19 @@
         </div>
     </div>
     <!-- End Banner Area -->
+       <div class="order-now-area">
+           <div class="container">
+               <div class="row">
+                   <div class="col-lg-12 col-md-12">
+                       <div class="fd__order__now text-center">
+                           <div class="order__now__inner">
+                               <h6>We Offer Free Delivery</h6>
+                               <h2>Order Now: +123654789</h2>
+                               <p>Extremely thin ,juicy,cheeze,fluffy,crispy &amp; light weight Pizza</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
 </section>

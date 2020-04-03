@@ -142,7 +142,7 @@ class RestoransController extends Controller
 
         return response()
             ->json([
-                'restorans' => $restorans->restorans,
+                'restorans' => $restorans->restorans()->paginate(100),
             ]);
     }
 }
