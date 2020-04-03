@@ -419,12 +419,18 @@
 		}
 		.banner__hover__inner{
 			h4{
-				color: #fc892c;
-                font-size: 36px;
+				color: #fff;
+                font-size: 18px;
 			    font-style: italic;
 			    font-weight: 400;
 			    line-height: 100%;
 			    text-transform: uppercase;
+                mark {
+                    background: #d12e2c;
+                    color: #fff;
+                    padding: 0;
+                    margin: 0;
+                }
 			}
 			h2{
 				color: #713311;
@@ -432,9 +438,14 @@
 			    font-weight: 900;
 			    text-transform: capitalize;
 			    &.pink-text {
-				    color: #e61853;
+				    color: #fff;
 				    text-transform: uppercase;
-                    text-shadow: 2px 2px 2px black;
+                    mark {
+                        background: #d12e2c;
+                        color: #fff;
+                        padding: 0;
+                        margin: 0;
+                    }
 				}
 			}
 			p{
