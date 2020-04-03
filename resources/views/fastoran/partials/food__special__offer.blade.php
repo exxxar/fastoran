@@ -1,5 +1,5 @@
 <section class="food__special__offer bg--white section-padding--lg">
-    <div class="container">
+   {{-- <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="section__title title__style--2 service__align--center">
@@ -32,7 +32,7 @@
             <!-- Start Single Offer -->
 
             @endforeach
-      {{--      <!-- Start Single Offer -->
+      --}}{{--      <!-- Start Single Offer -->
             <div class="col-md-6 col-sm-12 col-lg-3">
                 <div class="food__offer text-center foo">
                     <div class="offer__thumb poss--relative">
@@ -96,67 +96,69 @@
                     </div>
                 </div>
             </div>
-            <!-- Start Single Offer -->--}}
+            <!-- Start Single Offer -->--}}{{--
         </div>
-    </div>
+    </div>--}}
     <!-- Start Banner Area -->
     <div class="banner__area mt--40">
         <div class="container">
             <div class="row">
+            @foreach($random_menu as $product)
                 <!-- Start Single Banner -->
                 <div class="col-md-6 col-lg-3 col-sm-12">
                     <div class="banner--2 foo">
                         <div class="banner__thumb">
                             <a href="#"><img
-                                    src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/1.jpg"
+                                    src="{{$product->food_img}}"
                                     alt="banner images"></a>
                         </div>
                         <div class="banner__hover__action banner__left__bottom">
                             <div class="banner__hover__inner">
-                                <span>20%</span>
-                                <p>off for festival</p>
-                                <h2 class="coffee-text">off for festival</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Banner -->
-                <!-- Start Single Banner -->
-                <div class="col-md-6 col-lg-3 col-sm-12">
-                    <div class="banner--2 foo">
-                        <div class="banner__thumb">
-                            <a href="#"><img
-                                    src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/2.jpg"
-                                    alt="banner images"></a>
-                        </div>
-                        <div class="banner__hover__action banner__left__top">
-                            <div class="banner__hover__inner">
                                 <h4>colorful</h4>
-                                <h2 class="pink-text">donut’s</h2>
-                                <p>get it till the stock full</p>
+                                <h2 class="pink-text">{{$product->food_name}}</h2>
+                                <p>{{$product->food_remark}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- End Single Banner -->
-                <!-- Start Single Banner -->
-                <div class="col-md-12 col-lg-6 col-sm-12">
-                    <div class="banner--2 foo">
-                        <div class="banner__thumb">
-                            <a href="#"><img
-                                    src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/3.jpg"
-                                    alt="banner images"></a>
-                        </div>
-                        <div class="banner__hover__action banner__right__bottom">
-                            <div class="banner__hover__inner">
-                                <h4 class="vanilla">vanilla</h4>
-                                <h2 class="pink-text">MAFFIN</h2>
-                                <p>Lovely Food for Food lover</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Banner -->
+                @endforeach
+                {{--  <!-- Start Single Banner -->
+                  <div class="col-md-6 col-lg-3 col-sm-12">
+                      <div class="banner--2 foo">
+                          <div class="banner__thumb">
+                              <a href="#"><img
+                                      src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/2.jpg"
+                                      alt="banner images"></a>
+                          </div>
+                          <div class="banner__hover__action banner__left__top">
+                              <div class="banner__hover__inner">
+                                  <h4>colorful</h4>
+                                  <h2 class="pink-text">donut’s</h2>
+                                  <p>get it till the stock full</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- End Single Banner -->
+                  <!-- Start Single Banner -->
+                  <div class="col-md-12 col-lg-6 col-sm-12">
+                      <div class="banner--2 foo">
+                          <div class="banner__thumb">
+                              <a href="#"><img
+                                      src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/3.jpg"
+                                      alt="banner images"></a>
+                          </div>
+                          <div class="banner__hover__action banner__right__bottom">
+                              <div class="banner__hover__inner">
+                                  <h4 class="vanilla">vanilla</h4>
+                                  <h2 class="pink-text">MAFFIN</h2>
+                                  <p>Lovely Food for Food lover</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- End Single Banner -->--}}
             </div>
         </div>
     </div>
