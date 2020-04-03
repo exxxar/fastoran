@@ -43,7 +43,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price", "restoran_name"];
+    protected $appends = ["summary_count", "summary_price", "restoran_name";
 
     public function details()
     {
@@ -82,6 +82,8 @@ class Order extends Model
 
         $range = ($this->calculateTheDistance($this->latitude, $this->longitude, $restoran->latitude, $restoran->longitude) / 1000);
 
-        return $this->details()->sum("price") + ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $order_sum =  $this->details()->where("order_id",$this->id)->sum("price");
+
+        return  $order_sum + ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
     }
 }
