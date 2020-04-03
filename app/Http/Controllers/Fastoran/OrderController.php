@@ -105,7 +105,7 @@ class OrderController extends Controller
             $rest = Restoran::find($order->rest_id);
 
             $channel = $rest->telegram_channel;
-            $range = ($this->calculateTheDistance($order->latitude, $order->longitude, $rest->latitude, $rest->longitude) / 1000);
+            $range = ($this->calculateTheDistance($order->latitude ?? 0, $order->longitude ?? 0, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
 
             $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
                 $rest->name,
@@ -134,9 +134,8 @@ class OrderController extends Controller
                 ])
 
             ]);
-        }
-        catch (\Exception $e){
-            Log::info($e->getMessage()." ".$e->getLine());
+        } catch (\Exception $e) {
+            Log::info($e->getMessage() . " " . $e->getLine());
         }
 
         return response()
@@ -162,7 +161,6 @@ class OrderController extends Controller
         $orders = Order::with(["details", "restoran", "details.product"])
             ->where("user_id", $user->id)
             ->get();
-
 
 
         return response()
@@ -361,8 +359,8 @@ class OrderController extends Controller
                 'user_id' => $user->id,
                 'deliveryman_id' => null,
 
-                'latitude'=>$lat,
-                'longitude'=>$lon,
+                'latitude' => $lat,
+                'longitude' => $lon,
 
                 'status' => \App\Enums\OrderStatusEnum::InProcessing,
 
