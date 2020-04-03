@@ -22,8 +22,10 @@ class RestMenu extends Model
         'rating_id'
     ];
 
+
+
     protected $appends = [
-        'rating'
+        'rating', 'food_ext'
     ];
 
     public function category()
@@ -31,10 +33,15 @@ class RestMenu extends Model
         return $this->hasOne(MenuCategory::class, 'id', 'food_category_id');
     }
 
+    public function getFoodExtAttribute()
+    {
+        return ">=100 грамм";
+    }
+
     public function getRatingAttribute()
     {
         return Rating::where("content_type", ContentTypeEnum::Menu)
-            ->select(["dislike_count","like_count"])
+            ->select(["dislike_count", "like_count"])
             ->where('content_id', $this->id)
             ->first();
     }
