@@ -3,6 +3,8 @@
         <button class="cartbox-close"><i class="zmdi zmdi-close"></i></button>
         <div class="cartbox__inner text-left">
             <div class="cartbox__items">
+
+
                 <!-- Cartbox Single Item -->
      {{--           <div class="cartbox__item">
                     <div class="cartbox__item__thumb">

@@ -44,7 +44,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price", "restoran_name","status_text"];
+    protected $appends = ["summary_count", "summary_price", "restoran_name", "status_text"];
 
     public function details()
     {
@@ -69,12 +69,17 @@ class Order extends Model
 
     public function getStatusTextAttribute()
     {
-        switch ($this->status){
+
+        switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
-            case 0: return "В обрабокте";
-            case 1: return "Готовится";
-            case 2: return "Доставляется";
-            case 3: return "Доставлено";
+            case 0:
+                return "В обработке";
+            case 1:
+                return "Готовится";
+            case 2:
+                return "Доставляется";
+            case 3:
+                return "Доставлено";
         }
     }
 
@@ -87,7 +92,7 @@ class Order extends Model
     {
         $tmp_sum = 0;
 
-        foreach($this->details()->get() as $d){
+        foreach ($this->details()->get() as $d) {
             $tmp_sum += $d->count;
         }
 
@@ -98,9 +103,9 @@ class Order extends Model
     {
         $tmp_sum = 0;
 
-        foreach($this->details()->get() as $d){
-            $tmp_sum += $d->count*$d->price;
+        foreach ($this->details()->get() as $d) {
+            $tmp_sum += $d->count * $d->price;
         }
-        return  $tmp_sum;
+        return $tmp_sum;
     }
 }
