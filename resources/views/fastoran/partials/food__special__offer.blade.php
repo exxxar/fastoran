@@ -100,8 +100,16 @@
         </div>
     </div>--}}
     <!-- Start Banner Area -->
-    <div class="banner__area mt--40">
+    <div class="banner__area">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="section__title title__style--2 service__align--center">
+                        <h2 class="title__line">Случайные товары<br>наших партнеров</h2>
+                        <p>Возможно, это то что ты ищещь! </p>
+                    </div>
+                </div>
+            </div>
             <div class="row">
             @foreach($random_menu as $product)
                 <!-- Start Single Banner -->
