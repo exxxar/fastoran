@@ -370,7 +370,7 @@ class OrderController extends Controller
                 'status' => \App\Enums\OrderStatusEnum::InProcessing,
 
                 'delivery_price' => ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))),
-                'delivery_range' => $range,
+                'delivery_range' => floatval(sprintf("%.2f",$range)),
                 'delivery_note' => "Доставить крабиком",
 
                 'receiver_name' => $user->name,
