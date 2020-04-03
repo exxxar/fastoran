@@ -114,8 +114,9 @@
                         </div>
                         <div class="banner__hover__action banner__left__bottom">
                             <div class="banner__hover__inner">
+                                <h4>{{$product->food_price}}₽</h4>
                                 <h2 class="pink-text">{{$product->food_name}}</h2>
-                                <p>{{$product->food_price}}₽</p>
+
                             </div>
                         </div>
                     </div>
