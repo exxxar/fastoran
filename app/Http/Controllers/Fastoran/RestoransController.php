@@ -134,4 +134,15 @@ class RestoransController extends Controller
                 "status"=>200
             ]);
     }
+
+    public function getRestoransByKitchenId($kitchenId){
+        $restorans  = Kitchen::with(["restorans"])
+            ->where("id",$kitchenId)
+            ->first();
+
+        return response()
+            ->json([
+                'restorans' => $restorans->restorans,
+            ]);
+    }
 }

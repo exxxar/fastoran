@@ -443,6 +443,25 @@
     };
     cartboxToggler();
 
+    function customCartboxToggler() {
+        var trigger = $('.custom-minicart-trigger'),
+            container = $('.custom-cartbox-wrap');
+        $('<div class="body-overlay"></div>').prependTo(container);
+
+        trigger.on('click', function(e) {
+            e.preventDefault();
+            container.toggleClass('is-visible');
+        })
+        $('.cartbox-close').on('click', function() {
+            container.removeClass('is-visible');
+        })
+        container.find('.body-overlay').on('click', function() {
+            container.removeClass('is-visible');
+        })
+    };
+    customCartboxToggler();
+
+
 
 
 

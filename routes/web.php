@@ -140,3 +140,35 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
 });
 
 Route::get("/test_order", 'Fastoran\OrderController@testOrder');
+
+Route::get("/test_login", function () {
+    $query = json_encode([
+        "phone" => "+380713189958",
+        "password" => "491474",
+        "remember_me:" => 1
+    ]);
+
+    try {
+        $context = stream_context_create(array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => 'Content-Type: application/json' . PHP_EOL . 'X-Requested-With:XMLHttpRequest',
+                'content' => $query
+            ),
+        ));
+
+        ini_set('max_execution_time', 1000000);
+        $content = file_get_contents(
+            $file = 'https://fastoran.com/api/v1/auth/login_phone',
+            $use_include_path = false,
+            $context);
+        ini_set('max_execution_time', 60);
+
+
+    } catch (ErrorException $e) {
+        $content = [];
+    }
+
+
+    dd(json_decode($content));
+});
