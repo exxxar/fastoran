@@ -44,7 +44,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price", "restoran_name", "status_text"];
+    protected $appends = ["summary_count", "summary_price",  "status_text"];
 
     public function details()
     {
@@ -81,11 +81,6 @@ class Order extends Model
             case 3:
                 return "Доставлено";
         }
-    }
-
-    public function getRestoranNameAttribute()
-    {
-        return $this->restoran->name??"Empty";
     }
 
     public function getSummaryCountAttribute()
