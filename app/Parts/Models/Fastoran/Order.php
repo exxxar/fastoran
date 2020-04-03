@@ -85,7 +85,7 @@ class Order extends Model
 
     public function getRestoranNameAttribute()
     {
-        return ($this->restoran()->first())->name;
+        return $this->restoran->name??"Empty";
     }
 
     public function getSummaryCountAttribute()
