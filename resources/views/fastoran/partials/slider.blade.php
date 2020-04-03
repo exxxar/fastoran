@@ -10,7 +10,7 @@
                                 <h2>Мы - ваша служба доставки,</h2>
                                 <!-- Countdown 3-->
                                 <div class="rounded bg-gradient-3 text-orange p-5 text-center mb-5">
-                                    <p class="mb-0 font-weight-bold text-uppercase">Скоро открытие!</p>
+                                    <p class="mb-0 font-weight-bold text-uppercase"><mark>Скоро открытие!</mark></p>
                                     <div id="clock" class="countdown pt-4"></div>
                                 </div>
                                 <h1>“FASTORAN”</h1>
