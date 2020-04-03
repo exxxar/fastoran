@@ -73,17 +73,22 @@ class Order extends Model
 
     public function getSummaryCountAttribute()
     {
-        return $this->details()->sum("count");
+        $tmp_sum = 0;
+
+        foreach($this->details()->get() as $d){
+            $tmp_sum += $d->count;
+        }
+
+        return $tmp_sum;
     }
 
     public function getSummaryPriceAttribute()
     {
-        $restoran = $this->restoran()->first();
+        $tmp_sum = 0;
 
-        $range = ($this->calculateTheDistance($this->latitude, $this->longitude, $restoran->latitude, $restoran->longitude) / 1000);
-
-        $order_sum =  $this->details()->where("order_id",$this->id)->sum("price");
-
-        return  $order_sum + ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        foreach($this->details()->get() as $d){
+            $tmp_sum += $d->count*$d->price;
+        }
+        return  $tmp_sum;
     }
 }

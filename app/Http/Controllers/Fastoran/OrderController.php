@@ -72,66 +72,72 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        try {
 
-        $user = User::find(auth()->guard('api')->user()->id);
+            $user = User::find(auth()->guard('api')->user()->id);
 
-        $order = Order::create($request->all());
+            $order = Order::create($request->all());
 
-        $order->user_id = $user->id;
-        $order->latitude = $request->get("receiver_latitude")??null;
-        $order->longitude = $request->get("receiver_longitude")??null;
-        $order->save();
+            $order->user_id = $user->id;
+            $order->latitude = $request->get("receiver_latitude") ?? null;
+            $order->longitude = $request->get("receiver_longitude") ?? null;
+            $order->save();
 
-        $order_details = $request->get("order_details");
+            $order_details = $request->get("order_details");
 
-        $delivery_order_tmp = "";
-        foreach ($order_details as $od) {
-            $detail = OrderDetail::create($od);
-            $detail->order_id = $order->id;
-            $detail->save();
+            $delivery_order_tmp = "";
+            foreach ($order_details as $od) {
+                $detail = OrderDetail::create($od);
+                $detail->order_id = $order->id;
+                $detail->save();
 
-            $product = RestMenu::find($detail->product_id);
-            $local_tmp = sprintf("#%s %s %s шт. %s руб.\n",
-                $detail->product_id,
-                $product->food_name,
-                $detail->count,
-                $product->food_price
+                $product = RestMenu::find($detail->product_id);
+                $local_tmp = sprintf("#%s %s %s шт. %s руб.\n",
+                    $detail->product_id,
+                    $product->food_name,
+                    $detail->count,
+                    $product->food_price
+                );
+
+                $delivery_order_tmp .= $local_tmp;
+            }
+
+            $rest = Restoran::find($order->rest_id);
+
+            $channel = $rest->telegram_channel;
+            $range = ($this->calculateTheDistance($order->latitude, $order->longitude, $rest->latitude, $rest->longitude) / 1000);
+
+            $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
+                $rest->name,
+                $user->name,
+                $user->phone,
+                $delivery_order_tmp,
+                ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))),
+                $order->summary_price
             );
 
-            $delivery_order_tmp .= $local_tmp;
-        }
+            $tmp = "" . $order->id;
+            while (strlen($tmp) < 10)
+                $tmp = "0" . $tmp;
 
-        $rest = Restoran::find($order->rest_id);
-
-        $channel = $rest->telegram_channel;
-
-        $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
-            $rest->name,
-            $user->name,
-            $user->phone,
-            $delivery_order_tmp,
-            $order->delivery_price,
-            $order->summary_price
-        );
-
-        $tmp = "" . $order->id;
-        while (strlen($tmp) < 10)
-            $tmp = "0" . $tmp;
-
-        Telegram::sendMessage([
-            'chat_id' => $channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-            'reply_markup' => json_encode([
-                'inline_keyboard' => [
-                    [
-                        ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
-                        ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+            Telegram::sendMessage([
+                'chat_id' => $channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => [
+                        [
+                            ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                            ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                        ]
                     ]
-                ]
-            ])
+                ])
 
-        ]);
+            ]);
+        }
+        catch (\Exception $e){
+            Log::info($e->getMessage()." ".$e->getLine());
+        }
 
         return response()
             ->json([
