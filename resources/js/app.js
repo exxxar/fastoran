@@ -49,6 +49,7 @@ Vue.component('cart', require('./components/Cart.vue').default);
 Vue.component('restorans-list', require('./components/admin/Restorans.vue').default);
 Vue.component('rest-main-slider', require('./components/RestMainSlider.vue').default);
 Vue.component('header-fastoran', require('./components/Header.vue').default);
+Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 
 
 

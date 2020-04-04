@@ -180,7 +180,7 @@ return [
         Allanvb\LaravelSemysms\SemySmsServiceProvider::class,
         BenSampo\Enum\EnumServiceProvider::class,
         ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
-
+        Yandex\Geocode\YandexGeocodeServiceProvider::class,
     ],
 
     /*
@@ -234,6 +234,7 @@ return [
         'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'SemySMS' => Allanvb\LaravelSemysms\Facades\SemySMS::class,
+        'YaGeo' => Yandex\Geocode\Facades\YandexGeocodeFacade::class,
     ],
 
 ];

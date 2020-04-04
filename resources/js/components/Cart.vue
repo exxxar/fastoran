@@ -2,73 +2,38 @@
     <div class="cartbox__inner text-left">
         <div class="cartbox__items">
             <!-- Cartbox Single Item -->
-            <div class="cartbox__item">
+            <div class="cartbox__item" v-for="item in items">
                 <div class="cartbox__item__thumb">
                     <a href="product-details.html">
-                        <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/blog/sm-img/1.jpg"
+                        <img :src="item.product.food_img"
                              alt="small thumbnail">
                     </a>
                 </div>
                 <div class="cartbox__item__content">
                     <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
-                           class="product-name">Vanila Muffin</a></h5>
-                    <p>Qty: <span>01</span></p>
-                    <span class="price">$15</span>
+                           class="product-name">{{item.product.food_name}}</a></h5>
+                    <p>Количество: <span>{{item.quantity}}</span></p>
+                    <span class="price">{{item.product.food_price}}</span>
                 </div>
                 <button class="cartbox__item__remove">
                     <i class="fa fa-trash"></i>
                 </button>
-            </div><!-- //Cartbox Single Item -->
-            <!-- Cartbox Single Item -->
-            <div class="cartbox__item">
-                <div class="cartbox__item__thumb">
-                    <a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html">
-                        <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/blog/sm-img/2.jpg"
-                             alt="small thumbnail">
-                    </a>
-                </div>
-                <div class="cartbox__item__content">
-                    <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
-                           class="product-name">Wheat Bread</a></h5>
-                    <p>Qty: <span>01</span></p>
-                    <span class="price">$25</span>
-                </div>
-                <button class="cartbox__item__remove">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </div><!-- //Cartbox Single Item -->
-            <!-- Cartbox Single Item -->
-            <div class="cartbox__item">
-                <div class="cartbox__item__thumb">
-                    <a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html">
-                        <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/blog/sm-img/3.jpg"
-                             alt="small thumbnail">
-                    </a>
-                </div>
-                <div class="cartbox__item__content">
-                    <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
-                           class="product-name">Mixed Fruits Pie</a></h5>
-                    <p>Qty: <span>01</span></p>
-                    <span class="price">$30</span>
-                </div>
-                <button class="cartbox__item__remove">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </div><!-- //Cartbox Single Item -->
+            </div>
+
         </div>
         <div class="cartbox__total">
             <ul>
-                <li><span class="cartbox__total__title">Subtotal</span><span class="price">$70</span></li>
-                <li class="shipping-charge"><span class="cartbox__total__title">Shipping Charge</span><span
+                <li><span class="cartbox__total__title">Цена заказа</span><span class="price">$70</span></li>
+                <li class="shipping-charge"><span class="cartbox__total__title">Цена доставки</span><span
                     class="price">$05</span></li>
-                <li class="grandtotal">Total<span class="price">$75</span></li>
+                <li class="grandtotal">Сумма заказа<span class="price">$75</span></li>
             </ul>
         </div>
         <div class="cartbox__buttons">
             <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/cart.html"><span>View cart</span></a>
+               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/cart.html"><span>Оформить заказ</span></a>
             <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/checkout.html"><span>Checkout</span></a>
+               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/checkout.html"><span>Очистить корзину</span></a>
         </div>
     </div>
     <!--<div class="cart">
@@ -230,6 +195,7 @@
                 phone: '',
                 name: '',
                 message: '',
+                items:[],
                 deliveryPrice: 50,
                 sending:false
             }

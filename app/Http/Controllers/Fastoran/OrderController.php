@@ -341,6 +341,8 @@ class OrderController extends Controller
 
     public function declineOrderAdmin(Request $request, $orderId)
     {
+        $comment = $request->get("comment")??"Позиция отсутствует";
+
         $order = Order::with(["restoran", "user"])
             ->where("id", $orderId)
             ->first();
@@ -363,9 +365,9 @@ class OrderController extends Controller
         $order->status = OrderStatusEnum::DeclineByAdmin;
         $order->save();
 
-        $message = sprintf("Заказ *#%s* отклонен!\nПерезвоните клиенту: %s!",
-            $user->id,
+        $message = sprintf("Заказ *#%s* отклонен!\nКоментарий:%s\nПерезвоните клиенту: %s!",
             $order->id,
+            $comment,
             $order->user->id
         );
 
@@ -383,7 +385,7 @@ class OrderController extends Controller
 
     public function getDeliverymanOrders(Request $request)
     {
-        $orders = Order::with(["details", "restoran", "details.product"])
+        $orders = Order::with(["details", "restoran", "details.product","user"])
             ->where("deliveryman_id", $request->user()->id)
             ->get();
 

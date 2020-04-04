@@ -119,11 +119,13 @@
                             <a href="#"><img
                                     src="{{$product->food_img}}"
                                     alt="banner images"></a>
+
+                                <add-cart-btn :product_id="{{$product->id}}" :product_data="{{$product}}"></add-cart-btn>
                         </div>
                         <div class="banner__hover__action banner__left__bottom">
                             <div class="banner__hover__inner">
                                 <h4><mark>{{$product->food_price}}₽</mark></h4>
-                                <h2 class="pink-text">{{$product->food_name}}</h2>
+                                <h2 class="pink-text"><mark>{{$product->food_name}}</mark></h2>
 
                             </div>
                         </div>

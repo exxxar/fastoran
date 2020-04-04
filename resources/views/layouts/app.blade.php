@@ -29,7 +29,6 @@
 
     <!-- Main wrapper -->
     <div class="wrapper" id="wrapper">
-        <cart></cart>
         @yield("content")
     </div><!-- //Main wrapper -->
 

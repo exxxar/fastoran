@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 
+
 Route::get('/', 'RestController@getMainPage');
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");
@@ -173,4 +174,13 @@ Route::get("/test_login", function () {
 
 
     dd(json_decode($content));
+});
+
+
+Route::get("/test_geo",function(){
+    $data = YaGeo::setQuery('Kiev, Vishnevoe, Lesi Ukrainki, 57')->load();
+    dd($data);
+    $data = $data->getResponse()->getLatitude();
+    dd($data);
+
 });

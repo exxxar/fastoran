@@ -126,6 +126,7 @@
       <path value="$PROJECT_DIR$/vendor/silviolleite/laravelpwa" />
       <path value="$PROJECT_DIR$/vendor/atehnix/laravel-vk-requester" />
       <path value="$PROJECT_DIR$/vendor/atehnix/vk-client" />
+      <path value="$PROJECT_DIR$/vendor/jackmartin/laravel-yandex-geocode" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

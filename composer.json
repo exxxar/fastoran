@@ -15,6 +15,7 @@
         "fideloper/proxy": "^4.0",
         "grkamil/laravel-telegram-logging": "^1.2",
         "irazasyed/telegram-bot-sdk": "^3.0",
+        "jackmartin/laravel-yandex-geocode": "^1.2",
         "laravel/framework": "^6.2",
         "laravel/passport": "^8.3",
         "laravel/socialite": "^4.3",
