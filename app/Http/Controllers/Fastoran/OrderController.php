@@ -368,7 +368,7 @@ class OrderController extends Controller
         $message = sprintf("Заказ *#%s* отклонен!\nКоментарий:%s\nПерезвоните клиенту: %s!",
             $order->id,
             $comment,
-            $order->user->phone
+            $order->user->phone??"Не найден номер телефона"
         );
 
         Telegram::sendMessage([
