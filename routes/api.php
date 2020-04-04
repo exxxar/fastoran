@@ -73,6 +73,8 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
             Route::any("decline_order/{id}", "OrderController@declineOrder");
             Route::any("decline_order_by_admin/{id}", "OrderController@declineOrderAdmin");
+            Route::any("set_deliveryman_type/{type}", "OrderController@setDeliverymanType")->where(["type"=>"[1-4]{1}"]);
+
 
 
 

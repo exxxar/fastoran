@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Enums\DeliveryTypeEnum;
 use App\Enums\UserTypeEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,6 +21,7 @@ class User extends Authenticatable
 
     protected $enums = [
         'user_type' => UserTypeEnum::class,
+        'deliveryman_type' => DeliveryTypeEnum::class,
     ];
 
     protected $fillable = [
@@ -28,6 +30,7 @@ class User extends Authenticatable
         'phone',
         'auth_code',
         'user_type',
+        'deliveryman_type',
         'telegram_chat_id',
         'birthday',
         'bonus',

@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->integer('auth_code')->nullable();
             $table->integer('user_type')->default(\App\Enums\UserTypeEnum::User);
+            $table->integer('deliveryman_type')->default(\App\Enums\DeliveryTypeEnum::NotSet);
 
             $table->string('telegram_chat_id')->nullable();
 

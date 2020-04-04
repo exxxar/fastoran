@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Classes\Utilits;
+use App\Enums\DeliveryTypeEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
@@ -342,7 +343,7 @@ class OrderController extends Controller
 
     public function declineOrderAdmin(Request $request, $orderId)
     {
-        $comment = $request->get("comment")??"Позиция отсутствует";
+        $comment = $request->get("comment") ?? "Позиция отсутствует";
 
         $order = Order::with(["restoran", "user"])
             ->where("id", $orderId)
@@ -369,7 +370,7 @@ class OrderController extends Controller
         $message = sprintf("Заказ *#%s* отклонен!\nКоментарий:%s\nПерезвоните клиенту: %s!",
             $order->id,
             $comment,
-            $order->user->phone??"Не найден номер телефона"
+            $order->user->phone ?? "Не найден номер телефона"
         );
 
         Telegram::sendMessage([
@@ -386,7 +387,7 @@ class OrderController extends Controller
 
     public function getDeliverymanOrders(Request $request)
     {
-        $orders = Order::with(["details", "restoran", "details.product","user"])
+        $orders = Order::with(["details", "restoran", "details.product", "user"])
             ->where("deliveryman_id", $request->user()->id)
             ->get();
 
@@ -520,7 +521,8 @@ class OrderController extends Controller
         }
     }
 
-    public function setDeliveredStatus(Request $request,$orderId){
+    public function setDeliveredStatus(Request $request, $orderId)
+    {
 
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
@@ -572,12 +574,13 @@ class OrderController extends Controller
             ], 200);
     }
 
-    public function setCommentToOrder(Request $request,$orderId){
+    public function setCommentToOrder(Request $request, $orderId)
+    {
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
 
-        $order->delivery_note = $request->get("comment")??'';
+        $order->delivery_note = $request->get("comment") ?? '';
         $order->save();
 
         return response()
@@ -586,4 +589,31 @@ class OrderController extends Controller
             ], 200);
     }
 
+
+    public function setDeliverymanType(Request $request, $type)
+    {
+        $user = User::find($request->user()->id);
+        $user->deliveryman_type = $type ?? 0;
+        $user->save();
+
+        $deliveryman_status_text = "Не установлен";
+        switch ($type)
+        {
+            case 1: $deliveryman_status_text = "Пеший"; break;
+            case 2: $deliveryman_status_text = "Велосипед"; break;
+            case 3: $deliveryman_status_text = "Мотоцикл"; break;
+            case 4: $deliveryman_status_text = "Машина"; break;
+        }
+
+        Telegram::sendMessage([
+            'chat_id' => $user->telegram_chat_id,
+            'parse_mode' => 'Markdown',
+            'text' => "Ваш тип доставки изменен на '$deliveryman_status_text'!",
+        ]);
+
+        return response()
+            ->json([
+                "message" => "Success"
+            ], 200);
+    }
 }
