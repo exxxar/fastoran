@@ -7,8 +7,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="slider__content">
                             <div class="slider__inner">
-                                <h2>“AAHAR”</h2>
-                                <h1>food delivery &amp; service</h1>
+                                <h2>“FASTORAN”</h2>
+                                <h1>Доставка еды &amp; сервис</h1>
                                 <div class="slider__input">
                                     <input type="text" placeholder="Type Place, City.Division">
                                     <input class="res__search" type="text" placeholder="Restaurant">

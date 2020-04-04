@@ -340,7 +340,7 @@ class OrderController extends Controller
 
     public function getOrderById($orderId)
     {
-        return Order::where("id", $orderId)->first();
+        return Order::with(["restoran","user","details"])->where("id", $orderId)->first();
     }
 
     public function testOrder()
@@ -353,15 +353,16 @@ class OrderController extends Controller
 
         $phone = $user->phone;
 
-        $lat = 48.009458;
-        $lon = 37.801970;
+        $lat = 47.977108 ;
+        $lon = 37.921751;
 
 
         foreach ($restorans as $rest) {
 
             $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude, $rest->longitude) / 1000);
 
-            Log::info("RANGE=$range");
+            Log::info("RANGE=$range "." ЦЕНА:".ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))));
+
 
             $order = Order::create([
                 'rest_id' => $rest->id,
