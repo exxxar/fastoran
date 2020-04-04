@@ -83,6 +83,7 @@ class OrderController extends Controller
         $order->longitude = $request->get("receiver_longitude") ?? null;
         $order->save();
 
+
         $order_details = $request->get("order_details");
 
         $delivery_order_tmp = "";
@@ -106,15 +107,25 @@ class OrderController extends Controller
 
         $channel = $rest->telegram_channel;
         $range = ($this->calculateTheDistance($order->latitude ?? 0, $order->longitude ?? 0, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
+
+        $range1 = $range;
+        $range2 = $range+2;
+
+        $price1 = ceil(env("BASE_DELIVERY_PRICE") + ($range1 * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
+
         $deliver_price = ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
 
-        $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nАдресс доставки:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
+
+        $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%sруб.-%s руб.*(Дистанция:%.2fкм-%.2fкм)\nЦена заказа:*%s руб.*",
             $rest->name,
             $user->name,
             $user->phone,
-            $order->receiver_address,
             $delivery_order_tmp,
-            $deliver_price,
+            $price1,
+            $price2,
+            $range1,
+            $range2,
             $order->summary_price
         );
 
@@ -248,6 +259,7 @@ class OrderController extends Controller
                     "message" => "Order not found!"
                 ], 404);
 
+        //todo:проверить работу
         if (!is_null($order->deliveryman_id))
             return response()
                 ->json([
@@ -353,15 +365,23 @@ class OrderController extends Controller
 
         $phone = $user->phone;
 
-        $lat = 47.977108 ;
-        $lon = 37.921751;
+        $lat = 48.006239 ;
+        $lon =  37.805177;
 
 
         foreach ($restorans as $rest) {
 
             $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude, $rest->longitude) / 1000);
 
-            Log::info("RANGE=$range "." ЦЕНА:".ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))));
+            $range1 = $range;
+            $range2 = $range+2;
+
+            $price1 = ceil(env("BASE_DELIVERY_PRICE") + ($range1 * env("BASE_DELIVERY_PRICE_PER_KM")));
+            $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
+
+
+
+           // Log::info("RANGE=$range "." ЦЕНА:".ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))));
 
 
             $order = Order::create([
@@ -374,8 +394,8 @@ class OrderController extends Controller
 
                 'status' => \App\Enums\OrderStatusEnum::InProcessing,
 
-                'delivery_price' => ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))),
-                'delivery_range' => floatval(sprintf("%.2f", $range)),
+                'delivery_price' => ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM"))),
+                'delivery_range' => floatval(sprintf("%.2f-%.2f", $range1,$range2)),
                 'delivery_note' => "Доставить крабиком",
 
                 'receiver_name' => $user->name,
@@ -422,12 +442,15 @@ class OrderController extends Controller
 
             $channel = $rest->telegram_channel;
 
-            $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%s руб.*\nЦена заказа:*%s руб.*",
+            $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%sруб.-%s руб.*(Дистанция:%.2fкм-%.2fкм)\nЦена заказа:*%s руб.*",
                 $rest->name,
                 $user->name,
                 $phone,
                 $delivery_order_tmp,
-                $order->delivery_price,
+                $price1,
+                $price2,
+                $range1,
+                $range2,
                 $summ
             );
 
