@@ -72,5 +72,5 @@ import store from '../js/store'
 
 const app = new Vue({
     store,
-    el: '#app',
+    el: '#wrapper',
 });

@@ -10,7 +10,6 @@
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
-    @laravelPWA
     <!-- Stylesheets -->
 
     <link rel="stylesheet" href="{{url('css/app.css')}}">
@@ -21,30 +20,32 @@
 </head>
 
 <body>
-<!--[if lte IE 9]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
-    your browser</a> to improve your experience and security.</p>
-<![endif]-->
 
-<!-- Add your site or application content here -->
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a
+        href="https://vk.com/fastoran">upgrade
+        your browser</a> to improve your experience and security.</p>
+    <![endif]-->
 
-<!-- <div class="fakeloader"></div> -->
-
-<!-- Main wrapper -->
-<div class="wrapper" id="wrapper">
-    @yield("content")
-</div><!-- //Main wrapper -->
+    <!-- Main wrapper -->
+    <div class="wrapper" id="wrapper">
+        <cart></cart>
+        @yield("content")
+    </div><!-- //Main wrapper -->
 
 <!-- JS Files -->
-<script src="{{url('js/vendor/jquery-3.2.1.min.js')}}"></script>
+
+<script src="{{url('js/app.js')}}"></script>
+{{--<script src="{{url('js/vendor/jquery-3.2.1.min.js')}}"></script>
 <script src="{{url('js/popper.min.js')}}"></script>
-<script src="{{url('js/bootstrap.min.js')}}"></script>
+<script src="{{url('js/bootstrap.min.js')}}"></script>--}}
 <script src="{{url('js/plugins.js')}}"></script>
 <script src="{{url('js/active.js')}}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#clock').countdown('2020/4/06').on('update.countdown', function(event) {
+        $('#clock').countdown('2020/4/06').on('update.countdown', function (event) {
             var $this = $(this).html(event.strftime(''
                 + '<span class="h1 font-weight-bold">%D</span> Дней%!d'
                 + '<span class="h1 font-weight-bold">%H</span> Часов'

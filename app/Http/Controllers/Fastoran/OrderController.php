@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Classes\Utilits;
+use App\Enums\OrderStatusEnum;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
@@ -109,7 +110,7 @@ class OrderController extends Controller
         $range = ($this->calculateTheDistance($order->latitude ?? 0, $order->longitude ?? 0, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
 
         $range1 = $range;
-        $range2 = $range+2;
+        $range2 = $range + 2;
 
         $price1 = ceil(env("BASE_DELIVERY_PRICE") + ($range1 * env("BASE_DELIVERY_PRICE_PER_KM")));
         $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
@@ -338,9 +339,51 @@ class OrderController extends Controller
             ], 200);
     }
 
+    public function declineOrderAdmin(Request $request, $orderId)
+    {
+        $order = Order::with(["restoran", "user"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = User::find($request->user()->id);
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Deliveryman not found!"
+                ], 200);
+
+        if (is_null($order))
+            return response()
+                ->json([
+                    "message" => "Order not found!"
+                ], 404);
+
+        $order->deliveryman_id = null;
+        $order->status = OrderStatusEnum::DeclineByAdmin;
+        $order->save();
+
+        $message = sprintf("Заказ *#%s* отклонен!\nПерезвоните клиенту: %s!",
+            $user->id,
+            $order->id,
+            $order->user->id
+        );
+
+        Telegram::sendMessage([
+            'chat_id' => $order->restoran->telegram_channel,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+        ]);
+
+        return response()
+            ->json([
+                "message" => "Success"
+            ], 200);
+    }
+
     public function getDeliverymanOrders(Request $request)
     {
-        $orders = Order::with(["details", "restoran","details.product"])
+        $orders = Order::with(["details", "restoran", "details.product"])
             ->where("deliveryman_id", $request->user()->id)
             ->get();
 
@@ -352,7 +395,7 @@ class OrderController extends Controller
 
     public function getOrderById($orderId)
     {
-        return Order::with(["restoran","user","details","details.product"])->where("id", $orderId)->first();
+        return Order::with(["restoran", "user", "details", "details.product"])->where("id", $orderId)->first();
     }
 
     public function testOrder()
@@ -365,8 +408,8 @@ class OrderController extends Controller
 
         $phone = $user->phone;
 
-        $lat = 48.006239 ;
-        $lon =  37.805177;
+        $lat = 48.006239;
+        $lon = 37.805177;
 
 
         foreach ($restorans as $rest) {
@@ -374,14 +417,13 @@ class OrderController extends Controller
             $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude, $rest->longitude) / 1000);
 
             $range1 = $range;
-            $range2 = $range+2;
+            $range2 = $range + 2;
 
             $price1 = ceil(env("BASE_DELIVERY_PRICE") + ($range1 * env("BASE_DELIVERY_PRICE_PER_KM")));
             $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
-
-           // Log::info("RANGE=$range "." ЦЕНА:".ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))));
+            // Log::info("RANGE=$range "." ЦЕНА:".ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM"))));
 
 
             $order = Order::create([
@@ -395,7 +437,7 @@ class OrderController extends Controller
                 'status' => \App\Enums\OrderStatusEnum::InProcessing,
 
                 'delivery_price' => ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM"))),
-                'delivery_range' => floatval(sprintf("%.2f-%.2f", $range1,$range2)),
+                'delivery_range' => floatval(sprintf("%.2f-%.2f", $range1, $range2)),
                 'delivery_note' => "Доставить крабиком",
 
                 'receiver_name' => $user->name,

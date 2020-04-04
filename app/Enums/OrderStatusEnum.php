@@ -10,4 +10,5 @@ final class OrderStatusEnum extends Enum
     const GettingReady = 1;
     const InDeliveryProcess = 2;
     const Delivered = 3;
+    const DeclineByAdmin = 4;
 }
