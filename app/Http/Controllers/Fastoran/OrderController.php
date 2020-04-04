@@ -236,6 +236,7 @@ class OrderController extends Controller
 
     public function acceptOrder(Request $request, $orderId)
     {
+
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
@@ -517,6 +518,72 @@ class OrderController extends Controller
 
             ]);
         }
+    }
+
+    public function setDeliveredStatus(Request $request,$orderId){
+
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = User::find($request->user()->id);
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Deliveryman not found!"
+                ], 200);
+
+        if ($user->user_type !== UserTypeEnum::Deliveryman)
+            return response()
+                ->json([
+                    "message" => "You are not deliveryman"
+                ], 200);
+
+        if (is_null($order))
+            return response()
+                ->json([
+                    "message" => "Order not found!"
+                ], 404);
+
+        if ($order->deliveryman_id !== $user->id)
+            return response()
+                ->json([
+                    "message" => "Order linked with another Deliveryman!"
+                ], 200);
+
+        $order->status = OrderStatusEnum::Delivered;
+        $order->save();
+
+        $message = sprintf("Доставщик *#%s* успешно доставил заказ *#%s*",
+            $user->id,
+            $order->id
+        );
+
+        Telegram::sendMessage([
+            'chat_id' => $order->restoran->telegram_channel,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+        ]);
+
+        return response()
+            ->json([
+                "message" => "Success"
+            ], 200);
+    }
+
+    public function setCommentToOrder(Request $request,$orderId){
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $order->delivery_note = $request->get("comment")??'';
+        $order->save();
+
+        return response()
+            ->json([
+                "message" => "Success"
+            ], 200);
     }
 
 }
