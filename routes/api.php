@@ -61,7 +61,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('/restorans/kitchen/{kitchenId}', 'RestoransController@getRestoransByKitchenId');
 
         Route::any('/kitchens/menu/{kitchenId}', 'KitchenController@getMenuByKitchenId');
-
+        Route::any("order/{id}", "OrderController@getOrderById");
 
         Route::group([
             'middleware' => 'auth:api',
@@ -71,7 +71,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any("accept_order/{id}", "OrderController@acceptOrder");
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
             Route::any("decline_order/{id}", "OrderController@declineOrder");
-            Route::any("order/{id}", "OrderController@getOrderById");
+
 
 
         });

@@ -340,7 +340,7 @@ class OrderController extends Controller
 
     public function getDeliverymanOrders(Request $request)
     {
-        $orders = Order::with(["details", "restoran"])
+        $orders = Order::with(["details", "restoran","details.product"])
             ->where("deliveryman_id", $request->user()->id)
             ->get();
 
@@ -352,7 +352,7 @@ class OrderController extends Controller
 
     public function getOrderById($orderId)
     {
-        return Order::with(["restoran","user","details"])->where("id", $orderId)->first();
+        return Order::with(["restoran","user","details","details.product"])->where("id", $orderId)->first();
     }
 
     public function testOrder()
