@@ -31,6 +31,7 @@ Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->name("kitchen");
 
+Route::view("/faq", "fastoran.faq")->name("faq");
 Route::view("/about", "fastoran.about")->name("about");
 Route::view("/partner", "fastoran.partner")->name("partner");
 Route::view("/agreement", "fastoran.agreement")->name("agreement");

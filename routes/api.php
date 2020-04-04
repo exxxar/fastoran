@@ -16,8 +16,7 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
-;
+});;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/wish', 'RestController@sendWish');
@@ -37,7 +36,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('/send-request', 'RestController@sendRequest')->name("callback.request");
 
 
-
     Route::group([
         'namespace' => 'Fastoran',
         'prefix' => 'fastoran'
@@ -50,8 +48,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::resource('orders', 'OrderController');
         Route::resource('order_details', 'OrderDetailController');
 
-        Route::get("restorans/like/{id}",'RestoransController@like');
-        Route::get("restorans/dislike/{id}",'RestoransController@dislike');
+        Route::get("restorans/like/{id}", 'RestoransController@like');
+        Route::get("restorans/dislike/{id}", 'RestoransController@dislike');
 
         Route::any('kitchens', 'KitchenController@index');
         Route::any('menu_categories', 'MenuCategoryController@index');
@@ -70,9 +68,11 @@ Route::group(['prefix' => 'v1'], function () {
 
         ], function () {
 
-                Route::any("accept_order/{id}", "OrderController@acceptOrder");
-                Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
-                Route::any("decline_order/{id}", "OrderController@declineOrder");
+            Route::any("accept_order/{id}", "OrderController@acceptOrder");
+            Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
+            Route::any("decline_order/{id}", "OrderController@declineOrder");
+            Route::any("order/{id}", "OrderController@getOrderById");
+
 
         });
     });
@@ -82,7 +82,7 @@ Route::group(['prefix' => 'v1'], function () {
         'prefix' => 'auth'
     ], function () {
 
-        Route::post('/check/{type}', 'AuthController@checkUserExist')->where(["type"=>"[0-9]+"]);
+        Route::post('/check/{type}', 'AuthController@checkUserExist')->where(["type" => "[0-9]+"]);
 
         Route::post('/sms', 'AuthController@sendSmsVerify');
         Route::post('/verify', 'AuthController@checkVerifyUser');

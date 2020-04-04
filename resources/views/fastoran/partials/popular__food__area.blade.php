@@ -1,3 +1,4 @@
+<a name="restorans"></a>
 <section class="popular__food__area section-padding--lg bg-image--12">
     <div class="container">
         <div class="row">

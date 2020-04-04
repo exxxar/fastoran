@@ -1,3 +1,4 @@
+<a name="kitchens"></a>
 <section class="food__category__area bg--white section-padding--lg">
     <div class="container">
         <div class="row">

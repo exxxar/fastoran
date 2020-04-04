@@ -10,7 +10,7 @@
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
-
+    @laravelPWA
     <!-- Stylesheets -->
 
     <link rel="stylesheet" href="{{url('css/app.css')}}">

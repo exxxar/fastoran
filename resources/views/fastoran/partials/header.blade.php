@@ -14,8 +14,11 @@
                     <div class="main__menu__wrap">
                         <nav class="main__menu__nav d-none d-lg-block">
                             <ul class="mainmenu">
+                                <li><a href="#restorans">Рестораны</a></li>
+                                <li><a href="#kitchens">Кухни</a></li>
+                                <li><a href="{{route("faq")}}">F.A.Q.</a></li>
                                 <li><a href="{{route("about")}}">О Нас</a></li>
-                                <li><a href="{{route("contacts")}}">Контакты</a></li>
+                                <li><a href="#contacts">Контакты</a></li>
                             </ul>
                         </nav>
 
@@ -25,7 +28,7 @@
                     <div class="header__right d-flex justify-content-end">
                         <div class="log__in">
                            {{-- <a class="accountbox-trigger" href="#"><i class="zmdi zmdi-account-o"></i></a>--}}
-                            
+
                         </div>
                         <div class="shopping__cart">
                             <a class="minicart-trigger" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>

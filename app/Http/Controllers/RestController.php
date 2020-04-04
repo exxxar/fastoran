@@ -29,6 +29,7 @@ class RestController extends Controller
             ->skip(0);
 
         $kitchens = Kitchen::where("is_active", 1)
+            //->where("rest_count",">",0)
             ->get();
 
         $kitchens_count = count($kitchens);

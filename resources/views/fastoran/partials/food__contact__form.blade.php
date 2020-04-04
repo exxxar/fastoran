@@ -1,4 +1,4 @@
-
+<a name="contacts"></a>
 <section class="food__contact__form bg--white section-padding--lg">
     <div class="container">
         <div class="row">
