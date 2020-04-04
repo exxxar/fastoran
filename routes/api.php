@@ -63,6 +63,20 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('/restorans/kitchen/{kitchenId}', 'RestoransController@getRestoransByKitchenId');
         Route::any('/kitchens/menu/{kitchenId}', 'KitchenController@getMenuByKitchenId');
 
+
+        Route::group([
+            'middleware' => 'auth:api',
+
+        ], function () {
+
+            Route::group([
+                'namespace' => 'Fastoran',
+            ], function () {
+                Route::any("accept_order/{id}", "OrderController@acceptOrder");
+                Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
+                Route::any("decline_order/{id}", "OrderController@declineOrder");
+            });
+        });
     });
 
     Route::group([
@@ -90,13 +104,6 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any('logout', 'AuthController@logout');
             Route::any('user', 'AuthController@user');
 
-            Route::group([
-                'namespace' => 'Fastoran',
-            ], function () {
-                Route::any("accept_order/{id}", "OrderController@acceptOrder");
-                Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
-                Route::any("decline_order/{id}", "OrderController@declineOrder");
-            });
         });
     });
 
