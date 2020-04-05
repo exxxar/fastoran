@@ -27,6 +27,13 @@
                 return this.$store.getters.cartProducts;
             }
         },
+        mounted() {
+            let callback = (val, oldVal, uri) => {
+                this.$store.dispatch("getProductList")
+            }
+
+            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+        },
         methods: {
             checkFirstRestoran(restId) {
                 return this.products.filter(item => item.product.rest_id !== restId).length === 0 || this.products.length === 0;

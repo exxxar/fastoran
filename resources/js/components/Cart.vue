@@ -13,6 +13,7 @@
                     <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
                            class="product-name">{{item.product.food_name}}</a></h5>
                     <p><span class="product-counter">
+
                        Количество:  {{item.quantity}}
                         <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
                                 @click="decrement(item.product.id)">-</button>
@@ -38,10 +39,14 @@
             </ul>
         </div>
         <div class="cartbox__buttons">
-            <a class="food__btn"
+            <input type="text" placeholder="Ваш номер телефона" name="phone"
+                   v-model="phone"
+                   required="required" pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}" class="form_control" maxlength="19"
+                   v-mask="['+38 (###) ###-##-##']">
+           <!-- <a class="food__btn"
                href="https://d29u17ylf1ylz9.cloudfront.net/aahar/cart.html"><span>Оформить заказ</span></a>
             <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/checkout.html"><span>Очистить корзину</span></a>
+               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/checkout.html"><span>Очистить корзину</span></a>-->
         </div>
     </div>
     <!--<div class="cart">
@@ -205,13 +210,22 @@
                 name: '',
                 message: '',
                 deliveryPrice: 50,
-                sending: false
+                sending: false,
+
             }
         },
+
         mounted() {
+            let callback = (val, oldVal, uri) => {
+                this.$store.dispatch("getProductList")
+            }
+
+            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+
             this.$store.dispatch("getProductList")
         },
         activated() {
+
             this.$store.dispatch("getProductList")
         },
         computed: {

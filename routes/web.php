@@ -28,6 +28,8 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::get('/', 'RestController@getMainPage');
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
+Route::get('/all-menu', 'RestController@getAllMenu')->name("all.menu");
+
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->name("kitchen");
@@ -35,9 +37,13 @@ Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->na
 Route::view("/faq", "fastoran.faq")->name("faq");
 Route::view("/about", "fastoran.about")->name("about");
 Route::view("/partner", "fastoran.partner")->name("partner");
-Route::view("/agreement", "fastoran.agreement")->name("agreement");
-Route::view("/questions", "fastoran.questions")->name("questions");
+
+
 Route::view("/contacts", "fastoran.contacts")->name("contacts");
+
+Route::view("/questions", "fastoran.questions")->name("questions");
+Route::view("/agreement", "fastoran.agreement")->name("agreement");
+Route::view("/terms-of-user", "fastoran.terms-of-use")->name("terms");
 
 Route::post('/save', 'ContentController@save')->name("test.save");
 

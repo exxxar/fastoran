@@ -1,13 +1,15 @@
 const state = {
-    items: [],
+    items: localStorage.getItem('vuejs__store') == null?[]:JSON.parse(localStorage.getItem('vuejs__store')),
 }
 
 // getters
 const getters = {
     cartProducts: (state, getters, rootState) => {
+
         return state.items;
     },
     cartTotalCount: (state, getters) => {
+
         let summ = 0;
         state.items.forEach((item)=>{
             summ+=item.quantity
@@ -26,6 +28,7 @@ const getters = {
 // actions
 const actions = {
     getProductList({state, commit}) {
+        state.items = localStorage.getItem('vuejs__store') == null?[]:JSON.parse(localStorage.getItem('vuejs__store'))
         return state.items
     },
     inCart({state, commit}, id){
@@ -33,18 +36,23 @@ const actions = {
     },
     addProductToCart({state, commit}, product) {
         commit('pushProductToCart', product);
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     },
     incQuantity({state, commit}, id) {
         commit('incrementItemQuantity', id);
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     },
     decQuantity({state, commit}, id) {
         commit('decrementItemQuantity', id);
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     },
     removeProduct({state, commit}, id) {
         commit('removeItem', id);
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     },
     clearCart({state, commit}) {
         commit('clearAllItems');
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     }
 }
 

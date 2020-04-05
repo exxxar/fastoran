@@ -67,6 +67,13 @@ class RestController extends Controller
 
     }
 
+    public function getAllMenu(Request $request){
+        $products = RestMenu::paginate(20);
+
+        return view('product-list', compact('products'))
+            ->with('i', ($request->get('page', 1) - 1) * 15);
+    }
+
     public function getRestList(Request $request)
     {
         $restorans = Restoran::with(["kitchens", "menus"])
