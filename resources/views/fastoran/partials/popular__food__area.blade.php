@@ -16,7 +16,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 foo">
                     <div class="popular__food">
                         <div class="pp_food__thumb">
-                            <a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/menu-details.html">
+                            <a href="{{route("rest",$rest->url)}}">
                                 <img src="{{$rest->logo}}"
                                      alt="popular food">
                             </a>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="pp__food__inner">
                             <div class="pp__food__details">
-                                <h4><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/menu-details.html">
+                                <h4><a href="{{route("rest",$rest->url)}}">
                                         {{$rest->name}}</a></h4>
                                 <ul class="pp__meta d-flex">
                                     <li><a href="#"><i class="zmdi zmdi-comment-outline"></i>{{$rest->comments_count}}
@@ -36,7 +36,7 @@
                                 <div class="pp__food__bottom d-flex justify-content-between align-items-center">
                                     <div class="pp__btn">
                                         <a class="food__btn btn--transparent btn__hover--theme btn__hover--theme"
-                                           href="#">Меню ресторана</a>
+                                           href="{{route("rest",$rest->url)}}">Меню ресторана</a>
                                     </div>
 
                                 </div>

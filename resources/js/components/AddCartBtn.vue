@@ -98,7 +98,7 @@
         width: 100%;
         height: 100%;
         font-size: 20px;
-        padding: 20px;
+        padding: 10px;
         z-index: 10;
         box-sizing: border-box;
     }
@@ -106,7 +106,7 @@
     .cnt-container {
         display: flex;
         justify-content: space-around;
-        width: 100px;
+        width: 90px;
 
         p {
             text-align: center;

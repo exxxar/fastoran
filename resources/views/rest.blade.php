@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    @include("partials.main-slider")
-    @include("partials.bread-crumbs")
-    @include("partials.filters")
+
+
+    @include("fastoran.partials.header")
+    @include("fastoran.partials.ht__bradcaump__area",["title"=>$restoran->name])
     @include("partials.rest-info")
-    @include("partials.menu")
+    @include("partials.rest-list")
+    @include("fastoran.partials.food__list")
+    @include("fastoran.partials.food__contact")
+    @include("fastoran.partials.footer__area")
+
 @endsection

@@ -5,8 +5,8 @@
             <div class="row">
                 <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
                     <div class="logo">
-                        <a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/index.html">
-                            <img src="img/header-logo-2.png" alt="logo images">
+                        <a href="{{url('/')}}">
+                            <img src="{{asset('/img/header-logo-2.png')}}" alt="logo images">
                         </a>
                     </div>
                 </div>
@@ -14,10 +14,29 @@
                     <div class="main__menu__wrap">
                         <nav class="main__menu__nav d-none d-lg-block">
                             <ul class="mainmenu">
-                                <li><a href="#restorans">Рестораны</a></li>
-                                <li><a href="#kitchens">Кухни</a></li>
-                                <li><a href="{{route("faq")}}">F.A.Q.</a></li>
-                                <li><a href="{{route("about")}}">О Нас</a></li>
+                                <li class="drop"><a href="#restorans">Рестораны</a>
+                                    <ul class="dropdown__menu">
+                                        @foreach($restorans as $rest)
+                                            <li><a href="{{route("rest",$rest->url)}}">{{$rest->name}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <li class="drop"><a href="#kitchens">Кухни</a>
+                                    <ul class="dropdown__menu">
+                                        @foreach($kitchens as $kitchen)
+                                        <li><a href="{{route("kitchen",$kitchen->id)}}">{{$kitchen->name}}</a></li>
+                                       @endforeach
+                                    </ul>
+                                </li>
+                                <li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
+                                    <ul class="dropdown__menu">
+                                        <li><a href="{{route("faq")}}">Руководство пользователя</a></li>
+                                        <li><a href="{{route("questions")}}">Вопросы и ответы</a></li>
+                                        <li><a href="{{route("agreement")}}">Пользовательское соглашение</a></li>
+                                        <li><a href="{{route("terms")}}">Как мы работаем</a></li>
+                                        <li><a href="{{route("about")}}">О нас</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="#contacts">Контакты</a></li>
                             </ul>
                         </nav>

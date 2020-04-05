@@ -6,9 +6,11 @@
                 <div class="contact__form__wrap">
                     <h2>Свяжись с нами</h2>
                     <div class="contact__form__inner">
-                        <form id="contact-form" action="mail.php" method="post">
+                        <form action="{{route("wish")}}" method="post">
+                            @csrf
                             <div class="single-contact-form">
-                                <div class="contact-box name d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
+                                <div
+                                    class="contact-box name d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
                                     <input type="text" name="name" placeholder="Ваше Ф.И.О.">
                                     <input type="email" name="email" placeholder="Ваша почта">
                                     <input type="text" name="phone" placeholder="Номер телефона">
@@ -25,7 +27,14 @@
                         </form>
                     </div>
                     <div class="form-output">
-                        <p class="form-messege"></p>
+                        @if ($message = Session::get('message'))
+                            <div class="alert alert-success alert-block">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {{ $message }}
+                            </div>
+                        @endif
+
+
                     </div>
                 </div>
             </div>

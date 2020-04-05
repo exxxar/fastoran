@@ -2,7 +2,7 @@
     <div class="cartbox__inner text-left">
         <div class="cartbox__items">
             <!-- Cartbox Single Item -->
-            <div class="cartbox__item" v-for="item in  cartProducts">
+            <div class="cartbox__item" v-if="cartProducts.length>0" v-for="item in  cartProducts">
                 <div class="cartbox__item__thumb">
                     <a href="product-details.html">
                         <img :src="item.product.food_img"
@@ -27,26 +27,36 @@
                 </button>
             </div>
 
+            <h4 v-if="cartProducts.length==0">Вы еще не выбрали никакой товар!</h4>
         </div>
-        <div class="cartbox__total">
+        <div class="cartbox__inputs" v-if="cartProducts.length>0">
+
+            <input type="text" v-model="address" @blur="getRangePrice" placeholder="Введите ваш адрес">
+
+            <input type="text" v-model="name" @blur="getRangePrice" placeholder="Введите ваше имя">
+            <p v-if="message.length>0">{{message}}</p>
+            <input type="text" placeholder="Ваш номер телефона" name="phone" @blur="sendSms"
+                   v-model="phone"
+                   required="required" pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}" class="form_control"
+                   maxlength="19"
+                   v-mask="['+38 (###) ###-##-##']">
+
+            <input type="number" v-model="sms_code" @blur="checkValidCode" placeholder="Введите код из СМС">
+        </div>
+        <div class="cartbox__total" v-if="cartProducts.length>0">
             <ul>
                 <li><span class="cartbox__total__title">Цена заказа</span><span class="price">{{cartTotalPrice| currency}}</span>
                 </li>
-                <li class="shipping-charge"><span class="cartbox__total__title">Цена доставки</span><span
+                <li class="shipping-charge" v-if="delivery_range!=null"><span class="cartbox__total__title">Цена доставки</span><span
                     class="price">{{deliveryPrice|currency}}</span></li>
                 <li class="grandtotal">Сумма заказа<span
                     class="price">{{cartTotalPrice+deliveryPrice | currency}}</span></li>
             </ul>
         </div>
-        <div class="cartbox__buttons">
-            <input type="text" placeholder="Ваш номер телефона" name="phone"
-                   v-model="phone"
-                   required="required" pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}" class="form_control" maxlength="19"
-                   v-mask="['+38 (###) ###-##-##']">
-           <!-- <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/cart.html"><span>Оформить заказ</span></a>
-            <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/checkout.html"><span>Очистить корзину</span></a>-->
+
+        <div class="cartbox__buttons" v-if="cartProducts.length>0">
+            <a class="food__btn" v-if="is_valid" @click="sendRequest"><span>Оформить заказ</span></a>
+            <a class="food__btn" @click="clearCart" v-if="cartProducts.length>0"><span>Очистить корзину</span></a>
         </div>
     </div>
     <!--<div class="cart">
@@ -206,11 +216,19 @@
     export default {
         data() {
             return {
-                phone: '',
+                is_valid: false,
+                phone: null,
                 name: '',
                 message: '',
-                deliveryPrice: 50,
+                address: '',
+                delivery_range: null,
+                deliveryPrice: 0,
                 sending: false,
+                sms_code: null,
+                coords: {
+                    latitude: 0,
+                    longitude: 0
+                }
 
             }
         },
@@ -223,6 +241,8 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
 
             this.$store.dispatch("getProductList")
+
+
         },
         activated() {
 
@@ -240,31 +260,81 @@
             }
         },
         methods: {
-            sendRequest(e) {
-                e.preventDefault();
-                this.sending = true;
-                let products = '';
-                this.cartProducts.forEach(function (item) {
-                    products += item.product.title + "_#" + item.product.id + "_ x  " + item.quantity + "штук => " + item.quantity * item.product.price + "₽\n"
-                });
-                let message = `*Заказ с сайта:*\n${products}\n_${this.message}_\nСуммарно: ${this.cartTotalPrice + this.deliveryPrice} ₽`;
+            canSendOrder() {
+                return this.delivery_range != null && this.cartProducts.length > 0 && this.phone.length > 10
+            },
+            sendSms() {
+                this.message = "На ваш номер отправлен смс с кодом!";
                 axios
-                    .post('api/send-request', {
-                        name: this.name,
+                    .post("/api/v1/fastoran/order/sms", {
+                        "phone": this.phone,
+                        "name": this.name
+                    })
+            },
+            checkValidCode() {
+                axios
+                    .post("api/v1/fastoran/check_valid_code", {
+                        "phone": this.phone,
+                        "code": this.sms_code
+                    }).then(resp => {
+                    this.is_valid = resp.data.is_valid
+                    this.message = '';
+                });
+            },
+
+            getRangePrice() {
+                axios
+                    .post("/api/v1/range/" + this.cartProducts[0].product.rest_id, {
+                        "address": this.address
+                    }).then(resp => {
+
+                    this.delivery_range = resp.data.range
+                    this.deliveryPrice = resp.data.price
+                    this.coords.latitude = resp.data.latitude
+                    this.coords.longitude = resp.data.longitude
+
+                });
+            },
+
+            sendRequest(e) {
+               // e.preventDefault();
+                this.sending = true;
+                let products = [];
+                this.cartProducts.forEach(function (item) {
+                    products.push({
+                        product_id: item.product.id,
+                        count: item.quantity,
+                        price: item.product.food_price
+                    })
+                });
+                axios
+                    .post('api/v1/fastoran/orders', {
                         phone: this.phone,
-                        message: message
+                        receiver_name: this.name,
+                        receiver_phone: this.phone,
+                        receiver_latitude: this.coords.latitude,
+                        receiver_longitude: this.coords.longitude,
+                        rest_id: this.cartProducts[0].product.rest_id,
+                        status: 0,
+                        receiver_delivery_time: '',
+                        receiver_address: this.address,
+                        receiver_order_note: '',
+                        receiver_domophone: '',
+                        order_details: products
                     })
                     .then(response => {
-                        this.sendMessage("Заказ успешно отправлен");
-                        this.sending = false;
+                        this.sendMessage(response.data.message);
+                        this.message = '';
+                        this.sms_code = '';
+                        this.is_valid = false;
                         this.clearCart()
                     });
             },
             sendMessage(message) {
                 this.$notify({
-                    group: 'messages',
+                    group: 'info',
                     type: 'success',
-                    title: 'Отправка заказа ISUSHI',
+                    title: 'Отправка заказа Fastoran',
                     text: message
                 });
             },
@@ -284,8 +354,23 @@
         directives: {mask}
     }
 </script>
-<style lang="scss">
-    .chopcafe_custom_table {
-        min-width: 1000px;
+<style lang="scss" scoped>
+    .cartbox__inputs {
+        padding: 10px;
+        width: 100%;
+        margin-top: 5px;
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px lightblue solid;
+        }
+    }
+
+    .food__btn {
+        span {
+            color: white;
+        }
     }
 </style>

@@ -27,6 +27,8 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 
 Route::get('/', 'RestController@getMainPage');
+Route::any('/search', 'RestController@searchFood')->name("search");
+
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/all-menu', 'RestController@getAllMenu')->name("all.menu");
 
@@ -101,15 +103,15 @@ Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
                 //echo $item2["description"]." ".$item2["price"]["text"]." ".$item2["thumb_photo"]." ".$item2["title"]."<br>";
 
 
-                preg_match_all('|\d+|', $item2["description"], $matches);
+                //preg_match_all('|\d+|', $item2["description"], $matches);
 
                // $count = $matches[0][0] ?? 0;
 
-                $weight = count($matches[0])>=2?($matches[0][0] ?? 0):0;
+                $weight = 0;//count($matches[0])>=2?($matches[0][0] ?? 0):0;
 
-                preg_match_all('|\d+|', $item2["price"]["text"], $matches);
+                //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
-                $price = $matches[0][0] ?? 0;
+                $price = intval($item2["price"]["text"]);//$matches[0][0] ?? 0;
 
                 Log::info($item["title"]);
                 $rest = Restoran::where("name", $item["title"])->first();
@@ -184,8 +186,7 @@ Route::get("/test_login", function () {
 
 
 Route::get("/test_geo",function(){
-    $data = YaGeo::setQuery('Kiev, Vishnevoe, Lesi Ukrainki, 57')->load();
-    dd($data);
+    $data = YaGeo::setQuery('Донецк, ул. Артема')->load();
     $data = $data->getResponse()->getLatitude();
     dd($data);
 

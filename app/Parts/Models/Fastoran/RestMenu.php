@@ -28,6 +28,11 @@ class RestMenu extends Model
         'rating', 'food_ext'
     ];
 
+    public function restoran()
+    {
+        return $this->hasOne(Restoran::class, 'id', 'rest_id');
+    }
+
     public function category()
     {
         return $this->hasOne(MenuCategory::class, 'id', 'food_category_id');

@@ -19,7 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });;
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::post('/wish', 'RestController@sendWish');
+    Route::post("/range/{restId}","Fastoran\OrderController@getRange");
+
+    Route::post('/wish', 'RestController@sendWish')->name("wish");
 
     Route::get('/kitchen-list', 'RestController@getKitchenList');
 
@@ -40,6 +42,10 @@ Route::group(['prefix' => 'v1'], function () {
         'namespace' => 'Fastoran',
         'prefix' => 'fastoran'
     ], function () {
+
+        Route::post('order/sms', 'OrderController@sendSmsVerify');
+        Route::post("check_valid_code", "OrderController@checkValidCode");
+
         Route::resource('restorans', 'RestoransController');
         Route::resource('cetegories', 'CategoryController');
         Route::resource('kitchens', 'KitchenController');
@@ -69,6 +75,8 @@ Route::group(['prefix' => 'v1'], function () {
         ], function () {
 
 
+
+
             Route::any("accept_order/{id}", "OrderController@acceptOrder");
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
             Route::any("decline_order/{id}", "OrderController@declineOrder");
@@ -82,6 +90,8 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any("order/{id}", "OrderController@getOrderById")->where(["id"=>"[0-9]+"]);
             Route::any("order/status/delivered/{id}", "OrderController@setDeliveredStatus");
             Route::any("order/comment/{id}", "OrderController@setCommentToOrder");
+
+
 
         });
     });
@@ -134,6 +144,8 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
 });
+
+
 
 
 

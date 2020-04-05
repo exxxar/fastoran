@@ -9,13 +9,15 @@
                             <div class="slider__inner">
                                 <h2>“FASTORAN”</h2>
                                 <h1>Доставка еды &amp; сервис</h1>
-                                <div class="slider__input">
-                                    <input type="text" placeholder="Type Place, City.Division">
-                                    <input class="res__search" type="text" placeholder="Restaurant">
+                                <form class="slider__input custom__slider__input" action="{{route('search')}}" method="post">
+                                    @csrf
+                                    <input type="text" name="food_name" placeholder="Введите название блюда">
+                                    <span>или</span>
+                                    <input class="res__search" name="rest_name" type="text" placeholder="Введите название ресторана">
                                     <div class="src__btn">
-                                        <a href="#">Search</a>
+                                        <button class="btn btn-primary btn-primary-custom" type="submit">Найти</button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

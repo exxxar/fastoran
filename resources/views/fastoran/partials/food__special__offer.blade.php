@@ -126,6 +126,11 @@
                             <h4 class="banner__h4">
                                 <mark>{{$product->food_price}}₽</mark>
                             </h4>
+                            <div class="rest-img">
+                                <a href="{{route("rest",$product->restoran->url)}}">
+                                    <img src="{{$product->restoran->logo}}" alt="">
+                                </a>
+                            </div>
                             <div class="banner__hover__action banner__left__bottom">
                                 <div class="banner__hover__inner">
 
@@ -139,42 +144,14 @@
                     </div>
                     <!-- End Single Banner -->
                 @endforeach
-                {{--  <!-- Start Single Banner -->
-                  <div class="col-md-6 col-lg-3 col-sm-12">
-                      <div class="banner--2 foo">
-                          <div class="banner__thumb">
-                              <a href="#"><img
-                                      src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/2.jpg"
-                                      alt="banner images"></a>
-                          </div>
-                          <div class="banner__hover__action banner__left__top">
-                              <div class="banner__hover__inner">
-                                  <h4>colorful</h4>
-                                  <h2 class="pink-text">donut’s</h2>
-                                  <p>get it till the stock full</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- End Single Banner -->
-                  <!-- Start Single Banner -->
-                  <div class="col-md-12 col-lg-6 col-sm-12">
-                      <div class="banner--2 foo">
-                          <div class="banner__thumb">
-                              <a href="#"><img
-                                      src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-2/3.jpg"
-                                      alt="banner images"></a>
-                          </div>
-                          <div class="banner__hover__action banner__right__bottom">
-                              <div class="banner__hover__inner">
-                                  <h4 class="vanilla">vanilla</h4>
-                                  <h2 class="pink-text">MAFFIN</h2>
-                                  <p>Lovely Food for Food lover</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- End Single Banner -->--}}
+
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-sm-12">
+                    <h5 class="text-center"><a href="{{route("all.menu")}}" class="food__btn">Посмотреть все
+                            продукты</a></h5>
+                </div>
             </div>
         </div>
     </div>

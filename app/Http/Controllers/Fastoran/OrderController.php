@@ -13,9 +13,12 @@ use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Yandex\Geocode\Facades\YandexGeocodeFacade;
+
 
 class OrderController extends Controller
 {
@@ -66,6 +69,82 @@ class OrderController extends Controller
         //
     }
 
+    public function checkValidCode(Request $request)
+    {
+        $phone = $request->get("phone") ?? '';
+        $code = $request->get("code") ?? '';
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone);
+
+        $user = User::where("phone", $phone)->first();
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Номер телефона не найден!",
+                    "is_valid" => false,
+                ]);
+
+        if ($user->auth_code != $code)
+            return response()
+                ->json([
+                    "message" => "Ваш телефон не подвержден!:$code $phone",
+                    "is_valid" => false,
+                ]);
+
+        return response()
+            ->json([
+                "message" => "Номер успешно подтвержден!",
+                "is_valid" => true,
+            ]);
+
+
+    }
+
+    public function sendSmsVerify(Request $request)
+    {
+
+        $phone = $request->get("phone") ?? '';
+        $name = $request->get("name") ?? '';
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone);
+
+
+        $user = User::where("phone", $phone)->first();
+
+        $client = new Client();
+
+        if (is_null($user))
+            $resp = $client->request('POST', 'https://fastoran.com/api/v1/auth/signup_phone', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'body' => json_encode([
+                    'phone' => $phone,
+                    'name' => $name
+                ]),
+            ]);
+        else
+            $resp = $client->request('POST', 'https://fastoran.com/api/v1/auth/sms', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'body' => json_encode([
+                    'phone' => $phone,
+                ]),
+            ]);
+
+        return response()
+            ->json([
+                "message" => "success $phone"
+            ], 200);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -74,9 +153,13 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $phone = $request->get("phone") ?? null;
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone ?? '');
 
-
-        $user = User::find(auth()->guard('api')->user()->id);
+        $user = !is_null($phone) ?
+            User::where("phone", $phone)->first() :
+            User::find($request->user()->id);
 
         $order = Order::create($request->all());
 
@@ -86,7 +169,8 @@ class OrderController extends Controller
         $order->save();
 
 
-        $order_details = $request->get("order_details");
+       // return json_decode($request->get("order_details"),true);
+        $order_details = json_decode($request->get("order_details"),true);
 
         $delivery_order_tmp = "";
         foreach ($order_details as $od) {
@@ -402,6 +486,46 @@ class OrderController extends Controller
         return Order::with(["restoran", "user", "details", "details.product"])->where("id", $orderId)->first();
     }
 
+    public function getRange(Request $request, $restId)
+    {
+        $request->validate([
+            'address' => 'required'
+        ]);
+
+
+        $data = YandexGeocodeFacade::setQuery($request->get("address") ?? '')->load();
+
+        $data = $data->getResponse();
+
+        if (is_null($data))
+            return response()
+                ->json([
+                    "range" => 0,
+                    "price" => 500,
+                    "latitude" => 0,
+                    "longitude" => 0
+                ]);
+
+        $lat = $data->getLatitude();
+        $lon = $data->getLongitude();
+
+        $rest = Restoran::find($restId);
+
+        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
+
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+
+        return response()
+            ->json([
+                "range" => floatval(sprintf("%.2f", $range)),
+                "price" => $price,
+                "latitude" => $lat,
+                "longitude" => $lon
+            ]);
+
+
+    }
+
     public function testOrder()
     {
         $restorans = Restoran::with(["menus"])->get();
@@ -611,12 +735,19 @@ class OrderController extends Controller
         $user->save();
 
         $deliveryman_status_text = "Не установлен";
-        switch ($type)
-        {
-            case 1: $deliveryman_status_text = "Пеший"; break;
-            case 2: $deliveryman_status_text = "Велосипед"; break;
-            case 3: $deliveryman_status_text = "Мотоцикл"; break;
-            case 4: $deliveryman_status_text = "Машина"; break;
+        switch ($type) {
+            case 1:
+                $deliveryman_status_text = "Пеший";
+                break;
+            case 2:
+                $deliveryman_status_text = "Велосипед";
+                break;
+            case 3:
+                $deliveryman_status_text = "Мотоцикл";
+                break;
+            case 4:
+                $deliveryman_status_text = "Машина";
+                break;
         }
 
         Telegram::sendMessage([

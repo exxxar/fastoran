@@ -291,7 +291,7 @@ class AuthController extends Controller
 
         SemySMS::sendOne([
             'to' => $phone,
-            'text' => "You verify code:$code"
+            'text' => "Ваш код верификации:$code"
         ]);
 
         return response()

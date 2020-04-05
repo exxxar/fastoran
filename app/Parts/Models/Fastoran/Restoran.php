@@ -68,7 +68,7 @@ class Restoran extends Model
 
     ];
 
-     protected $appends = ["comments_count","rating"];
+     protected $appends = ["comments_count","rating","speicalization"];
 
     public function getCommentsCountAttribute(){
         return 0;
@@ -85,6 +85,14 @@ class Restoran extends Model
         return $this->hasMany(RestMenu::class, 'rest_id', 'id');
     }
 
+    public function getSpeicalizationAttribute(){
+        $kitchens = $this->kitchens;
+        $tmp = "";
+        foreach ($kitchens as $k)
+            $tmp .= "#".$k->name .",";
+
+        return "Доставка еды";
+    }
 
 
     public function getRatingAttribute()

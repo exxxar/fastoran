@@ -3,23 +3,27 @@
         <div class="row">
             <div class="col-lg-12 col-lg-12">
                 <div class="section__title title__style--2 service__align--center">
-                    <h2 class="title__line">Why Choose Us</h2>
-                    <p>The process of our service </p>
+                    <h2 class="title__line">Почему выбирают именно нас?</h2>
+                    <p>Немного деталей о нашем сервисе</p>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-lg-12">
                 <div class="choose__wrap text-center mt--50">
-                    <p>Lorem ipsutempor incididunt ut laveniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo conseq  uat. Duccaecat cupid Cganjam proident, sunt in culpa qui officia deserunt molperspiciatis.</p>
+                    <p>Fastoran – это удобный сервис для быстрого и выгодного заказа блюд из ресторанов и кафе, продуктов из магазинов и аптек, а также любых других товаров вашего города. Fastoran создан для комфорта и удобства заказа любимых товаров. Выбирайте и сравнивайте блюда в меню различных заведений, добавляйте их корзину и оформляйте доставку за несколько кликов!
+
+                       </p>
                     <ul class="fd__choose__list d-flex justify-content-center">
-                        <li>1. Ontime Delivery</li>
-                        <li>2. Free Delivery Cost</li>
-                        <li>3. Best Quality Food</li>
+                        <li>1.  Fastoran - это самый удобный сервис!</li>
+                        <li>2.  Fastoran - это быстрая доставка!</li>
+                        <li>3.  Fastoran - это Ваш комфорт!</li>
                     </ul>
-                    <p>t voluptatem accusantium doloremque laudantium, totaeaque ipsa quae ab illo inventore veritarchibeatae vitae dicta sunt explicabo.  voluptat evoluptas sit aspernatur aut odit aut fugit, seconsequumagni dolores eosvolupadipisci velit, sed quia non numquam eius modi tempora incidunt ut labore.</p>
+                    <p>Наш сервис максимально упрощён и адаптирован для Вашего удобства.
+                        Сделав заказ через нашу корзину заказ отправляется, заведению, после чего курьеру и прямиком к Вам.
+                        * заказы принимаются только на одно заведения, для заказа из нескольких заведений можно оформить несколько заказов</p>
                     <div class="chooseus__btn">
-                        <a class="food__btn" href="#">Read More</a>
+                        <a class="food__btn" href="{{route("about")}}">Узнай больше</a>
                     </div>
                 </div>
             </div>

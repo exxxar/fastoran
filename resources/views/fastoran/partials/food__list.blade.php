@@ -26,6 +26,11 @@
                             <h4 class="banner__h4">
                                 <mark>{{$product->food_price}}₽</mark>
                             </h4>
+                            <div class="rest-img">
+                                <a href="{{route("rest",$product->restoran->url)}}">
+                                <img src="{{$product->restoran->logo}}" alt="">
+                                </a>
+                            </div>
                             <div class="banner__hover__action banner__left__bottom">
                                 <div class="banner__hover__inner">
 
@@ -41,11 +46,12 @@
                 @endforeach
 
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                   {{$products->links()}}
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        {{$products->links()}}
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </section>
