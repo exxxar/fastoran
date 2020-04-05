@@ -2,7 +2,7 @@
     <div class="cartbox__inner text-left">
         <div class="cartbox__items">
             <!-- Cartbox Single Item -->
-            <div class="cartbox__item" v-for="item in items">
+            <div class="cartbox__item" v-for="item in  cartProducts">
                 <div class="cartbox__item__thumb">
                     <a href="product-details.html">
                         <img :src="item.product.food_img"
@@ -12,10 +12,16 @@
                 <div class="cartbox__item__content">
                     <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
                            class="product-name">{{item.product.food_name}}</a></h5>
-                    <p>Количество: <span>{{item.quantity}}</span></p>
-                    <span class="price">{{item.product.food_price}}</span>
+                    <p><span class="product-counter">
+                       Количество:  {{item.quantity}}
+                        <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
+                                @click="decrement(item.product.id)">-</button>
+                        <button type="button" class="btn btn-coutner"
+                                @click="increment(item.product.id)">+</button></span></p>
+                    <span class="price">{{item.product.food_price| currency}} / {{item.product.food_price*item.quantity | currency }}</span>
+
                 </div>
-                <button class="cartbox__item__remove">
+                <button class="cartbox__item__remove" @click="remove(item.product.id)">
                     <i class="fa fa-trash"></i>
                 </button>
             </div>
@@ -23,10 +29,12 @@
         </div>
         <div class="cartbox__total">
             <ul>
-                <li><span class="cartbox__total__title">Цена заказа</span><span class="price">$70</span></li>
+                <li><span class="cartbox__total__title">Цена заказа</span><span class="price">{{cartTotalPrice| currency}}</span>
+                </li>
                 <li class="shipping-charge"><span class="cartbox__total__title">Цена доставки</span><span
-                    class="price">$05</span></li>
-                <li class="grandtotal">Сумма заказа<span class="price">$75</span></li>
+                    class="price">{{deliveryPrice|currency}}</span></li>
+                <li class="grandtotal">Сумма заказа<span
+                    class="price">{{cartTotalPrice+deliveryPrice | currency}}</span></li>
             </ul>
         </div>
         <div class="cartbox__buttons">
@@ -189,15 +197,15 @@
 </template>
 <script>
     import {mask} from 'vue-the-mask'
+
     export default {
         data() {
             return {
                 phone: '',
                 name: '',
                 message: '',
-                items:[],
                 deliveryPrice: 50,
-                sending:false
+                sending: false
             }
         },
         mounted() {
@@ -223,7 +231,7 @@
                 this.sending = true;
                 let products = '';
                 this.cartProducts.forEach(function (item) {
-                    products += item.product.title +"_#"+item.product.id+ "_ x  "+ item.quantity + "штук => " + item.quantity * item.product.price + "₽\n"
+                    products += item.product.title + "_#" + item.product.id + "_ x  " + item.quantity + "штук => " + item.quantity * item.product.price + "₽\n"
                 });
                 let message = `*Заказ с сайта:*\n${products}\n_${this.message}_\nСуммарно: ${this.cartTotalPrice + this.deliveryPrice} ₽`;
                 axios

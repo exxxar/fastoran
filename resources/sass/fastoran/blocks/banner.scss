@@ -378,6 +378,7 @@
 .banner--2{
 	margin-top: 40px;
     position: relative;
+
 	.banner__thumb{
 		a{
 			display:block;
@@ -401,6 +402,7 @@
 			top: auto;
 			transform: translate(0px);
 			width: auto;
+
 		}
 		&.banner__left__top{
 			left: 30px;
@@ -436,7 +438,7 @@
 			}
 			h2{
 
-			    font-size: 20px;
+			    font-size: 14px;
 			    font-weight: 900;
 			    text-transform: capitalize;
                 color: #fff;

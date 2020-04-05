@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    @include("partials.main-slider")
-    @include("partials.bread-crumbs")
+    @include("fastoran.partials.header")
+    @include("fastoran.partials.ht__bradcaump__area")
     @include("partials.filters")
     @include("partials.rest-list")
+    @include("fastoran.partials.footer__area")
+
+
 @endsection

@@ -18,6 +18,7 @@
 
     <!-- Modernizer js -->
     <script src="{{url('js/vendor/modernizr-3.5.0.min.js')}}"></script>
+
 </head>
 
 <body>
@@ -30,6 +31,7 @@
 
     <!-- Main wrapper -->
     <div class="wrapper" id="wrapper">
+        <notifications :position="'top left'" :group="'info'"></notifications>
         @yield("content")
     </div><!-- //Main wrapper -->
 
@@ -41,7 +43,7 @@
 <script src="{{url('js/bootstrap.min.js')}}"></script>--}}
 <script src="{{url('js/plugins.js')}}"></script>
 <script src="{{url('js/active.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 <script>
     $(document).ready(function () {

@@ -17,7 +17,7 @@ const getters = {
     cartTotalPrice: (state, getters) => {
         let summ = 0;
         state.items.forEach((item)=>{
-            summ+=item.product.price*item.quantity
+            summ+=item.product.food_price*item.quantity
         });
         return summ
     }

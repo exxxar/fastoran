@@ -22,15 +22,16 @@ class RestController extends Controller
     public function getMainPage(Request $request)
     {
 
-        $sliderIndex = random_int(1,3);
+        $sliderIndex = random_int(1, 3);
         $random_menu = RestMenu::all()
             ->shuffle()
             ->take(8)
             ->skip(0);
 
-        $kitchens = Kitchen::where("is_active", 1)
-            //->where("rest_count",">",0)
-            ->get();
+        $kitchens = (Kitchen::where("is_active", 1)
+            ->get())->filter(function ($kitchen) {
+            return $kitchen->rest_count > 0;
+        });;
 
         $kitchens_count = count($kitchens);
         $restorans_count = Restoran::all()->count();
@@ -56,19 +57,19 @@ class RestController extends Controller
 
                 return view("main", compact("kitchens", "restorans"));*/
 
-       return view("main",compact("random_menu","kitchens","restorans"))
-           ->with("sliderIndex",$sliderIndex)
-           ->with("kitchens_count",$kitchens_count)
-           ->with("restorans_count",$restorans_count)
-           ->with("menus_count",$menus_count)
-           ->with("user_count",$user_count);
+        return view("main", compact("random_menu", "kitchens", "restorans"))
+            ->with("sliderIndex", $sliderIndex)
+            ->with("kitchens_count", $kitchens_count)
+            ->with("restorans_count", $restorans_count)
+            ->with("menus_count", $menus_count)
+            ->with("user_count", $user_count);
 
 
     }
 
     public function getRestList(Request $request)
     {
-        $restorans = Restoran::with([ "kitchens", "menus"])
+        $restorans = Restoran::with(["kitchens", "menus"])
             ->where("moderation", true)
             ->get();
 
@@ -76,7 +77,7 @@ class RestController extends Controller
             return response()
                 ->json([
                     'restorans' => $restorans,
-                    'kitchens' => Kitchen::where("is_active",1)->get()
+                    'kitchens' => Kitchen::where("is_active", 1)->get()
                 ]);
 
         return view("rest-list", compact("restorans"));
@@ -130,9 +131,6 @@ class RestController extends Controller
                 "categories" => $categories
             ]);
     }
-
-
-
 
 
     public function sendWish(Request $request)

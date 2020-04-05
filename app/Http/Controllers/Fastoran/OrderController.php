@@ -583,6 +583,20 @@ class OrderController extends Controller
         $order->delivery_note = $request->get("comment") ?? '';
         $order->save();
 
+
+        $user = User::find($request->user()->id);
+
+        $message = sprintf("Администратор *#%s* установил пометку к заказу *#%s*",
+            $user->id,
+            $order->id
+        );
+
+        Telegram::sendMessage([
+            'chat_id' => $order->restoran->telegram_channel,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+        ]);
+
         return response()
             ->json([
                 "message" => "Success"

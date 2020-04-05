@@ -184,3 +184,11 @@ Route::get("/test_geo",function(){
     dd($data);
 
 });
+
+Route::get("/test_deliveryman",function (){
+    $orders = Order::with(["details", "restoran", "details.product", "user"])
+        ->where("deliveryman_id", 5)
+        ->get();
+
+   dd($orders);
+});

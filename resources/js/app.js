@@ -50,6 +50,7 @@ Vue.component('restorans-list', require('./components/admin/Restorans.vue').defa
 Vue.component('rest-main-slider', require('./components/RestMainSlider.vue').default);
 Vue.component('header-fastoran', require('./components/Header.vue').default);
 Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
+Vue.component('cart-count-index', require('./components/CartCountIndex.vue').default);
 
 
 
@@ -62,6 +63,7 @@ Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Notifications from 'vue-notification'
+import VueCurrencyFilter from 'vue-currency-filter'
 
 
 // Install BootstrapVue
@@ -69,6 +71,16 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 Vue.use(Notifications)
+
+Vue.use(VueCurrencyFilter,
+    {
+        symbol : '₽',
+        thousandsSeparator: '.',
+        fractionCount: 2,
+        fractionSeparator: ',',
+        symbolPosition: 'back',
+        symbolSpacing: true
+    })
 import store from '../js/store'
 
 const app = new Vue({
