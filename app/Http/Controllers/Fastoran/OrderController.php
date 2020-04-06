@@ -574,6 +574,23 @@ class OrderController extends Controller
 
         $rest = Restoran::find($restId);
 
+        if (is_null($rest->latitude) || is_null($rest->longitude)) {
+
+            $data = YandexGeocodeFacade::setQuery($rest->adress ?? '')->load();
+
+            $data = $data->getResponse();
+
+            if (!is_null($data)) {
+                $lat = $data->getLatitude();
+                $lon = $data->getLongitude();
+
+                $rest->latitude = $lat;
+                $rest->longitude = $lon;
+                $rest->save();
+            }
+
+        }
+
         $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));

@@ -48,14 +48,14 @@
                                                 <p>{{rest.adress}}</p>
                                             </div>
                                         </div>
-                                        <div class="l-rest-info__container--content__info">
+                                       <!-- <div class="l-rest-info__container&#45;&#45;content__info">
                                             <div class="hidden-xs">
                                                 <p>Контактный телефон:</p>
                                             </div>
                                             <div>
                                                 <p>{{rest.phone1}}</p>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
