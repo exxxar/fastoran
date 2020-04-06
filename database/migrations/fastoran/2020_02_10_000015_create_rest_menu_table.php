@@ -25,7 +25,7 @@ class CreateRestMenuTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('food_name', 100)->default('');
-            $table->text('food_remark')->default('');
+            $table->string('food_remark',2000)->default('');
             $table->integer('food_ext')->default(0);
             $table->integer('food_price')->default(0);
             $table->integer('time_to_prepare')->default(0);
