@@ -34,15 +34,16 @@ class RestController extends Controller
 
         if (is_null($rest_name) && !is_null($food_name))
             $products = RestMenu::query()
-                ->where('food_name', 'LIKE', "%{$food_name}%")->get()??null;
+                ->where('food_name', 'LIKE', "%{$food_name}%")->get();
 
-        if (!is_null($rest_name))
-            $products = (Restoran::with(["menus"])->where("name", $rest_name)->first())??null;
+        if (!is_null($rest_name)) {
+            $rest = (Restoran::with(["menus"])->where("name", $rest_name)->first());
+            $products = is_null($rest)?null:$rest->menus()->paginate(20) ;
+        }
 
         if (is_null($products))
             $products = RestMenu::paginate(20);
-        else
-            $products = $products->menus()->paginate(20);
+
 
         return view('product-list', compact('products'))
             ->with('i', ($request->get('page', 1) - 1) * 20);
