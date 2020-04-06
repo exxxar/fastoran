@@ -38,15 +38,15 @@ class RestController extends Controller
 
         if (!is_null($rest_name)) {
             $rest = (Restoran::with(["menus"])->where('name', 'LIKE', "%{$rest_name}%")->first());
-            $products = is_null($rest)?null:$rest->menus()->paginate(20) ;
+            $products = is_null($rest)?null:$rest->menus()->paginate(100) ;
         }
 
         if (is_null($products))
-            $products = RestMenu::paginate(20);
+            $products = RestMenu::paginate(100);
 
 
         return view('product-list', compact('products'))
-            ->with('i', ($request->get('page', 1) - 1) * 20);
+            ->with('i', ($request->get('page', 1) - 1) * 100);
     }
 
     public function getMainPage(Request $request)
