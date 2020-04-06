@@ -37,7 +37,7 @@ class RestController extends Controller
                 ->where('food_name', 'LIKE', "%{$food_name}%")->get();
 
         if (!is_null($rest_name)) {
-            $rest = (Restoran::with(["menus"])->where("name", $rest_name)->first());
+            $rest = (Restoran::with(["menus"])->where('name', 'LIKE', "%{$rest_name}%")->first());
             $products = is_null($rest)?null:$rest->menus()->paginate(20) ;
         }
 
