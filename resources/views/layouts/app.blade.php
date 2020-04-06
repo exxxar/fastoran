@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @laravelPWA
+    
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">

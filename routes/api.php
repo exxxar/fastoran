@@ -44,6 +44,7 @@ Route::group(['prefix' => 'v1'], function () {
     ], function () {
 
         Route::post('order/sms', 'OrderController@sendSmsVerify');
+        Route::post('order/resend', 'OrderController@resendSmsVerify');
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
         Route::resource('restorans', 'RestoransController');
@@ -82,10 +83,6 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any("decline_order/{id}", "OrderController@declineOrder");
             Route::any("decline_order_by_admin/{id}", "OrderController@declineOrderAdmin");
             Route::any("set_deliveryman_type/{type}", "OrderController@setDeliverymanType")->where(["type"=>"[1-4]{1}"]);
-
-
-
-
 
             Route::any("order/{id}", "OrderController@getOrderById")->where(["id"=>"[0-9]+"]);
             Route::any("order/status/delivered/{id}", "OrderController@setDeliveredStatus");

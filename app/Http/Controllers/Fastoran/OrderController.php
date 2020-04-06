@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Classes\Utilits;
 use App\Enums\DeliveryTypeEnum;
 use App\Enums\OrderStatusEnum;
@@ -89,7 +90,7 @@ class OrderController extends Controller
         if ($user->auth_code != $code)
             return response()
                 ->json([
-                    "message" => "Ваш телефон не подвержден!:$code $phone",
+                    "message" => "Вам на телефон отправлен СМС код подветрждения!",
                     "is_valid" => false,
                 ]);
 
@@ -99,6 +100,32 @@ class OrderController extends Controller
                 "is_valid" => true,
             ]);
 
+
+    }
+
+    public function resendSmsVerify(Request $request){
+        $phone = $request->get("phone") ?? '';
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone);
+
+
+        $user = User::where("phone", $phone)->first();
+        if (!is_null($user)) {
+            SemySMS::sendOne([
+                'to' => $user->phone,
+                'text' => "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code
+            ]);
+            return response()
+                ->json([
+                    "message" => "СМС успешно отправлено",
+                ]);
+        }
+
+        return response()
+            ->json([
+                "message" => "Ошибка отправки СМС",
+            ]);
 
     }
 
@@ -139,10 +166,10 @@ class OrderController extends Controller
             ]);
 
 
-            return response()
-                ->json([
-                    "message" => $user->auth_code!=null?"Введите предидущий код из СМС!":"На ваш номер отправлен СМС с кодом!"
-                ], 200);
+        return response()
+            ->json([
+                "message" => $user->auth_code != null ? "Введите предидущий код из СМС!" : "На ваш номер отправлен СМС с кодом!"
+            ], 200);
 
     }
 
@@ -161,7 +188,7 @@ class OrderController extends Controller
 
         $user = !is_null($phone) ?
             User::where("phone", $phone)->first() :
-            User::find($request->user()->id);
+            User::find(auth()->guard('api')->user()->id);
 
         $order = Order::create($request->all());
 
@@ -171,7 +198,7 @@ class OrderController extends Controller
         $order->save();
 
 
-       // return json_decode($request->get("order_details"),true);
+        // return json_decode($request->get("order_details"),true);
         $order_details = $request->get("order_details");
 
         $delivery_order_tmp = "";
@@ -192,6 +219,23 @@ class OrderController extends Controller
         }
 
         $rest = Restoran::find($order->rest_id);
+
+        if (is_null($rest->latitude) || is_null($rest->longitude)) {
+
+            $data = YandexGeocodeFacade::setQuery($request->get("address") ?? '')->load();
+
+            $data = $data->getResponse();
+
+            if (!is_null($data)) {
+                $lat = $data->getLatitude();
+                $lon = $data->getLongitude();
+
+                $rest->latitude = $lat;
+                $rest->longitude = $lon;
+                $rest->save();
+            }
+
+        }
 
         $channel = $rest->telegram_channel;
         $range = ($this->calculateTheDistance($order->latitude ?? 0, $order->longitude ?? 0, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);

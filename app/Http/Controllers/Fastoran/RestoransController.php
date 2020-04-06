@@ -18,7 +18,7 @@ class RestoransController extends Controller
     public function index(Request $request)
     {
         $restorans = Restoran::orderBy('id', 'DESC')
-            ->paginate(5);
+            ->paginate(50);
 
         if ($request->ajax())
             return response()
@@ -27,7 +27,7 @@ class RestoransController extends Controller
                 ]);
 
         return view('admin.restorans.index', compact('restorans'))
-            ->with('i', ($request->get('page', 1) - 1) * 15);
+            ->with('i', ($request->get('page', 1) - 1) * 50);
     }
 
     /**

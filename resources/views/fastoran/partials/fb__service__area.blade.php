@@ -20,7 +20,7 @@
                             <h2><a href="service.html">Выбираем ресторан</a></h2>
                         </div>
                         <div class="service__details">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                            <p>Выбираем любимый ресторан в город через меню ресторана или же через поиск</p>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                             <h2><a href="service.html">Находим инетесрующее блюдо</a></h2>
                         </div>
                         <div class="service__details">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                            <p>Добавляем товар в корзину, смотрим цену заказа, оформляем доставку.</p>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                             <h2><a href="service.html">Оформляем доставку</a></h2>
                         </div>
                         <div class="service__details">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                            <p>Пишем свой адрес, имя, номер телефон и ждём СМС с кодом!</p>
                         </div>
                     </div>
                 </div>
