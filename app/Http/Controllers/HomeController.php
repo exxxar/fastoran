@@ -36,7 +36,7 @@ class HomeController extends Controller
 
     public function uploadVk(Request $request)
     {
-        $auth = new Auth('7384241', 'eNYSaEk3l2FuZzAePCnH', 'http://localhost:8000/vkontakte', 'market');
+        $auth = new Auth('7384241', 'eNYSaEk3l2FuZzAePCnH', 'https://fastoran.com/vkontakte', 'market');
 
 
         $token = null;
