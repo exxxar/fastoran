@@ -280,7 +280,7 @@
                         "code": this.sms_code
                     }).then(resp => {
                     this.is_valid = resp.data.is_valid
-                    this.message = '';
+                    this.message = resp.data.message;
                 });
             },
 
