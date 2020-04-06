@@ -266,7 +266,7 @@
             sendSms() {
                 this.message = "На ваш номер отправлен смс с кодом!";
                 axios
-                    .post("/api/v1/fastoran/order/sms", {
+                    .post("../api/v1/fastoran/order/sms", {
                         "phone": this.phone,
                         "name": this.name
                     }).then(resp=>{
@@ -275,7 +275,7 @@
             },
             checkValidCode() {
                 axios
-                    .post("api/v1/fastoran/check_valid_code", {
+                    .post("../api/v1/fastoran/check_valid_code", {
                         "phone": this.phone,
                         "code": this.sms_code
                     }).then(resp => {
@@ -286,7 +286,7 @@
 
             getRangePrice() {
                 axios
-                    .post("/api/v1/range/" + this.cartProducts[0].product.rest_id, {
+                    .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
                         "address": this.address
                     }).then(resp => {
 
@@ -310,7 +310,7 @@
                     })
                 });
                 axios
-                    .post('api/v1/fastoran/orders', {
+                    .post('../api/v1/fastoran/orders', {
                         phone: this.phone,
                         receiver_name: this.name,
                         receiver_phone: this.phone,
