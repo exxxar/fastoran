@@ -32,19 +32,19 @@ class RestController extends Controller
 
         $products = null;
 
-        if (is_null($rest_name)&&!is_null($food_name))
+        if (is_null($rest_name) && !is_null($food_name))
             $products = RestMenu::query()
-                ->where('food_name', 'LIKE', "%{$food_name}%")
-                ->paginate(20);
+                ->where('food_name', 'LIKE', "%{$food_name}%");
 
         if (!is_null($rest_name))
             $products = (Restoran::with(["menus"])->where("name", $rest_name)->first())
-                ->menus()
-                ->paginate(20);
+                ->menus();
 
 
         if (is_null($products))
             $products = RestMenu::paginate(20);
+        else
+            $products = $products->paginate(20);
 
         return view('product-list', compact('products'))
             ->with('i', ($request->get('page', 1) - 1) * 20);
@@ -119,10 +119,10 @@ class RestController extends Controller
     public function getRestByDomain(Request $request, $domain)
     {
 
-        $restoran = Restoran::with(["kitchens","categories","categories.menus"])->where("url", $domain)
+        $restoran = Restoran::with(["kitchens", "categories", "categories.menus"])->where("url", $domain)
             ->first();
 
-        $products = RestMenu::where("rest_id",$restoran->id)->paginate(50);
+        $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
 
         if ($request->ajax())
             return response()
@@ -130,7 +130,7 @@ class RestController extends Controller
                     'restoran' => $restoran
                 ]);
 
-        return view("rest", compact("restoran","products"))
+        return view("rest", compact("restoran", "products"))
             ->with('i', ($request->get('page', 1) - 1) * 50);
     }
 
@@ -153,23 +153,23 @@ class RestController extends Controller
 
     public function sendWish(Request $request)
     {
-        $phone = $request->get("phone")??'';
-        $email = $request->get("email")??'';
-        $from = $request->get("from")??'';
-        $message = $request->get("message")??'';
+        $phone = $request->get("phone") ?? '';
+        $email = $request->get("email") ?? '';
+        $from = $request->get("from") ?? '';
+        $message = $request->get("message") ?? '';
 
         Log::info("$phone $email $from $message");
 
         if ($request->ajax())
-        return response()
-            ->json([
-                "message" => "success",
-                "status" => 200
-            ]);
+            return response()
+                ->json([
+                    "message" => "success",
+                    "status" => 200
+                ]);
 
         return redirect()
             ->back()
-            ->with("message","Сообщение отправлено!");
+            ->with("message", "Сообщение отправлено!");
 
     }
 
@@ -186,8 +186,6 @@ class RestController extends Controller
             'disable_notification' => 'false'
         ]);
     }
-
-
 
 
 }
