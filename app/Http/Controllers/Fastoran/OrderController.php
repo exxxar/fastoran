@@ -170,7 +170,7 @@ class OrderController extends Controller
 
 
        // return json_decode($request->get("order_details"),true);
-        $order_details = json_decode($request->get("order_details"),true);
+        $order_details = $request->get("order_details");
 
         $delivery_order_tmp = "";
         foreach ($order_details as $od) {
