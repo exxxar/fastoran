@@ -263,7 +263,7 @@ class OrderController extends Controller
         $price1 = ceil(env("BASE_DELIVERY_PRICE") + ($range1 * env("BASE_DELIVERY_PRICE_PER_KM")));
         $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
 
-        $deliver_price = ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $deliver_price = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%sруб.-%s руб.*(Дистанция:%.2fкм-%.2fкм)\nЦена заказа:*%s руб.*",
@@ -278,8 +278,8 @@ class OrderController extends Controller
             $order->summary_price
         );
 
-        $order->delivery_price = $deliver_price;
-        $order->delivery_range = floatval(sprintf("%.2f", $range));
+        $order->delivery_price = $price2;
+        $order->delivery_range = floatval(sprintf("%.2f", $range2));
 
         $order->save();
 
