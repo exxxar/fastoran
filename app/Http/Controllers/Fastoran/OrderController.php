@@ -103,7 +103,8 @@ class OrderController extends Controller
 
     }
 
-    public function resendSmsVerify(Request $request){
+    public function resendSmsVerify(Request $request)
+    {
         $phone = $request->get("phone") ?? '';
 
         $vowels = array("(", ")", "-", " ");
@@ -186,9 +187,12 @@ class OrderController extends Controller
         $vowels = array("(", ")", "-", " ");
         $phone = str_replace($vowels, "", $phone ?? '');
 
-        $user = !is_null($phone) ?
-            User::where("phone", $phone)->first() :
-            User::find(auth()->guard('api')->user()->id);
+
+        $userId = (User::where("phone", $phone)->first())->id;
+
+        Log::info("ORDER STORE:$userId $phone");
+
+        $user = User::find(!is_null($userId) ? $userId : auth()->guard('api')->user()->id);
 
         $order = Order::create($request->all());
 
