@@ -188,7 +188,7 @@ class OrderController extends Controller
         $phone = str_replace($vowels, "", $phone ?? '');
 
 
-        $userId = (User::where("phone", $phone)->first())->id;
+        $userId = (User::where("phone", $phone)->first())->id??null;
 
         Log::info("ORDER STORE:$userId $phone");
 
