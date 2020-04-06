@@ -546,7 +546,7 @@ class OrderController extends Controller
 
     public function getOrderById($orderId)
     {
-        return Order::with(["restoran", "user", "details", "details.product"])->where("id", $orderId)->first();
+        return Order::with(["restoran", "user", "details", "details.product","deliveryman"])->where("id", $orderId)->first();
     }
 
     public function getRange(Request $request, $restId)
