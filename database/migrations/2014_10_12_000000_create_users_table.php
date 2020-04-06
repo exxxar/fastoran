@@ -36,6 +36,7 @@ class CreateUsersTable extends Migration
             $table->date('birthday')->nullable();
 
             $table->integer('bonus')->default(0);
+
             $table->integer('trusted_count')->default(0);
             $table->integer('trusted_limit')->default(1000);
 

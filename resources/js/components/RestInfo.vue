@@ -26,7 +26,7 @@
 
                                             </div>
                                             <div>
-                                                <p>{{rest.speicalization}}</p>
+                                                <p>{{rest.kitchen_speicalization}}</p>
 
                                             </div>
                                         </div>

@@ -93,13 +93,13 @@
         top: 0;
         left: 0;
         display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         height: 100%;
         font-size: 20px;
         padding: 10px;
-        z-index: 10;
+        z-index: 11;
         box-sizing: border-box;
 
         a.btn_a.btn_link.btn-add-to-cart {
@@ -112,12 +112,16 @@
     .cnt-container {
         display: flex;
         justify-content: space-around;
-        width: 90px;
+        width: 100%;
+        background: #f8fafc7a;
+        padding: 10px;
 
         p {
             text-align: center;
             font-weight: 900;
             color: #3b393c;
+            font-size: 24px;
+            padding-top: 7px;
         }
     }
 </style>

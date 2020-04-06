@@ -234,4 +234,8 @@
             color: white;
         }
     }
+
+    .cartbox__buttons {
+        padding-bottom: 200px;
+    }
 </style>

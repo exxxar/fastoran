@@ -1,4 +1,4 @@
-<section class="food__about__us__area section-padding--lg bg--white">
+<section class="food__about__us__area section-padding--lg section-padding--xs bg--white">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">

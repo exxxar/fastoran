@@ -42,7 +42,7 @@ class CreateRestMenuTable extends Migration
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('rest_id')->references('id')->on('restorans');
-                $table->foreign('food_category_id')->references('id')->on('menu_categories');
+                $table->foreign('food_category_id')->references('id')->on('menu_category');
             }
 
             $table->timestamps();

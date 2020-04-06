@@ -1,5 +1,5 @@
 
-<section class="food__team__area bg--white section-padding--lg">
+<section class="food__team__area bg--white section-padding--lg section-padding--xs">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">

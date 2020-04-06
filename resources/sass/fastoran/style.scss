@@ -180,8 +180,8 @@ ul.pp__meta {
 
 
 .btn-coutner {
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -190,6 +190,7 @@ ul.pp__meta {
     border: none;
     color: white;
     font-weight: 900;
+    font-size: 24px;
 }
 
 .product-counter {
@@ -221,7 +222,7 @@ ul.pp__meta {
     left: 0;
     display: flex;
     justify-content: center;
-    z-index: 9;
+    z-index: 12;
 
     img {
         width: 50px;

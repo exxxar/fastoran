@@ -22,15 +22,7 @@ class RestController extends Controller
 
     public function __construct()
     {
-        $kitchens = (Kitchen::where("is_active", 1)
-            ->get())->filter(function ($kitchen) {
-            return $kitchen->rest_count > 0;
-        });
 
-        $restorans = Restoran::where("moderation", true)->get();
-
-        View::share('kitchens', $kitchens);
-        View::share('restorans', $restorans);
     }
 
     public function searchFood(Request $request)
@@ -38,6 +30,7 @@ class RestController extends Controller
         $food_name = $request->get("food_name") ?? null;
         $rest_name = $request->get("rest_name") ?? null;
 
+        $products = null;
 
         if (is_null($rest_name)&&!is_null($food_name))
             $products = RestMenu::query()
@@ -50,7 +43,7 @@ class RestController extends Controller
                 ->paginate(20);
 
 
-        if (is_null($rest_name)&&is_null($food_name))
+        if (is_null($products))
             $products = RestMenu::paginate(20);
 
         return view('product-list', compact('products'))
@@ -125,7 +118,8 @@ class RestController extends Controller
 
     public function getRestByDomain(Request $request, $domain)
     {
-        $restoran = Restoran::with(["kitchens"])->where("url", $domain)
+
+        $restoran = Restoran::with(["kitchens","categories","categories.menus"])->where("url", $domain)
             ->first();
 
         $products = RestMenu::where("rest_id",$restoran->id)->paginate(50);
@@ -192,6 +186,8 @@ class RestController extends Controller
             'disable_notification' => 'false'
         ]);
     }
+
+
 
 
 }

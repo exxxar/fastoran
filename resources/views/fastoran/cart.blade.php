@@ -2,7 +2,8 @@
 
 @section('content')
     @include("fastoran.partials.header")
+    @include("fastoran.partials.ht__bradcaump__area",["title"=>"Корзина"])
 
-    @include("fastoran.partials.ht__bradcaump__area",["title"=>"Нашим партнерам"])
+    @include("fastoran.partials.cart-main-area")
     @include("fastoran.partials.footer__area")
 @endsection

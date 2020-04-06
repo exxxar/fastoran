@@ -21,13 +21,13 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                                <li class="drop"><a href="#kitchens">Кухни</a>
+                             {{--   <li class="drop"><a href="#kitchens">Кухни</a>
                                     <ul class="dropdown__menu">
                                         @foreach($kitchens as $kitchen)
                                         <li><a href="{{route("kitchen",$kitchen->id)}}">{{$kitchen->name}}</a></li>
                                        @endforeach
                                     </ul>
-                                </li>
+                                </li>--}}
                                 <li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
                                     <ul class="dropdown__menu">
                                         <li><a href="{{route("faq")}}">Руководство пользователя</a></li>

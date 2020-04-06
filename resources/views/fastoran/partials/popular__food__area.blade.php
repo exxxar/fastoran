@@ -1,5 +1,5 @@
 <a name="restorans"></a>
-<section class="popular__food__area section-padding--lg bg-image--12">
+<section class="popular__food__area section-padding--lg section-padding--xs bg-image--12">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12">

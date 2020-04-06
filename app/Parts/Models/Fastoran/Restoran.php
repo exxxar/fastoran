@@ -68,15 +68,23 @@ class Restoran extends Model
 
     ];
 
-     protected $appends = ["comments_count","rating","speicalization"];
+     protected $appends = ["comments_count","rating","kitchen_speicalization","categories_speicalization"];
+
+
 
     public function getCommentsCountAttribute(){
         return 0;
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(MenuCategory::class, 'restoran_in_categories', 'restoran_id', 'category_id')
+            ->withTimestamps();
+    }
+
     public function kitchens()
     {
-        return $this->belongsToMany(Kitchen::class, 'kitchen_in_restorans', 'kitchen_id', 'restoran_id')
+        return $this->belongsToMany(Kitchen::class, 'kitchen_in_restorans', 'restoran_id', 'kitchen_id')
             ->withTimestamps();
     }
 
@@ -85,13 +93,22 @@ class Restoran extends Model
         return $this->hasMany(RestMenu::class, 'rest_id', 'id');
     }
 
-    public function getSpeicalizationAttribute(){
-        $kitchens = $this->kitchens;
+    public function getCategoriesSpeicalizationAttribute(){
+        $categories = $this->categories()->get();
         $tmp = "";
-        foreach ($kitchens as $k)
-            $tmp .= "#".$k->name .",";
+        foreach ($categories as $key=>$k)
+            $tmp .= $k->name .", ";
 
-        return "Доставка еды";
+        return $tmp;
+    }
+
+    public function getKitchenSpeicalizationAttribute(){
+        $kitchens = $this->kitchens()->get();
+        $tmp = "";
+        foreach ($kitchens as $key=>$k)
+            $tmp .= "#".$k->name .", ";
+
+        return $tmp;
     }
 
 

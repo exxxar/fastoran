@@ -1,5 +1,5 @@
 <a name="contacts"></a>
-<section class="food__contact__form bg--white section-padding--lg">
+<section class="food__contact__form bg--white section-padding--lg section-padding--xs">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">

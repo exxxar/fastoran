@@ -28,7 +28,10 @@ class KitchenController extends Controller
         if ($request->ajax())
             return response()
                 ->json([
-                    'kitchens' => Kitchen::all(),
+                    'kitchens' => (Kitchen::where("is_active", 1)
+                        ->get())->filter(function ($kitchen) {
+                        return $kitchen->rest_count > 0;
+                    }),
                 ]);
 
         return view('admin.kitchens.index', compact('kitchens'))
@@ -150,7 +153,7 @@ class KitchenController extends Controller
     {
         return response()
             ->json([
-                "menus" =>Kitchen::with(["restorans", "restorans.menus"])
+                "menus" => Kitchen::with(["restorans", "restorans.menus"])
                     ->where("id", $kitchenId)
                     ->get()
 

@@ -1,4 +1,4 @@
-<section class="fd__service__area bg-image--2 section-padding--xlg">
+<section class="fd__service__area bg-image--2 section-padding--xlg section-padding--xs">
     <div class="container">
         <div class="service__wrapper bg--white">
             <div class="row">
@@ -17,7 +17,7 @@
                             <div class="ser__icon">
                                 <img src="images/icon/color-icon/1.png" alt="icon image">
                             </div>
-                            <h2><a href="service.html">Выбираем ресторан</a></h2>
+                            <h2><a href="{{url("/")}}">Выбираем ресторан</a></h2>
                         </div>
                         <div class="service__details">
                             <p>Выбираем любимый ресторан в городе через меню ресторана или же через поиск</p>
@@ -32,7 +32,7 @@
                             <div class="ser__icon">
                                 <img src="images/icon/color-icon/2.png" alt="icon image">
                             </div>
-                            <h2><a href="service.html">Находим ЛЮБИМОЕ блюдо</a></h2>
+                            <h2><a href="{{url("/")}}">Находим ЛЮБИМОЕ блюдо</a></h2>
                         </div>
                         <div class="service__details">
                             <p>Добавляем товар в корзину, смотрим цену заказа.</p>
@@ -47,7 +47,7 @@
                             <div class="ser__icon">
                                 <img src="images/icon/color-icon/3.png" alt="icon image">
                             </div>
-                            <h2><a href="service.html">Оформляем доставку</a></h2>
+                            <h2><a href="{{url("/")}}">Оформляем доставку</a></h2>
                         </div>
                         <div class="service__details">
                             <p>Пишем свой адрес, имя, номер телефон и ждём СМС с кодом!</p>

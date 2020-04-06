@@ -31,6 +31,8 @@ Route::any('/search', 'RestController@searchFood')->name("search");
 
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/all-menu', 'RestController@getAllMenu')->name("all.menu");
+Route::get('/cart', 'RestController@getCart')->name("cart");
+Route::get('/checkout', 'RestController@getCheckout')->name("checkout");
 
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
@@ -47,12 +49,11 @@ Route::view("/questions", "fastoran.questions")->name("questions");
 Route::view("/agreement", "fastoran.agreement")->name("agreement");
 Route::view("/terms-of-user", "fastoran.terms-of-use")->name("terms");
 
-Route::post('/save', 'ContentController@save')->name("test.save");
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/vkontakte', "HomeController@uploadVk");
 
 Route::prefix('admin')->group(function () {
     Route::view("/", "admin.main");
@@ -69,89 +70,9 @@ Route::prefix('admin')->group(function () {
 });
 
 
-Route::get('/vkontakte', function (\Illuminate\Http\Request $request) {
-    $auth = new VkAuth('7384241', 'eNYSaEk3l2FuZzAePCnH', 'https://fastoran.com/vkontakte', 'market');
 
-
-    $token = null;
-
-    if ($request->has("code")) {
-        $token = $auth->getToken($request->get('code'));
-
-        $api = new Client;
-        $api->setDefaultToken($token);
-
-        $response = $api->request('market.getAlbums', [
-            'owner_id' => -136275935,
-            'count' => 50
-        ]);
-
-
-        RestMenu::truncate();
-        //работает
-        foreach ($response["response"]["items"] as $item) {
-            //echo $item["id"].$item["title"]." ".$item["photo"]["photo_807"]."<br>";
-
-            $response2 = $api->request('market.get', [
-                'owner_id' => -136275935,
-                'album_id' => $item["id"],
-                'count' => 200
-            ]);
-
-
-            foreach ($response2["response"]["items"] as $item2) {
-                //echo $item2["description"]." ".$item2["price"]["text"]." ".$item2["thumb_photo"]." ".$item2["title"]."<br>";
-
-
-                //preg_match_all('|\d+|', $item2["description"], $matches);
-
-               // $count = $matches[0][0] ?? 0;
-
-                $weight = 0;//count($matches[0])>=2?($matches[0][0] ?? 0):0;
-
-                //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
-
-                $price = intval($item2["price"]["text"]);//$matches[0][0] ?? 0;
-
-                Log::info($item["title"]);
-                $rest = Restoran::where("name", $item["title"])->first();
-
-                if (is_null($rest))
-                    continue;
-
-                $product = RestMenu::create([
-                    'food_name' => $item2["title"],
-                    'food_remark' => $item2["description"],
-                    'food_ext' => $weight ?? 0,
-                    'food_price' => $price,
-                    'rest_id' => $rest->id,
-                    'food_category_id' => null,
-                    'food_img' => $item2["thumb_photo"],
-                    'stop_list' => false,
-                ]);
-
-                $rate = Rating::create([
-                    'content_type' => \App\Enums\ContentTypeEnum::Menu,
-                    'content_id' => $product->id,
-                ]);
-
-                $product->rating_id = $rate->id;
-                $product->save();
-            }
-
-
-            sleep(2);
-
-        }
-        //dd($response["items"]);
-
-    }
-
-    return view('home', compact("auth", "token"));
-});
 
 Route::get("/test_order", 'Fastoran\OrderController@testOrder');
-
 Route::get("/test_login", function () {
     $query = json_encode([
         "phone" => "+380713189958",
@@ -183,15 +104,12 @@ Route::get("/test_login", function () {
 
     dd(json_decode($content));
 });
-
-
 Route::get("/test_geo",function(){
     $data = YaGeo::setQuery('Донецк, ул. Артема')->load();
     $data = $data->getResponse()->getLatitude();
     dd($data);
 
 });
-
 Route::get("/test_deliveryman",function (){
     $orders = Order::with(["details", "restoran", "details.product", "user"])
         ->where("deliveryman_id", 5)

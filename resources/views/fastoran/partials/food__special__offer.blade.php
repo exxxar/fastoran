@@ -1,4 +1,4 @@
-<section class="food__special__offer bg-image--25 section-padding--lg">
+<section class="food__special__offer bg-image--25 section-padding--lg section-padding--xs">
 {{-- <div class="container">
      <div class="row">
          <div class="col-lg-12 col-md-12">

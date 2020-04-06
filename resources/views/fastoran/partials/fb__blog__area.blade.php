@@ -1,4 +1,4 @@
-<section class="fb__blog__ara section-padding--lg bg--white blog--2">
+<section class="fb__blog__ara section-padding--lg section-padding--xs bg--white blog--2">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-12">

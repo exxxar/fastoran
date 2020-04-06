@@ -1,0 +1,279 @@
+<section class="htc__checkout bg--white section-padding--lg section-padding--xs" >
+    <!-- Checkout Section Start-->
+    <div class="checkout-section">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6 col-12 mb-30">
+
+                    <!-- Checkout Accordion Start -->
+                    <div id="checkout-accordion">
+
+                        <!-- Checkout Method -->
+                        <div class="single-accordion">
+                            <a class="accordion-head collapsed" data-toggle="collapse" data-parent="#checkout-accordion" href="#checkout-method" aria-expanded="false">1. checkout method</a>
+
+                            <div id="checkout-method" class="collapse" style="">
+                                <div class="checkout-method accordion-body fix">
+
+                                    <ul class="checkout-method-list">
+                                        <li class="active" data-form="checkout-login-form">Login</li>
+                                        <li data-form="checkout-register-form">Register</li>
+                                    </ul>
+
+                                    <form action="#" class="checkout-login-form">
+                                        <div class="row">
+                                            <div class="input-box col-md-6 col-12 mb--20"><input type="email" placeholder="Email Address"></div>
+                                            <div class="input-box col-md-6 col-12 mb--20"><input type="password" placeholder="Password"></div>
+                                            <div class="input-box col-12"><input type="submit" value="Login"></div>
+                                        </div>
+                                    </form>
+
+                                    <form action="#" class="checkout-register-form">
+                                        <div class="row">
+                                            <div class="input-box col-md-6 col-12 mb--20"><input type="text" placeholder="Your Name"></div>
+                                            <div class="input-box col-md-6 col-12 mb--20"><input type="email" placeholder="Email Address"></div>
+                                            <div class="input-box col-md-6 col-12 mb--20"><input type="password" placeholder="Password"></div>
+                                            <div class="input-box col-md-6 col-12 mb--20"><input type="password" placeholder="Confirm Password"></div>
+                                            <div class="input-box col-12"><input type="submit" value="Register"></div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Billing Method -->
+                        <div class="single-accordion">
+                            <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion" href="#billing-method" aria-expanded="true">2. billing informatioon</a>
+                            <div id="billing-method" class="collapse show" style="">
+
+                                <div class="accordion-body billing-method fix">
+
+                                    <form action="#" class="billing-form checkout-form">
+                                        <div class="row">
+                                            <div class="col-12 mb--20">
+                                                <select>
+                                                    <option value="1">Select a country</option>
+                                                    <option value="2">bangladesh</option>
+                                                    <option value="3">Algeria</option>
+                                                    <option value="4">Afghanistan</option>
+                                                    <option value="5">Ghana</option>
+                                                    <option value="6">Albania</option>
+                                                    <option value="7">Bahrain</option>
+                                                    <option value="8">Colombia</option>
+                                                    <option value="9">Dominican Republic</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input type="text" placeholder="First Name">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input type="text" placeholder="Last Name">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input type="text" placeholder="Company Name">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input placeholder="Street address" type="text">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input placeholder="Town / City" type="text">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input type="text" placeholder="State / County">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input placeholder="Postcode / Zip" type="text">
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <input type="email" placeholder="Email Address">
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <input placeholder="Phone Number" type="text">
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <div class="single-accordion">
+                            <a class="accordion-head collapsed" data-toggle="collapse" data-parent="#checkout-accordion" href="#shipping-method" aria-expanded="false">3. shipping informatioon</a>
+                            <div id="shipping-method" class="collapse" style="">
+                                <div class="accordion-body shipping-method fix">
+
+                                    <h5>shipping address</h5>
+                                    <p><span>address&nbsp;</span>Bootexperts, Banasree D-Block, Dhaka 1219, Bangladesh</p>
+
+                                    <button class="shipping-form-toggle">Ship to a different address?</button>
+
+                                    <form action="#" class="shipping-form checkout-form">
+                                        <div class="row">
+                                            <div class="col-12 mb--20">
+                                                <select>
+                                                    <option value="1">Select a country</option>
+                                                    <option value="2">bangladesh</option>
+                                                    <option value="3">Algeria</option>
+                                                    <option value="4">Afghanistan</option>
+                                                    <option value="5">Ghana</option>
+                                                    <option value="6">Albania</option>
+                                                    <option value="7">Bahrain</option>
+                                                    <option value="8">Colombia</option>
+                                                    <option value="9">Dominican Republic</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input type="text" placeholder="First Name">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input type="text" placeholder="Last Name">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input type="text" placeholder="Company Name">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input placeholder="Street address" type="text">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
+                                            </div>
+                                            <div class="col-12 mb--20">
+                                                <input placeholder="Town / City" type="text">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input type="text" placeholder="State / County">
+                                            </div>
+                                            <div class="col-md-6 col-12 mb--20">
+                                                <input placeholder="Postcode / Zip" type="text">
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <input type="email" placeholder="Email Address">
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <input placeholder="Phone Number" type="text">
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="single-accordion">
+                            <a class="accordion-head collapsed" data-toggle="collapse" data-parent="#checkout-accordion" href="#payment-method" aria-expanded="false">4. Payment method</a>
+                            <div id="payment-method" class="collapse" style="">
+                                <div class="accordion-body payment-method fix">
+
+                                    <ul class="payment-method-list">
+                                        <li class="active">check / money order</li>
+                                        <li class="payment-form-toggle">credit card</li>
+                                    </ul>
+
+                                    <form action="#" class="payment-form">
+                                        <div class="row">
+                                            <div class="input-box col-12 mb--20">
+                                                <label for="card-name">Name on Card *</label>
+                                                <input type="text" id="card-name">
+                                            </div>
+                                            <div class="input-box col-12 mb--20">
+                                                <label>Credit Card Type</label>
+                                                <select>
+                                                    <option>Please Select</option>
+                                                    <option>Credit Card Type 1</option>
+                                                    <option>Credit Card Type 2</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-box col-12 mb--20">
+                                                <label for="card-number">Credit Card Number *</label>
+                                                <input type="text" id="card-number">
+                                            </div>
+                                            <div class="input-box col-12">
+                                                <div class="row">
+                                                    <div class="input-box col-12">
+                                                        <label>Expiration Date</label>
+                                                    </div>
+                                                    <div class="input-box col-md-6 col-12 mb--20">
+                                                        <select>
+                                                            <option>Month</option>
+                                                            <option>Jan</option>
+                                                            <option>Feb</option>
+                                                            <option>Mar</option>
+                                                            <option>Apr</option>
+                                                            <option>May</option>
+                                                            <option>Jun</option>
+                                                            <option>Jul</option>
+                                                            <option>Aug</option>
+                                                            <option>Sep</option>
+                                                            <option>Oct</option>
+                                                            <option>Nov</option>
+                                                            <option>Dec</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="input-box col-md-6 col-12 mb--20">
+                                                        <select>
+                                                            <option>Year</option>
+                                                            <option>2015</option>
+                                                            <option>2016</option>
+                                                            <option>2017</option>
+                                                            <option>2018</option>
+                                                            <option>2019</option>
+                                                            <option>2020</option>
+                                                            <option>2021</option>
+                                                            <option>2022</option>
+                                                            <option>2023</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input-box col-12">
+                                                <label for="card-Verify">Card Verification Number *</label>
+                                                <input type="text" id="card-Verify">
+                                                <a href="#">What is it ?</a>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- Checkout Accordion Start -->
+                </div>
+
+                <!-- Order Details -->
+                <div class="col-lg-6 col-12 mb-30">
+
+                    <div class="order-details-wrapper">
+                        <h2>your order</h2>
+                        <div class="order-details">
+                            <form action="#">
+                                <ul>
+                                    <li><p class="strong">product</p><p class="strong">total</p></li>
+                                    <li><p>Fishing Reel x1</p><p>$104.99</p></li>
+                                    <li><p>Fishing Rods x1 </p><p>$85.99</p></li>
+                                    <li><p class="strong">cart subtotal</p><p class="strong">$190.98</p></li>
+                                    <li><p class="strong">shipping</p><p>
+                                            <input type="radio" name="order-shipping" id="flat"><label for="flat">Flat Rate $ 7.00</label><br>
+                                            <input type="radio" name="order-shipping" id="free"><label for="free">Free Shipping</label>
+                                        </p></li>
+                                    <li><p class="strong">order total</p><p class="strong">$190.98</p></li>
+                                    <li><button class="food__btn">place order</button></li>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div><!-- Checkout Section End-->
+</section>

@@ -1,5 +1,5 @@
 <a name="kitchens"></a>
-<section class="food__category__area bg--white section-padding--lg">
+<section class="food__category__area bg--white section-padding--lg section-padding--xs">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-12">
