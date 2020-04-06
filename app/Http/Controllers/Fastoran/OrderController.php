@@ -138,10 +138,12 @@ class OrderController extends Controller
                 ]),
             ]);
 
-        return response()
-            ->json([
-                "message" => "success $phone"
-            ], 200);
+
+            return response()
+                ->json([
+                    "message" => $user->auth_code!=null?"Введите предидущий код из СМС!":"На ваш номер отправлен СМС с кодом!"
+                ], 200);
+
     }
 
 
