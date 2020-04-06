@@ -34,7 +34,7 @@
 		}
 		.cartbox{
 			right: 0;
-			@include animation(slideInRight 0.7s ease-in-out both);
+			//@include animation(slideInRight 0.7s ease-in-out both);
 		}
 	}
 }
