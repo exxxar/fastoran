@@ -196,9 +196,22 @@ class OrderController extends Controller
 
         $order = Order::create($request->all());
 
+        $data = YandexGeocodeFacade::setQuery($request->get("receiver_address") ?? '')->load();
+
+        $data = $data->getResponse();
+
+        if (!is_null($data)) {
+            $lat = $data->getLatitude();
+            $lon = $data->getLongitude();
+
+            $order->latitude = $lat;
+            $order->longitude = $lon;
+            $order->save();
+        }
+
         $order->user_id = $user->id;
-        $order->latitude = $request->get("receiver_latitude") ?? null;
-        $order->longitude = $request->get("receiver_longitude") ?? null;
+        //$order->latitude = $request->get("receiver_latitude") ?? null;
+        //$order->longitude = $request->get("receiver_longitude") ?? null;
         $order->save();
 
 
@@ -226,7 +239,7 @@ class OrderController extends Controller
 
         if (is_null($rest->latitude) || is_null($rest->longitude)) {
 
-            $data = YandexGeocodeFacade::setQuery($request->get("address") ?? '')->load();
+            $data = YandexGeocodeFacade::setQuery($rest->adress ?? '')->load();
 
             $data = $data->getResponse();
 
