@@ -101,6 +101,12 @@
         padding: 10px;
         z-index: 10;
         box-sizing: border-box;
+
+        a.btn_a.btn_link.btn-add-to-cart {
+            padding: 10px;
+            color: white;
+            background: #e3342f;
+        }
     }
 
     .cnt-container {

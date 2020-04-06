@@ -32,7 +32,7 @@
                             <div class="ser__icon">
                                 <img src="images/icon/color-icon/2.png" alt="icon image">
                             </div>
-                            <h2><a href="service.html">Находим инетесрующее блюдо</a></h2>
+                            <h2><a href="service.html">Находим ЛЮБИМОЕ блюдо</a></h2>
                         </div>
                         <div class="service__details">
                             <p>Добавляем товар в корзину, смотрим цену заказа, оформляем доставку.</p>

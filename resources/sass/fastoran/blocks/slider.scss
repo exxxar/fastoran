@@ -197,8 +197,8 @@
 
 // Slider Animation
 .slide.bg-image--1{
-	-webkit-animation: prrtzoomin 10s ease-in infinite;
-	animation: prrtzoomin 10s ease-in infinite;
+	//-webkit-animation: prrtzoomin 10s ease-in infinite;
+	//animation: prrtzoomin 10s ease-in infinite;
 	transition: all .3s ease-in-out;
 	overflow: hidden;
 }
@@ -342,7 +342,7 @@ div.slide__pizza img {
 
 @media #{$xlg-layout}{
 
-	
+
 
 .slide__pizza--2 img {
   width: 90%;
@@ -366,7 +366,7 @@ div.slide__pizza img {
 
 @media #{$lg-layout}{
 
-	
+
 }
 
 @media #{$md-layout}{
