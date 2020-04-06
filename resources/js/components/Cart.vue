@@ -269,7 +269,9 @@
                     .post("/api/v1/fastoran/order/sms", {
                         "phone": this.phone,
                         "name": this.name
-                    })
+                    }).then(resp=>{
+                        this.message = resp.data.message;
+                })
             },
             checkValidCode() {
                 axios
