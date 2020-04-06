@@ -591,7 +591,7 @@ class OrderController extends Controller
 
         }
 
-        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
+        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000)+2;
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
 
