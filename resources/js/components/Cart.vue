@@ -55,7 +55,7 @@
         </div>
 
         <div class="cartbox__buttons" v-if="cartProducts.length>0">
-            <a class="food__btn" v-if="is_valid" @click="sendRequest" :disabled="sending"><span>Оформить заказ</span></a>
+            <a class="food__btn" v-if="is_valid" @click="sendRequest"><span>Оформить заказ</span></a>
             <a class="food__btn" @click="clearCart" v-if="cartProducts.length>0"><span>Очистить корзину</span></a>
         </div>
     </div>

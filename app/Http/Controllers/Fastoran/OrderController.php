@@ -17,6 +17,7 @@ use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Yandex\Geocode\Facades\YandexGeocodeFacade;
 
@@ -293,20 +294,24 @@ class OrderController extends Controller
         while (strlen($tmp) < 10)
             $tmp = "0" . $tmp;
 
-        Telegram::sendMessage([
-            'chat_id' => $channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-            'reply_markup' => json_encode([
-                'inline_keyboard' => [
-                    [
-                        ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
-                        ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => [
+                        [
+                            ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                            ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                        ]
                     ]
-                ]
-            ])
+                ])
 
-        ]);
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
 
         return response()
@@ -430,11 +435,15 @@ class OrderController extends Controller
             $user->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
@@ -482,12 +491,15 @@ class OrderController extends Controller
             $order->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
-
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
         return response()
             ->json([
                 "message" => "Success"
@@ -526,11 +538,15 @@ class OrderController extends Controller
             $order->user->phone ?? "Не найден номер телефона"
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
@@ -714,20 +730,24 @@ class OrderController extends Controller
             while (strlen($tmp) < 10)
                 $tmp = "0" . $tmp;
 
-            Telegram::sendMessage([
-                'chat_id' => $channel,
-                'parse_mode' => 'Markdown',
-                'text' => $message,
-                'reply_markup' => json_encode([
-                    'inline_keyboard' => [
-                        [
-                            ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
-                            ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+            try {
+                Telegram::sendMessage([
+                    'chat_id' => $channel,
+                    'parse_mode' => 'Markdown',
+                    'text' => $message,
+                    'reply_markup' => json_encode([
+                        'inline_keyboard' => [
+                            [
+                                ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                                ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                            ]
                         ]
-                    ]
-                ])
+                    ])
 
-            ]);
+                ]);
+            } catch (TelegramResponseException $e) {
+                Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+            }
         }
     }
 
@@ -772,11 +792,17 @@ class OrderController extends Controller
             $order->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
+
 
         return response()
             ->json([
@@ -801,11 +827,16 @@ class OrderController extends Controller
             $order->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
@@ -836,11 +867,17 @@ class OrderController extends Controller
                 break;
         }
 
-        Telegram::sendMessage([
-            'chat_id' => $user->telegram_chat_id,
-            'parse_mode' => 'Markdown',
-            'text' => "Ваш тип доставки изменен на '$deliveryman_status_text'!",
-        ]);
+        try {
+
+            Telegram::sendMessage([
+                'chat_id' => $user->telegram_chat_id,
+                'parse_mode' => 'Markdown',
+                'text' => "Ваш тип доставки изменен на '$deliveryman_status_text'!",
+            ]);
+
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
