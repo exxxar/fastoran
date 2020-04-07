@@ -866,7 +866,7 @@ class OrderController extends Controller
                 $deliveryman_status_text = "Машина";
                 break;
         }
-
+/*
         try {
 
             Telegram::sendMessage([
@@ -877,7 +877,7 @@ class OrderController extends Controller
 
         } catch (TelegramResponseException $e) {
             Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
-        }
+        }*/
 
         return response()
             ->json([
