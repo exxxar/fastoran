@@ -38,10 +38,10 @@ class RestController extends Controller
 
         if (!is_null($rest_name)) {
             $rest = (Restoran::with(["menus"])->where('name', 'LIKE', "%{$rest_name}%")->first());
-            $products = is_null($rest)?null:$rest->menus()->paginate(100) ;
+            $products = is_null($rest) ? null : $rest->menus()->paginate(100);
         }
 
-        if (is_null($products))
+        if (is_null($products) || count($products) == 0)
             $products = RestMenu::paginate(100);
 
 
@@ -68,7 +68,7 @@ class RestController extends Controller
         $categories = MenuCategory::with(["menus"])->get();
 
 
-        return view("main", compact("random_menu","categories"))
+        return view("main", compact("random_menu", "categories"))
             ->with("sliderIndex", $sliderIndex)
             ->with("kitchens_count", $kitchens_count)
             ->with("restorans_count", $restorans_count)
@@ -79,11 +79,13 @@ class RestController extends Controller
 
     }
 
-    public function getCheckout(Request $request){
+    public function getCheckout(Request $request)
+    {
         return view("fastoran.checkout");
     }
 
-    public function getCart(Request $request){
+    public function getCart(Request $request)
+    {
         return view("fastoran.cart");
     }
 
