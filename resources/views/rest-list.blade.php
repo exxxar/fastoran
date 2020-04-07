@@ -5,6 +5,8 @@
     @include("fastoran.partials.ht__bradcaump__area",["title"=>$kitchen->name])
 
     @include("fastoran.partials.popular__food__area")
+
+    @include("fastoran.partials.food__contact__form")
     @include("fastoran.partials.footer__area")
 
 
