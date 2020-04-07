@@ -30,6 +30,7 @@
                                 </li>
                                 <li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
                                     <ul class="dropdown__menu">
+                                        <li><a href="{{route("cart")}}">Корзина</a></li>
                                         <li><a href="{{route("faq")}}">Руководство пользователя</a></li>
                                         <li><a href="{{route("questions")}}">Вопросы и ответы</a></li>
                                         <li><a href="{{route("agreement")}}">Пользовательское соглашение</a></li>
