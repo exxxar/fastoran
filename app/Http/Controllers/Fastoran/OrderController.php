@@ -166,11 +166,17 @@ class OrderController extends Controller
                 ]),
             ]);
 
+        if (!is_null($user))
+            return response()
+                ->json([
+                    "message" => $user->auth_code != null ? "Введите предидущий код из СМС!" : "На ваш номер отправлен СМС с кодом!"
+                ], 200);
+        else
+            return response()
+                ->json([
+                    "message" => "На ваш номер отправлен СМС с кодом!"
+                ], 200);
 
-        return response()
-            ->json([
-                "message" => $user->auth_code != null ? "Введите предидущий код из СМС!" : "На ваш номер отправлен СМС с кодом!"
-            ], 200);
 
     }
 
@@ -188,7 +194,7 @@ class OrderController extends Controller
         $phone = str_replace($vowels, "", $phone ?? '');
 
 
-        $userId = (User::where("phone", $phone)->first())->id??null;
+        $userId = (User::where("phone", $phone)->first())->id ?? null;
 
         Log::info("ORDER STORE:$userId $phone");
 
@@ -546,7 +552,7 @@ class OrderController extends Controller
 
     public function getOrderById($orderId)
     {
-        return Order::with(["restoran", "user", "details", "details.product","deliveryman"])->where("id", $orderId)->first();
+        return Order::with(["restoran", "user", "details", "details.product", "deliveryman"])->where("id", $orderId)->first();
     }
 
     public function getRange(Request $request, $restId)
@@ -591,7 +597,7 @@ class OrderController extends Controller
 
         }
 
-        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000)+2;
+        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000) + 2;
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
 
