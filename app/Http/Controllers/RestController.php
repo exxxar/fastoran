@@ -79,6 +79,14 @@ class RestController extends Controller
 
     }
 
+    public function getCheckout(Request $request){
+        return view("fastoran.checkout");
+    }
+
+    public function getCart(Request $request){
+        return view("fastoran.cart");
+    }
+
     public function getAllMenu(Request $request)
     {
         $products = RestMenu::paginate(20);
