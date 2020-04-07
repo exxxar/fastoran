@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    
+
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
@@ -41,9 +41,6 @@
 <!-- JS Files -->
 
 <script src="{{url('js/app.js')}}"></script>
-{{--<script src="{{url('js/vendor/jquery-3.2.1.min.js')}}"></script>
-<script src="{{url('js/popper.min.js')}}"></script>
-<script src="{{url('js/bootstrap.min.js')}}"></script>--}}
 <script src="{{url('js/plugins.js')}}"></script>
 <script src="{{url('js/active.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>

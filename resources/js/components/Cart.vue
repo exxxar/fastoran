@@ -12,13 +12,17 @@
                 <div class="cartbox__item__content">
                     <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
                            class="product-name">{{item.product.food_name}}</a></h5>
-                    <p><span class="product-counter">
-
-                       Количество:  {{item.quantity}}
-                        <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
-                                @click="decrement(item.product.id)">-</button>
-                        <button type="button" class="btn btn-coutner"
-                                @click="increment(item.product.id)">+</button></span></p>
+                    <div class="product-counter">
+                        <p>Количество: {{item.quantity}}</p>
+                        <div class="buttons-group">
+                            <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
+                                    @click="decrement(item.product.id)">-
+                            </button>
+                            <button type="button" class="btn btn-coutner"
+                                    @click="increment(item.product.id)">+
+                            </button>
+                        </div>
+                    </div>
                     <span class="price">{{item.product.food_price| currency}} / {{item.product.food_price*item.quantity | currency }}</span>
 
                 </div>
@@ -34,7 +38,8 @@
             <input type="text" v-model="address" @blur="getRangePrice" placeholder="Введите ваш адрес">
 
             <input type="text" v-model="name" @blur="getRangePrice" placeholder="Введите ваше имя">
-            <p v-if="message.length>0">{{message}}<br><a href="#" @click="resendSms">Вы можете повторно получить код в СМС</a></p>
+            <p v-if="message.length>0">{{message}}<br><a href="#" @click="resendSms">Вы можете повторно получить код в
+                СМС</a></p>
             <input type="text" placeholder="Ваш номер телефона" name="phone" @blur="sendSms"
                    v-model="phone"
                    required="required" pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}" class="form_control"
@@ -110,12 +115,12 @@
             }
         },
         methods: {
-            resendSms(){
+            resendSms() {
                 this.message = "На ваш номер повторно отправлен смс с кодом!";
                 axios
                     .post("../api/v1/fastoran/order/resend", {
                         "phone": this.phone,
-                    }).then(resp=>{
+                    }).then(resp => {
                     this.message = resp.data.message;
                 })
             },
@@ -128,8 +133,8 @@
                     .post("../api/v1/fastoran/order/sms", {
                         "phone": this.phone,
                         "name": this.name
-                    }).then(resp=>{
-                        this.message = resp.data.message;
+                    }).then(resp => {
+                    this.message = resp.data.message;
                 })
             },
             checkValidCode() {
@@ -156,7 +161,7 @@
                 });
             },
             sendRequest(e) {
-               // e.preventDefault();
+                // e.preventDefault();
                 this.sending = true;
                 let products = [];
                 this.cartProducts.forEach(function (item) {
@@ -216,6 +221,16 @@
     }
 </script>
 <style lang="scss" scoped>
+
+    .cartbox__item__content {
+        h5 {
+            a {
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+        }
+    }
     .cartbox__inputs {
         padding: 10px;
         width: 100%;
@@ -237,5 +252,27 @@
 
     .cartbox__buttons {
         padding-bottom: 200px;
+    }
+
+    .buttons-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .product-counter {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 5px;
+        box-sizing: border-box;
+
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .price {
+        width: 100%;
+        text-align: center;
+        display: block;
     }
 </style>
