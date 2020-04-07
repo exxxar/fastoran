@@ -58,10 +58,10 @@ class RestController extends Controller
             ->take(8)
             ->skip(0);
 
-        $kitchens_count = Kitchen::all()->count();
-        $restorans_count = Restoran::all()->count();
-        $menus_count = RestMenu::all()->count();
-        $user_count = User::all()->count();
+        $kitchens_count = 10;//Kitchen::all()->count();
+        $restorans_count = 10;//Restoran::all()->count();
+        $menus_count = 400;//RestMenu::all()->count();
+        $user_count = 30;//User::all()->count();
 
         $categories = MenuCategory::with(["menus"])->get();
         $products = RestMenu::all();
