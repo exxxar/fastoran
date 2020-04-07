@@ -37,7 +37,7 @@
                                         <li><a href="{{route("about")}}">О нас</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#contacts">Контакты</a></li>
+                                <li><a href="{{route('contacts')}}">Контакты</a></li>
                             </ul>
                         </nav>
 
