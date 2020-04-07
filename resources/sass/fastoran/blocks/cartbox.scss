@@ -11,7 +11,7 @@
 	top: 0;
 	visibility: hidden;
 	opacity: 0;
-	@include transition(all 0.7s ease-in-out 0s);
+	//@include transition(all 0.7s ease-in-out 0s);
 	z-index: 99;
 	.body-overlay{
 		position: fixed;
@@ -23,7 +23,7 @@
 		z-index: 9991;
 		visibility: hidden;
 		opacity: 0;
-		cursor: url(images/icon/close.png), crosshair;
+		cursor: url(../images/icon/close.png), crosshair;
 	}
 	&.is-visible{
 		visibility: visible;
@@ -34,14 +34,14 @@
 		}
 		.cartbox{
 			right: 0;
-			@include animation(slideInRight 0.7s ease-in-out both);
+			//@include animation(slideInRight 0.7s ease-in-out both);
 		}
 	}
 }
 .cartbox{
 	position: fixed;
     top: 0;
-    right: -100%;
+    //right: -100%;
     z-index: 9992;
     height: 100%;
     width: 465px;
@@ -49,10 +49,10 @@
     min-height: 100vh;
     @include box-shadow(0 0 20px rgba(0,0,0,0.1));
     padding: 25px 35px;
-    @include transition(all 0.7s ease-in-out 0s); 
+   // @include transition(all 0.7s ease-in-out 0s);
     overflow-y: auto;
     .cartbox-close{
-    	@include transition(all 0.3s ease-in-out 0s);
+    	//@include transition(all 0.3s ease-in-out 0s);
     	background: transparent;
     	font-size: 25px;
     	text-transform: uppercase;
@@ -215,10 +215,10 @@ button.cartbox__item__remove {
 // Brand Area
 
 @media #{$md-layout}{
-	
+
 }
 @media #{$md-layout}{
-	
+
 }
 @media #{$xs-layout}{
 

@@ -25,7 +25,7 @@ class CreateCommentsTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('title',1000)->default('');
-            $table->text('message');
+            $table->string('message',2000)->default('');
 
             $table->boolean('in_moderation')->default(true);
 

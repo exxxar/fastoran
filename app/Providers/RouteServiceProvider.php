@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -32,6 +35,19 @@ class RouteServiceProvider extends ServiceProvider
     {
         //
         Route::pattern('id', '[0-9]+');
+        try {
+            $kitchens = (Kitchen::where("is_active", 1)
+                ->get())->filter(function ($kitchen) {
+                return $kitchen->rest_count > 0;
+            });
+
+            $restorans = Restoran::where("moderation", true)->get();
+
+            View::share('kitchens', $kitchens);
+            View::share('restorans', $restorans);
+        } catch (\Exception $e) {
+
+        }
 
         parent::boot();
     }
@@ -60,8 +76,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -74,8 +90,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 }

@@ -7,26 +7,32 @@
 
 
 
-
+.pagination li a,
 .food__pagination li a {
     color: #959595;
     font-size: 18px;
 }
+
+.pagination li,
 .food__pagination li {
   margin: 0 6px;
 }
+
+.pagination li a,
 .food__pagination li a{
 	 background: transparent;
     border-radius: 100%;
     color: #959595;
     display: block;
     height: 38px;
-    line-height: 38px;
+   // line-height: 38px;
     text-align: center;
     width: 38px;
 }
 
 
+.pagination li a:hover,
+.pagination li.active a,
 .food__pagination li.active a,
 .food__pagination li a:hover{
     background: #444444 none repeat scroll 0 0;
@@ -38,12 +44,16 @@
     text-align: center;
     width: 38px;
 }
+
+.pagination li a,
+.pagination li.active a,
 .food__pagination li.active a,
 .food__pagination li a{
 	position:relative;
 	z-index:1;
 }
 
+.pagination li a::before,
 .food__pagination li a::before {
   background: #fff none repeat scroll 0 0;
   border-radius: 100%;
@@ -59,6 +69,7 @@
 
 }
 
+.pagination li a::after,
 .food__pagination li a::after {
   background: #444444 none repeat scroll 0 0;
   border-radius: 100%;
@@ -73,10 +84,15 @@
   opacity: 0;
 }
 
+.pagination li.active a::before,
+.pagination li a:hover::before,
 .food__pagination li a:hover::before,
 .food__pagination li.active a::before{
 	opacity: 1;
 }
+
+.pagination li a:hover::after,
+.pagination li.active a::after,
 .food__pagination li a:hover::after,
 .food__pagination li.active a::after{
 	opacity: 1;

@@ -2,7 +2,7 @@
     <div class="cartbox__inner text-left">
         <div class="cartbox__items">
             <!-- Cartbox Single Item -->
-            <div class="cartbox__item" v-for="item in  cartProducts">
+            <div class="cartbox__item" v-if="cartProducts.length>0" v-for="item in  cartProducts">
                 <div class="cartbox__item__thumb">
                     <a href="product-details.html">
                         <img :src="item.product.food_img"
@@ -13,6 +13,7 @@
                     <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
                            class="product-name">{{item.product.food_name}}</a></h5>
                     <p><span class="product-counter">
+
                        Количество:  {{item.quantity}}
                         <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
                                 @click="decrement(item.product.id)">-</button>
@@ -26,174 +27,38 @@
                 </button>
             </div>
 
+            <h4 v-if="cartProducts.length==0">Вы еще не выбрали никакой товар!</h4>
         </div>
-        <div class="cartbox__total">
+        <div class="cartbox__inputs" v-if="cartProducts.length>0">
+
+            <input type="text" v-model="address" @blur="getRangePrice" placeholder="Введите ваш адрес">
+
+            <input type="text" v-model="name" @blur="getRangePrice" placeholder="Введите ваше имя">
+            <p v-if="message.length>0">{{message}}<br><a href="#" @click="resendSms">Вы можете повторно получить код в СМС</a></p>
+            <input type="text" placeholder="Ваш номер телефона" name="phone" @blur="sendSms"
+                   v-model="phone"
+                   required="required" pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}" class="form_control"
+                   maxlength="19"
+                   v-mask="['+38 (###) ###-##-##']">
+
+            <input type="number" v-model="sms_code" @blur="checkValidCode" placeholder="Введите код из СМС">
+        </div>
+        <div class="cartbox__total" v-if="cartProducts.length>0">
             <ul>
                 <li><span class="cartbox__total__title">Цена заказа</span><span class="price">{{cartTotalPrice| currency}}</span>
                 </li>
-                <li class="shipping-charge"><span class="cartbox__total__title">Цена доставки</span><span
+                <li class="shipping-charge" v-if="delivery_range!=null"><span class="cartbox__total__title">Цена доставки</span><span
                     class="price">{{deliveryPrice|currency}}</span></li>
                 <li class="grandtotal">Сумма заказа<span
                     class="price">{{cartTotalPrice+deliveryPrice | currency}}</span></li>
             </ul>
         </div>
-        <div class="cartbox__buttons">
-            <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/cart.html"><span>Оформить заказ</span></a>
-            <a class="food__btn"
-               href="https://d29u17ylf1ylz9.cloudfront.net/aahar/checkout.html"><span>Очистить корзину</span></a>
+
+        <div class="cartbox__buttons" v-if="cartProducts.length>0">
+            <a class="food__btn" v-if="is_valid" @click="sendRequest"><span>Оформить заказ</span></a>
+            <a class="food__btn" @click="clearCart" v-if="cartProducts.length>0"><span>Очистить корзину</span></a>
         </div>
     </div>
-    <!--<div class="cart">
-
-        <div class="container" v-if="cartProducts.length>0">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="chopcafe_product_table">
-                        <table class="chopcafe_table chopcafe_custom_table table">
-                            <thead>
-                            <tr>
-                                <th>Изображение</th>
-                                <th>Название продукта</th>
-                                <th>Цена</th>
-                                <th>Количество</th>
-                                <th>Всего</th>
-                                <th>Удалить</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="item in cartProducts">
-                                <td class="thumbnail">
-                                    <img :src="item.product.image_url" class="img-fluid" alt="">
-                                </td>
-                                <td class="product_title"><a href="shop_details.html">{{item.product.title}}</a>
-                                </td>
-                                <td class="product_price"><span>{{item.product.price | currency}}</span></td>
-                                <td class="product_quantity">
-                                    <div class="row justify-content-center">
-                                        <div class="col-sm-2 col-lg-2">
-                                            <button type="button" class="btn btn-primary" :disabled="item.quantity===1"
-                                                    @click="decrement(item.product.id)">-
-                                            </button>
-
-                                        </div>
-
-                                        <div class="col-sm-4 col-lg-4">
-                                            <input type="number" :value="item.quantity" step="1" min="0"
-                                                   class="form-control">
-
-                                        </div>
-                                        <div class="col-sm-2 col-lg-2">
-                                            <button type="button" class="btn btn-primary"
-                                                    @click="increment(item.product.id)">+
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="total">
-                                    <span>{{item.product.price*item.quantity | currency }}</span>
-                                </td>
-                                <td class="product_delete">
-                                    <a href="#" @click="remove(item.product.id)"><i class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-md-6">
-                    <div class="billing_order_confirm">
-                        <table class="table chopcafe_table">
-                            <thead>
-                            <tr>
-                                <th class="cart_title" colspan="2">Итого</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td class="subtotal"></td>
-                                <td class="subtotal_price"><span>Всего</span></td>
-                            </tr>
-                            <tr>
-                                <td class="product"><span>Количество</span></td>
-                                <td class="price"><span>{{cartTotalCount}}</span></td>
-                            </tr>
-                            <tr>
-                                <td class="shipping"><span>Доставка</span></td>
-                                <td class="shipping_info"><span>{{deliveryPrice|currency}}</span></td>
-                            </tr>
-                            <tr>
-                                <td class="total_price"><span>Цена заказа</span></td>
-                                <td class="price"><span>{{cartTotalPrice+deliveryPrice | currency}}</span></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="row mt-2">
-                            <div class="col-lg-6 col-sm-12">
-                                <div class="update_cart">
-                                    <a href="#" class="chopcafe_btn clear_cart_btn" @click="clearCart"><i
-                                        class="fas fa-times-circle"></i>Очистить
-                                        корзину</a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <form @submit="sendRequest">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form_group">
-                                    <input type="text" placeholder="Ваше имя" name="name"
-                                           v-model="name"
-                                           required="required"
-                                           class="form_control">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mt-2">
-                                <div class="form_group">
-                                    <input type="text" placeholder="Ваш номер телефона" name="phone"
-                                           v-model="phone"
-                                           required="required" pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}" class="form_control" maxlength="19"
-                                           v-mask="['+38 (###) ###-##-##']">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12 mt-2">
-                                <div class="form_group">
-                                    <textarea style="height: 122px;" placeholder="Сообщение для нас"
-                                              name="message"
-                                              v-model="message"
-                                              class="form_control"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mt-2">
-                                <div class="continue_shopping">
-                                    <button class="chopcafe_btn continue_btn" :disabled="sending"><i
-                                        class="fas fa-shopping-cart"></i>Оформить
-                                        покупку</button>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-        <div v-if="cartProducts.length===0">
-            <div class="row justify-content-center">
-                <img :src="'../assets/images/empty_cart.png'" alt="">
-            </div>
-            <h1 class="text-center">Корзина пуста:(</h1>
-        </div>
-
-    </div>-->
 </template>
 <script>
     import {mask} from 'vue-the-mask'
@@ -201,17 +66,36 @@
     export default {
         data() {
             return {
-                phone: '',
+                is_valid: false,
+                phone: null,
                 name: '',
                 message: '',
-                deliveryPrice: 50,
-                sending: false
+                address: '',
+                delivery_range: null,
+                deliveryPrice: 0,
+                sending: false,
+                sms_code: null,
+                coords: {
+                    latitude: 0,
+                    longitude: 0
+                }
+
             }
         },
+
         mounted() {
+            let callback = (val, oldVal, uri) => {
+                this.$store.dispatch("getProductList")
+            }
+
+            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+
             this.$store.dispatch("getProductList")
+
+
         },
         activated() {
+
             this.$store.dispatch("getProductList")
         },
         computed: {
@@ -226,31 +110,92 @@
             }
         },
         methods: {
-            sendRequest(e) {
-                e.preventDefault();
-                this.sending = true;
-                let products = '';
-                this.cartProducts.forEach(function (item) {
-                    products += item.product.title + "_#" + item.product.id + "_ x  " + item.quantity + "штук => " + item.quantity * item.product.price + "₽\n"
-                });
-                let message = `*Заказ с сайта:*\n${products}\n_${this.message}_\nСуммарно: ${this.cartTotalPrice + this.deliveryPrice} ₽`;
+            resendSms(){
+                this.message = "На ваш номер повторно отправлен смс с кодом!";
                 axios
-                    .post('api/send-request', {
-                        name: this.name,
+                    .post("../api/v1/fastoran/order/resend", {
+                        "phone": this.phone,
+                    }).then(resp=>{
+                    this.message = resp.data.message;
+                })
+            },
+            canSendOrder() {
+                return this.delivery_range != null && this.cartProducts.length > 0 && this.phone.length > 10
+            },
+            sendSms() {
+                this.message = "На ваш номер отправлен смс с кодом!";
+                axios
+                    .post("../api/v1/fastoran/order/sms", {
+                        "phone": this.phone,
+                        "name": this.name
+                    }).then(resp=>{
+                        this.message = resp.data.message;
+                })
+            },
+            checkValidCode() {
+                axios
+                    .post("../api/v1/fastoran/check_valid_code", {
+                        "phone": this.phone,
+                        "code": this.sms_code
+                    }).then(resp => {
+                    this.is_valid = resp.data.is_valid
+                    this.message = resp.data.message;
+                });
+            },
+            getRangePrice() {
+                axios
+                    .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
+                        "address": this.address
+                    }).then(resp => {
+
+                    this.delivery_range = resp.data.range
+                    this.deliveryPrice = resp.data.price
+                    this.coords.latitude = resp.data.latitude
+                    this.coords.longitude = resp.data.longitude
+
+                });
+            },
+            sendRequest(e) {
+               // e.preventDefault();
+                this.sending = true;
+                let products = [];
+                this.cartProducts.forEach(function (item) {
+                    products.push({
+                        product_id: item.product.id,
+                        count: item.quantity,
+                        price: item.product.food_price
+                    })
+                });
+                axios
+                    .post('../api/v1/fastoran/orders', {
                         phone: this.phone,
-                        message: message
+                        receiver_name: this.name,
+                        receiver_phone: this.phone,
+                        receiver_latitude: this.coords.latitude,
+                        receiver_longitude: this.coords.longitude,
+                        rest_id: this.cartProducts[0].product.rest_id,
+                        status: 0,
+                        receiver_delivery_time: '',
+                        receiver_address: this.address,
+                        receiver_order_note: '',
+                        receiver_domophone: '',
+                        order_details: products
                     })
                     .then(response => {
-                        this.sendMessage("Заказ успешно отправлен");
-                        this.sending = false;
+                        this.sendMessage(response.data.message);
+                        this.message = '';
+                        this.sms_code = '';
+                        this.is_valid = false;
                         this.clearCart()
+
+                        this.sending = false;
                     });
             },
             sendMessage(message) {
                 this.$notify({
-                    group: 'messages',
+                    group: 'info',
                     type: 'success',
-                    title: 'Отправка заказа ISUSHI',
+                    title: 'Отправка заказа Fastoran',
                     text: message
                 });
             },
@@ -270,8 +215,27 @@
         directives: {mask}
     }
 </script>
-<style lang="scss">
-    .chopcafe_custom_table {
-        min-width: 1000px;
+<style lang="scss" scoped>
+    .cartbox__inputs {
+        padding: 10px;
+        width: 100%;
+        margin-top: 5px;
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px lightblue solid;
+        }
+    }
+
+    .food__btn {
+        span {
+            color: white;
+        }
+    }
+
+    .cartbox__buttons {
+        padding-bottom: 200px;
     }
 </style>

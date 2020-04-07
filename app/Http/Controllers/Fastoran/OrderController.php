@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Classes\Utilits;
 use App\Enums\DeliveryTypeEnum;
 use App\Enums\OrderStatusEnum;
@@ -13,9 +14,13 @@ use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Yandex\Geocode\Facades\YandexGeocodeFacade;
+
 
 class OrderController extends Controller
 {
@@ -66,6 +71,117 @@ class OrderController extends Controller
         //
     }
 
+    public function checkValidCode(Request $request)
+    {
+        $phone = $request->get("phone") ?? '';
+        $code = $request->get("code") ?? '';
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone);
+
+        $user = User::where("phone", $phone)->first();
+
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Номер телефона не найден!",
+                    "is_valid" => false,
+                ]);
+
+        if ($user->auth_code != $code)
+            return response()
+                ->json([
+                    "message" => "Вам на телефон отправлен СМС код подветрждения!",
+                    "is_valid" => false,
+                ]);
+
+        return response()
+            ->json([
+                "message" => "Номер успешно подтвержден!",
+                "is_valid" => true,
+            ]);
+
+
+    }
+
+    public function resendSmsVerify(Request $request)
+    {
+        $phone = $request->get("phone") ?? '';
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone);
+
+
+        $user = User::where("phone", $phone)->first();
+        if (!is_null($user)) {
+            SemySMS::sendOne([
+                'to' => $user->phone,
+                'text' => "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code
+            ]);
+            return response()
+                ->json([
+                    "message" => "СМС успешно отправлено",
+                ]);
+        }
+
+        return response()
+            ->json([
+                "message" => "Ошибка отправки СМС",
+            ]);
+
+    }
+
+    public function sendSmsVerify(Request $request)
+    {
+
+        $phone = $request->get("phone") ?? '';
+        $name = $request->get("name") ?? '';
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone);
+
+
+        $user = User::where("phone", $phone)->first();
+
+        $client = new Client();
+
+        if (is_null($user))
+            $resp = $client->request('POST', 'https://fastoran.com/api/v1/auth/signup_phone', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'body' => json_encode([
+                    'phone' => $phone,
+                    'name' => $name
+                ]),
+            ]);
+        else
+            $resp = $client->request('POST', 'https://fastoran.com/api/v1/auth/sms', [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'body' => json_encode([
+                    'phone' => $phone,
+                ]),
+            ]);
+
+        if (!is_null($user))
+            return response()
+                ->json([
+                    "message" => $user->auth_code != null ? "Введите предидущий код из СМС!" : "На ваш номер отправлен СМС с кодом!"
+                ], 200);
+        else
+            return response()
+                ->json([
+                    "message" => "На ваш номер отправлен СМС с кодом!"
+                ], 200);
+
+
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -74,18 +190,39 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $phone = $request->get("phone") ?? null;
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone ?? '');
 
 
-        $user = User::find(auth()->guard('api')->user()->id);
+        $userId = (User::where("phone", $phone)->first())->id ?? null;
+
+        Log::info("ORDER STORE:$userId $phone");
+
+        $user = User::find(!is_null($userId) ? $userId : auth()->guard('api')->user()->id);
 
         $order = Order::create($request->all());
 
+        $data = YandexGeocodeFacade::setQuery($request->get("receiver_address") ?? '')->load();
+
+        $data = $data->getResponse();
+
+        if (!is_null($data)) {
+            $lat = $data->getLatitude();
+            $lon = $data->getLongitude();
+
+            $order->latitude = $lat;
+            $order->longitude = $lon;
+            $order->save();
+        }
+
         $order->user_id = $user->id;
-        $order->latitude = $request->get("receiver_latitude") ?? null;
-        $order->longitude = $request->get("receiver_longitude") ?? null;
+        //$order->latitude = $request->get("receiver_latitude") ?? null;
+        //$order->longitude = $request->get("receiver_longitude") ?? null;
         $order->save();
 
 
+        // return json_decode($request->get("order_details"),true);
         $order_details = $request->get("order_details");
 
         $delivery_order_tmp = "";
@@ -107,6 +244,23 @@ class OrderController extends Controller
 
         $rest = Restoran::find($order->rest_id);
 
+        if (is_null($rest->latitude) || is_null($rest->longitude)) {
+
+            $data = YandexGeocodeFacade::setQuery($rest->adress ?? '')->load();
+
+            $data = $data->getResponse();
+
+            if (!is_null($data)) {
+                $lat = $data->getLatitude();
+                $lon = $data->getLongitude();
+
+                $rest->latitude = $lat;
+                $rest->longitude = $lon;
+                $rest->save();
+            }
+
+        }
+
         $channel = $rest->telegram_channel;
         $range = ($this->calculateTheDistance($order->latitude ?? 0, $order->longitude ?? 0, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000);
 
@@ -116,7 +270,7 @@ class OrderController extends Controller
         $price1 = ceil(env("BASE_DELIVERY_PRICE") + ($range1 * env("BASE_DELIVERY_PRICE_PER_KM")));
         $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
 
-        $deliver_price = ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $deliver_price = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         $message = sprintf("*Заявка*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЦена доставки:*%sруб.-%s руб.*(Дистанция:%.2fкм-%.2fкм)\nЦена заказа:*%s руб.*",
@@ -131,8 +285,8 @@ class OrderController extends Controller
             $order->summary_price
         );
 
-        $order->delivery_price = $deliver_price;
-        $order->delivery_range = floatval(sprintf("%.2f", $range));
+        $order->delivery_price = $price2;
+        $order->delivery_range = floatval(sprintf("%.2f", $range2));
 
         $order->save();
 
@@ -140,20 +294,24 @@ class OrderController extends Controller
         while (strlen($tmp) < 10)
             $tmp = "0" . $tmp;
 
-        Telegram::sendMessage([
-            'chat_id' => $channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-            'reply_markup' => json_encode([
-                'inline_keyboard' => [
-                    [
-                        ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
-                        ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => [
+                        [
+                            ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                            ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                        ]
                     ]
-                ]
-            ])
+                ])
 
-        ]);
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
 
         return response()
@@ -277,11 +435,15 @@ class OrderController extends Controller
             $user->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
@@ -329,12 +491,15 @@ class OrderController extends Controller
             $order->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
-
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
         return response()
             ->json([
                 "message" => "Success"
@@ -373,11 +538,15 @@ class OrderController extends Controller
             $order->user->phone ?? "Не найден номер телефона"
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
@@ -399,7 +568,64 @@ class OrderController extends Controller
 
     public function getOrderById($orderId)
     {
-        return Order::with(["restoran", "user", "details", "details.product"])->where("id", $orderId)->first();
+        return Order::with(["restoran", "user", "details", "details.product", "deliveryman"])->where("id", $orderId)->first();
+    }
+
+    public function getRange(Request $request, $restId)
+    {
+        $request->validate([
+            'address' => 'required'
+        ]);
+
+
+        $data = YandexGeocodeFacade::setQuery($request->get("address") ?? '')->load();
+
+        $data = $data->getResponse();
+
+        if (is_null($data))
+            return response()
+                ->json([
+                    "range" => 0,
+                    "price" => 500,
+                    "latitude" => 0,
+                    "longitude" => 0
+                ]);
+
+        $lat = $data->getLatitude();
+        $lon = $data->getLongitude();
+
+        $rest = Restoran::find($restId);
+
+        if (is_null($rest->latitude) || is_null($rest->longitude)) {
+
+            $data = YandexGeocodeFacade::setQuery($rest->adress ?? '')->load();
+
+            $data = $data->getResponse();
+
+            if (!is_null($data)) {
+                $lat = $data->getLatitude();
+                $lon = $data->getLongitude();
+
+                $rest->latitude = $lat;
+                $rest->longitude = $lon;
+                $rest->save();
+            }
+
+        }
+
+        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000) + 2;
+
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+
+        return response()
+            ->json([
+                "range" => floatval(sprintf("%.2f", $range)),
+                "price" => $price,
+                "latitude" => $lat,
+                "longitude" => $lon
+            ]);
+
+
     }
 
     public function testOrder()
@@ -504,20 +730,24 @@ class OrderController extends Controller
             while (strlen($tmp) < 10)
                 $tmp = "0" . $tmp;
 
-            Telegram::sendMessage([
-                'chat_id' => $channel,
-                'parse_mode' => 'Markdown',
-                'text' => $message,
-                'reply_markup' => json_encode([
-                    'inline_keyboard' => [
-                        [
-                            ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
-                            ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+            try {
+                Telegram::sendMessage([
+                    'chat_id' => $channel,
+                    'parse_mode' => 'Markdown',
+                    'text' => $message,
+                    'reply_markup' => json_encode([
+                        'inline_keyboard' => [
+                            [
+                                ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$tmp"],
+                                ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$tmp"]
+                            ]
                         ]
-                    ]
-                ])
+                    ])
 
-            ]);
+                ]);
+            } catch (TelegramResponseException $e) {
+                Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+            }
         }
     }
 
@@ -562,11 +792,17 @@ class OrderController extends Controller
             $order->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
+
 
         return response()
             ->json([
@@ -591,11 +827,16 @@ class OrderController extends Controller
             $order->id
         );
 
-        Telegram::sendMessage([
-            'chat_id' => $order->restoran->telegram_channel,
-            'parse_mode' => 'Markdown',
-            'text' => $message,
-        ]);
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $order->restoran->telegram_channel,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+            ]);
+
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
 
         return response()
             ->json([
@@ -611,19 +852,32 @@ class OrderController extends Controller
         $user->save();
 
         $deliveryman_status_text = "Не установлен";
-        switch ($type)
-        {
-            case 1: $deliveryman_status_text = "Пеший"; break;
-            case 2: $deliveryman_status_text = "Велосипед"; break;
-            case 3: $deliveryman_status_text = "Мотоцикл"; break;
-            case 4: $deliveryman_status_text = "Машина"; break;
+        switch ($type) {
+            case 1:
+                $deliveryman_status_text = "Пеший";
+                break;
+            case 2:
+                $deliveryman_status_text = "Велосипед";
+                break;
+            case 3:
+                $deliveryman_status_text = "Мотоцикл";
+                break;
+            case 4:
+                $deliveryman_status_text = "Машина";
+                break;
         }
+/*
+        try {
 
-        Telegram::sendMessage([
-            'chat_id' => $user->telegram_chat_id,
-            'parse_mode' => 'Markdown',
-            'text' => "Ваш тип доставки изменен на '$deliveryman_status_text'!",
-        ]);
+            Telegram::sendMessage([
+                'chat_id' => $user->telegram_chat_id,
+                'parse_mode' => 'Markdown',
+                'text' => "Ваш тип доставки изменен на '$deliveryman_status_text'!",
+            ]);
+
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }*/
 
         return response()
             ->json([

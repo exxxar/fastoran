@@ -1,10 +1,10 @@
-<section class="food__about__us__area section-padding--lg bg--white">
+<section class="food__about__us__area section-padding--lg section-padding--xs bg--white">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="section__title title__style--2 service__align--center">
-                    <h2 class="title__line">Why Choose Us</h2>
-                    <p>The process of our service </p>
+                    <h2 class="title__line">Почему выбирают нас?</h2>
+                    <p>Немного описания нашего сервиса </p>
                 </div>
             </div>
         </div>

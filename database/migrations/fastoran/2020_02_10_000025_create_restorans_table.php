@@ -24,7 +24,7 @@ class CreateRestoransTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
             $table->string('name', 150)->comment('Название заведения');
-            $table->text('description')->comment('Описание');
+            $table->string('description',2000)->comment('Описание');
 
             $table->string('adress', 200)->default('')->comment('адрес');
             $table->string('orientir', 100)->default('')->comment('ориентир');
@@ -32,7 +32,6 @@ class CreateRestoransTable extends Migration
             $table->string('city')->default('')->comment('город');
 
             $table->string('region')->default('')->comment('район');
-
 
             $table->string('latitude')->nullable()->comment('широта');
             $table->string('longitude')->nullable()->comment('долгота');
@@ -85,7 +84,7 @@ class CreateRestoransTable extends Migration
 
             $table->string('dir_mail', 35)->default('');
 
-            $table->text('discount_text')->default('');
+            $table->string('discount_text',2000)->default('');
 
             $table->integer('min_sum')->default(0);
             $table->integer('price_delivery')->default(0);

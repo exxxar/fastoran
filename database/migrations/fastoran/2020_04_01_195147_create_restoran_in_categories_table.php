@@ -17,13 +17,13 @@ class CreateRestoranInCategoriesTable extends Migration
         Schema::create('restoran_in_categories', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('category_id');
-            $table->unsignedInteger('restoran_id');
+            $table->unsignedInteger('category_id')->nullable();
+            $table->unsignedInteger('restoran_id')->nullable();
 
-            if (env("DB_CONNECTION") == 'mysql') {
-                $table->foreign('category_id')->references('id')->on('categories');
+           /* if (env("DB_CONNECTION") == 'mysql') {
+                $table->foreign('category_id')->references('id')->on('menu_category');
                 $table->foreign('restoran_id')->references('id')->on('restorans');
-            }
+            }*/
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

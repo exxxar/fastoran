@@ -279,9 +279,17 @@ class AuthController extends Controller
         if (is_null($user))
             return response()
                 ->json([
-                    "message" => "User not found",
+                    "message" => "Пользователь не найден!",
                     "is_deliveryman" => false,
                     "status" => 404
+                ]);
+
+        if ($user->auth_code!=null)
+            return response()
+                ->json([
+                    "message" => "Введите предидущий код из СМС!",
+                    "is_deliveryman" => false,
+                    "status" => 200
                 ]);
 
         $code = random_int(100000, 999999);
@@ -291,12 +299,12 @@ class AuthController extends Controller
 
         SemySMS::sendOne([
             'to' => $phone,
-            'text' => "You verify code:$code"
+            'text' => "Ваш код верификации:$code"
         ]);
 
         return response()
             ->json([
-                "message" => "Success user found",
+                "message" => "Код успешно отправлен",
                 "is_deliveryman" => false,
                 "status" => 200
             ]);

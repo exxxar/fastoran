@@ -26,8 +26,7 @@
 
                                             </div>
                                             <div>
-                                                <p class="hidden-xs">Пицца, Бургеры, Американская</p>
-                                                <p class="hidden-sm hidden-md hidden-lg"><span>Европейская</span> <span>Русская</span> <span>Японская</span></p>
+                                                <p>{{rest.kitchen_speicalization}}</p>
 
                                             </div>
                                         </div>
@@ -36,7 +35,7 @@
                                                 <p>Время приёма заказов:</p>
                                             </div>
                                             <div>
-                                                <p>{{rest.tim}}</p>
+                                                <p><strong>{{rest.work_time}}</strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -49,14 +48,14 @@
                                                 <p>{{rest.adress}}</p>
                                             </div>
                                         </div>
-                                        <div class="l-rest-info__container--content__info">
+                                       <!-- <div class="l-rest-info__container&#45;&#45;content__info">
                                             <div class="hidden-xs">
                                                 <p>Контактный телефон:</p>
                                             </div>
                                             <div>
                                                 <p>{{rest.phone1}}</p>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +64,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="l-rest-list__container--item__content__body1">
                                         <div>
-                                            <h4 class="white-xs">{{rest.min_sum}}</h4>
+                                            <h4 class="white-xs">{{rest.min_sum}} руб</h4>
                                             <p class="white-xs">мин сумма <br>заказа</p>
                                         </div>
                                         <div>
@@ -73,31 +72,31 @@
                                             <p class="white-xs">мин стоимость <br>доставки</p>
                                         </div>
                                         <div>
-                                            <h4 class="white-xs">{{rest.time_delivery}}</h4>
+                                            <h4 class="white-xs">{{rest.work_time}}</h4>
                                             <p class="white-xs">время <br> доставки</p>
                                         </div>
-                                       <!-- <div>
+                                    <!--    <div>
                                             <div>
                                                 <div class="like-container" data-target="197">
                                                     <div @click="like">
                                                         <img src="/img/svg/like.svg" alt="" class="hidden-xs">
-                                                        <img src="/img/svg/like-xs.svg" alt="" class="hidden-sm hidden-md hidden-lg">
+
                                                     </div>
                                                     <div>
-                                                        <h4 class="white-xs">{{rest.likes}}</h4>
+                                                        <h4 class="white-xs">{{rest.rating.like_count}}</h4>
                                                     </div>
                                                 </div>
                                                 <div class="disslike-container" data-target="197">
                                                     <div @click="dislike">
                                                         <img src="/img/svg/disslike.svg" alt="" class="hidden-xs">
-                                                        <img src="/img/svg/disslike-xs.svg" alt="" class="hidden-sm hidden-md hidden-lg">
+
                                                     </div>
                                                     <div>
-                                                        <h4 class="white-xs">{{rest.dislikes}}</h4>
+                                                        <h4 class="white-xs">{{rest.rating.dislike_count}}</h4>
                                                     </div>
                                                 </div>
                                             </div>
-                                            &lt;!&ndash; <p class="reviews"><a href="#"> отзывов</a></p> &ndash;&gt;
+                                            <p class="reviews"><a href="#">{{rest.comments_count}} отзывов</a></p>
                                         </div>-->
                                     </div>
                                 </div>

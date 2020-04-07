@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,800');
 @import url('https://fonts.googleapis.com/css?family=Alegreya:400,400i,500,500i,600,700i,700,900');
 
@@ -46,7 +45,6 @@
 @import 'blocks/checkout';
 @import 'blocks/responsive';
 
-
 @import "plugins";
 
 .countdown {
@@ -91,11 +89,13 @@
 }
 
 .text-orange {
-    color:darkorange;
+    color: darkorange;
+
     p {
         font-size: 54px;
         line-height: 150%;
         font-family: "Alegreya", serif;
+
         mark {
             background: #d50c0d;
             color: #fff;
@@ -130,10 +130,12 @@ ul.pp__meta {
 .popular__food {
     position: relative;
     padding-bottom: 0px;
+
     .pp_food__thumb {
         min-height: 250px;
         display: flex;
         justify-content: center;
+
         a {
             img {
                 width: 100%;
@@ -142,6 +144,7 @@ ul.pp__meta {
             }
         }
     }
+
     .pp__food__inner {
         position: absolute;
         top: 0;
@@ -149,7 +152,7 @@ ul.pp__meta {
         width: 100%;
         height: 100%;
         opacity: 0;
-        background: rgba(255,255,255,1);
+        background: rgba(255, 255, 255, 1);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -162,9 +165,11 @@ ul.pp__meta {
 
         .pp__food__details {
             padding: 15px;
+
             h4 {
                 text-transform: uppercase;
                 font-weight: 800;
+
                 a {
                     color: #ed2124;
                 }
@@ -175,8 +180,8 @@ ul.pp__meta {
 
 
 .btn-coutner {
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -185,6 +190,7 @@ ul.pp__meta {
     border: none;
     color: white;
     font-weight: 900;
+    font-size: 24px;
 }
 
 .product-counter {
@@ -206,4 +212,65 @@ ul.pp__meta {
         padding: 5px;
         font-size: 36px;
     }
+}
+
+.rest-img {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    top: -12px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 12;
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+
+.custom__slider__input {
+    span {
+        line-height: 150%;
+        color: white;
+        margin-top: 25px;
+    }
+
+}
+
+
+.btn-primary-custom {
+    height: 100%;
+    background: #d50c0d;
+    font-weight: 900;
+    text-transform: uppercase;
+    border:none;
+    &:active,
+    &:focus,
+    &:hover {
+        background: darkred;
+    }
+}
+
+.l-rest-info__container {
+    padding: 20px;
+    box-sizing: border-box;
+
+    .l-rest-info__container--media {
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+}
+
+.l-rest-list__container--item__content__body1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }

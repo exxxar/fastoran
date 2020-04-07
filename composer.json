@@ -14,6 +14,7 @@
         "bensampo/laravel-enum": "^1.36",
         "fideloper/proxy": "^4.0",
         "grkamil/laravel-telegram-logging": "^1.2",
+        "guzzlehttp/guzzle": "^6.5",
         "irazasyed/telegram-bot-sdk": "^3.0",
         "jackmartin/laravel-yandex-geocode": "^1.2",
         "laravel/framework": "^6.2",

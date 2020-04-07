@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @laravelPWA
+    
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
@@ -33,6 +33,9 @@
     <div class="wrapper" id="wrapper">
         <notifications :position="'top left'" :group="'info'"></notifications>
         @yield("content")
+
+        @include("fastoran.partials.login-box")
+        @include("fastoran.partials.cart-box")
     </div><!-- //Main wrapper -->
 
 <!-- JS Files -->

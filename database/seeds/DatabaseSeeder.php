@@ -1,6 +1,8 @@
 <?php
 
+use App\Parts\Models\Fastoran\MenuCategory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,8 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-       // $this->call(KitchenTableSeeder::class);
+        Schema::disableForeignKeyConstraints();
+        $this->call(KitchenTableSeeder::class);
         $this->call(RestoransTableSeeder::class);
-        //$this->call(MenuTableSeeder::class);
+        $this->call(MenuCategoryTableSeeder::class);
+        Schema::enableForeignKeyConstraints();
     }
 }

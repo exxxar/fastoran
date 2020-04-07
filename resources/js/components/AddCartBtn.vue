@@ -27,6 +27,13 @@
                 return this.$store.getters.cartProducts;
             }
         },
+        mounted() {
+            let callback = (val, oldVal, uri) => {
+                this.$store.dispatch("getProductList")
+            }
+
+            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+        },
         methods: {
             checkFirstRestoran(restId) {
                 return this.products.filter(item => item.product.rest_id !== restId).length === 0 || this.products.length === 0;
@@ -86,25 +93,35 @@
         top: 0;
         left: 0;
         display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         height: 100%;
         font-size: 20px;
-        padding: 20px;
-        z-index: 10;
+        padding: 10px;
+        z-index: 11;
         box-sizing: border-box;
+
+        a.btn_a.btn_link.btn-add-to-cart {
+            padding: 10px;
+            color: white;
+            background: #e3342f;
+        }
     }
 
     .cnt-container {
         display: flex;
         justify-content: space-around;
-        width: 100px;
+        width: 100%;
+        background: #f8fafc7a;
+        padding: 10px;
 
         p {
             text-align: center;
             font-weight: 900;
             color: #3b393c;
+            font-size: 24px;
+            padding-top: 7px;
         }
     }
 </style>
