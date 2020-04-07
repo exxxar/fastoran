@@ -21,6 +21,18 @@ class AppServiceProvider extends ServiceProvider
 
         Schema::defaultStringLength(191);
 
+
+
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
         try {
             $kitchens = (Kitchen::where("is_active", 1)
                 ->get())->filter(function ($kitchen) {
@@ -34,18 +46,6 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
 
         }
-
-    }
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-
 
     }
 }
