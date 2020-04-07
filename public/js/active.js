@@ -19,13 +19,15 @@
 
     new WOW().init();
 
+/*
 
-    /*=========== Counter Up===========*/
+    /!*=========== Counter Up===========*!/
 
     $('.count').counterUp({
         delay: 10,
         time: 1000
     });
+*/
 
 
     /*============= Youtub Popup ==============*/

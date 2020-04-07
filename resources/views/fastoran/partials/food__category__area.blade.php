@@ -13,7 +13,7 @@
             <div class="row">
             @foreach($kitchens as $key=>$kitchen)
                 <!-- Start Single Category -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" >
                     <div class="food__item foo" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; transition: transform 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s, opacity 0.7s cubic-bezier(0.6, 0.2, 0.1, 1) 0s; ">
                         <div class="food__thumb">
                             <a href="{{route("kitchen",$kitchen->id)}}">

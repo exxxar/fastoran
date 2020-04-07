@@ -183,7 +183,15 @@
 }
 .slider__area{
     overflow: hidden;
+
 }
+
+.custom-slider-one {
+    min-height: 350px;
+    padding: 20px 0px;
+    box-sizing: border-box;
+}
+
 .slider__fixed--height{
 	height: 800px;
 }
