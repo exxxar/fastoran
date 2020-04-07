@@ -63,12 +63,16 @@ class RestController extends Controller
         $menus_count = RestMenu::all()->count();
         $user_count = User::all()->count();
 
-        return view("main", compact("random_menu"))
+        $categories = MenuCategory::with(["menus"])->get();
+        $products = RestMenu::all();
+
+        return view("main", compact("random_menu","categories"))
             ->with("sliderIndex", $sliderIndex)
             ->with("kitchens_count", $kitchens_count)
             ->with("restorans_count", $restorans_count)
             ->with("menus_count", $menus_count)
-            ->with("user_count", $user_count);
+            ->with("user_count", $user_count)
+            ->with("products", $products);
 
 
     }

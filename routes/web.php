@@ -50,12 +50,12 @@ Route::view("/agreement", "fastoran.agreement")->name("agreement");
 Route::view("/terms-of-user", "fastoran.terms-of-use")->name("terms");
 
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/vkontakte', "HomeController@uploadVk");
 
-Route::prefix('admin')->group(function () {
+/*Route::prefix('admin')->group(function () {
     Route::view("/", "admin.main");
     Route::resources([
         'kitchens' => 'Fastoran\KitchenController',
@@ -67,7 +67,7 @@ Route::prefix('admin')->group(function () {
         'restorans' => 'Fastoran\RestoransController',
         'users' => 'UserController',
     ]);
-});
+});*/
 
 
 
