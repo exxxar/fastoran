@@ -22,16 +22,13 @@ class KitchenController extends Controller
      */
     public function index(Request $request)
     {
-        $kitchens = Kitchen::orderBy('id', 'DESC')
+        $kitchens = Kitchen::where("is_active", 1)
             ->paginate(15);
 
         if ($request->ajax())
             return response()
                 ->json([
-                    'kitchens' => (Kitchen::where("is_active", 1)
-                        ->get())->filter(function ($kitchen) {
-                        return $kitchen->rest_count > 0;
-                    }),
+                    'kitchens' => $kitchens,
                 ]);
 
         return view('admin.kitchens.index', compact('kitchens'))
