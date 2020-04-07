@@ -4,11 +4,17 @@
 namespace App\Classes;
 
 
+use Allanvb\LaravelSemysms\Facades\SemySMS;
+use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Exceptions\TelegramResponseException;
+use Telegram\Bot\Laravel\Facades\Telegram;
+
 trait Utilits
 {
-    protected $earth_radius =  6372795;
+    protected $earth_radius = 6372795;
 
-    public function calculateTheDistance ($fA, $lA, $fB, $lB) {
+    public function calculateTheDistance($fA, $lA, $fB, $lB)
+    {
 
 // перевести координаты в радианы
         $lat1 = $fA * M_PI / 180;
@@ -34,5 +40,32 @@ trait Utilits
         $dist = $ad * $this->earth_radius;
 
         return $dist;
+    }
+
+    public function sendSms($phone, $message)
+    {
+        SemySMS::sendOne([
+            'to' => $phone,
+            'text' => $message,
+            'device_id' => 'active'
+        ]);
+    }
+
+    public function sendToTelegram($id, $message, $keyboard = [])
+    {
+        try {
+            Telegram::sendMessage([
+                'chat_id' => $id,
+                'parse_mode' => 'Markdown',
+                'text' => $message,
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => $keyboard
+                ])
+
+            ]);
+        } catch (TelegramResponseException $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+        }
+
     }
 }
