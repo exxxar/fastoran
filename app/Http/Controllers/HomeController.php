@@ -41,6 +41,7 @@ class HomeController extends Controller
 
         Schema::disableForeignKeyConstraints();
         MenuCategory::truncate();
+        RestoranInCategory::truncate();
         Schema::enableForeignKeyConstraints();
 
         $token = null;
