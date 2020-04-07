@@ -34,10 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         try {
-            $kitchens = (Kitchen::where("is_active", 1)
-                ->get())->filter(function ($kitchen) {
-                return $kitchen->rest_count > 0;
-            });
+            $kitchens = Kitchen::where("is_active", 1)->get();
 
             $restorans = Restoran::where("moderation", true)->get();
 
