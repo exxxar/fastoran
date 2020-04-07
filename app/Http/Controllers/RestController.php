@@ -57,7 +57,8 @@ class RestController extends Controller
         $products = RestMenu::all();
 
         $random_menu = $products
-            ->shuffle();
+            ->shuffle()
+            ->take(12);
 
         $kitchens_count = 10;//Kitchen::all()->count();
         $restorans_count = 10;//Restoran::all()->count();
