@@ -11,6 +11,7 @@ use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
@@ -38,6 +39,9 @@ class HomeController extends Controller
     {
         $auth = new Auth('7384241', 'eNYSaEk3l2FuZzAePCnH', 'https://fastoran.com/vkontakte', 'market');
 
+        Schema::disableForeignKeyConstraints();
+        MenuCategory::truncate();
+        Schema::enableForeignKeyConstraints();
 
         $token = null;
 

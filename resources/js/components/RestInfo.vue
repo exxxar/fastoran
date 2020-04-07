@@ -35,7 +35,7 @@
                                                 <p>Время приёма заказов:</p>
                                             </div>
                                             <div>
-                                                <p>{{rest.work_time}}</p>
+                                                <p><strong>{{rest.work_time}}</strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="l-rest-list__container--item__content__body1">
                                         <div>
-                                            <h4 class="white-xs">{{rest.min_sum}}</h4>
+                                            <h4 class="white-xs">{{rest.min_sum}} руб</h4>
                                             <p class="white-xs">мин сумма <br>заказа</p>
                                         </div>
                                         <div>
