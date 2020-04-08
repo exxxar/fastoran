@@ -249,7 +249,7 @@
                     home_number: localStorage.getItem("food_home_number", ""),
                     flat_number: localStorage.getItem("food_flat_number", ""),
                     more_info: '',
-                    money_type: '500',
+                    money_type: '0',
                 },
                 coords: {
                     latitude: 0,

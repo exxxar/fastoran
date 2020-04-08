@@ -32,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        date_default_timezone_set("Europe/Moscow");
         //
         try {
             $header_kitchen_list = Kitchen::where("is_active", 1)->get();

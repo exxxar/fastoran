@@ -376,6 +376,7 @@ input[type="submit"]{
                 float: left;
                 &:last-child {
                     width: 40%;
+                    text-align: right;
                 }
                 &.strong {
                     color: #303030;

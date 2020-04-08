@@ -33,8 +33,6 @@
     <div class="wrapper" id="wrapper">
         <notifications :position="'top left'" :group="'info'"></notifications>
         @yield("content")
-
-        @include("fastoran.partials.login-box")
         @include("fastoran.partials.cart-box")
     </div><!-- //Main wrapper -->
 
