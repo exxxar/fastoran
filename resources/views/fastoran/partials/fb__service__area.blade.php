@@ -15,7 +15,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img sclass="lazyload" data-rc="images/icon/color-icon/1.png" alt="icon image">
+                                <img class="lazyload" data-rc="images/icon/color-icon/1.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Выбираем ресторан</a></h2>
                         </div>
