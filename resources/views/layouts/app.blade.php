@@ -41,7 +41,7 @@
 <script src="{{url('js/app.js')}}"></script>
 <script src="{{url('js/plugins.js')}}"></script>
 <script src="{{url('js/active.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 <script>
     $(document).ready(function () {
