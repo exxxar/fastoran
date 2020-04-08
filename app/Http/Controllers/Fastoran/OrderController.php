@@ -231,9 +231,10 @@ class OrderController extends Controller
             $detail->save();
 
             $product = RestMenu::find($detail->product_id);
-            $local_tmp = sprintf("#%s %s %s шт. %s руб.\n",
+            $local_tmp = sprintf("#%s %s %s %s шт. %s руб.\n",
                 $detail->product_id,
                 $product->food_name,
+                "(".$od->more_info.")"??'',
                 $detail->count,
                 $product->food_price
             );

@@ -20,7 +20,7 @@
                                 <tr v-if="cartProducts.length>0" v-for="item in  cartProducts">
                                     <td class="product-thumbnail"><a href="#"><img :src="item.product.food_img"></a>
                                     </td>
-                                    <td class="product-name"><a href="#">{{item.product.food_name}}</a></td>
+                                    <td class="product-name"><a href="#">{{item.product.food_name}} <span v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span></a> </td>
                                     <td class="product-price"><span
                                         class="amount">{{item.product.food_price| currency}} </span></td>
                                     <td class="product-quantity">
@@ -350,12 +350,14 @@
                 localStorage.setItem("food_home_number", this.delivery.home_number);
                 localStorage.setItem("food_flat_number", this.delivery.flat_number);
 
+
                 let products = [];
                 this.cartProducts.forEach(function (item) {
                     products.push({
                         product_id: item.product.id,
                         count: item.quantity,
-                        price: item.product.food_price
+                        price: item.product.food_price,
+                        more_info:item.product.selected_sub!=null?item.product.selected_sub:''
                     })
                 });
                 axios
@@ -369,7 +371,7 @@
                         status: 0,
                         receiver_delivery_time: '',
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
-                        receiver_order_note: this.delivery.more_info + " Купюра:" + this.delivery.money_type + " руб.",
+                        receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
                         order_details: products
 

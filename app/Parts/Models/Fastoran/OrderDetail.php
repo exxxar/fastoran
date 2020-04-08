@@ -12,7 +12,8 @@ class OrderDetail extends Model
         'product_id',
         'count',
         'price',
-        'order_id'
+        'order_id',
+        'more_info'
     ];
 
     public function product()
