@@ -55,6 +55,7 @@ class RestController extends Controller
         $sliderIndex = random_int(1, 3);
 
         $products = RestMenu::all();
+        $kitchens = Kitchen::where("is_active", 1)->get();
 
         $random_menu = $products
             ->shuffle()
@@ -74,7 +75,8 @@ class RestController extends Controller
             ->with("restorans_count", $restorans_count)
             ->with("menus_count", $menus_count)
             ->with("user_count", $user_count)
-            ->with("products", $products);
+            ->with("products", $products)
+            ->with("kitchens", $kitchens);
 
 
     }
