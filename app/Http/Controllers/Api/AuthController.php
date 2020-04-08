@@ -66,8 +66,11 @@ class AuthController extends Controller
             $needSms = true;
         }
 
-        if ($needSms)
+        if ($needSms&&!is_null($user))
             $this->sendSms($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+
+        if ($needSms&&is_null($user))
+            $this->sendToTelegram($request->telegram_chat_id,"Возникла ошибка регистрации");
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
