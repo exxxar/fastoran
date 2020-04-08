@@ -15,8 +15,4 @@
     @include("fastoran.partials.fd__subscribe__wrapper")
     @include("fastoran.partials.food__contact__form")
     @include("fastoran.partials.footer__area")
-
-    @include("fastoran.partials.login-box")
-    @include("fastoran.partials.cart-box")
-    {{--@include("fastoran.partials.custom-order-box")--}}
 @endsection
