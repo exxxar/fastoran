@@ -165,7 +165,7 @@ class OrderController extends Controller
         if (!is_null($user))
             return response()
                 ->json([
-                    "message" => $user->auth_code != null ? "Введите предидущий код из СМС!" : "На ваш номер отправлен СМС с кодом!"
+                    "message" => $user->auth_code != null ? "Введите предыдущий код из СМС!" : "На ваш номер отправлен СМС с кодом!"
                 ], 200);
         else
             return response()

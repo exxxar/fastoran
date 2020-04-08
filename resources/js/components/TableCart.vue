@@ -135,13 +135,6 @@
                                                     <option value="Макеевка">Макеевка</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя">
-                                            </div>
-                                            <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" v-model="delivery.last_name"
-                                                       placeholder="Ваша фамилия">
-                                            </div>
                                             <div class="col-12 mb--20">
                                                 <input placeholder="Улица" type="text" v-model="delivery.street">
                                             </div>
@@ -149,14 +142,17 @@
                                                 <input placeholder="Номер дома" type="text"
                                                        v-model="delivery.home_number">
                                             </div>
+
                                             <div class="col-md-6  col-12 mb--20">
                                                 <input placeholder="Номер квартиры" type="text"
                                                        v-model="delivery.flat_number">
                                             </div>
+
                                             <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" placeholder="Код домафона"
-                                                       v-model="delivery.domophone_number">
+                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя">
                                             </div>
+
+
                                             <div class="col-md-6 col-12 mb--20">
                                                 <select v-model="delivery.money_type">
                                                     <option value="0">Купюра для оплаты</option>
@@ -247,10 +243,8 @@
                     city: localStorage.getItem("food_city", "Донецк") ?? "Донецк",
                     street: localStorage.getItem("food_street", ""),
                     first_name: localStorage.getItem("food_first_name", ""),
-                    last_name: localStorage.getItem("food_last_name", ""),
                     home_number: localStorage.getItem("food_home_number", ""),
                     flat_number: localStorage.getItem("food_flat_number", ""),
-                    domophone_number: localStorage.getItem("food_domophone_number", ""),
                     more_info: '',
                     money_type: '500',
                 },
@@ -350,10 +344,8 @@
                 localStorage.setItem("food_city", this.delivery.city);
                 localStorage.setItem("food_street", this.delivery.street);
                 localStorage.setItem("food_first_name", this.delivery.first_name);
-                localStorage.setItem("food_last_name", this.delivery.last_name);
                 localStorage.setItem("food_home_number", this.delivery.home_number);
                 localStorage.setItem("food_flat_number", this.delivery.flat_number);
-                localStorage.setItem("food_domophone_number", this.delivery.domophone_number);
 
                 let products = [];
                 this.cartProducts.forEach(function (item) {
@@ -366,7 +358,7 @@
                 axios
                     .post('../api/v1/fastoran/orders', {
                         phone: this.phone,
-                        receiver_name: this.delivery.first_name + " " + this.delivery.last_name,
+                        receiver_name: this.delivery.first_name ,
                         receiver_phone: this.phone,
                         receiver_latitude: this.coords.latitude,
                         receiver_longitude: this.coords.longitude,
@@ -375,7 +367,7 @@
                         receiver_delivery_time: '',
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + " Купюра:" + this.delivery.money_type + " руб.",
-                        receiver_domophone: this.delivery.domophone_number,
+                        receiver_domophone: '',
                         order_details: products
 
 

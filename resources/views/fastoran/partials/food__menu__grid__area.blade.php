@@ -23,7 +23,7 @@
                                         <div class="row">
                                         @foreach($products as $product)
                                             <!-- Start Single Banner -->
-                                                <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6 col-6">
+                                                <div class="col-md-6 col-lg-3 col-sm-6">
                                                     <div class="banner--2 foo">
                                                         <div class="banner__thumb">
                                                             <a href="#"><img
