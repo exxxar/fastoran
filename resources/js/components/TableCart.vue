@@ -206,6 +206,9 @@
                                     <li><p class="strong">Всего</p>
                                         <p class="strong">{{cartTotalPrice+deliveryPrice | currency}}</p></li>
                                     <li>
+                                        <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">Очистить корзину</button>
+                                    </li>
+                                    <li>
                                         <button class="food__btn" :disabled="!preparedToSend||!is_valid"
                                                 @click="sendRequest">Оформить
                                             заказ

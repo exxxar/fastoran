@@ -44,7 +44,7 @@
                 return tmp.length === 0 ? 0 : tmp[0].quantity
             },
             addToCart(menu_item) {
-                console.log(menu_item.restoran.is_work)
+                //console.log(menu_item.restoran.is_work)
                 if (!this.checkFirstRestoran(menu_item.rest_id)) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
