@@ -82,7 +82,6 @@
                 this.$bvModal.hide("modal-submenu-" + this.product_id)
             },
             hasSub() {
-                console.log(JSON.parse(this.product_data.food_sub))
                 return this.product_data.food_sub != null;
             },
             getFoodSub() {
@@ -121,7 +120,6 @@
                 this.$store.dispatch('decQuantity', this.product_id)
             },
             sendMessage(message, type = 'success') {
-                console.log(message);
                 this.$notify({
                     group: 'info',
                     type: type,

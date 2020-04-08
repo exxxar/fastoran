@@ -27,7 +27,7 @@ class CreateOrderDetailsTable extends Migration
 
             $table->integer('count')->default(0);
             $table->integer('price')->default(0);
-            $table->string('more_info',255)->default('');
+            $table->string('more_info',255)->nullable();
 
             $table->unsignedInteger('order_id')->nullable();
             $table->unsignedInteger('product_id');
