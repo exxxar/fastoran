@@ -23,8 +23,8 @@
                                 </li>
                                 <li class="drop"><a href="#kitchens">Кухни</a>
                                     <ul class="dropdown__menu">
-                                        @foreach($kitchens as $kitchen)
-                                        <li><a href="{{route("kitchen",$kitchen->id)}}">{{$kitchen->name}}</a></li>
+                                        @foreach($header_kitchen_list as $hkitchen)
+                                        <li><a href="{{route("kitchen",$hkitchen->id)}}">{{$hkitchen->name}}</a></li>
                                        @endforeach
                                     </ul>
                                 </li>

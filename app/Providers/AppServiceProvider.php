@@ -34,11 +34,11 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         try {
-            $kitchens = Kitchen::where("is_active", 1)->get();
+            $header_kitchen_list = Kitchen::where("is_active", 1)->get();
 
             $restorans = Restoran::where("moderation", true)->get();
 
-            View::share('kitchens', $kitchens);
+            View::share('header_kitchen_list', $header_kitchen_list);
             View::share('restorans', $restorans);
         } catch (\Exception $e) {
 
