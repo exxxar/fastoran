@@ -9,7 +9,7 @@
                         <ul class="food__stuff__link d-flex">
                             <li><a target="_blank"
                                    href="https://play.google.com/store/apps/details?id=com.killersssurprise.fastoran"><img
-                                        src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/app/3.png"
+                                        class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/app/3.png"
                                         alt="app images"></a></li>
                         </ul>
                     </div>
@@ -19,12 +19,12 @@
     </div>
     <div class="food__sideimg--1">
         <img class="wow fadeInLeft" data-wow-delay=0.2s
-             src="{{url('images/app/phn.png')}}" alt="pnone images">
+             class="lazyload" data-src="{{url('images/app/phn.png')}}" alt="pnone images">
     </div>
     <div class="food__sideimg--2">
-        <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-3/1.png" alt="bg images">
+        <img class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-3/1.png" alt="bg images">
     </div>
     <div class="food__sideimg--3">
-        <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-3/2.png" alt="bg images">
+        <img class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-3/2.png" alt="bg images">
     </div>
 </section>

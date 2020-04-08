@@ -2,7 +2,7 @@
     <div class="banner--2">
         <div class="banner__thumb">
             <a href="#"><img
-                    src="{{$product->food_img}}"
+                    class="lazyload" data-src="{{$product->food_img}}"
                     alt="banner images"></a>
 
 
@@ -22,7 +22,7 @@
         </h4>
         <div class="rest-img">
             <a href="{{route("rest",$product->restoran->url)}}">
-                <img src="{{$product->restoran->logo}}" alt="">
+                <img class="lazyload" data-src="{{$product->restoran->logo}}" alt="">
             </a>
         </div>
         <div class="banner__hover__action banner__left__bottom">

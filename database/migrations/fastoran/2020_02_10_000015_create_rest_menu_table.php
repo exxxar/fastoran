@@ -26,6 +26,7 @@ class CreateRestMenuTable extends Migration
             $table->increments('id');
             $table->string('food_name', 100)->default('');
             $table->string('food_remark',2000)->default('');
+            $table->json('food_sub')->nullable();
             $table->integer('food_ext')->default(0);
             $table->integer('food_price')->default(0);
             $table->integer('time_to_prepare')->default(0);

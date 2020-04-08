@@ -1,27 +1,28 @@
 <template>
     <div class="product-btn-box">
-        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart(product_id)===0"
-           @click="addToCart(product_data)"><i class="fas fa-cart-plus"></i></a>
+        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0"
+           @click="product_data.food_sub==null?addToCart():openSubMenu()"><i class="fas fa-cart-plus"></i></a>
 
 
-        <a href="#info" v-b-tooltip.hover :title="product_data.food_remark" class="btn_a btn_link btn-show-info" v-if="inCart(product_id)===0"
+        <a href="#info" v-b-tooltip.hover :title="product_data.food_remark" class="btn_a btn_link btn-show-info"
+           v-if="inCart()===0"
            :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
 
-<!--        <b-tooltip :target="'menu'+product_id" title="Описание продукта" triggers="hover" variant="danger">-->
-<!--            {{product_data.food_remark}}-->
-<!--        </b-tooltip>-->
+
+        <b-modal :id="'modal-submenu-'+product_id" title="Выбор подкатегории">
+            <p class="my-4">Hello from modal!</p>
+        </b-modal>
 
 
-        <div class="cnt-container" v-if="inCart(product_id)>0">
-            <button class="btn btn-coutner" @click="decProduct(product_id)">
+        <div class="cnt-container" v-if="inCart()>0">
+            <button class="btn btn-coutner" @click="decProduct()">
                 -
             </button>
-            <p v-html="inCart(product_id)"></p>
-            <button class="btn btn-coutner" @click="incProduct(product_id)">
+            <p v-html="inCart"></p>
+            <button class="btn btn-coutner" @click="incProduct()">
                 <span>+</span>
             </button>
         </div>
-
 
 
     </div>
@@ -55,34 +56,36 @@
                 this.$modal.hide('info' + this.product_id);
             },
             checkFirstRestoran(restId) {
-                return this.products.filter(item => item.product.rest_id !== restId).length === 0 || this.products.length === 0;
+                return this.products.filter(item => item.product.rest_id !== this.product_data.rest_id).length === 0 || this.products.length === 0;
             },
-            inCart(menuId) {
-                let tmp = this.products.filter(item => item.product.id === menuId);
+            inCart() {
+                let tmp = this.products.filter(item => item.product.id === this.product_id);
                 return tmp.length === 0 ? 0 : tmp[0].quantity
             },
-            addToCart(menu_item) {
-                //console.log(menu_item.restoran.is_work)
-                if (!this.checkFirstRestoran(menu_item.rest_id)) {
+            openSubMenu() {
+                this.$bvModal.show("" + this.product_id)
+            },
+            addToCart() {
+                if (!this.checkFirstRestoran(this.product_data.rest_id)) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
                 }
                 this.sendMessage("Товар добавлен в корзину!")
-                this.$store.dispatch('addProductToCart', menu_item)
+                this.$store.dispatch('addProductToCart', this.product_data)
             },
-            incProduct(menuId) {
+            incProduct() {
                 this.sendMessage("Товар добавлен в корзину!")
-                this.$store.dispatch('incQuantity', menuId)
+                this.$store.dispatch('incQuantity', this.product_id)
             },
-            decProduct(menuId) {
+            decProduct() {
                 this.sendMessage("Лишний товар убран из корзины!")
 
-                if (this.inCart(menuId) === 1) {
-                    this.$store.dispatch('removeProduct', menuId)
+                if (this.inCart() === 1) {
+                    this.$store.dispatch('removeProduct', this.product_id)
                     return;
                 }
 
-                this.$store.dispatch('decQuantity', menuId)
+                this.$store.dispatch('decQuantity', this.product_id)
             },
             sendMessage(message, type = 'success') {
                 console.log(message);
@@ -112,7 +115,7 @@
         z-index: 11;
         box-sizing: border-box;
 
-        a.btn_a.btn_link.btn-show-info{
+        a.btn_a.btn_link.btn-show-info {
             padding: 10px;
             color: white;
             background: #9ce300;

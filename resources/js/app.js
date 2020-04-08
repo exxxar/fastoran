@@ -64,7 +64,9 @@ Vue.component('cart-count-index', require('./components/CartCountIndex.vue').def
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
-
+import 'lazysizes';
+// import a plugin
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)

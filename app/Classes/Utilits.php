@@ -59,8 +59,6 @@ trait Utilits
             ]);
         }
 
-
-
     }
 
     public function sendToTelegram($id, $message, $keyboard = [])

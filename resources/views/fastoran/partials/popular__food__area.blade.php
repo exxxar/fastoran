@@ -17,7 +17,7 @@
                     <div class="popular__food">
                         <div class="pp_food__thumb">
                             <a href="{{route("rest",$rest->url)}}">
-                                <img src="{{$rest->logo}}"
+                                <img class="lazyload" data-src="{{$rest->logo}}"
                                      alt="popular food">
                             </a>
 

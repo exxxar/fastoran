@@ -15,7 +15,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img src="images/icon/color-icon/1.png" alt="icon image">
+                                <img sclass="lazyload" data-rc="images/icon/color-icon/1.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Выбираем ресторан</a></h2>
                         </div>
@@ -30,7 +30,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img src="images/icon/color-icon/2.png" alt="icon image">
+                                <img class="lazyload" data-src="images/icon/color-icon/2.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Находим ЛЮБИМОЕ блюдо</a></h2>
                         </div>
@@ -45,7 +45,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img src="images/icon/color-icon/3.png" alt="icon image">
+                                <img class="lazyload" data-src="images/icon/color-icon/3.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Оформляем доставку</a></h2>
                         </div>
