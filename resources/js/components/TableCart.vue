@@ -210,7 +210,8 @@
                                     <li><p class="strong">Всего</p>
                                         <p class="strong">{{cartTotalPrice+deliveryPrice | currency}}</p></li>
                                     <li>
-                                        <button class="food__btn" :disabled="!preparedToSend||!is_valid" @click="sendRequest">Оформить
+                                        <button class="food__btn" :disabled="!preparedToSend||!is_valid"
+                                                @click="sendRequest">Оформить
                                             заказ
                                         </button>
                                     </li>
@@ -234,7 +235,7 @@
                 preparedToSend: false,
                 smsSended: false,
                 is_valid: false,
-                phone: localStorage.getItem("phone", null)??null,
+                phone: localStorage.getItem("phone", null) ?? null,
                 name: '',
                 message: '',
                 address: '',
@@ -243,7 +244,7 @@
                 sending: false,
                 sms_code: null,
                 delivery: {
-                    city: localStorage.getItem("food_city", "Донецк")??"Донецк",
+                    city: localStorage.getItem("food_city", "Донецк") ?? "Донецк",
                     street: localStorage.getItem("food_street", ""),
                     first_name: localStorage.getItem("food_first_name", ""),
                     last_name: localStorage.getItem("food_last_name", ""),
@@ -354,7 +355,7 @@
                 localStorage.setItem("food_flat_number", this.delivery.flat_number);
                 localStorage.setItem("food_domophone_number", this.delivery.domophone_number);
 
-                let  products = [];
+                let products = [];
                 this.cartProducts.forEach(function (item) {
                     products.push({
                         product_id: item.product.id,
@@ -365,7 +366,7 @@
                 axios
                     .post('../api/v1/fastoran/orders', {
                         phone: this.phone,
-                        receiver_name: this.delivery.first_name+" "+this.delivery.last_name,
+                        receiver_name: this.delivery.first_name + " " + this.delivery.last_name,
                         receiver_phone: this.phone,
                         receiver_latitude: this.coords.latitude,
                         receiver_longitude: this.coords.longitude,
@@ -373,9 +374,11 @@
                         status: 0,
                         receiver_delivery_time: '',
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
-                        receiver_order_note: this.delivery.more_info,
-                        receiver_domophone:this.delivery.domophone_number,
+                        receiver_order_note: this.delivery.more_info + " Купюра:" + this.delivery.money_type + " руб.",
+                        receiver_domophone: this.delivery.domophone_number,
                         order_details: products
+
+
                     })
                     .then(response => {
                         this.clearCart()

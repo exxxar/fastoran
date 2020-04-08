@@ -69,7 +69,7 @@
                                     <div class="row">
                                     @foreach($cat->getFilteredMenu($restoran->id) as $product)
                                         <!-- Start Single Banner -->
-                                            <div class="col-md-6 col-lg-3 col-sm-6 ">
+                                            <div class="col-md-6 col-lg-3 col-sm-12">
                                                 <div class="banner--2">
                                                     <div class="banner__thumb">
                                                         <a href="#"><img

@@ -35,6 +35,7 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
+
             checkFirstRestoran(restId) {
                 return this.products.filter(item => item.product.rest_id !== restId).length === 0 || this.products.length === 0;
             },
@@ -43,6 +44,7 @@
                 return tmp.length === 0 ? 0 : tmp[0].quantity
             },
             addToCart(menu_item) {
+                console.log(menu_item.restoran.is_work)
                 if (!this.checkFirstRestoran(menu_item.rest_id)) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
@@ -64,17 +66,6 @@
 
                 this.$store.dispatch('decQuantity', menuId)
             },
-            /* add: function () {
-                 console.log(this.product_data)
-                 this.sendMessage("Товар успешно добавлен в корзину!")
-                 this.$store.dispatch('addProductToCart', this.product_data)
-               /!*  axios
-                     .get('api/products/get/' + this.product_id)
-                     .then(response => {
-
-                         this.$store.dispatch('addProductToCart', response.data.product)
-                     });*!/
-             },*/
             sendMessage(message, type = 'success') {
                 console.log(message);
                 this.$notify({
