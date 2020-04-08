@@ -13,27 +13,29 @@
            :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
 
 
-        <b-modal :id="'modal-submenu-'+product_id" hide-footer>
+        <div v-if="product_id&&product_data">
+            <b-modal :id="'modal-submenu-'+product_id" hide-footer>
 
-            <template v-slot:modal-title>
-                <h3>Выбор подкатегории</h3>
-            </template>
-            <div class="d-block text-center">
-                <ul>
-                    <li v-for="sub in getFoodSub()">
-                        <b-form-group :label="product_data.food_name">
-                            <b-form-radio v-model="selected" name="some-radios" :value="sub.name">{{sub.name}}
-                            </b-form-radio>
+                <template v-slot:modal-title>
+                    <h3>Выбор подкатегории</h3>
+                </template>
+                <div class="d-block text-center">
+                    <ul>
+                        <li v-for="sub in getFoodSub()">
+                            <b-form-group :label="product_data.food_name">
+                                <b-form-radio v-model="selected" name="some-radios" :value="sub.name">{{sub.name}}
+                                </b-form-radio>
 
-                        </b-form-group>
-                    </li>
-                </ul>
-            </div>
-            <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
-            </b-button>
+                            </b-form-group>
+                        </li>
+                    </ul>
+                </div>
+                <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
+                </b-button>
 
 
-        </b-modal>
+            </b-modal>
+        </div>
 
 
         <div class="cnt-container" v-if="inCart()>0">

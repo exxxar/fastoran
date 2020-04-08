@@ -6,7 +6,7 @@
                 <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
                     <div class="logo">
                         <a href="{{url('/')}}">
-                            <img class="lazyload" data-src="{{asset('/img/header-logo-2.png')}}" alt="logo images">
+                            <img src="{{asset('/img/header-logo-2.png')}}" alt="logo images">
                         </a>
                     </div>
                 </div>

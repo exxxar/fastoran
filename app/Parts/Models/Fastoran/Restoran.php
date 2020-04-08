@@ -82,7 +82,7 @@ class Restoran extends Model
         $start_time = explode('-', $this->work_time)[0];
         $end_time = explode('-', $this->work_time)[1];
 
-        return strtotime($start_time) <= time() && time() <= strtotime($end_time);
+        return true;//strtotime($start_time) <= time() && time() <= strtotime($end_time);
     }
 
     public function categories()
