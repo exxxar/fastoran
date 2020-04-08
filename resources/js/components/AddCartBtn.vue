@@ -1,7 +1,8 @@
 <template>
     <div class="product-btn-box">
         <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart(product_id)===0"
-           :data-target="'menu'+product_id" @click="addToCart(product_data)"><i class="fas fa-cart-plus"></i></a>
+           :data-target="'menu'+product_id" @click="addToCart(product_data)" :id="'menu'+product_id"><i class="fas fa-cart-plus"></i></a>
+
 
         <div class="cnt-container" v-if="inCart(product_id)>0">
             <button class="btn btn-coutner" @click="decProduct(product_id)">
@@ -12,6 +13,11 @@
                 <span>+</span>
             </button>
         </div>
+
+        <b-tooltip :target="'menu'+product_id" triggers="hover">
+            {{product_data.food_remark}}
+        </b-tooltip>
+
     </div>
 </template>
 <script>
@@ -36,6 +42,12 @@
         },
         methods: {
 
+            show() {
+                this.$modal.show('info' + this.product_id);
+            },
+            hide() {
+                this.$modal.hide('info' + this.product_id);
+            },
             checkFirstRestoran(restId) {
                 return this.products.filter(item => item.product.rest_id !== restId).length === 0 || this.products.length === 0;
             },
@@ -79,6 +91,7 @@
     }
 </script>
 <style lang="scss">
+
     .product-btn-box {
         position: absolute;
         top: 0;
@@ -92,6 +105,12 @@
         padding: 10px;
         z-index: 11;
         box-sizing: border-box;
+
+        a.btn_a.btn_link.btn-product-info {
+            padding: 10px;
+            color: white;
+            background: #9ce300;
+        }
 
         a.btn_a.btn_link.btn-add-to-cart {
             padding: 10px;
