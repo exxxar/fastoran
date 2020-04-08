@@ -386,6 +386,8 @@
                         this.deliveryPrice = 0;
                         this.delivery_range = null;
                         this.sending = false;
+
+                        window.location.href = 'https://fastoran.com';
                     });
             },
             sendMessage(message) {
