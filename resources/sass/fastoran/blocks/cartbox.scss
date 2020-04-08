@@ -23,6 +23,7 @@
 		z-index: 9991;
 		visibility: hidden;
 		opacity: 0;
+        display: none;
 		cursor: url(../images/icon/close.png), crosshair;
 	}
 	&.is-visible{
@@ -31,6 +32,7 @@
 		.body-overlay{
 			visibility: visible;
 			opacity: 1;
+            display: block;
 		}
 		.cartbox{
 			right: 0;
