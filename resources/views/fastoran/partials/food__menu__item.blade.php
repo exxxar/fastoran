@@ -17,7 +17,7 @@
                 </p>
             </div>
         @endif
-        <h4 class="banner__h4">
+        <h4 class="banner__h4" >
             <mark>{{$product->food_price}}₽</mark>
         </h4>
         <div class="rest-img">

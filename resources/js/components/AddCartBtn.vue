@@ -1,7 +1,15 @@
 <template>
     <div class="product-btn-box">
         <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart(product_id)===0"
-           :data-target="'menu'+product_id" @click="addToCart(product_data)" :id="'menu'+product_id"><i class="fas fa-cart-plus"></i></a>
+           @click="addToCart(product_data)"><i class="fas fa-cart-plus"></i></a>
+
+
+        <a href="#info" v-b-tooltip.hover :title="product_data.food_remark" class="btn_a btn_link btn-show-info" v-if="inCart(product_id)===0"
+           :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
+
+<!--        <b-tooltip :target="'menu'+product_id" title="Описание продукта" triggers="hover" variant="danger">-->
+<!--            {{product_data.food_remark}}-->
+<!--        </b-tooltip>-->
 
 
         <div class="cnt-container" v-if="inCart(product_id)>0">
@@ -14,9 +22,7 @@
             </button>
         </div>
 
-        <b-tooltip :target="'menu'+product_id" triggers="hover">
-            {{product_data.food_remark}}
-        </b-tooltip>
+
 
     </div>
 </template>
@@ -106,7 +112,7 @@
         z-index: 11;
         box-sizing: border-box;
 
-        a.btn_a.btn_link.btn-product-info {
+        a.btn_a.btn_link.btn-show-info{
             padding: 10px;
             color: white;
             background: #9ce300;

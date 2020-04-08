@@ -40,7 +40,7 @@ class RestMenu extends Model
 
     public function getFoodExtAttribute()
     {
-        return ">=100 грам";
+        return ">=100 грамм";
     }
 
     public function getRatingAttribute()

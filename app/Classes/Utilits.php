@@ -4,6 +4,7 @@
 namespace App\Classes;
 
 
+use Allanvb\LaravelSemysms\Exceptions\SmsNotSentException;
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramResponseException;
@@ -44,11 +45,22 @@ trait Utilits
 
     public function sendSms($phone, $message)
     {
-        SemySMS::sendOne([
-            'to' => $phone,
-            'text' => $message,
-            'device_id' => 'active'
-        ]);
+        try {
+            SemySMS::sendOne([
+                'to' => $phone,
+                'text' => $message,
+                'device_id' => 'active'
+            ]);
+        }catch (SmsNotSentException $e) {
+            SemySMS::sendOne([
+                'to' => $phone,
+                'text' => $message,
+                'device_id' =>  211698
+            ]);
+        }
+
+
+
     }
 
     public function sendToTelegram($id, $message, $keyboard = [])
