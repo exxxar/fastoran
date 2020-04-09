@@ -18,8 +18,8 @@
         </div>
     </div>
     <div class="food__sideimg--1">
-        <img class="wow fadeInLeft" data-wow-delay=0.2s
-             class="lazyload" data-src="{{url('images/app/phn.png')}}" alt="pnone images">
+        <img data-wow-delay=0.2s
+             class="lazyload wow fadeInLeft" data-src="{{url('images/app/phn.png')}}" alt="pnone images">
     </div>
     <div class="food__sideimg--2">
         <img class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/banner/bann-3/1.png" alt="bg images">
