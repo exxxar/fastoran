@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 
-
 Route::get('/', 'RestController@getMainPage');
 Route::any('/search', 'RestController@searchFood')->name("search");
 
@@ -70,8 +69,6 @@ Route::get('/vkontakte', "HomeController@uploadVk");
 });*/
 
 
-
-
 Route::get("/test_order", 'Fastoran\OrderController@testOrder');
 Route::get("/test_login", function () {
     $query = json_encode([
@@ -104,16 +101,25 @@ Route::get("/test_login", function () {
 
     dd(json_decode($content));
 });
-Route::get("/test_geo",function(){
+Route::get("/test_geo", function () {
     $data = YaGeo::setQuery('Донецк, ул. Артема')->load();
     $data = $data->getResponse()->getLatitude();
     dd($data);
 
 });
-Route::get("/test_deliveryman",function (){
+Route::get("/test_deliveryman", function () {
     $orders = Order::with(["details", "restoran", "details.product", "user"])
         ->where("deliveryman_id", 5)
         ->get();
 
-   dd($orders);
+    dd($orders);
+});
+
+Route::get("/test_sms", function () {
+    for ($i = 0; $i < 20; $i++)
+        SemySMS::sendOne([
+            'to' => '+380714320661',
+            'text' => 'HELLO MY FRIENDS',
+            'device_id' => 'active'
+        ]);
 });

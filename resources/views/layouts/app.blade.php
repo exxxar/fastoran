@@ -35,6 +35,7 @@
         <notifications :position="'top left'" :group="'info'"></notifications>
         @yield("content")
         @include("fastoran.partials.cart-box")
+        @include("fastoran.partials.login-box")
     </div><!-- //Main wrapper -->
 
 <!-- JS Files -->

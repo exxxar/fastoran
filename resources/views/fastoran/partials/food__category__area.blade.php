@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <div class="food__category__wrapper mt--40">
+        <div class="food__category__wrapper mt-5">
             <div class="row">
             @foreach($header_kitchen_list as $key=>$hkitchen)
                 <!-- Start Single Category -->

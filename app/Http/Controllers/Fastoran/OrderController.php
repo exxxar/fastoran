@@ -149,7 +149,7 @@ class OrderController extends Controller
                     ],
                     'body' => json_encode([
                         'phone' => $phone,
-                        'name' => $name
+                        'name' => $name??"empty"
                     ]),
                 ]);
             else

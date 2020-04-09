@@ -20,15 +20,19 @@
                     <h3>Выбор подкатегории</h3>
                 </template>
                 <div class="d-block text-center">
-                    <ul>
-                        <li v-for="sub in getFoodSub()">
-                            <b-form-group :label="product_data.food_name">
-                                <b-form-radio v-model="selected" name="some-radios" :value="sub.name">{{sub.name}}
-                                </b-form-radio>
 
-                            </b-form-group>
+
+                    <b-form-checkbox-group :id="'modal-submenu-check-'+product_id" v-model="selected" name="flavour-2">
+
+                        <li class="sub-item" v-for="sub in getFoodSub()">
+
+                            <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
+                            </b-form-checkbox>
+
                         </li>
-                    </ul>
+                    </b-form-checkbox-group>
+
+
                 </div>
                 <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
                 </b-button>
@@ -79,8 +83,18 @@
         },
         methods: {
             addToCartWithSub() {
-                this.product_data.selected_sub = this.selected
                 this.addToCart()
+
+                this.selected.forEach((item, key) => {
+                    if (key <= this.selected.length - 2) {
+                        this.incProduct();
+                    }
+
+                });
+
+                let tmp = this.selected.join();
+
+                this.$store.dispatch("addSub", {id: this.product_id, more_info: tmp})
                 this.$bvModal.hide("modal-submenu-" + this.product_id)
             },
             hasSub() {
@@ -108,6 +122,7 @@
                 this.$store.dispatch('addProductToCart', this.product_data)
             },
             incProduct() {
+
                 this.sendMessage("Товар добавлен в корзину!")
                 this.$store.dispatch('incQuantity', this.product_id)
             },
@@ -119,6 +134,8 @@
                     return;
                 }
 
+                if (this.hasSub())
+                    this.$store.dispatch('remSub', this.product_id)
                 this.$store.dispatch('decQuantity', this.product_id)
             },
             sendMessage(message, type = 'success') {
@@ -134,6 +151,13 @@
 </script>
 <style lang="scss">
 
+    .sub-item {
+        list-style: none;
+        padding: 10px;
+        border: 1px lightblue solid;
+        width: 100%;
+        margin-bottom: 5px;
+    }
     .btn-food {
         background: #e3342f;
         border: none;

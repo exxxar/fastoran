@@ -1,5 +1,5 @@
 const state = {
-    items: localStorage.getItem('vuejs__store') == null?[]:JSON.parse(localStorage.getItem('vuejs__store')),
+    items: localStorage.getItem('vuejs__store') == null ? [] : JSON.parse(localStorage.getItem('vuejs__store')),
 }
 
 // getters
@@ -11,15 +11,15 @@ const getters = {
     cartTotalCount: (state, getters) => {
 
         let summ = 0;
-        state.items.forEach((item)=>{
-            summ+=item.quantity
+        state.items.forEach((item) => {
+            summ += item.quantity
         });
         return summ
     },
     cartTotalPrice: (state, getters) => {
         let summ = 0;
-        state.items.forEach((item)=>{
-            summ+=item.product.food_price*item.quantity
+        state.items.forEach((item) => {
+            summ += item.product.food_price * item.quantity
         });
         return summ
     }
@@ -28,14 +28,22 @@ const getters = {
 // actions
 const actions = {
     getProductList({state, commit}) {
-        state.items = localStorage.getItem('vuejs__store') == null?[]:JSON.parse(localStorage.getItem('vuejs__store'))
+        state.items = localStorage.getItem('vuejs__store') == null ? [] : JSON.parse(localStorage.getItem('vuejs__store'))
         return state.items
     },
-    inCart({state, commit}, id){
-      return (state.items.filter(item=>item.product.id===id)).length
+    inCart({state, commit}, id) {
+        return (state.items.filter(item => item.product.id === id)).length
     },
     addProductToCart({state, commit}, product) {
         commit('pushProductToCart', product);
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
+    },
+    remSub({state, commit}, id) {
+        commit("removeSubFromItem", id)
+        localStorage.setItem('vuejs__store', JSON.stringify(state.items));
+    },
+    addSub({state, commit}, sub) {
+        commit("addSubToItem", sub)
         localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     },
     incQuantity({state, commit}, id) {
@@ -68,7 +76,18 @@ const mutations = {
         else
             cartItem.quantity++;
     },
+    removeSubFromItem(state, id) {
+        const cartItem = state.items.find(item => item.product.id === id)
+        let tmp = cartItem.product.selected_sub
+        tmp = tmp.split(',')
+        tmp = tmp.slice(0,tmp.length-1).join()
+        cartItem.product.selected_sub = tmp
 
+    },
+    addSubToItem(state, sub) {
+        const cartItem = state.items.find(item => item.product.id === sub.id)
+        cartItem.product.selected_sub = sub.more_info
+    },
     incrementItemQuantity(state, id) {
         const cartItem = state.items.find(item => item.product.id === id)
         cartItem.quantity++

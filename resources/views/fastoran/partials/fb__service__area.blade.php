@@ -1,10 +1,9 @@
-<section class="fd__service__area bg-image--2 section-padding--xlg section-padding--xs">
+<section class="fd__service__area bg-image--2 section-padding--xs">
     <div class="container">
         <div class="service__wrapper bg--white">
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     <div class="section__title service__align--left">
-                        <p>Процесс работы нашего сервиса<p>
                         <h2 class="title__line">Как мы работаем</h2>
                     </div>
                 </div>
