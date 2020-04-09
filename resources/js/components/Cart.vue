@@ -16,10 +16,10 @@
                         <p>Количество: {{item.quantity}}</p>
                         <div class="buttons-group">
                             <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
-                                    @click="decrement(item.product.id)">-
+                                    @click="decrement(item.product)">-
                             </button>
                             <button type="button" class="btn btn-coutner"
-                                    @click="increment(item.product.id)">+
+                                    @click="increment(item.product)">+
                             </button>
                         </div>
                     </div>
@@ -84,11 +84,19 @@
                     text: message
                 });
             },
-            increment(id) {
-                this.$store.dispatch("incQuantity", id)
+            hasSub(product) {
+                return product.food_sub != null;
             },
-            decrement(id) {
-                this.$store.dispatch("decQuantity", id)
+            increment(product) {
+                this.sendMessage("Товар добавлен в корзину!")
+                this.$store.dispatch('incQuantity', product.id)
+            },
+            decrement(product) {
+                this.sendMessage("Лишний товар убран из корзины!")
+
+                if (this.hasSub(product))
+                    this.$store.dispatch('remSub', product.id)
+                this.$store.dispatch('decQuantity', product.id)
             },
             remove(id) {
                 this.$store.dispatch("removeProduct", id)

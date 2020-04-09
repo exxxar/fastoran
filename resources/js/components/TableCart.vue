@@ -20,17 +20,19 @@
                                 <tr v-if="cartProducts.length>0" v-for="item in  cartProducts">
                                     <td class="product-thumbnail"><a href="#"><img :src="item.product.food_img"></a>
                                     </td>
-                                    <td class="product-name"><a href="#">{{item.product.food_name}} <span v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span></a> </td>
+                                    <td class="product-name"><a href="#">{{item.product.food_name}} <span
+                                        v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span></a>
+                                    </td>
                                     <td class="product-price"><span
                                         class="amount">{{item.product.food_price| currency}} </span></td>
                                     <td class="product-quantity">
                                         <p>Количество: {{item.quantity}}</p>
                                         <div class="buttons-group">
                                             <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
-                                                    @click="decrement(item.product.id)">-
+                                                    @click="decrement(item.product)">-
                                             </button>
                                             <button type="button" class="btn btn-coutner"
-                                                    @click="increment(item.product.id)">+
+                                                    @click="increment(item.product)">+
                                             </button>
                                         </div>
                                     </td>
@@ -68,50 +70,50 @@
                         <!-- Checkout Method -->
                         <div class="single-accordion">
                             <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
-                               href="#checkout-method" aria-expanded="true">1. Проверка номера телефона</a>
+                               href="#checkout-method" aria-expanded="true">1. Ввод номера телефона</a>
 
                             <div id="checkout-method" class="collapse show" style="">
                                 <div class="checkout-method accordion-body fix">
                                     <form action="#" class="billing-form checkout-form">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6  mb-2"><input type="text"
-                                                                                         placeholder="Ваш номер телефона"
-                                                                                         name="phone"
-                                                                                         v-model="phone"
-                                                                                         required="required"
-                                                                                         pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
-                                                                                         class="form_control"
-                                                                                         maxlength="19"
-                                                                                         :disabled="is_valid"
-                                                                                         v-mask="['+38 (###) ###-##-##']">
-                                            </div>
-                                            <div class="col-sm-12 col-md-6  mb-2">
-                                                <button type="button" class="food__btn" @click="sendSms"
-                                                        v-if="!smsSended&&!is_valid">Отправить код
-                                                </button>
-                                                <button type="button" class="food__btn" @click="resendSms"
-                                                        v-if="smsSended&&!is_valid">Повторно отправить
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="row" v-if="message.length>0&&smsSended">
+                                        <div class="row" v-if="message.length>0">
                                             <div class="col-sm-12 mb-2">
                                                 <p>{{message}}</p>
                                             </div>
                                         </div>
-                                        <div class="row" v-if="smsSended&&!is_valid">
-                                            <div class="col-sm-12 col-md-6  mb-2">
-                                                <input type="number" v-model="sms_code"
-                                                       placeholder="Введите код из СМС">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12  mb-2"><input type="text"
+                                                                                          placeholder="Ваш номер телефона"
+                                                                                          name="phone"
+                                                                                          v-model="phone"
+                                                                                          required="required"
+                                                                                          pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
+                                                                                          class="form_control"
+                                                                                          maxlength="19"
+                                                                                          v-mask="['+38 (###) ###-##-##']">
                                             </div>
                                             <div class="col-sm-12 col-md-6  mb-2">
-                                                <button type="button" class="food__btn" @click="checkValidCode">
-                                                    Проверить код
+                                                <button type="button" class="food__btn" @click="sendSms"
+                                                        v-if="!is_valid">Проверить
                                                 </button>
+                                                <!-- <button type="button" class="food__btn" @click="resendSms"
+                                                         v-if="smsSended&&!is_valid">Повторно отправить
+                                                 </button>-->
                                             </div>
-
-
                                         </div>
+                                        <!---->
+                                        <!--  <div class="row" v-if="smsSended&&!is_valid">
+                                              <div class="col-sm-12 col-md-6  mb-2">
+                                                  <input type="number" v-model="sms_code"
+                                                         placeholder="Введите код из СМС">
+                                              </div>
+                                              <div class="col-sm-12 col-md-6  mb-2">
+                                                  <button type="button" class="food__btn" @click="checkValidCode">
+                                                      Проверить код
+                                                  </button>
+                                              </div>
+
+
+                                          </div>-->
                                     </form>
 
                                 </div>
@@ -206,10 +208,12 @@
                                     <li><p class="strong">Всего</p>
                                         <p class="strong">{{cartTotalPrice+deliveryPrice | currency}}</p></li>
                                     <li>
-                                        <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">Очистить корзину</button>
+                                        <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">
+                                            Очистить корзину
+                                        </button>
                                     </li>
                                     <li>
-                                        <button class="food__btn" :disabled="!preparedToSend||!is_valid"
+                                        <button class="food__btn" type="button" :disabled="!preparedToSend||!is_valid"
                                                 @click="sendRequest">Оформить
                                             заказ
                                         </button>
@@ -286,6 +290,7 @@
             }
         },
         methods: {
+
             resendSms() {
                 this.is_valid = false;
                 this.message = "На ваш номер повторно отправлен смс с кодом!";
@@ -302,14 +307,15 @@
             },
             sendSms() {
                 this.is_valid = false;
-                this.message = "На ваш номер отправлен смс с кодом!";
+                this.message = "Спасибо что пользуетесь сервисом!";
                 axios
                     .post("../api/v1/fastoran/order/sms", {
                         "phone": this.phone,
                         "name": this.name
                     }).then(resp => {
-                    this.message = resp.data.message;
-                    this.smsSended = true;
+                    this.is_valid = true;
+                    this.message = "Теперь заполните информацию для доставки"//resp.data.message;
+                    //this.smsSended = true;
                 })
             },
             checkValidCode() {
@@ -357,13 +363,13 @@
                         product_id: item.product.id,
                         count: item.quantity,
                         price: item.product.food_price,
-                        more_info:item.product.selected_sub!=null?item.product.selected_sub:''
+                        more_info: item.product.selected_sub != null ? item.product.selected_sub : ''
                     })
                 });
                 axios
                     .post('../api/v1/fastoran/orders', {
                         phone: this.phone,
-                        receiver_name: this.delivery.first_name ,
+                        receiver_name: this.delivery.first_name,
                         receiver_phone: this.phone,
                         receiver_latitude: this.coords.latitude,
                         receiver_longitude: this.coords.longitude,
@@ -380,13 +386,16 @@
                     .then(response => {
                         this.clearCart()
                         this.sendMessage(response.data.message);
-                        this.message = '';
-                        this.sms_code = '';
-                        this.is_valid = false;
+
+
+                        //this.message = '';
+                        //this.sms_code = '';
+                        //this.is_valid = false;
                         this.deliveryPrice = 0;
                         this.delivery_range = null;
                         this.sending = false;
 
+                        window.location.href = "/success";
                     });
             },
             sendMessage(message) {
@@ -397,16 +406,27 @@
                     text: message
                 });
             },
-            increment(id) {
-                this.$store.dispatch("incQuantity", id)
+            hasSub(product) {
+                return product.food_sub != null;
             },
-            decrement(id) {
-                this.$store.dispatch("decQuantity", id)
+            increment(product) {
+                this.sendMessage("Товар добавлен в корзину!")
+                this.$store.dispatch('incQuantity', product.id)
+            },
+            decrement(product) {
+                this.sendMessage("Лишний товар убран из корзины!")
+
+                if (this.hasSub(product))
+                    this.$store.dispatch('remSub', product.id)
+                this.$store.dispatch('decQuantity', product.id)
             },
             remove(id) {
                 this.$store.dispatch("removeProduct", id)
             },
             clearCart() {
+                this.deliveryPrice = 0;
+                this.delivery_range = null;
+                window.location.href = "/success";
                 this.$store.dispatch("clearCart")
             }
         },
