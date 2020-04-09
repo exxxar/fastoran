@@ -119,9 +119,20 @@ class OrderController extends Controller
                 ]);
         }
 
+
+
+        $http = new Client;
+
+        $response = $http->post(is_null($user) ? 'https://fastoran.com/api/v1/auth/signup_phone' : 'https://fastoran.com/api/v1/auth/sms', [
+            'form_params' => [
+                'phone' => $phone,
+
+            ],
+        ]);
+
         return response()
             ->json([
-                "message" => "Ошибка отправки СМС",
+                "message" => "На ваш номер отправлен СМС с кодом",
             ]);
 
     }
