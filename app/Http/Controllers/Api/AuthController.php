@@ -80,7 +80,6 @@ class AuthController extends Controller
     public function signupPhone(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
             'phone' => 'required',
         ]);
 
@@ -95,7 +94,7 @@ class AuthController extends Controller
         $code = random_int(100000, 999999);
 
         $user = new User([
-            'name' => $request->name,
+            'name' => $request->name??'',
             'email' => $request->email ?? $request->phone . "@fastoran.com",
             'password' => bcrypt($code),
             'phone' => $request->phone,

@@ -111,7 +111,7 @@ class OrderController extends Controller
         $user = User::where("phone", $phone)->first();
         if (!is_null($user)) {
 
-            $this->sendSms($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code);
+            $this->sendSms($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code);
 
             return response()
                 ->json([
@@ -130,40 +130,25 @@ class OrderController extends Controller
     {
 
         $phone = $request->get("phone") ?? '';
-        $name = $request->get("name") ?? '';
 
         $vowels = array("(", ")", "-", " ");
         $phone = str_replace($vowels, "", $phone);
 
-
         $user = User::where("phone", $phone)->first();
 
-        $client = new Client();
-
         try {
-            if (is_null($user))
-                $resp = $client->request('POST', 'https://fastoran.com/api/v1/auth/signup_phone', [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'X-Requested-With' => 'XMLHttpRequest',
-                    ],
-                    'body' => json_encode([
-                        'phone' => $phone,
-                        'name' => $name??"empty"
-                    ]),
-                ]);
-            else
-                $resp = $client->request('POST', 'https://fastoran.com/api/v1/auth/sms', [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'X-Requested-With' => 'XMLHttpRequest',
-                    ],
-                    'body' => json_encode([
-                        'phone' => $phone,
-                    ]),
-                ]);
-        }catch (\Exception $e){
-            Log::info($e->getMessage()." ".$e->getFile()." ".$e->getLine());
+
+            $http = new GuzzleHttp\Client;
+
+            $response = $http->post(is_null($user) ? 'https://fastoran.com/api/v1/auth/signup_phone' : 'https://fastoran.com/api/v1/auth/sms', [
+                'form_params' => [
+                    'phone' => $phone,
+
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
         }
 
         if (!is_null($user))
@@ -234,7 +219,7 @@ class OrderController extends Controller
             $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
                 $detail->product_id,
                 $product->food_name,
-                $detail->more_info??'-',
+                $detail->more_info ?? '-',
                 $detail->count,
                 $product->food_price
             );
@@ -276,11 +261,11 @@ class OrderController extends Controller
         $message = sprintf("*Заявка #%s*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nАдрес доставки:%s\nЦена доставки:*%sруб.-%s руб.*(Дистанция:%.2fкм-%.2fкм)\nЦена заказа:*%s руб.*",
             $order->id,
             $rest->name,
-            $order->receiver_name??$user->name,
+            $order->receiver_name ?? $user->name,
             $user->phone,
             $delivery_order_tmp,
-            $order->receiver_order_note??"Не указана",
-            $order->receiver_address??"Не задан",
+            $order->receiver_order_note ?? "Не указана",
+            $order->receiver_address ?? "Не задан",
             $price1,
             $price2,
             $range1,
@@ -749,7 +734,7 @@ class OrderController extends Controller
             $order->id
         );
 
-        $this->sendToTelegram($order->restoran->telegram_channel,$message);
+        $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
             ->json([
@@ -774,7 +759,7 @@ class OrderController extends Controller
             $order->id
         );
 
-        $this->sendToTelegram($order->restoran->telegram_channel,$message);
+        $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
             ->json([
