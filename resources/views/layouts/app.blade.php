@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="yandex-verification" content="8a0af76bbdec9e9a" />
+    <meta name="yandex-verification" content="dc164e606696b6b2" />
     <title>Fastoran - служба твоей доставки!</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
