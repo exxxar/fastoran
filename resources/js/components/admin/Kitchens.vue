@@ -441,19 +441,23 @@
             remove(id) {
                 let foundIndex = this.items.findIndex(x => x.id === id);
                 // this.items[foundIndex].id = null;
-                this.items.splice(foundIndex, 1);
+
                 axios
                     .delete(`/admin/kitchens/destroy/${id}`)
                     .then(resp => {
-                        //this.loadData()
+                        this.deleted_items.push(this.items[foundIndex]);
+                        this.items.splice(foundIndex, 1);
                         this.sendMessage(resp.data.message)
                     });
             },
             async restore(id) {
+                let foundIndex = this.deleted_items.findIndex(x => x.id === id);
                 const response = await axios
                     .post(`/admin/kitchens/restore/${id}`)
                     .then(resp => {
-                        this.loadData()
+                        // this.loadData()
+                        this.items.push(this.deleted_items[foundIndex]);
+                        this.deleted_items.splice(foundIndex, 1);
                         this.sendMessage(resp.data.message)
                     });
             },

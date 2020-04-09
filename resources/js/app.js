@@ -50,6 +50,7 @@ Vue.component('cart-count-index', require('./components/CartCountIndex.vue').def
 //Admin
 Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
 Vue.component('orders', require('./components/admin/Orders.vue').default);
+Vue.component('new-order', require('./components/admin/NewOrder.vue').default);
 Vue.component('order_details', require('./components/admin/OrderDetails.vue').default);
 Vue.component('menus', require('./components/admin/Menus.vue').default);
 Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);

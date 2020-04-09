@@ -17,11 +17,11 @@ class ExcelImport implements ToModel, WithHeadingRow
     {
         return new Restoran([
 
-            'name'=>$cells['name'],
-            'description'=>$cells['description'],
+            'name'=>$cells['name']?? '',
+            'description'=>$cells['description']?? '',
 
-            'latitude'=>$cells['latitude'],
-            'longitude'=>$cells['longitude'],
+            'latitude'=>$cells['latitude']?? null,
+            'longitude'=>$cells['longitude']?? null,
 
             'adress'=>$cells['adress']?? '',
             'orientir'=>$cells['orientir'] ?? '',

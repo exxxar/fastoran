@@ -3,6 +3,7 @@
         <notifications group="message"/>
 
         <b-container fluid>
+            <b-button variant="primary" class="mt-4 mb-4" target="_blank" href="/admin/orders/create">Создать новый заказ</b-button>
             <b-tabs content-class="mt-3">
                 <b-tab title="Все" active>
                     <!-- User Interface controls -->
@@ -134,7 +135,6 @@
                                 </div>
                             </b-input-group>
                         </template>
-
                         <template v-slot:row-details="row">
                             <b-card>
                                 <div class="row">
@@ -609,7 +609,6 @@
                             </b-form-group>
                        </div>
                     </div>
-
                 </div>
 
             </b-modal>
@@ -702,9 +701,10 @@
                 this.details_loading = true;
                 const response = await axios
                     .get(`/admin/orders/getDetails/${item.id}`)
-                    .then(resp => {
-                        this.detailsModal.details = resp.data.details;
-                    });
+                    // .then(resp => {
+                    //     this.detailsModal.details = resp.data.details;
+                    // });
+                this.detailsModal.details = response.data.details;
                 this.detailsModal.title = `Details index: ${index}`;
                 this.detailsModal.content = item.id;
 
@@ -712,8 +712,9 @@
                 this.details_loading = false;
             },
             resetDetailsModal() {
-                this.detailsModal.title = ''
-                this.detailsModal.content = ''
+                this.detailsModal.title = '';
+                this.detailsModal.content = '';
+                this.detailsModal.details = '';
             },
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
@@ -736,11 +737,15 @@
                     });
             },
             async restore(id) {
+                let foundIndex = this.deleted_items.findIndex(x => x.id === id);
+
                 const response = await axios
                     .post(`/admin/orders/restore/${id}`)
                     .then(resp => {
+                        this.items.push(this.deleted_items[foundIndex]);
+                        this.deleted_items.splice(foundIndex, 1);
                         this.sendMessage(resp.data.message)
-                        this.loadData()
+                        // this.loadData()
 
                     });
             },

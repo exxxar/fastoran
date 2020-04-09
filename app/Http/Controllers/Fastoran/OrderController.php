@@ -29,8 +29,6 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-
-
         if ($request->ajax()) {
             $user = User::find(auth()->guard('api')->user()->id ?? 0);
 

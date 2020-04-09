@@ -162,6 +162,7 @@ class RestoransController extends Controller
                 'restorans' => $restorans->restorans()->paginate(100),
             ]);
     }
+
     public function get()
     {
         $restorans = Restoran::all();
@@ -172,6 +173,7 @@ class RestoransController extends Controller
                 "deleted_restorans" => $deleted_restorans,
             ], 200);
     }
+
     public function restore($id)
     {
         $restoran = Restoran::onlyTrashed()->where('id', $id)->restore();
@@ -182,12 +184,12 @@ class RestoransController extends Controller
                 "status" => 200,
             ]);
     }
+
     public function stoplist($id)
     {
         $restoran = Restoran::find($id);
         return view('admin.restorans.stoplist', compact('restoran'));
     }
-
 
     public function uploadFile(Request $request) {
         $file = $request->file;
@@ -230,4 +232,19 @@ class RestoransController extends Controller
         }
     }
 
+    public function getRestorans()
+    {
+        $restorans = Restoran::all();
+        $restorans_options = array();
+        foreach ($restorans as $restoran) {
+            $option = (object)[];
+            $option->value = $restoran->id;
+            $option->text = $restoran->name;
+            array_push($restorans_options,$option);
+        }
+        return response()
+            ->json([
+                "restorans" => $restorans_options,
+            ], 200);
+    }
 }

@@ -163,6 +163,7 @@ class MenuController extends Controller
                     ->get()
             ]);;
     }
+
     public function get()
     {
         $menus = RestMenu::all();
@@ -173,6 +174,7 @@ class MenuController extends Controller
                 "deleted_menus" => $deleted_menus,
             ], 200);
     }
+
     public function restore($id)
     {
         $menu = RestMenu::onlyTrashed()->where('id', $id)->restore();

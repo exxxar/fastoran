@@ -94,6 +94,8 @@ Route::prefix('admin')->group(function () {
     Route::any('/restorans/kitchen/{kitchenId}', 'Admin\RestoransController@getRestoransByKitchenId');
     Route::post('/restorans/upload', 'Admin\RestoransController@uploadFile');
     Route::get('/restorans/stop-list/{id}', 'Admin\RestoransController@stoplist');
+    Route::get('/restorans/getRestorans', 'Admin\RestoransController@getRestorans');
+
 
     Route::any('/orders', 'Admin\OrderController@index');
     Route::get('/orders/get', 'Admin\OrderController@get');
@@ -103,6 +105,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/orders/restore/{id}', 'Admin\OrderController@restore');
     Route::any('/history', 'Admin\OrderController@getOrderHistory');
     Route::get('/orders/getDetails/{id}', 'Admin\OrderController@getDetails');
+    Route::get('/orders/create', 'Admin\OrderController@create');
+    Route::post('/orders/range/{restId}','Admin\OrderController@getRange');
+
 
     Route::any('/order_details', 'Admin\OrderDetailController@index');
     Route::get('/order_details/get', 'Admin\OrderDetailController@get');
