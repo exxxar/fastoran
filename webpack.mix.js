@@ -16,9 +16,11 @@ mix.copyDirectory('resources/assets/fonts', 'public/fonts');
 mix.copyDirectory('resources/assets/js', 'public/js');
 mix.copyDirectory('resources/assets/images', 'public/images');
 
+
 /*mix.webpackConfig({
     devtool: 'inline-source-map'
 })*/
+
 
 mix.js('resources/js/app.js', 'public/js')
     //.extract(['vue'])

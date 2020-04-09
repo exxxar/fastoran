@@ -35,19 +35,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         //
         Route::pattern('id', '[0-9]+');
-        try {
-            $kitchens = (Kitchen::where("is_active", 1)
-                ->get())->filter(function ($kitchen) {
-                return $kitchen->rest_count > 0;
-            });
-
-            $restorans = Restoran::where("moderation", true)->get();
-
-            View::share('kitchens', $kitchens);
-            View::share('restorans', $restorans);
-        } catch (\Exception $e) {
-
-        }
 
         parent::boot();
     }

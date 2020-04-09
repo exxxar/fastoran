@@ -23,10 +23,10 @@
                 </div>
             </div>
             <div class="slide__pizza--2 wow fadeInLeft" data-wow-delay="0.4s">
-                <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/shape/sli-2.png" alt="pizza images">
+                <img class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/shape/sli-2.png" alt="pizza images">
             </div>
             <div class="slide__pizza--3 wow fadeInRight" data-wow-delay="0.4s">
-                <img src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/shape/sli-3.png" alt="pizza images">
+                <img class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/shape/sli-3.png" alt="pizza images">
             </div>
         </div>
         <!-- End Single Slide -->

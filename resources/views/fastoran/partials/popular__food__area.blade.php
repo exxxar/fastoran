@@ -13,11 +13,11 @@
 
         @foreach($restorans as $rest)
             <!-- Start Single Popular Food -->
-                <div class="col-lg-4 col-md-6 col-sm-6 foo">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 foo">
                     <div class="popular__food">
                         <div class="pp_food__thumb">
                             <a href="{{route("rest",$rest->url)}}">
-                                <img src="{{$rest->logo}}"
+                                <img class="lazyload" data-src="{{$rest->logo}}"
                                      alt="popular food">
                             </a>
 

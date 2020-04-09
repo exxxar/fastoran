@@ -38,10 +38,10 @@ class RestController extends Controller
 
         if (!is_null($rest_name)) {
             $rest = (Restoran::with(["menus"])->where('name', 'LIKE', "%{$rest_name}%")->first());
-            $products = is_null($rest)?null:$rest->menus()->paginate(100) ;
+            $products = is_null($rest) ? null : $rest->menus()->paginate(100);
         }
 
-        if (is_null($products))
+        if (is_null($products) || count($products) == 0)
             $products = RestMenu::paginate(100);
 
 
@@ -53,20 +53,22 @@ class RestController extends Controller
     {
 
         $sliderIndex = random_int(1, 3);
-        $random_menu = RestMenu::with(["restoran"])->get()
-            ->shuffle()
-            ->take(8)
-            ->skip(0);
 
-        $kitchens_count = Kitchen::all()->count();
-        $restorans_count = Restoran::all()->count();
-        $menus_count = RestMenu::all()->count();
-        $user_count = User::all()->count();
+        $products = RestMenu::with(["restoran"])->get();
+
+        $random_menu = $products
+            ->shuffle()
+            ->take(12);
+
+        $kitchens_count = 10;//Kitchen::all()->count();
+        $restorans_count = 10;//Restoran::all()->count();
+        $menus_count = 400;//RestMenu::all()->count();
+        $user_count = 30;//User::all()->count();
 
         $categories = MenuCategory::with(["menus"])->get();
-        $products = RestMenu::all();
 
-        return view("main", compact("random_menu","categories"))
+
+        return view("main", compact("random_menu", "categories"))
             ->with("sliderIndex", $sliderIndex)
             ->with("kitchens_count", $kitchens_count)
             ->with("restorans_count", $restorans_count)
@@ -75,6 +77,16 @@ class RestController extends Controller
             ->with("products", $products);
 
 
+    }
+
+    public function getCheckout(Request $request)
+    {
+        return view("fastoran.checkout");
+    }
+
+    public function getCart(Request $request)
+    {
+        return view("fastoran.cart");
     }
 
     public function getAllMenu(Request $request)

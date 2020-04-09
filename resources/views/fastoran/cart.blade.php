@@ -5,6 +5,5 @@
     @include("fastoran.partials.ht__bradcaump__area",["title"=>"Корзина"])
 
     @include("fastoran.partials.cart-main-area")
-    @include("fastoran.partials.food__contact__form")
     @include("fastoran.partials.footer__area")
 @endsection

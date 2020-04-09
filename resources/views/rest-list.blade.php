@@ -2,7 +2,7 @@
 
 @section('content')
     @include("fastoran.partials.header")
-    @include("fastoran.partials.ht__bradcaump__area",["title"=>$kitchen->name])
+    @include("fastoran.partials.ht__bradcaump__area",["title"=>$kitchen->name??'Выбор кухни'])
 
     @include("fastoran.partials.popular__food__area")
 

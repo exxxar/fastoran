@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\Classes\Utilits;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Notifications\SignupActivate;
@@ -10,13 +10,13 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Laravolt\Avatar\Facade as Avatar;
+
 
 
 class AuthController extends Controller
 {
+    use Utilits;
 
     /**
      * Login user and create token
@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         if (!is_null($user))
             if (is_null($user->telegram_chat_id)) {
-                $user->name = $request->get("name")??$user->name??$request->get("phone");
+                $user->name = $request->get("name") ?? $user->name ?? $request->get("phone");
                 $user->telegram_chat_id = $request->get("telegram_chat_id");
                 $user->auth_code = $code;
                 $user->password = bcrypt($code);
@@ -66,11 +66,11 @@ class AuthController extends Controller
             $needSms = true;
         }
 
-        if ($needSms)
-            SemySMS::sendOne([
-                'to' => $request->phone,
-                'text' => "Ваш пароль для доступа к ресурсу https://fastoran.com: $code"
-            ]);
+        if ($needSms&&!is_null($user))
+            $this->sendSms($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+
+        if ($needSms&&is_null($user))
+            $this->sendToTelegram($request->telegram_chat_id,"Возникла ошибка регистрации");
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
@@ -80,11 +80,10 @@ class AuthController extends Controller
     public function signupPhone(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
             'phone' => 'required',
         ]);
 
-        $user = User::where("phone",$request->get("phone"))
+        $user = User::where("phone", $request->get("phone"))
             ->first();
 
         if (!is_null($user))
@@ -95,7 +94,7 @@ class AuthController extends Controller
         $code = random_int(100000, 999999);
 
         $user = new User([
-            'name' => $request->name,
+            'name' => $request->name??'',
             'email' => $request->email ?? $request->phone . "@fastoran.com",
             'password' => bcrypt($code),
             'phone' => $request->phone,
@@ -107,10 +106,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        SemySMS::sendOne([
-            'to' => $request->phone,
-            'text' => "Ваш пароль для доступа к ресурсу https://fastoran.com: $code"
-        ]);
+        $this->sendSms($request->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
@@ -284,7 +280,7 @@ class AuthController extends Controller
                     "status" => 404
                 ]);
 
-        if ($user->auth_code!=null)
+        if ($user->auth_code != null)
             return response()
                 ->json([
                     "message" => "Введите предидущий код из СМС!",
@@ -297,10 +293,7 @@ class AuthController extends Controller
         $user->auth_code = $code;
         $user->save();
 
-        SemySMS::sendOne([
-            'to' => $phone,
-            'text' => "Ваш код верификации:$code"
-        ]);
+        $this->sendSms($phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
 
         return response()
             ->json([

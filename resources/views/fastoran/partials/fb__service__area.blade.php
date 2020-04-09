@@ -1,10 +1,9 @@
-<section class="fd__service__area bg-image--2 section-padding--xlg section-padding--xs">
+<section class="fd__service__area bg-image--2 section-padding--xs">
     <div class="container">
         <div class="service__wrapper bg--white">
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     <div class="section__title service__align--left">
-                        <p>Процесс работы нашего сервиса<p>
                         <h2 class="title__line">Как мы работаем</h2>
                     </div>
                 </div>
@@ -15,7 +14,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img src="images/icon/color-icon/1.png" alt="icon image">
+                                <img class="lazyload" data-src="images/icon/color-icon/1.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Выбираем ресторан</a></h2>
                         </div>
@@ -30,7 +29,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img src="images/icon/color-icon/2.png" alt="icon image">
+                                <img class="lazyload" data-src="images/icon/color-icon/2.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Находим ЛЮБИМОЕ блюдо</a></h2>
                         </div>
@@ -45,7 +44,7 @@
                     <div class="service">
                         <div class="service__title">
                             <div class="ser__icon">
-                                <img src="images/icon/color-icon/3.png" alt="icon image">
+                                <img class="lazyload" data-src="images/icon/color-icon/3.png" alt="icon image">
                             </div>
                             <h2><a href="{{url("/")}}">Оформляем доставку</a></h2>
                         </div>

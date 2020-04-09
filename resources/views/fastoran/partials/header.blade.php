@@ -1,6 +1,6 @@
 <header class="htc__header bg--yellow">
     <!-- Start Mainmenu Area -->
-    <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header">
+    <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header is-sticky">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
@@ -23,13 +23,15 @@
                                 </li>
                                 <li class="drop"><a href="#kitchens">Кухни</a>
                                     <ul class="dropdown__menu">
-                                        @foreach($kitchens as $kitchen)
-                                        <li><a href="{{route("kitchen",$kitchen->id)}}">{{$kitchen->name}}</a></li>
-                                       @endforeach
+                                        @foreach($header_kitchen_list as $hkitchen)
+                                            <li><a href="{{route("kitchen",$hkitchen->id)}}">{{$hkitchen->name}}</a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
                                     <ul class="dropdown__menu">
+                                        <li><a href="{{route("cart")}}">Корзина</a></li>
                                         <li><a href="{{route("faq")}}">Руководство пользователя</a></li>
                                         <li><a href="{{route("questions")}}">Вопросы и ответы</a></li>
                                         <li><a href="{{route("agreement")}}">Пользовательское соглашение</a></li>
@@ -46,8 +48,7 @@
                 <div class="col-lg-1 col-sm-4 col-md-4 order-2 order-lg-3">
                     <div class="header__right d-flex justify-content-end">
                         <div class="log__in">
-                           {{-- <a class="accountbox-trigger" href="#"><i class="zmdi zmdi-account-o"></i></a>--}}
-
+                            <a class="accountbox-trigger" href="#"><i class="zmdi zmdi-account-o"></i></a>
                         </div>
                         <div class="shopping__cart">
                             <a class="minicart-trigger" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>

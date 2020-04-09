@@ -10,7 +10,7 @@
                             <div class="funfact__count__inner">
                                 <div class="fact__icon">
                                     <img
-                                        src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/4.png"
+                                        class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/4.png"
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
@@ -30,7 +30,7 @@
                             <div class="funfact__count__inner">
                                 <div class="fact__icon">
                                     <img
-                                        src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/5.png"
+                                        class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/5.png"
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
@@ -49,7 +49,7 @@
                             <div class="funfact__count__inner">
                                 <div class="fact__icon">
                                     <img
-                                        src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/6.png"
+                                        class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/6.png"
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
@@ -69,7 +69,7 @@
                             <div class="funfact__count__inner">
                                 <div class="fact__icon">
                                     <img
-                                        src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/7.png"
+                                        class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/icon/flat-icon/7.png"
                                         alt="flat icon">
                                 </div>
                                 <div class="fact__count ">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="fact__title">
-                                <h2>Довольный клиентов</h2>
+                                <h2>Довольных клиентов</h2>
                             </div>
                         </div>
                     </div>

@@ -62,8 +62,11 @@
 
 .accountbox__filters{
 	padding-bottom: 7px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 	li{
-		padding: 0 10px ;
+		padding: 0 ;
 		margin-bottom: 0;
 		position: relative;
 		&:first-child{
@@ -76,7 +79,7 @@
 			}
 		}
 		&:before{
-			content: "";
+			//content: "";
 			height: 3px;
 			width: 10px;
 			background: #222;
@@ -106,12 +109,20 @@
 	opacity: 0;
 	visibility: hidden;
 	padding: 70px;
-	padding-right: 120px;
 	@include transform(translate(-50%, -120%));
 	@include transition(transform 0.5s cubic-bezier(0.38, 0.7, 0.66, 0.82) 0.3s);
 
 	.single-input{
 		margin-top: 25px;
+        display: flex;
+        justify-content: center;
+
+        a {
+            text-align: center;
+        }
+
+        select,
+        textarea,
 		input{
 			height: 40px;
 			line-height: 42px;
@@ -134,11 +145,15 @@
 				opacity: 1;
 			}
 		}
+
+        textarea {
+            height: 150px;
+        }
 		button{
 			padding: 0 35px;
 			border:0 none;
 			&.food__btn{
-				
+
 			}
 		}
 	}
@@ -279,7 +294,7 @@
 
 @media #{$lg-layout}{
 
-	
+
 }
 
 @media #{$md-layout}{

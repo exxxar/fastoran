@@ -31,9 +31,9 @@
         </div>
     </div>
     <div class="choose__img--1 wow fadeInRight animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInRight;">
-        <img src="images/banner/bann-1/1.png" alt="banner images">
+        <img class="lazyload" data-src="images/banner/bann-1/1.png" alt="banner images">
     </div>
     <div class="choose__img--2 wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-        <img src="images/banner/bann-1/2.png" alt="banner images">
+        <img class="lazyload" data-src="images/banner/bann-1/2.png" alt="banner images">
     </div>
 </section>

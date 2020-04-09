@@ -16,7 +16,7 @@
                     <div class="feature text-center">
                         <div class="feature__thumb">
                             <a href="#">
-                                <img src="{{$kitchen->img}}"
+                                <img class="lazyload" data-src="{{$kitchen->img}}"
                                      alt="{{$kitchen->alt_description}}">
                             </a>
                         </div>

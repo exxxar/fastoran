@@ -1,22 +1,68 @@
 <template>
     <div class="product-btn-box">
-        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart(product_id)===0"
-           :data-target="'menu'+product_id" @click="addToCart(product_data)"><i class="fas fa-cart-plus"></i></a>
+        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&!hasSub()"
+           @click="addToCart()"><i class="fas fa-cart-plus"></i></a>
 
-        <div class="cnt-container" v-if="inCart(product_id)>0">
-            <button class="btn btn-coutner" @click="decProduct(product_id)">
+        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&hasSub()"
+           @click="openSubMenu()"><i class="fas fa-cart-plus"></i></a>
+
+
+        <a href="#info" v-b-tooltip.hover :title="product_data.food_remark"
+           class="btn_a btn_link btn-show-info"
+           v-if="inCart()===0"
+           :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
+
+
+        <div v-if="product_id&&product_data">
+            <b-modal :id="'modal-submenu-'+product_id" hide-footer>
+
+                <template v-slot:modal-title>
+                    <h3>Выбор подкатегории</h3>
+                </template>
+                <div class="d-block text-center">
+
+
+                    <b-form-checkbox-group :id="'modal-submenu-check-'+product_id" v-model="selected" name="flavour-2">
+
+                        <li class="sub-item" v-for="sub in getFoodSub()">
+
+                            <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
+                            </b-form-checkbox>
+
+                        </li>
+                    </b-form-checkbox-group>
+
+
+                </div>
+                <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
+                </b-button>
+
+
+            </b-modal>
+        </div>
+
+
+        <div class="cnt-container" v-if="inCart()>0">
+            <button class="btn btn-coutner" @click="decProduct()">
                 -
             </button>
-            <p v-html="inCart(product_id)"></p>
-            <button class="btn btn-coutner" @click="incProduct(product_id)">
+            <p v-html="inCart()"></p>
+            <button class="btn btn-coutner" @click="incProduct()">
                 <span>+</span>
             </button>
         </div>
+
+
     </div>
 </template>
 <script>
     export default {
         props: ["product_id", "product_data"],
+        data() {
+            return {
+                selected: null
+            }
+        },
         watch: {
             products: function (newVal, oldVal) {
                 return newVal
@@ -28,6 +74,7 @@
             }
         },
         mounted() {
+
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("getProductList")
             }
@@ -35,48 +82,63 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
-            checkFirstRestoran(restId) {
-                return this.products.filter(item => item.product.rest_id !== restId).length === 0 || this.products.length === 0;
+            addToCartWithSub() {
+                this.addToCart()
+
+                this.selected.forEach((item, key) => {
+                    if (key <= this.selected.length - 2) {
+                        this.incProduct();
+                    }
+
+                });
+
+                let tmp = this.selected.join();
+
+                this.$store.dispatch("addSub", {id: this.product_id, more_info: tmp})
+                this.$bvModal.hide("modal-submenu-" + this.product_id)
             },
-            inCart(menuId) {
-                let tmp = this.products.filter(item => item.product.id === menuId);
+            hasSub() {
+                return this.product_data.food_sub != null;
+            },
+            getFoodSub() {
+                return this.hasSub() ? JSON.parse(this.product_data.food_sub) : [];
+            },
+            checkFirstRestoran(restId) {
+                return this.products.filter(item => item.product.rest_id !== this.product_data.rest_id).length === 0 || this.products.length === 0;
+            },
+            inCart() {
+                let tmp = this.products.filter(item => item.product.id === this.product_id);
                 return tmp.length === 0 ? 0 : tmp[0].quantity
             },
-            addToCart(menu_item) {
-                if (!this.checkFirstRestoran(menu_item.rest_id)) {
+            openSubMenu() {
+                this.$bvModal.show("modal-submenu-" + this.product_id)
+            },
+            addToCart() {
+                if (!this.checkFirstRestoran(this.product_data.rest_id)) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
                 }
                 this.sendMessage("Товар добавлен в корзину!")
-                this.$store.dispatch('addProductToCart', menu_item)
+                this.$store.dispatch('addProductToCart', this.product_data)
             },
-            incProduct(menuId) {
+            incProduct() {
+
                 this.sendMessage("Товар добавлен в корзину!")
-                this.$store.dispatch('incQuantity', menuId)
+                this.$store.dispatch('incQuantity', this.product_id)
             },
-            decProduct(menuId) {
+            decProduct() {
                 this.sendMessage("Лишний товар убран из корзины!")
 
-                if (this.inCart(menuId) === 1) {
-                    this.$store.dispatch('removeProduct', menuId)
+                if (this.inCart() === 1) {
+                    this.$store.dispatch('removeProduct', this.product_id)
                     return;
                 }
 
-                this.$store.dispatch('decQuantity', menuId)
+                if (this.hasSub())
+                    this.$store.dispatch('remSub', this.product_id)
+                this.$store.dispatch('decQuantity', this.product_id)
             },
-            /* add: function () {
-                 console.log(this.product_data)
-                 this.sendMessage("Товар успешно добавлен в корзину!")
-                 this.$store.dispatch('addProductToCart', this.product_data)
-               /!*  axios
-                     .get('api/products/get/' + this.product_id)
-                     .then(response => {
-
-                         this.$store.dispatch('addProductToCart', response.data.product)
-                     });*!/
-             },*/
             sendMessage(message, type = 'success') {
-                console.log(message);
                 this.$notify({
                     group: 'info',
                     type: type,
@@ -88,6 +150,23 @@
     }
 </script>
 <style lang="scss">
+
+    .sub-item {
+        list-style: none;
+        padding: 10px;
+        border: 1px lightblue solid;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .btn-food {
+        background: #e3342f;
+        border: none;
+
+        &:hover {
+            background: darkred;
+        }
+    }
+
     .product-btn-box {
         position: absolute;
         top: 0;
@@ -101,6 +180,12 @@
         padding: 10px;
         z-index: 11;
         box-sizing: border-box;
+
+        a.btn_a.btn_link.btn-show-info {
+            padding: 10px;
+            color: white;
+            background: #9ce300;
+        }
 
         a.btn_a.btn_link.btn-add-to-cart {
             padding: 10px;

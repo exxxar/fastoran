@@ -38,7 +38,7 @@
 
                             <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(-1710px, 0px, 0px); transition: all 0.25s ease 0s; width: 3420px;"><div class="owl-item cloned" style="width: 570px;"><div class="about__video__inner">
                                             <div class="about__video__thumb">
-                                                <img src="images/about/video/1.jpg" alt="video images">
+                                                <img class="lazyload" data-src="images/about/video/1.jpg" alt="video images">
                                                 <a class="video-play-button" href="https://www.youtube.com/watch?v=wJ9Ll8uD07I"><img src="images/icon/play.png" alt="viveo play icon"></a>
                                             </div>
                                             <div class="about__video__content">

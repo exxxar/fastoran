@@ -7,7 +7,7 @@
 
 
 .service__wrapper{
-	padding: 100px 35px 100px 95px;
+	padding: 20px;
 	.service{
 		margin-top: 30px;
 		.service__title{
@@ -82,7 +82,7 @@
 
 @media #{$xs-layout}{
 	.service__wrapper {
-  		padding: 100px 30px;
+  		padding: 20px 30px;
 	}
 	.service__wrapper{
 		.service{
