@@ -191,6 +191,35 @@ class RestoransTableSeeder extends Seeder
 
         array_push($tmp, $rest->id);
 
+        $rest = Restoran::create([
+            'name' => 'ЕшьБургер',
+            'description' => 'Ешь-Бургер | Ешька | Донецк | Доставка',
+            'adress' => 'г. Донецк, пл. Коммунаров, 2',
+            'city' => 'Донецк',
+            'region' => "Ворошиловский",
+            'phone1' => "+38 (071) 347-04-94",
+            'phone2' => "",
+            'inst_page' => "eshburgers",
+            'site' => "",
+            'telegram_channel' => "-1001315174223",
+            'vk_page' => "https://vk.com/eshburgers",
+            'logo' => "https://sun9-37.userapi.com/c855020/v855020400/21c796/0l34obhy_zA.jpg",
+            'url' => "eshburgers",
+            'rest_img' => "https://fastoran.com/images/bg/18.jpg",
+        ]);
+
+
+        $rest->kitchens()->attach([
+            Kitchen::where("name", "Блюда живого огня")->first()->id,
+            Kitchen::where("name", "Американская кухня")->first()->id,
+            Kitchen::where("name", "Европейская кухня")->first()->id,
+            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
+            Kitchen::where("name", "Домашняя кухня")->first()->id,
+        ]);
+
+
+        array_push($tmp, $rest->id);
+
         foreach ($tmp as $restId) {
             $rate = Rating::create([
                 'content_type' => \App\Enums\ContentTypeEnum::Restoran,
