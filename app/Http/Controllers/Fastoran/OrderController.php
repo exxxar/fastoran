@@ -215,6 +215,11 @@ class OrderController extends Controller
         //$order->longitude = $request->get("receiver_longitude") ?? null;
         $order->save();
 
+        if (is_null($user->name) || empty($user->name)) {
+            $user->name = $order->receiver_name;
+            $user->save();
+        }
+
 
         // return json_decode($request->get("order_details"),true);
         $order_details = $request->get("order_details");
@@ -287,6 +292,7 @@ class OrderController extends Controller
         $order->delivery_range = floatval(sprintf("%.2f", $range2));
 
         $order->save();
+
 
         $tmp = "" . $order->id;
         while (strlen($tmp) < 10)
