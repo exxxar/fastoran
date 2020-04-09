@@ -43,6 +43,7 @@ Route::view("/partner", "fastoran.partner")->name("partner");
 
 
 Route::view("/contacts", "fastoran.contacts")->name("contacts");
+Route::view("/success", "fastoran.success")->name("success");
 
 Route::view("/questions", "fastoran.questions")->name("questions");
 Route::view("/agreement", "fastoran.agreement")->name("agreement");
