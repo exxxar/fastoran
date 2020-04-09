@@ -138,7 +138,7 @@ class OrderController extends Controller
 
         try {
 
-            $http = new GuzzleHttp\Client;
+            $http = new Client;
 
             $response = $http->post(is_null($user) ? 'https://fastoran.com/api/v1/auth/signup_phone' : 'https://fastoran.com/api/v1/auth/sms', [
                 'form_params' => [
