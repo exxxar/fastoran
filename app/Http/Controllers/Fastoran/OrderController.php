@@ -120,7 +120,6 @@ class OrderController extends Controller
         }
 
 
-
         $http = new Client;
 
         $response = $http->post(is_null($user) ? 'https://fastoran.com/api/v1/auth/signup_phone' : 'https://fastoran.com/api/v1/auth/sms', [
@@ -273,7 +272,7 @@ class OrderController extends Controller
             $order->id,
             $rest->name,
             $order->receiver_name ?? $user->name,
-            $user->phone,
+            $order->receiver_phone ?? $user->phone,
             $delivery_order_tmp,
             $order->receiver_order_note ?? "Не указана",
             $order->receiver_address ?? "Не задан",
@@ -417,9 +416,11 @@ class OrderController extends Controller
         $order->deliveryman_id = $user->id;
         $order->save();
 
-        $message = sprintf("Заказ *#%s* взят доставщиком *#%s*",
+        $message = sprintf("Заказ *#%s* (%s) взят доставщиком *#%s (%s)*",
             $order->id,
-            $user->id
+            $order->receiver_phone,
+            $user->id,
+            $user->phone ?? "Без номера"
         );
 
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
