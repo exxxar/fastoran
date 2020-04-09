@@ -22,7 +22,7 @@
 
                         <div class="col-sm-4 col-md-4 col-lg-5 mb-2"><input type="text" class="form-control" name="food_name"
                                                      placeholder="Введите название блюда"></div>
-                        <div class="col-sm-4 col-md-4 col-lg-5 mb-2"><input name="rest_name" class="form-control" type="text"
+                        <div class="col-sm-4 col-md-4 col-lg-5 mb-2"><input name="rest_name" value="{{$restoran->name??''}}" class="form-control" type="text"
                                                      placeholder="Введите название ресторана"></div>
                         <div class="col-sm-4 col-md-4 col-lg-2">
                             <button type="submit" class="btn btn-link btn-food ">Найти</button>
