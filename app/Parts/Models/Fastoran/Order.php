@@ -8,11 +8,12 @@ use App\Enums\OrderStatusEnum;
 use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
 
-    use CastsEnums, Utilits;
+    use CastsEnums, Utilits, SoftDeletes;
 
     protected $enumCasts = [
         'status' => OrderStatusEnum::class,

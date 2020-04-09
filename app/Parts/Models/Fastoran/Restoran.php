@@ -6,10 +6,11 @@ use App\Enums\ContentTypeEnum;
 use App\Rating;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Restoran extends Model
 {
-    //
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

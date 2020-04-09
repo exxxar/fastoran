@@ -8,7 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Fastoran') }}</title>
-
+    <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
+    <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -49,6 +50,46 @@
                                 </li>
                             @endif
                         @else
+                            <li>
+                                <a class="nav-link" href="/admin/kitchens">
+                                    Кухни
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="/admin/menus">
+                                    Меню
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="/admin/menu_categories">
+                                    Категории меню
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="/admin/orders">
+                                    Заказы
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="/admin/order_details">
+                                    Детали заказов
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="/admin/restorans">
+                                    Рестораны
+                                </a>
+                            </li>
+{{--                            <li>--}}
+{{--                                <a class="nav-link" href="/admin/regions">--}}
+{{--                                    Регионы--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+                            <li>
+                                <a class="nav-link" href="/admin/users">
+                                    Пользователи
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -73,8 +114,9 @@
         </nav>
 
         <main class="py-4">
-
-            @yield('content')
+            <div class="wrapper" id="wrapper">
+             @yield('content')
+            </div>
         </main>
     </div>
 

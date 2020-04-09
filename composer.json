@@ -23,6 +23,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^1.1",
         "maatwebsite/excel": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.11",
         "silviolleite/laravelpwa": "^1.0",
         "socialiteproviders/vkontakte": "^4.0",
         "socialiteproviders/yandex": "^3.0"

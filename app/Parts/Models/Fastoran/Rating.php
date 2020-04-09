@@ -5,10 +5,11 @@ namespace App;
 use App\Enums\ContentTypeEnum;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Rating extends Model
 {
-    use CastsEnums;
+    use CastsEnums, SoftDeletes;
 
     protected $enumCasts = [
         'content_type' => ContentTypeEnum::class,
