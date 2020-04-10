@@ -11,8 +11,8 @@ use BenSampo\Enum\Enum;
  */
 final class DeliveryTypeEnum extends Enum
 {
-    const NotSet =   0;
-    const OnFoot =   1;
+    const NotSet = 0;
+    const OnFoot = 1;
     const Bike = 2;
     const Moto = 3;
     const Car = 4;

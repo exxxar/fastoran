@@ -23,6 +23,7 @@ class CreateRatingsTable extends Migration
             $table->integer('content_type')->default(\App\Enums\ContentTypeEnum::Restoran);
             $table->unsignedInteger('content_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a55e36f9930206026c6b60668c5f6ca",
+    "content-hash": "f170dbadd828286c066f6cbb7bc4fdc6",
     "packages": [
         {
             "name": "allanvb/laravel-semysms",

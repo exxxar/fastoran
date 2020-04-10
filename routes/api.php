@@ -49,12 +49,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
         Route::resource('restorans', 'RestoransController');
-        Route::resource('cetegories', 'CategoryController');
+        Route::resource('categories', 'CategoryController');
         Route::resource('kitchens', 'KitchenController');
         Route::resource('menu_categories', 'MenuCategoryController');
         Route::resource('menus', 'MenuController');
         Route::resource('orders', 'OrderController');
         Route::resource('order_details', 'OrderDetailController');
+
 
         Route::get("restorans/like/{id}", 'RestoransController@like');
         Route::get("restorans/dislike/{id}", 'RestoransController@dislike');
@@ -84,6 +85,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any("decline_order/{id}", "OrderController@declineOrder");
             Route::any("decline_order_by_admin/{id}", "OrderController@declineOrderAdmin");
             Route::any("set_deliveryman_type/{type}", "OrderController@setDeliverymanType")->where(["type"=>"[0-9]+"]);
+
 
             Route::any("order/{id}", "OrderController@getOrderById")->where(["id"=>"[0-9]+"]);
             Route::any("order/status/delivered/{id}", "OrderController@setDeliveredStatus");

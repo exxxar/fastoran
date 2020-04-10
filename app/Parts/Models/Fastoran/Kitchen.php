@@ -7,11 +7,11 @@ use App\Enums\UserTypeEnum;
 use App\Rating;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kitchen extends Model
 {
-    use CastsEnums;
-
+    use CastsEnums, SoftDeletes;
     protected $fillable = [
         'name',
         'img',

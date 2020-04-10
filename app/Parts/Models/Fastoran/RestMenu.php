@@ -5,10 +5,11 @@ namespace App\Parts\Models\Fastoran;
 use App\Enums\ContentTypeEnum;
 use App\Rating;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RestMenu extends Model
 {
-
+    use SoftDeletes;
 
     protected $fillable = [
         'food_name',

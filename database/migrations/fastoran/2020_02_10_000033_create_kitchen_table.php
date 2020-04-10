@@ -32,6 +32,7 @@ class CreateKitchenTable extends Migration
             $table->unsignedInteger('rating_id')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::enableForeignKeyConstraints();
     }

@@ -39,20 +39,24 @@ Vue.component(
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
 Vue.component('rest-filter', require('./components/RestFilter.vue').default);
 
-Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
-Vue.component('orders', require('./components/admin/Orders.vue').default);
-Vue.component('order_details', require('./components/admin/OrderDetails.vue').default);
-Vue.component('menus', require('./components/admin/Menus.vue').default);
-Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);
+
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);
 Vue.component('table-cart', require('./components/TableCart.vue').default);
-Vue.component('restorans-list', require('./components/admin/Restorans.vue').default);
 Vue.component('header-fastoran', require('./components/Header.vue').default);
 Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 Vue.component('cart-count-index', require('./components/CartCountIndex.vue').default);
 
-
+//Admin
+Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
+Vue.component('orders', require('./components/admin/Orders.vue').default);
+Vue.component('new-order', require('./components/admin/NewOrder.vue').default);
+Vue.component('order_details', require('./components/admin/OrderDetails.vue').default);
+Vue.component('menus', require('./components/admin/Menus.vue').default);
+Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);
+Vue.component('restorans-list', require('./components/admin/Restorans.vue').default);
+Vue.component('stop-list', require('./components/admin/StopList.vue').default);
+Vue.component('users', require('./components/admin/Users.vue').default);
 
 
 /**
