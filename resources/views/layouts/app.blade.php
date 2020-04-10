@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="yandex-verification" content="8a0af76bbdec9e9a" />
+    <meta name="yandex-verification" content="dc164e606696b6b2" />
     <title>Fastoran - служба твоей доставки!</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,6 +55,34 @@
                 + '<span class="h1 font-weight-bold">%S</span> Секунд'));
         });
     });
+
+
 </script>
+
+    <!— Yandex.Metrika counter —>
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(61797661, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/61797661" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!— /Yandex.Metrika counter —>
+
+    <!— Global site tag (gtag.js) - Google Analytics —>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163253265-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-163253265-1');
+    </script>
 </body>
 </html>

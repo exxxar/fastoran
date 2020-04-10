@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
         $this->call(KitchenTableSeeder::class);
         $this->call(RestoransTableSeeder::class);
-        $this->call(MenuCategoryTableSeeder::class);
+     //   $this->call(MenuCategoryTableSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }

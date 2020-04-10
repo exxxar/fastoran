@@ -275,3 +275,24 @@ ul.pp__meta {
     align-items: center;
     margin-top: 20px;
 }
+
+
+.search-form {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 10px;
+
+    input,
+    button {
+        width: 100%;
+        padding: 10px;
+        height: 50px;
+    }
+
+    .btn-food {
+        color: white;
+        text-transform: uppercase;
+    }
+}

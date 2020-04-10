@@ -51,11 +51,11 @@ trait Utilits
                 'text' => $message,
                 'device_id' => 'active'
             ]);
-        }catch (SmsNotSentException $e) {
+        } catch (SmsNotSentException $e) {
             SemySMS::sendOne([
                 'to' => $phone,
                 'text' => $message,
-                'device_id' =>  211698
+                'device_id' => 211698
             ]);
         }
 
@@ -64,18 +64,24 @@ trait Utilits
     public function sendToTelegram($id, $message, $keyboard = [])
     {
         try {
-            Telegram::sendMessage([
-                'chat_id' => $id,
-                'parse_mode' => 'Markdown',
-                'text' => $message,
-                'reply_markup' => json_encode([
-                    'inline_keyboard' => $keyboard
-                ])
-
-            ]);
+            $this->sendMessageToTelegramChannel($id, $message, $keyboard);
+            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
         } catch (TelegramResponseException $e) {
             Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
         }
+
+    }
+
+    protected function sendMessageToTelegramChannel($id, $message, $keyboard = [])
+    {
+        Telegram::sendMessage([
+            'chat_id' => $id,
+            'parse_mode' => 'Markdown',
+            'text' => $message,
+            'reply_markup' => json_encode([
+                'inline_keyboard' => $keyboard
+            ])
+        ]);
 
     }
 }
