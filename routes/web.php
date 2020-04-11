@@ -21,7 +21,9 @@ use App\Rating;
 use App\User;
 use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 
@@ -180,4 +182,35 @@ Route::get("/test_sms", function () {
             'text' => 'HELLO MY FRIENDS',
             'device_id' => 'active'
         ]);
+});
+
+
+Route::get("/test_getdata",function (){
+   $orders =  Order::with(["deliveryman","restoran"])->whereDate('created_at', Carbon::today()->toDateString())
+       //->whereNotNull("deliveryman_id")
+       //->where("status",\App\Enums\OrderStatusEnum::Delivered)
+       ->get();
+
+/*   $tmp_sum = [
+        ["id"=>0,"range_count"=>0,"price"]
+   ];*/
+
+
+   $tmp = "";
+   foreach ($orders as $order)
+   {
+        $tmp .= sprintf("Order:%s;#%s;%s руб.;%s км;%s;%s;%s;%s;\n\n",
+            $order->id,
+            $order->deliveryman_id,
+            $order->delivery_price,
+            $order->delivery_range,
+            $order->restoran->name??'',
+            $order->deliveryman->name??'',
+            $order->receiver_address,
+            $order->receiver_order_note
+
+        );
+   }
+
+    Storage::put('file.txt', $tmp);
 });

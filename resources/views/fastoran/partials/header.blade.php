@@ -29,7 +29,7 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                                <li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
+                                {{--<li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
                                     <ul class="dropdown__menu">
                                         <li><a href="{{route("cart")}}">Корзина</a></li>
                                         <li><a href="{{route("faq")}}">Руководство пользователя</a></li>
@@ -38,7 +38,7 @@
                                         <li><a href="{{route("terms")}}">Как мы работаем</a></li>
                                         <li><a href="{{route("about")}}">О нас</a></li>
                                     </ul>
-                                </li>
+                                </li>--}}
                                 <li><a href="{{route('contacts')}}">Контакты</a></li>
                             </ul>
                         </nav>

@@ -408,7 +408,7 @@
                     .then(response => {
                         this.clearCart()
                         this.sendMessage(response.data.message);
-
+                        ym(61797661,'reachGoal','zakaz');
                         this.deliveryPrice = 0;
                         this.delivery_range = null;
                     });

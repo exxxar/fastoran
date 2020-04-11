@@ -46,6 +46,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::post('order/sms', 'OrderController@sendSmsVerify');
         Route::post('order/resend', 'OrderController@resendSmsVerify');
+        Route::post('order/custom', 'OrderController@sendCustomOrder');
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
         Route::resource('restorans', 'RestoransController');

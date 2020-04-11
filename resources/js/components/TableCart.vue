@@ -353,8 +353,8 @@
                 localStorage.setItem("food_city", this.delivery.city);
                 localStorage.setItem("food_street", this.delivery.street);
                 localStorage.setItem("food_first_name", this.delivery.first_name);
-                localStorage.setItem("food_home_number", this.delivery.home_number);
-                localStorage.setItem("food_flat_number", this.delivery.flat_number);
+                localStorage.setItem("food_home_number", this.delivery.home_number == null ? '' : this.delivery.home_number);
+                localStorage.setItem("food_flat_number", this.delivery.flat_number == null ? '' : this.delivery.flat_number);
 
 
                 let products = [];
@@ -387,7 +387,7 @@
                         this.clearCart()
                         this.sendMessage(response.data.message);
 
-
+                        ym(61797661, 'reachGoal', 'zakaz');
                         //this.message = '';
                         //this.sms_code = '';
                         //this.is_valid = false;

@@ -189,8 +189,6 @@ class OrderController extends Controller
 
         $userId = (User::where("phone", $phone)->first())->id ?? null;
 
-        Log::info("ORDER STORE:$userId $phone");
-
         $user = User::find(!is_null($userId) ? $userId : auth()->guard('api')->user()->id);
 
         $order = Order::create($request->all());
@@ -308,6 +306,53 @@ class OrderController extends Controller
             ->json([
                 "message" => "success",
                 "data" => $request->all(),
+                "status" => 200
+            ]);
+    }
+
+    public function sendCustomOrder(Request $request)
+    {
+        $phone = $request->get("phone") ?? null;
+        $name = $request->get("name") ?? null;
+        $address = $request->get("address") ?? null;
+        $more_info = $request->get("more_info") ?? null;
+
+        $vowels = array("(", ")", "-", " ");
+        $phone = str_replace($vowels, "", $phone ?? '');
+
+        $order_details = $request->get("order_details");
+
+        // return print_r($order_details);
+
+        $sum = 0;
+        $delivery_order_tmp = "";
+        foreach ($order_details as $key=>$od) {
+
+            $local_tmp = sprintf("#%s %s (%s руб.)\n",
+                ($key+1),
+                $od["name"],
+                $od["price"]
+            );
+
+            $sum += $od["price"];
+
+            $delivery_order_tmp .= $local_tmp;
+        }
+
+        $message = sprintf("*Заявка на пользовательский заказ*\nФ.И.О.:%s\nАдрес:%s\nТелефон:%s\nДополнительная информация:%s\nЗаказ:\n%s\nПриблизительаня цена заказа: *%s руб.*",
+            $name,
+            $address,
+            $phone,
+            $more_info,
+            $delivery_order_tmp,
+            $sum
+        );
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+        return response()
+            ->json([
+                "message" => "success",
                 "status" => 200
             ]);
     }

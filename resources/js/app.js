@@ -39,7 +39,7 @@ Vue.component(
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
 Vue.component('rest-filter', require('./components/RestFilter.vue').default);
 
-
+Vue.component('custom-order', require('./components/CustomOrder.vue').default);
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);
 Vue.component('table-cart', require('./components/TableCart.vue').default);
