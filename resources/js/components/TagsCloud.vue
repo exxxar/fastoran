@@ -90,7 +90,8 @@
 </script>
 <style lang="scss">
     .tags-cloud {
-        background: #fbc01c;
+        background: rgba(29, 29, 29, 0.95) url('/images/bg/4.jpg') center no-repeat;
+        background-size: cover;
         padding: 50px;
         position: relative;
     }
@@ -130,10 +131,12 @@
                 height: 100%;
                 width: 100%;
                 padding: 10px;
+                color:white;
                 border: 1px dashed white;
 
                 &:hover {
-                    background: white;
+                    background: #c31013;
+
                     // color:#fbc01c;
                 }
             }
