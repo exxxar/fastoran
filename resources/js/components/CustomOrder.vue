@@ -21,7 +21,7 @@
         <hr>
         <div class="row mb-2">
             <div class="col-12">
-                <input class="form-control" type="text" v-model="address" placeholder="Адрес доставки" required>
+                <input class="form-control" type="text" v-model="address" minlength="5" placeholder="Адрес доставки" required>
             </div>
 
         </div>
@@ -41,10 +41,10 @@
 
         <div class="row mb-2" v-for="(product, index) in products">
             <div class="col-sm-7 mb-2">
-                <input class="form-control" type="text" v-model="product.name"
+                <input class="form-control" type="text" v-model="product.name" minlength="5"
                                               placeholder="Описание и кол-во товара" required></div>
             <div class="col-sm-4 mb-2">
-                <input class="form-control" type="number" v-model="product.price"
+                <input class="form-control" type="number" v-model="product.price" min="10" max="1000"
                                               placeholder="Цена, руб." required></div>
             <div class="col-sm-1 mb-2 "><a @click="removeProduct(index)" class="btn-food-link"><i
                 class="fas fa-trash"></i></a></div>

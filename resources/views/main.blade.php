@@ -6,6 +6,8 @@
     @include("fastoran.partials.fb__service__area")
     @include("fastoran.partials.popular__food__area")
     @include("fastoran.partials.food__category__area")
+
+    <tags-cloud-list></tags-cloud-list>
  {{--   @include("fastoran.partials.food__all_categories")--}}
     @include("fastoran.partials.food_choose_us")
     @include("fastoran.partials.food__stuff__area")

@@ -186,10 +186,20 @@ class OrderController extends Controller
         $vowels = array("(", ")", "-", " ");
         $phone = str_replace($vowels, "", $phone ?? '');
 
-
         $userId = (User::where("phone", $phone)->first())->id ?? null;
 
-        $user = User::find(!is_null($userId) ? $userId : auth()->guard('api')->user()->id);
+        $api_user = auth()->guard('api')->user();
+        if (is_null($api_user)&&is_null($userId)){
+            $http = new Client;
+
+            $response = $http->post( 'https://fastoran.com/api/v1/auth/signup_phone' , [
+                'form_params' => [
+                    'phone' => $phone,
+                ],
+            ]);
+        }
+
+        $user = User::where("phone", $phone)->first();
 
         $order = Order::create($request->all());
 

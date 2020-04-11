@@ -50,7 +50,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
         Route::resource('restorans', 'RestoransController');
-        Route::resource('categories', 'CategoryController');
         Route::resource('kitchens', 'KitchenController');
         Route::resource('menu_categories', 'MenuCategoryController');
         Route::resource('menus', 'MenuController');

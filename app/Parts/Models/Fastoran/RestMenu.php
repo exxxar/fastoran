@@ -26,9 +26,18 @@ class RestMenu extends Model
 
 
     protected $appends = [
-        'rating', 'food_ext'
+        'rating', 'food_ext', 'rest_info'
     ];
 
+    public function getRestInfoAttribute(){
+        return [
+          "name"=>$this->restoran->name,
+           "is_work"=>$this->restoran->is_work,
+           "work_time"=>$this->restoran->work_time,
+           "logo"=>$this->restoran->logo,
+           "url"=>$this->restoran->url
+        ];
+    }
     public function restoran()
     {
         return $this->hasOne(Restoran::class, 'id', 'rest_id');

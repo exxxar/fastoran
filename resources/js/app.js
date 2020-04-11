@@ -38,6 +38,7 @@ Vue.component(
 
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
 Vue.component('rest-filter', require('./components/RestFilter.vue').default);
+Vue.component('tags-cloud-list', require('./components/TagsCloud.vue').default);
 
 Vue.component('custom-order', require('./components/CustomOrder.vue').default);
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
