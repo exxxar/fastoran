@@ -35,7 +35,7 @@
 
         </div>
         <hr>
-        <h4><em>На текущий момент мы доставляем товары из магазина <strong>до 1000</strong> рублей. При заказе указываем
+        <h4><em>На текущий момент мы доставляем товары из магазина <strong>до 1000</strong> рублей. При заказе укажите
             <strong>максимальную</strong> цену товара!</em></h4>
         <hr>
 
@@ -154,6 +154,7 @@
         align-items: center;
         color: #afafaf;
         height: 100%;
+        padding: 10px 0px;
 
         &:hover {
             color: darkgray;

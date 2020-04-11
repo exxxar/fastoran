@@ -40,6 +40,7 @@ Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->name("kitchen");
 
 Route::view("/faq", "fastoran.faq")->name("faq");
+Route::view("/custom-order", "fastoran.custom-order")->name("custom-order");
 Route::view("/about", "fastoran.about")->name("about");
 Route::view("/partner", "fastoran.partner")->name("partner");
 

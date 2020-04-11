@@ -8,11 +8,25 @@
                         <div class="slider__content">
                             <div class="slider__inner">
                                 <h2>“FASTORAN”</h2>
-                                <h3 class="delivery-time">Доставка работает с <span>11:00</span> до <span>21:00</span></h3>
-                                <div class="circle-button-group">
-                                    <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo" class="custom-btn c-btn-1">Продукты</a>
-                                    <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo" class="custom-btn c-btn-2">Медикаменты</a>
-                                    <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                <h3 class="delivery-time">Доставка работает с <span>11:00</span> до <span>21:00</span>
+                                </h3>
+                                <div class="d-sm-none">
+                                    <div class="circle-button-group">
+                                        <a href="{{route("custom-order")}}"
+                                           class="custom-btn c-btn-1 ">Продукты</a>
+                                        <a href="{{route("custom-order")}}"
+                                           class="custom-btn c-btn-2 ">Медикаменты</a>
+                                        <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                    </div>
+                                </div>
+                                <div class="d-none d-sm-block">
+                                    <div class="circle-button-group">
+                                        <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
+                                           class="custom-btn c-btn-1 ">Продукты</a>
+                                        <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
+                                           class="custom-btn c-btn-2 ">Медикаменты</a>
+                                        <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                    </div>
                                 </div>
                                 <h1>Доставка еды &amp; сервис</h1>
                                 {{--   <form class="slider__input custom__slider__input" action="{{route('search')}}" method="post">

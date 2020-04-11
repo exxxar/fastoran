@@ -302,7 +302,7 @@ ul.pp__meta {
     position: fixed;
     z-index: 1000;
     right: 40px;
-    bottom: 100px;
+    bottom: 40px;
     width: 45px;
     padding: 5px;
     font-size: 20px;
@@ -368,6 +368,7 @@ div.circle-button-group {
 
 
 .custom-modal-dialog {
+    padding: 0px 30px 50px 30px;
     .modal-content {
         background: #e3e3e3;
         border-radius: 0;
@@ -395,6 +396,8 @@ div.circle-button-group {
             .btn {
                 height:50px;
                 font-family: "Alegreya", serif;
+
+
             }
 
             .food__btn {
@@ -404,12 +407,57 @@ div.circle-button-group {
         }
         input {
             height:50px;
-            background: #e1e0e0;
             font-family: "Alegreya", serif;
+            background: #e1e0e0;
         }
         textarea {
             background: #e1e0e0;
             font-family: "Alegreya", serif;
+            min-height: 150px;
         }
+    }
+}
+
+
+.custom-order {
+
+
+    padding:50px 20px;
+    box-sizing:border-box;
+    h5 {
+        text-align: center;
+        padding: 20px;
+        text-transform: uppercase;
+        font-size: 24px;
+        color: #d50c0d;
+        font-weight: 800;
+    }
+
+    h4 {
+        font-weight: 100;
+    }
+    hr {
+        margin: 23px 0px;
+        background: #dddcdc;
+    }
+
+    .btn {
+        height:50px;
+        font-family: "Alegreya", serif;
+    }
+
+    .food__btn {
+        text-transform: uppercase;
+        font-weight: 800;
+    }
+
+    input {
+        height:50px;
+
+        font-family: "Alegreya", serif;
+    }
+    textarea {
+        font-family: "Alegreya", serif;
+        min-height: 150px;
     }
 }
