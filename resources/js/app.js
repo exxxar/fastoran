@@ -46,6 +46,7 @@ Vue.component('table-cart', require('./components/TableCart.vue').default);
 Vue.component('header-fastoran', require('./components/Header.vue').default);
 Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 Vue.component('cart-count-index', require('./components/CartCountIndex.vue').default);
+Vue.component('contact-form', require('./components/CallbackForm.vue').default);
 
 //Admin
 Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);

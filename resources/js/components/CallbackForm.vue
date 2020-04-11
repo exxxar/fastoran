@@ -1,48 +1,70 @@
 <template>
     <div>
         <form @submit="sendRequest">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="form_group"><input type="text" placeholder="Ваше имя" name="name" v-model="name"
-                                                   required="required"
-                                                   class="form_control"> <i class="fas fa-user"></i></div>
+            <div class="single-contact-form row">
+                <div class="col-md-6 mb-2">
+                    <input type="text" name="name" class="form-control" v-model="name" placeholder="Ваше Ф.И.О.">
                 </div>
-                <div class="col-lg-6">
-                    <div class="form_group"><input type="text" placeholder="Ваш номер телефона" name="phone"
-                                                   v-model="phone"
-                                                   required="required" class="form_control phone" maxlength="15"> <i
-                        class="fas fa-phone"></i></div>
+                <div class="col-md-6 mb-2">
+                    <input type="text" name="phone" class="form-control" v-model="phone"
+                           pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
+                           maxlength="19"
+                           v-mask="['+38 (###) ###-##-##']"
+                           placeholder="Номер телефона">
                 </div>
-                <div class="col-lg-12">
-                    <div class="form_group"><textarea placeholder="Сообщение для нас" name="message" v-model="message"
-                                                      class="form_control"></textarea></div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="form_button text-center">
-                        <button class="chopcafe_btn form_btn">Оформить заявку</button>
-                    </div>
+                <div class="col-md-12 mb-2">
+                    <input type="text" name="email" class="form-control" v-model="email" placeholder="Ваша почта">
                 </div>
             </div>
+            <div class="single-contact-form row">
+                <div class="col-md-12 mb-2">
+                    <select name="question-type" v-model="type" class="form-control" :options="question_types" required>
+                        <option v-for="(option,index) in question_types" :value="index">
+                            {{option}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="single-contact-form row">
+                <div class="col-md-12">
+                    <textarea name="message" v-model="message" class="form-control" placeholder="Текст сообщения"></textarea>
+                </div>
+            </div>
+            <div class="contact-btn">
+                <button type="submit" class="food__btn" style="width: 100%">Отправить</button>
+            </div>
+
         </form>
     </div>
 </template>
 <script>
+    import {mask} from 'vue-the-mask'
+
     export default {
         data() {
             return {
                 name: '',
                 phone: '',
-                message: ''
+                email: '',
+                type: 0,
+                message: '',
+                question_types: [
+                    "Вопросы по заказу",
+                    "Стать партнером",
+                    "Стать доставщиком"
+                ]
             };
         },
         methods: {
             sendRequest: function (e) {
                 e.preventDefault();
+
                 axios
-                    .post('api/send-request', {
-                        name: this.name,
+                    .post('api/v1/wish', {
+                        from: this.name,
+                        email: this.email,
                         phone: this.phone,
-                        message: this.message
+                        message: "*"+this.question_types[this.type]+"*:\n"+this.message
                     })
                     .then(response => {
                         this.sendMessage("Сообщение успешно отправлено");
@@ -52,10 +74,11 @@
                 this.$notify({
                     group: 'info',
                     type: 'success',
-                    title: 'Отправка сообщений ISUSHI',
+                    title: 'Отправка сообщений Fastoran',
                     text: message
                 });
             },
-        }
+        },
+        directives: {mask}
     }
 </script>
