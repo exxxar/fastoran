@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\Classes\Utilits;
 use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
@@ -18,7 +19,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RestController extends Controller
 {
-    //
+    use Utilits;
 
     public function __construct()
     {
@@ -173,8 +174,15 @@ class RestController extends Controller
         $from = $request->get("from") ?? '';
         $message = $request->get("message") ?? '';
 
-        Log::info("$phone $email $from $message");
 
+        $tmp_message = sprintf("*Заявка на перезвон:*\nТелефон:%s\nПочта:%s\Ф.И.О.:%s\nСообщение:%s",
+            $phone,
+            $email,
+            $from,
+            $message
+        );
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),$tmp_message);
         if ($request->ajax())
             return response()
                 ->json([
