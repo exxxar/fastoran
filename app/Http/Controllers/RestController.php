@@ -175,7 +175,7 @@ class RestController extends Controller
         $message = $request->get("message") ?? '';
 
 
-        $tmp_message = sprintf("*Заявка на перезвон:*\nТелефон:%s\nПочта:%s\Ф.И.О.:%s\nСообщение:%s",
+        $tmp_message = sprintf("*Заявка на перезвон:*\nТелефон:%s\nПочта:%s\nФ.И.О.:%s\nСообщение:%s",
             $phone,
             $email,
             $from,

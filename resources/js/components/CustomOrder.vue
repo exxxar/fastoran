@@ -17,7 +17,7 @@
         </div>
         <hr>
         <h4><em>Доставка работает в ТЕСТОВОМ режиме в
-            <strong>Ворошиловском</strong> и <strong>Калиненском</strong> районах!</em></h4>
+            <strong>Ворошиловском</strong> и <strong>Калиненском</strong> районах! Цена доставки 100 руб.</em></h4>
         <hr>
         <div class="row mb-2">
             <div class="col-12">
@@ -28,15 +28,14 @@
 
         <div class="row mb-2">
             <div class="col-12">
-                <textarea class="form-control" type="text" v-model="more_info" placeholder="Дополнительаня информация"
-                          required>
+                <textarea class="form-control" type="text" v-model="more_info" placeholder="Дополнительаня информация">
                 </textarea>
             </div>
 
         </div>
         <hr>
         <h4><em>На текущий момент мы доставляем товары из магазина <strong>до 1000</strong> рублей. При заказе укажите
-            <strong>максимальную</strong> цену товара!</em></h4>
+            <strong>максимальную</strong> цену товара! </em></h4>
         <hr>
 
 
