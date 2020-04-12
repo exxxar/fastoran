@@ -69,7 +69,8 @@
                 e.preventDefault();
 
                 this.recaptcha()
-                    .then(() => {
+                    .then((resp) => {
+                        console.log(resp)
                         axios
                             .post('../api/v1/wish', {
                                 from: this.name,

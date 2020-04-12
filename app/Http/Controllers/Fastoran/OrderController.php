@@ -341,6 +341,10 @@ class OrderController extends Controller
                     'phone' => $phone,
                 ],
             ]);
+
+            $user = User::where("phone", $phone)->first();
+            $user->name = $name;
+            $user->save();
         }
 
 
