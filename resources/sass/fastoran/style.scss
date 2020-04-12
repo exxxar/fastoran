@@ -224,9 +224,14 @@ ul.pp__meta {
     justify-content: center;
     z-index: 12;
 
-    img {
-        width: 50px;
-        height: 50px;
+    a {
+        background: #fbc01c;
+        border:1px dashed white;
+
+        img {
+            width: 50px;
+            height: 50px;
+        }
     }
 }
 
@@ -369,6 +374,7 @@ div.circle-button-group {
 
 .custom-modal-dialog {
     padding: 0px 30px 50px 30px;
+
     .modal-content {
         background: #e3e3e3;
         border-radius: 0;
@@ -388,13 +394,14 @@ div.circle-button-group {
             h4 {
                 font-weight: 100;
             }
+
             hr {
                 margin: 23px 0px;
                 background: #dddcdc;
             }
 
             .btn {
-                height:50px;
+                height: 50px;
                 font-family: "Alegreya", serif;
 
 
@@ -408,10 +415,11 @@ div.circle-button-group {
 
         select,
         input {
-            height:50px;
+            height: 50px;
             font-family: "Alegreya", serif;
             background: #e1e0e0;
         }
+
         textarea {
             background: #e1e0e0;
             font-family: "Alegreya", serif;
@@ -424,8 +432,9 @@ div.circle-button-group {
 .custom-order {
 
 
-    padding:50px 20px;
-    box-sizing:border-box;
+    padding: 50px 20px;
+    box-sizing: border-box;
+
     h5 {
         text-align: center;
         padding: 20px;
@@ -438,13 +447,14 @@ div.circle-button-group {
     h4 {
         font-weight: 100;
     }
+
     hr {
         margin: 23px 0px;
         background: #dddcdc;
     }
 
     .btn {
-        height:50px;
+        height: 50px;
         font-family: "Alegreya", serif;
     }
 
@@ -454,10 +464,11 @@ div.circle-button-group {
     }
 
     input {
-        height:50px;
+        height: 50px;
 
         font-family: "Alegreya", serif;
     }
+
     textarea {
         font-family: "Alegreya", serif;
         min-height: 150px;

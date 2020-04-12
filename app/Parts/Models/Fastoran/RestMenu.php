@@ -31,11 +31,11 @@ class RestMenu extends Model
 
     public function getRestInfoAttribute(){
         return [
-          "name"=>$this->restoran->name,
-           "is_work"=>$this->restoran->is_work,
-           "work_time"=>$this->restoran->work_time,
-           "logo"=>$this->restoran->logo,
-           "url"=>$this->restoran->url
+          "name"=>$this->restoran->name??'',
+           "is_work"=>$this->restoran->is_work??false,
+           "work_time"=>$this->restoran->work_time??'',
+           "logo"=>$this->restoran->logo??'',
+           "url"=>$this->restoran->url??''
         ];
     }
     public function restoran()
