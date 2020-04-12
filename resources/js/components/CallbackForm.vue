@@ -27,7 +27,8 @@
             </div>
             <div class="single-contact-form row">
                 <div class="col-md-12">
-                    <textarea name="message" v-model="message" class="form-control" placeholder="Текст сообщения"></textarea>
+                    <textarea name="message" v-model="message" class="form-control"
+                              placeholder="Текст сообщения"></textarea>
                 </div>
             </div>
             <div class="contact-btn">
@@ -56,19 +57,32 @@
             };
         },
         methods: {
+            async recaptcha() {
+                // (optional) Wait until recaptcha has been loaded.
+                await this.$recaptchaLoaded()
+
+                const token = await this.$recaptcha('message')
+
+                // Do stuff with the received token.
+            },
             sendRequest: function (e) {
                 e.preventDefault();
 
-                axios
-                    .post('api/v1/wish', {
-                        from: this.name,
-                        email: this.email,
-                        phone: this.phone,
-                        message: "*"+this.question_types[this.type]+"*:\n"+this.message
-                    })
-                    .then(response => {
-                        this.sendMessage("Сообщение успешно отправлено");
+                this.recaptcha()
+                    .then(() => {
+                        axios
+                            .post('api/v1/wish', {
+                                from: this.name,
+                                email: this.email,
+                                phone: this.phone,
+                                message: "*" + this.question_types[this.type] + "*:\n" + this.message
+                            })
+                            .then(response => {
+                                this.sendMessage("Сообщение успешно отправлено");
+                            });
                     });
+
+
             },
             sendMessage(message) {
                 this.$notify({

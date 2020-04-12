@@ -71,6 +71,12 @@ import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import 'lazysizes';
+
+import { VueReCaptcha } from 'vue-recaptcha-v3'
+
+// For more options see below
+Vue.use(VueReCaptcha, { siteKey: '6Ldj1OgUAAAAAO8NKVROz1FrhdRcx4cpP2rbwltr' })
+
 // import a plugin
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
