@@ -13,7 +13,7 @@
                            placeholder="Номер телефона">
                 </div>
                 <div class="col-md-12 mb-2">
-                    <input type="text" name="email" class="form-control" v-model="email" placeholder="Ваша почта">
+                    <input type="email" name="email" class="form-control" v-model="email" placeholder="Ваша почта">
                 </div>
             </div>
             <div class="single-contact-form row">
@@ -61,7 +61,7 @@
                 // (optional) Wait until recaptcha has been loaded.
                 await this.$recaptchaLoaded()
 
-                const token = await this.$recaptcha('message')
+                return await this.$recaptcha('message')
 
                 // Do stuff with the received token.
             },
@@ -71,7 +71,7 @@
                 this.recaptcha()
                     .then(() => {
                         axios
-                            .post('api/v1/wish', {
+                            .post('../api/v1/wish', {
                                 from: this.name,
                                 email: this.email,
                                 phone: this.phone,
@@ -79,6 +79,11 @@
                             })
                             .then(response => {
                                 this.sendMessage("Сообщение успешно отправлено");
+                                $('#contactModalBox').modal('hide')
+                                this.name="";
+                                this.email = "";
+                                this.phone = "";
+                                this.message = "";
                             });
                     });
 
