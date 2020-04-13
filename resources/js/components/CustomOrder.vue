@@ -96,6 +96,9 @@
             }
         },
         computed: {
+
+        },
+        methods: {
             getAddress() {
                 let city = localStorage.getItem("food_city", "");
                 let street = localStorage.getItem("food_street", "")
@@ -104,9 +107,7 @@
                 return (city == null ? '' : city)
                     + (street == null ? '' : street)
                     + (home_number == null ? '' : home_number);
-            }
-        },
-        methods: {
+            },
             removeProduct(id) {
                 if (this.products.length > 1) {
                     this.products = this.products.filter((item, index) => index !== id)

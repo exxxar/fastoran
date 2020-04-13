@@ -70,12 +70,22 @@ class Restoran extends Model
 
     ];
 
-    protected $appends = ["comments_count", "rating", "kitchen_speicalization", "categories_speicalization", "is_work"];
+    protected $appends = ["comments_count", "rating", "kitchen_speicalization", "categories_speicalization", "is_work", "simple_name"];
 
 
     public function getCommentsCountAttribute()
     {
         return 0;
+    }
+
+    public function getSimpleNameAttribute()
+    {
+        $names = explode(" ",$this->name);
+
+        $vowels = array("'", "\"");
+        $name = str_replace($vowels, "", implode(count($names) == 1 ? $names : array_slice($names, 1)));
+
+        return $name;
     }
 
     public function getIsWorkAttribute()

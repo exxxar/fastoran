@@ -215,3 +215,9 @@ Route::get("/test_getdata",function (){
 
     Storage::put('file.txt', $tmp);
 });
+
+
+Route::get("/test_rest_text",function (){
+    $mystring = "Sushi-caffe Isusi";
+    dd(str_word_count($mystring, 1));
+});
