@@ -305,10 +305,9 @@
                 this.$store.dispatch("getProductList")
             }
 
-            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+            Vue.ls.on('store', callback)
 
             this.$store.dispatch("getProductList")
-
 
         },
         activated() {
