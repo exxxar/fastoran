@@ -234,8 +234,8 @@
                                             {{deliveryPrice+custom_delivery_price|currency}}
                                         </p></li>
                                     <li><p class="strong">Всего</p>
-                                        <p class="strong">{{cartTotalPrice+deliveryPrice+custom_delivery_price |
-                                            currency}}</p></li>
+                                        <p class="strong">
+                                            {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum() | currency}}</p></li>
                                     <li>
                                         <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">
                                             Очистить корзину
@@ -352,7 +352,7 @@
 
             },
             getRangePrice() {
-                if (this.cartTotalCount === 0){
+                if (this.cartTotalCount === 0) {
                     this.sendMessage("Сперва добавьте товар в корзину!")
                     return
                 }
