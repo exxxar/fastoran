@@ -352,6 +352,10 @@
 
             },
             getRangePrice() {
+                if (this.cartTotalCount === 0){
+                    this.sendMessage("Сперва добавьте товар в корзину!")
+                    return
+                }
                 let address = `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
                     .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
