@@ -104,9 +104,9 @@
                 let street = localStorage.getItem("food_street", "")
                 let home_number = localStorage.getItem("food_home_number", "")
 
-                return (city == null ? '' : city)
-                    + (street == null ? '' : street)
-                    + (home_number == null ? '' : home_number);
+                return (city == null ? ' ' : city)
+                    + (street == null ? ' ' : street)
+                    + (home_number == null ? ' ' : home_number);
             },
             removeProduct(id) {
                 if (this.products.length > 1) {
