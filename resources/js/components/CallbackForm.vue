@@ -61,31 +61,26 @@
                 // (optional) Wait until recaptcha has been loaded.
                 await this.$recaptchaLoaded()
 
-                return await this.$recaptcha('message')
+                return await this.$recaptcha('login')
 
                 // Do stuff with the received token.
             },
             sendRequest: function (e) {
                 e.preventDefault();
-
-                this.recaptcha()
-                    .then((resp) => {
-                        console.log(resp)
-                        axios
-                            .post('../api/v1/wish', {
-                                from: this.name,
-                                email: this.email,
-                                phone: this.phone,
-                                message: "*" + this.question_types[this.type] + "*:\n" + this.message
-                            })
-                            .then(response => {
-                                this.sendMessage("Сообщение успешно отправлено");
-                                $('#contactModalBox').modal('hide')
-                                this.name="";
-                                this.email = "";
-                                this.phone = "";
-                                this.message = "";
-                            });
+                axios
+                    .post('../api/v1/wish', {
+                        from: this.name,
+                        email: this.email,
+                        phone: this.phone,
+                        message: "*" + this.question_types[this.type] + "*:\n" + this.message
+                    })
+                    .then(response => {
+                        this.sendMessage("Сообщение успешно отправлено");
+                        $('#contactModalBox').modal('hide')
+                        this.name="";
+                        this.email = "";
+                        this.phone = "";
+                        this.message = "";
                     });
 
 

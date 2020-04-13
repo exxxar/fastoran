@@ -17,24 +17,27 @@
         </div>
         <hr>
         <h4><em>Доставка работает в ТЕСТОВОМ режиме в
-            <strong>Ворошиловском</strong> и <strong>Калиненском</strong> районах! Цена доставки <strong>100 руб.</strong></em></h4>
+            <strong>Ворошиловском</strong> и <strong>Калининском</strong> районах! Цена доставки <strong>100
+                руб.</strong></em></h4>
         <hr>
         <div class="row mb-2">
             <div class="col-12">
-                <input class="form-control" type="text" v-model="address" minlength="5" placeholder="Адрес доставки" required>
+                <input class="form-control" type="text" v-model="address" minlength="5" placeholder="Адрес доставки"
+                       required>
             </div>
 
         </div>
 
         <div class="row mb-2">
             <div class="col-12">
-                <textarea class="form-control" type="text" v-model="more_info" placeholder="Дополнительаня информация">
+                <textarea class="form-control" type="text" v-model="more_info" placeholder="Дополнительная информация">
                 </textarea>
             </div>
 
         </div>
         <hr>
-        <h4><em>На текущий момент мы доставляем товары из магазина <strong>до 1000</strong> рублей. При заказе укажите
+        <h4><em>На текущий момент мы доставляем товары из магазина стоимостью <strong>до 1000</strong> рублей. При
+            заказе укажите
             <strong>максимальную</strong> цену товара! </em></h4>
         <hr>
 
@@ -42,10 +45,10 @@
         <div class="row mb-2" v-for="(product, index) in products">
             <div class="col-sm-7 mb-2">
                 <input class="form-control" type="text" v-model="product.name" minlength="5"
-                                              placeholder="Описание и кол-во товара" required></div>
+                       placeholder="Описание и кол-во товара" required></div>
             <div class="col-sm-4 mb-2">
                 <input class="form-control" type="number" v-model="product.price" min="10" max="1000"
-                                              placeholder="Цена, руб." required></div>
+                       placeholder="Цена, руб." required></div>
             <div class="col-sm-1 mb-2 "><a @click="removeProduct(index)" class="btn-food-link"><i
                 class="fas fa-trash"></i></a></div>
         </div>
@@ -82,7 +85,7 @@
             return {
                 name: localStorage.getItem("food_first_name", ""),
                 phone: localStorage.getItem("phone", ""),
-                address: localStorage.getItem("food_city", "") + " " + localStorage.getItem("food_street", "") + " " + localStorage.getItem("food_home_number", ""),
+                address: this.getAddress(),
                 more_info: '',
                 products: [
                     {
@@ -92,9 +95,20 @@
 
             }
         },
+        computed: {
+            getAddress() {
+                let city = localStorage.getItem("food_city", "");
+                let street = localStorage.getItem("food_street", "")
+                let home_number = localStorage.getItem("food_home_number", "")
+
+                return (city == null ? '' : city)
+                    + (street == null ? '' : street)
+                    + (home_number == null ? '' : home_number);
+            }
+        },
         methods: {
             removeProduct(id) {
-                if (this.products.length>1) {
+                if (this.products.length > 1) {
                     this.products = this.products.filter((item, index) => index !== id)
                     this.sendMessage("Товар удален")
                     return;
