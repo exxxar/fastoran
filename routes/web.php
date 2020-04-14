@@ -215,3 +215,10 @@ Route::get("/test_getdata",function (){
 
     Storage::put('file.txt', $tmp);
 });
+
+
+Route::get("/test_rest_text",function (){
+    $text = "на выбор: Лосось 220 рублей/ Угорь 255 рублей/ Тунец 240 рублей/ Креветка тигровая 260 рублей.";
+    preg_match_all('/(на выбор: \w+)/u', $text, $matches);
+    dd($matches);
+});

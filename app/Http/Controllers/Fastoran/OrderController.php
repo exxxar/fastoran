@@ -182,17 +182,17 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $phone = $request->get("phone") ?? null;
+        $phone = $request->get("phone") ?? $request->get("receiver_phone") ?? null;
         $vowels = array("(", ")", "-", " ");
         $phone = str_replace($vowels, "", $phone ?? '');
 
         $userId = (User::where("phone", $phone)->first())->id ?? null;
 
         $api_user = auth()->guard('api')->user();
-        if (is_null($api_user)&&is_null($userId)){
+        if (is_null($api_user) && is_null($userId)) {
             $http = new Client;
 
-            $response = $http->post( 'https://fastoran.com/api/v1/auth/signup_phone' , [
+            $response = $http->post('https://fastoran.com/api/v1/auth/signup_phone', [
                 'form_params' => [
                     'phone' => $phone,
                 ],
@@ -333,10 +333,10 @@ class OrderController extends Controller
         $userId = (User::where("phone", $phone)->first())->id ?? null;
 
         $api_user = auth()->guard('api')->user();
-        if (is_null($api_user)&&is_null($userId)){
+        if (is_null($api_user) && is_null($userId)) {
             $http = new Client;
 
-            $response = $http->post( 'https://fastoran.com/api/v1/auth/signup_phone' , [
+            $response = $http->post('https://fastoran.com/api/v1/auth/signup_phone', [
                 'form_params' => [
                     'phone' => $phone,
                 ],
@@ -354,10 +354,10 @@ class OrderController extends Controller
 
         $sum = 0;
         $delivery_order_tmp = "";
-        foreach ($order_details as $key=>$od) {
+        foreach ($order_details as $key => $od) {
 
             $local_tmp = sprintf("#%s %s (%s руб.)\n",
-                ($key+1),
+                ($key + 1),
                 $od["name"],
                 $od["price"]
             );

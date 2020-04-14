@@ -277,7 +277,7 @@
                 sms_code: null,
                 custom_products: [],
                 delivery: {
-                    city: localStorage.getItem("food_city", "Донецк"),
+                    city: "Донецк",
                     street: localStorage.getItem("food_street", ""),
                     first_name: localStorage.getItem("food_first_name", ""),
                     home_number: localStorage.getItem("food_home_number", ""),
