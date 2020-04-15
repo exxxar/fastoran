@@ -1,6 +1,13 @@
 <template>
     <div class="cart-main-area section-padding--lg bg--white">
         <div class="container">
+            <div class="row" v-if="!canMakeOrder()">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <div class="alert alert-danger" role="alert">
+                        Ваша сумма заказа меньше миниальной ({{getMinOrderSum()}} руб.) в данном ресторане!!
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <form action="#">
@@ -235,14 +242,16 @@
                                         </p></li>
                                     <li><p class="strong">Всего</p>
                                         <p class="strong">
-                                            {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum() | currency}}</p></li>
+                                            {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum()
+                                            | currency}}</p></li>
                                     <li>
                                         <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">
                                             Очистить корзину
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="food__btn" type="button" :disabled="!preparedToSend||!is_valid"
+                                        <button class="food__btn" type="button"
+                                                :disabled="!preparedToSend||!is_valid||!canMakeOrder"
                                                 @click="sendRequest">Оформить
                                             заказ
                                         </button>
@@ -333,6 +342,14 @@
                         sum += parseInt(element.price)
                 });
                 return sum;
+            },
+            getMinOrderSum() {
+                return this.cartTotalCount === 0 ?
+                     0 : this.cartProducts[0].product.restoran.min_sum;
+            },
+            canMakeOrder() {
+                console.log(this.cartTotalCount, this.getMinOrderSum(),this.cartTotalPrice)
+                return this.cartTotalCount === 0 ? false : this.getMinOrderSum() <= this.cartTotalPrice
             },
             addCustomProduct() {
                 this.custom_products.push({

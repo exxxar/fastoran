@@ -201,6 +201,12 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->first();
 
+        if (is_null($user))
+            return response()
+                ->json([
+                    "message" => "Что-то пошло не так! Проверьте данные!"
+                ], 200);
+
         $order = Order::create($request->all());
 
         $data = YandexGeocodeFacade::setQuery($request->get("receiver_address") ?? '')->load();
@@ -385,14 +391,14 @@ class OrderController extends Controller
             ]);
     }
 
-    public function getOrderHistory()
+    public function getOrderHistory(Request $request)
     {
-        $user = User::find(auth()->guard('api')->user()->id ?? 0);
+        $user = User::find(auth()->guard('api')->user()->id ?? auth()->user()->id);
 
         if (is_null($user))
             return response()
                 ->json([
-                    "message" => "User not found",
+                    "message" => "Пользователь не найден",
                     "orders" => [],
                     "status" => 404
                 ]);
@@ -401,13 +407,19 @@ class OrderController extends Controller
             ->where("user_id", $user->id)
             ->get();
 
+        if ($request->ajax()) {
+            return response()
+                ->json([
+                    "message" => "success",
+                    "orders" => $orders,
+                    "status" => 200
+                ]);
+        }
 
-        return response()
-            ->json([
-                "message" => "success",
-                "orders" => $orders,
-                "status" => 200
-            ]);
+
+        return view("fastoran.profile")
+            ->with("orders", $orders);
+
 
     }
 

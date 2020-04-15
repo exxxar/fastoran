@@ -51,9 +51,13 @@ Route::view("/success", "fastoran.success")->name("success");
 Route::view("/questions", "fastoran.questions")->name("questions");
 Route::view("/agreement", "fastoran.agreement")->name("agreement");
 Route::view("/terms-of-user", "fastoran.terms-of-use")->name("terms");
+Route::view("/simple", "fastoran.simple-order")->name("simple");
+Route::view("/cabinet", "fastoran.cabinet")->name("cabinet");
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
+
+Route::get('/profile', 'Fastoran\\OrderController@getOrderHistory')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/vkontakte', "HomeController@uploadVk");

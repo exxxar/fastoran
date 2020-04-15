@@ -168,7 +168,15 @@ class RestController extends Controller
 
 
     public function sendWish(Request $request)
+
     {
+        $request->validate([
+            'phone' => "required",
+            'email' => "email",
+            "from" => "string|required",
+            "message" => "required"
+        ]);
+
         $phone = $request->get("phone") ?? '';
         $email = $request->get("email") ?? '';
         $from = $request->get("from") ?? '';
@@ -182,7 +190,7 @@ class RestController extends Controller
             $message
         );
 
-        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),$tmp_message);
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $tmp_message);
         if ($request->ajax())
             return response()
                 ->json([

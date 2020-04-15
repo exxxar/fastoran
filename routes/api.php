@@ -77,21 +77,14 @@ Route::group(['prefix' => 'v1'], function () {
 
         ], function () {
 
-
-
-
             Route::any("accept_order/{id}", "OrderController@acceptOrder");
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
             Route::any("decline_order/{id}", "OrderController@declineOrder");
             Route::any("decline_order_by_admin/{id}", "OrderController@declineOrderAdmin");
             Route::any("set_deliveryman_type/{type}", "OrderController@setDeliverymanType")->where(["type"=>"[0-9]+"]);
-
-
             Route::any("order/{id}", "OrderController@getOrderById")->where(["id"=>"[0-9]+"]);
             Route::any("order/status/delivered/{id}", "OrderController@setDeliveredStatus");
             Route::any("order/comment/{id}", "OrderController@setCommentToOrder");
-
-
 
         });
     });

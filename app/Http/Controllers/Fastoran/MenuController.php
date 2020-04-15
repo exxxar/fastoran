@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -99,9 +100,32 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $menu = RestMenu::where("rest", $id)->get();
+
+        $menu = MenuCategory::all();
+
+        $tmp_menu = [];
+
+        foreach ($menu as $item) {
+            $tmp = $item->getFilteredMenu($id);
+            if (count($tmp) > 0) {
+                $menus = [];
+
+                foreach ($tmp as $m){
+                    array_push($menus,$m);
+                }
+                $tmp_item = [
+                    "title" => $item->name,
+                    "alias"=>$item->alias,
+                    "menus" => $menus
+                ];
+                array_push($tmp_menu, $tmp_item);
+            }
+
+        }
+
+        // $menu = RestMenu::where("rest_id", $id)->get();
         return response()->json([
-            "menu_items" => $menu
+            "menu_items" =>  $tmp_menu
         ]);
 
     }

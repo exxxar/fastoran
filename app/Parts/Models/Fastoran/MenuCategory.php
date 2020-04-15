@@ -17,6 +17,7 @@ class MenuCategory extends Model
 
     protected $appends = ["in_category_count","alias"];
 
+
     public function getInCategoryCountAttribute()
     {
         return $this->restorans()->count();
