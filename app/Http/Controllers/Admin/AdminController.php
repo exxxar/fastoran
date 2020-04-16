@@ -3,16 +3,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Http\Controllers\Controller;
+use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
-use App\Rating;
+use App\Parts\Models\Fastoran\Order;
+use App\Parts\Models\Fastoran\Rating;
+use App\PhonesImport;
+use App\User;
 use App\RestoranInCategory;
 use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -28,8 +34,86 @@ class AdminController extends Controller
     public function index()
     {
 
-        return view('admin.main');
+        $kitchen_count = Kitchen::where('is_active', 1)->count();
+        $menu_count = RestMenu::all()->count();
+        $menu_category_count = MenuCategory::all()->count();
+        $restoran_count = Restoran::all()->count();
+        $orders_count = array(Order::all()->count(), Order::onlyTrashed()->count());
+        $orders_counts = array(
+            Order::where('status', 0)->count(),
+            Order::where('status', 1)->count(),
+            Order::where('status', 2)->count(),
+            Order::where('status', 3)->count(),
+            Order::where('status', 4)->count()
+        );
+        $orders_s = Order::where('status',3)->get();
+        $orders_sum = $orders_s->sum('summary_price');
+        $delivery_range = Order::where('status',3)->sum('delivery_range');
+        $delivery_price = Order::where('status',3)->sum('delivery_price');
 
+
+        $users_count = array(User::all()->count(), User::onlyTrashed()->count());
+        $users_counts = array(
+            User::where('active', 0)->count(),
+            User::where('active', 1)->count(),
+
+        );
+        $data = collect([
+            'kitchen_count' => $kitchen_count ,
+            'orders_count'=>$orders_count,
+            'menu_count'=>$menu_count,
+            'menu_category_count'=>$menu_category_count,
+            'restoran_count'=> $restoran_count,
+            'orders_counts'=>$orders_counts,
+            'orders_sum'=>$orders_sum,
+            'delivery_range' => $delivery_range,
+            'delivery_price'=> $delivery_price,
+            'users_count'=>$users_count,
+            'users_counts'=>$users_counts,
+        ]);
+//        $data->push($kitchen_count);
+//        $data->push($orders_counts);
+//        $order_count1 = Order::where('status', 0)->count();
+//        $order_count2 = Order::where('status', 1)->count();
+//        $order_count3 = Order::where('status', 2)->count();
+//        $order_count4 = Order::where('status', 3)->count();
+//        $order_count5 = Order::where('status', 4)->count();
+
+//        $kitchen_count = $kitchens->count();
+        return view('admin.main', compact("data"));
+
+    }
+    public function uploadPhones(Request $request)
+    {
+        $excel_phones = Excel::toArray(new PhonesImport, $request->file);
+        $phones = array();
+        foreach ($excel_phones[0] as $phone) {
+            array_push($phones, $phone[0]);
+        }
+
+        return response()
+            ->json([
+                "message" => "Телефоны успешно загружены",
+                'phones' => $phones,
+                "status" => 200,
+            ]);
+    }
+    public function sendMessage(Request $request)
+    {
+        SemySMS::sendMultiple([
+            'to' => $request->phones,
+            'text' => "$request->message"
+        ]);
+//        'to' => ['+1234567890','+1567890234','+1902345678'],
+//        SemySMS::sendOne([
+//            'to' => $user->phone,
+//            'text' => "$request->message"
+//        ]);
+        return response()
+            ->json([
+                "message" => "Сообщения отправлены",
+                "status" => 200,
+            ]);
     }
     public function uploadVk(Request $request)
     {

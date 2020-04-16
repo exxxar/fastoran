@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Parts\Models\Fastoran;
 
 use App\Enums\ContentTypeEnum;
 use BenSampo\Enum\Traits\CastsEnums;

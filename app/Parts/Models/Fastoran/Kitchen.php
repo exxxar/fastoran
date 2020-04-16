@@ -4,7 +4,7 @@ namespace App\Parts\Models\Fastoran;
 
 use App\Enums\ContentTypeEnum;
 use App\Enums\UserTypeEnum;
-use App\Rating;
+use App\Parts\Models\Fastoran\Rating;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

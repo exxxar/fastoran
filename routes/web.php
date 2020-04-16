@@ -59,6 +59,9 @@ Route::get('/vkontakte', "HomeController@uploadVk");
 Route::prefix('admin')->group(function () {
     Route::any("/", 'Admin\AdminController@index')->name("admin.main");
     Route::get('/vkontakte', "Admin\AdminController@uploadVk");
+    Route::post('/uploadPhones', "Admin\AdminController@uploadPhones");
+    Route::post('/sendMessage', "Admin\AdminController@sendMessage");
+
 
     Route::any('/kitchens', 'Admin\KitchenController@index');
     Route::get('/kitchens/get', 'Admin\KitchenController@get');
@@ -121,6 +124,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/users/get', 'Admin\UserController@get');
 //    Route::post('/users/changePassword', 'Admin\UserController@changePassword');
     Route::post('/users/sendAuthCode', 'Admin\UserController@sendAuthCode');
+    Route::get('/users/getPhones', 'Admin\UserController@getPhones');
     Route::put('/users/update/{id}', 'Admin\UserController@update');
     Route::delete('/users/destroy/{id}', 'Admin\UserController@destroy');
     Route::post('/users/restore/{id}', 'Admin\UserController@restore');

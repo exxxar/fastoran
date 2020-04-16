@@ -27,32 +27,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-//        $users = User::orderBy('id', 'DESC')
-//            ->paginate(15);
-////        $active_users = User::where('active', 1)->orderBy('id', 'DESC')
-////            ->paginate(15);
-////        $nonactive_users = User::where('active', 0)->orderBy('id', 'DESC')
-////            ->paginate(15);
-//        $deleted_users = User::onlyTrashed()->orderBy('id', 'DESC')
-//            ->paginate(15);
-//        $types = UserTypeEnum::toSelectArray();
-//        $delivery_types = DeliveryTypeEnum::toArray();
-//        if ($request->ajax())
-//            return response()
-//                ->json([
-//                    'users' => User::all(),
-////                    'active_users' => User::where('active', 1)->get(),
-////                    'nonactive_users' => User::where('active', 0)->get(),
-//                    'deleted_users' => User::onlyTrashed()->get(),
-//                    'types' => $types,
-//                    'delivery_types' => $delivery_types,
-//                ]);
-
-//        return view('admin.users.index', compact('users'))
-//            ->with('i', ($request->get('page', 1) - 1) * 15);
-//'active_users', 'nonactive_users',
-//        return view('admin.users.index', compact('users', 'deleted_users', 'types', 'delivery_types'))
-//            ->with('i', ($request->get('page', 1) - 1) * 15);
         return view('admin.users.index');
     }
 
@@ -84,22 +58,10 @@ class UserController extends Controller
             'name' => $request->get('name') ?? '',
             'email' => $request->get('email') ?? $request->get('phone') . '@fastoran.com',
             'phone' => $request->get('phone') ?? '',
-//            'password' => Hash::make($request->get( 'password')),
             'password' => bcrypt($request->get( 'password')),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-
-//        if ($request->ajax())
-//            return response()
-//                ->json([
-//                    'status' => 200,
-//                    "message" => "Success"
-//                ]);
-
-//        return redirect()
-//            ->route('users.index')
-//            ->with('success', 'Пользователь успешно добавлен');
         return response()
                 ->json([
                     'status' => 200,
@@ -162,16 +124,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-//        if ($request->ajax())
-//            return response()
-//                ->json([
-//                    'status' => 200,
-//                    "message" => "Success"
-//                ]);
-//
-//        return redirect()
-//            ->route('users.index')
-//            ->with('success', 'Пользователь успешно удален');
         return response()
             ->json([
                 "message" => "Пользователь успешно удален",
@@ -188,8 +140,6 @@ class UserController extends Controller
         return response()
                 ->json([
                     'users' => $users,
-//                    'active_users' => User::where('active', 1)->get(),
-//                    'nonactive_users' => User::where('active', 0)->get(),
                     'deleted_users' => $deleted_users,
                     'types' => $types,
                     'delivery_types' => $delivery_types,
@@ -256,6 +206,7 @@ class UserController extends Controller
                 "status" => 200,
             ]);
     }
+
     public function restore($id)
     {
         $user = User::onlyTrashed()->where('id', $id)->restore();
@@ -263,6 +214,21 @@ class UserController extends Controller
         return response()
             ->json([
                 "message" => "Пользователь восстановлен",
+                "status" => 200,
+            ]);
+    }
+    public function getPhones(Request $request)
+    {
+        $users = User::all();
+        $phones = array();
+        foreach ($users as $user) {
+            array_push($phones, $user->phone);
+        }
+
+        return response()
+            ->json([
+                "message" => "Телефоны успешно подгружены",
+                'phones' => $phones,
                 "status" => 200,
             ]);
     }

@@ -44,23 +44,22 @@
                                         <div class="d-flex w-100 justify-content-between">
                                             <h5 class="mb-1">{{item.food_name}}</h5>
                                         </div>
-<div class="row">
-    <div class="col-4">
-        <img :src="item.food_img" style="height: 80px; width: 80px">
-    </div>
-    <div class="col-8"> <p class="mb-1">
-                                       <span
-                                           class="amount">Цена: {{item.food_price| currency}}
-                                       </span>
-    </p>
-
-        <button class="btn btn-primary" @click="addProductToCart(item)">Добавить</button></div>
-
-</div>
-
-
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img :src="item.food_img" style="height: 80px; width: 80px">
+                                            </div>
+                                            <div class="col-8">
+                                                <p class="mb-1">
+                                                   <span
+                                                       class="amount">Цена: {{item.food_price| currency}}
+                                                       {{item}}
+                                                   </span>
+                                                </p>
+                                                <button class="btn btn-primary" v-if="!hasSub(item)" @click="addProductToCart(item)">Добавить</button>
+                                                <button class="btn btn-primary" v-if="hasSub(item)" @click="openSubMenu(item)">Добавить</button>
+                                            </div>
+                                        </div>
                                     </b-list-group-item>
-
                                 </b-list-group>
                             </div>
                             <div class="col-md-6 col-sm-6 col-lg-6">
@@ -130,7 +129,7 @@
                                         <div class="row">
                                             <div class="col-sm-12 col-md-12  mb-2">
                                                 <input type="text"
-                                                  placeholder="Ваш номер телефона"
+                                                  placeholder="Введите номер телефона пользователя"
                                                   name="phone"
                                                   v-model="phone"
                                                   required="required"
@@ -247,6 +246,25 @@
                     </div>
                 </div>
             </div>
+            <b-modal id="modal-submenu" hide-footer v-if="selected_product!=null">
+
+                <template v-slot:modal-title>
+                    <h3>Выбор подкатегории</h3>
+                </template>
+                <div class="d-block text-center">
+                    <b-form-checkbox-group :id="'modal-submenu-check'" v-model="selected" name="flavour-2">
+
+                        <li class="sub-item" v-for="sub in getFoodSub()">
+
+                            <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
+                            </b-form-checkbox>
+
+                        </li>
+                    </b-form-checkbox-group>
+                </div>
+                <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
+                </b-button>
+            </b-modal>
         </b-container>
     </div>
 </template>
@@ -296,7 +314,8 @@
                 loading: false,
                 menu_loading: false,
                 search: '',
-                req: ''
+                selected: null,
+                selected_product: null
             }
         },
         created() {
@@ -351,6 +370,30 @@
                         this.menu_loading = false;
                     });
 
+            },
+            openSubMenu(product) {
+                this.selected_product = product;
+                this.$bvModal.show("modal-submenu")
+            },
+            getFoodSub() {
+                return this.hasSub(this.selected_product) ? JSON.parse(this.selected_product.food_sub) : [];
+            },
+            addToCartWithSub() {
+                this.addProductToCart(this.selected_product);
+
+                this.selected.forEach((item, key) => {
+                    if (key <= this.selected.length - 2) {
+                        this.increment(this.selected_product);
+                    }
+
+                });
+
+                let tmp = this.selected.join();
+                const cartItem = this.cartProducts.find(item => item.product.id === this.selected_product.id)
+                cartItem.product.selected_sub = tmp
+                // this.$store.dispatch("addSub", {id: this.product_id, more_info: tmp})
+                this.$bvModal.hide("modal-submenu")
+                this.selected_product=null;
             },
             addProductToCart(product) {
                 let cartItem = this.cartProducts.find(item => item.product.id === product.id)

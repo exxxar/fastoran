@@ -18,6 +18,15 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+import HighchartsVue from 'highcharts-vue'
+Vue.use(HighchartsVue);
+const moment = require('moment')
+require('moment/locale/ru')
+
+Vue.use(require('vue-moment'), {
+    moment
+})
+
 
 Vue.component(
     'passport-clients',
@@ -48,6 +57,7 @@ Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 Vue.component('cart-count-index', require('./components/CartCountIndex.vue').default);
 
 //Admin
+Vue.component('dashboard', require('./components/admin/Dashboard.vue').default);
 Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
 Vue.component('orders', require('./components/admin/Orders.vue').default);
 Vue.component('new-order', require('./components/admin/NewOrder.vue').default);
