@@ -318,7 +318,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        $this->sendToTelegram(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
             [
                 ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
                 ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
@@ -522,7 +522,7 @@ class OrderController extends Controller
             $order->user->phone ?? "Не найден номер телефона"
         );
 
-        $this->sendMessageToTelegramChannel($order->restoran->telegram_channel, $message);
+        $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
             ->json([
