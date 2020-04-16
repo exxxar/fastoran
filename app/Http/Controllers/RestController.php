@@ -80,15 +80,6 @@ class RestController extends Controller
 
     }
 
-    public function getCheckout(Request $request)
-    {
-        return view("fastoran.checkout");
-    }
-
-    public function getCart(Request $request)
-    {
-        return view("fastoran.cart");
-    }
 
     public function getAllMenu(Request $request)
     {
@@ -183,7 +174,7 @@ class RestController extends Controller
         $message = $request->get("message") ?? '';
 
 
-        $tmp_message = sprintf("*Заявка на перезвон:*\nТелефон:%s\nПочта:%s\nФ.И.О.:%s\nСообщение:%s",
+        $tmp_message = sprintf("*Заявка на перезвон:*\nТелефон: %s\nПочта: %s\nФ.И.О.: %s\nСообщение: %s",
             $phone,
             $email,
             $from,

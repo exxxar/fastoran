@@ -403,7 +403,7 @@
                 let products = [];
                 this.cartProducts.forEach(function (item) {
                     products.push({
-                        product_id: item.product.id,
+                        product_details: item.product,
                         count: item.quantity,
                         price: item.product.food_price,
                         more_info: item.product.selected_sub != null ? item.product.selected_sub : ''
@@ -422,7 +422,8 @@
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
-                        order_details: products
+                        order_details: products,
+                        custom_details:this.custom_products
 
 
                     })

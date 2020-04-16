@@ -39,7 +39,17 @@
                                         <li><a href="{{route("about")}}">О нас</a></li>
                                     </ul>
                                 </li>--}}
-                                <li><a href="{{route('contacts')}}">Контакты</a></li>
+                                <li>
+                                    <div class="d-sm-none">
+                                        <a  href="{{route('contacts')}}">Контакты</a>
+                                    </div>
+
+                                    <div class="d-none d-sm-block">
+                                        <a  href="#contacts" data-toggle="modal"
+                                            data-target="#contactModalBox">Контакты</a>
+                                    </div>
+
+                                </li>
                             </ul>
                         </nav>
 
@@ -47,33 +57,33 @@
                 </div>
                 <div class="col-lg-1 col-sm-4 col-md-4 order-2 order-lg-3">
                     <div class="header__right d-flex justify-content-end">
-                    {{--    @guest
-                            <div class="log__in">
-                                <a href="{{route("login")}}"><i
-                                        class="zmdi zmdi-account-o"></i></a>
-                            </div>
-                        @endguest
+                        {{--    @guest
+                                <div class="log__in">
+                                    <a href="{{route("login")}}"><i
+                                            class="zmdi zmdi-account-o"></i></a>
+                                </div>
+                            @endguest
 
-                        @auth
-                            <div class="main__menu__wrap">
-                                <nav class="main__menu__nav d-none d-lg-block">
-                                    <ul class="mainmenu">
-                                        <li class="drop"><a href="{{route("faq")}}"><i
-                                                    class="zmdi zmdi-account-o"></i></a>
-                                            <ul class="dropdown__menu">
-                                                <li><a href="{{route("cart")}}">Корзина</a></li>
-                                                <li><a href="{{route("faq")}}">Руководство пользователя</a></li>
-                                                <li><a href="{{route("questions")}}">Вопросы и ответы</a></li>
-                                                <li><a href="{{route("agreement")}}">Пользовательское соглашение</a>
-                                                </li>
-                                                <li><a href="{{route("terms")}}">Как мы работаем</a></li>
-                                                <li><a href="{{route("about")}}">О нас</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        @endauth--}}
+                            @auth
+                                <div class="main__menu__wrap">
+                                    <nav class="main__menu__nav d-none d-lg-block">
+                                        <ul class="mainmenu">
+                                            <li class="drop"><a href="{{route("faq")}}"><i
+                                                        class="zmdi zmdi-account-o"></i></a>
+                                                <ul class="dropdown__menu">
+                                                    <li><a href="{{route("cart")}}">Корзина</a></li>
+                                                    <li><a href="{{route("faq")}}">Руководство пользователя</a></li>
+                                                    <li><a href="{{route("questions")}}">Вопросы и ответы</a></li>
+                                                    <li><a href="{{route("agreement")}}">Пользовательское соглашение</a>
+                                                    </li>
+                                                    <li><a href="{{route("terms")}}">Как мы работаем</a></li>
+                                                    <li><a href="{{route("about")}}">О нас</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            @endauth--}}
 
                         <div class="shopping__cart">
                             <a class="minicart-trigger" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>

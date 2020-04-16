@@ -30,7 +30,7 @@ class CreateOrderDetailsTable extends Migration
             $table->string('more_info', 255)->nullable();
 
             $table->unsignedInteger('order_id')->nullable();
-            $table->json('product_details');
+            $table->json('product_details')->nullable();
 
             if (env("DB_CONNECTION") == 'mysql') {
                 $table->foreign('order_id')->references('id')->on('orders');

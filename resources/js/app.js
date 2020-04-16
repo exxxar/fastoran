@@ -40,6 +40,7 @@ Vue.component('rest-menu', require('./components/RestMenu.vue').default);
 Vue.component('tags-cloud-list', require('./components/TagsCloud.vue').default);
 
 Vue.component('custom-order', require('./components/CustomOrder.vue').default);
+Vue.component('deliveryman-quest-order', require('./components/DeliverymanQuestOrder.vue').default);
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);
 Vue.component('table-cart', require('./components/TableCart.vue').default);
@@ -73,10 +74,10 @@ import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import 'lazysizes';
 
-import { VueReCaptcha } from 'vue-recaptcha-v3'
+/*import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 // For more options see below
-Vue.use(VueReCaptcha, { siteKey: '6Ldj1OgUAAAAAO8NKVROz1FrhdRcx4cpP2rbwltr' })
+Vue.use(VueReCaptcha, { siteKey: '6Ldj1OgUAAAAAO8NKVROz1FrhdRcx4cpP2rbwltr' })*/
 
 // import a plugin
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';

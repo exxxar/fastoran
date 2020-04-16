@@ -102,7 +102,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('login_phone', 'AuthController@loginPhone');
         Route::post('signup_telegram', 'AuthController@signupTelegram');
-        Route::post('signup_phone', 'AuthController@signupPhone');
+        Route::post('signup_phone', 'AuthController@signupPhone')->name("api.signup.phone");
         Route::post('signup', 'AuthController@signup');
 
         Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");

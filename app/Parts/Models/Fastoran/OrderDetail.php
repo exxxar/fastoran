@@ -11,6 +11,10 @@ class OrderDetail extends Model
 
     protected $table = "order_details";
 
+    protected $casts = [
+        'product_details' => 'array',
+    ];
+
     protected $fillable = [
         'product_details',
         'count',

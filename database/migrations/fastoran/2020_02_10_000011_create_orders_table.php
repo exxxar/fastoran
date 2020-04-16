@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
 
-            $table->unsignedInteger('rest_id');
+            $table->unsignedInteger('rest_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
 
             $table->string('latitude')->nullable()->comment('широта');
@@ -45,6 +45,8 @@ class CreateOrdersTable extends Migration
             $table->string('receiver_address')->nullable();
             $table->string('receiver_order_note')->nullable();
             $table->string('receiver_domophone')->nullable();
+
+            $table->json('custom_details')->nullable();
 
 
             if (env("DB_CONNECTION") == 'mysql') {

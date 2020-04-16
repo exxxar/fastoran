@@ -1,6 +1,7 @@
 <template>
     <form v-on:submit.prevent="onSubmit">
-        <div class="row mb-2">
+        <h5>Данный раздел будет доступен в ближайшее время</h5>
+    <!--    <div class="row mb-2">
             <div class="col-12">
                 <input class="form-control" type="text" v-model="name" placeholder="Ваше имя" required>
             </div>
@@ -40,8 +41,6 @@
             заказе укажите
             <strong>максимальную</strong> цену товара! </em></h4>
         <hr>
-
-
         <div class="row mb-2" v-for="(product, index) in products">
             <div class="col-sm-7 mb-2">
                 <input class="form-control" type="text" v-model="product.name" minlength="5"
@@ -72,7 +71,7 @@
                 <a href="../terms" target="_blank">Перед началом работы советуем ознакомиться с соглашением на обработку
                     пользовательских данных.</a>
             </div>
-        </div>
+        </div>-->
 
     </form>
 </template>

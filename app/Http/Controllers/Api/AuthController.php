@@ -10,22 +10,15 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
 
 
 class AuthController extends Controller
 {
     use Utilits;
 
-    /**
-     * Login user and create token
-     *
-     * @param  [string] name
-     * @param  [string] phone
-     * @param  [string] email
-     * @param  [string] telegram_chat_id
-     */
     public function signupTelegram(Request $request)
     {
         $request->validate([
@@ -34,182 +27,87 @@ class AuthController extends Controller
             'telegram_chat_id' => 'required',
         ]);
 
-        $code = random_int(100000, 999999);
-
-        $user = User::where("phone", $request->get("phone"))->first();
-
-        $needSms = false;
-
-        if (!is_null($user))
-            if (is_null($user->telegram_chat_id)) {
-                $user->name = $request->get("name") ?? $user->name ?? $request->get("phone");
-                $user->telegram_chat_id = $request->get("telegram_chat_id");
-                $user->auth_code = $code;
-                $user->password = bcrypt($code);
-                $user->save();
-
-                $needSms = true;
-            }
-
-
-        if (is_null($user)) {
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email ?? $request->phone . "@fastoran.com",
-                'password' => bcrypt($code),
-                'phone' => $request->phone,
-                'active' => false,
-                'auth_code' => $code,
-                'telegram_chat_id' => $request->telegram_chat_id,
-                'activation_token' => Str::random(60)
-            ]);
-            $needSms = true;
-        }
-
-        if ($needSms&&!is_null($user))
-            $this->sendSms($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
-
-        if ($needSms&&is_null($user))
-            $this->sendToTelegram($request->telegram_chat_id,"Возникла ошибка регистрации");
-
-        return response()->json([
-            'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
-        ], 201);
+        $this->doHttpRequest(
+            env('APP_URL') . '/api/v1/auth/signup', [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'telegram_chat_id' => $request->telegram_chat_id
+        ]);
     }
 
     public function signupPhone(Request $request)
     {
         $request->validate([
-            'phone' => 'required',
+            'phone' => 'required|unique:users',
+            'name' => 'nullable|string',
+            'telegram_chat_id' => 'nullable|string'
         ]);
 
-        $user = User::where("phone", $request->get("phone"))
-            ->first();
 
-        if (!is_null($user))
-            return response()->json([
-                'message' => 'Пользователь с таким телефоном уже зарегестрирован'
-            ], 200);
+        return $this->doHttpRequest(
+            env('APP_URL') . 'api/v1/auth/signup', [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'telegram_chat_id' => $request->telegram_chat_id
+
+        ]);
+    }
+
+    public function signup(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|unique:users',
+            'name' => 'nullable|string',
+            'telegram_chat_id' => 'nullable|string'
+        ]);
 
         $code = random_int(100000, 999999);
 
         $user = new User([
-            'name' => $request->name??'',
+            'name' => $request->name ?? '',
             'email' => $request->email ?? $request->phone . "@fastoran.com",
             'password' => bcrypt($code),
             'phone' => $request->phone,
             'active' => false,
             'auth_code' => $code,
-            'telegram_chat_id' => null,
+            'telegram_chat_id' => $request->telegram_chat_id,
             'activation_token' => Str::random(60)
         ]);
 
         $user->save();
 
-        $this->sendSms($request->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+        // $this->sendSms($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
         ], 201);
     }
 
-    public function signup(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
-            'phone' => 'required|unique:users',
-        ]);
-
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'active' => true,
-            'telegram_chat_id' => $request->telegram_chat_id ?? null,
-            'activation_token' => Str::random(60)
-        ]);
-        $user->save();
-
-        $user->notify(new SignupActivate($user));
-
-        return response()->json([
-            'message' => 'Пользователь успешно создан!'
-        ], 201);
-    }
-
     public function loginPhone(Request $request)
     {
-        $request->validate([
-            'phone' => 'required',
-            'password' => 'required|string',
-            'remember_me' => 'boolean'
-        ]);
-
-        $user = User::where("auth_code", $request->get("password"))
-            ->where("phone", $request->get("phone"))
-            ->first();
-
-        if (!is_null($user)) {
-            $user->active = true;
-            $user->save();
-        }
-
-        $credentials = request(['password']);
-        $credentials['active'] = 1;
-        $credentials['email'] = $request->get("phone") . "@fastoran.com";
-        $credentials['deleted_at'] = null;
-
-        if (!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-
-        $user = $request->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
-
-        return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
+        $this->doHttpRequest(
+            env('APP_URL') . '/api/v1/auth/login', [
+            'phone' => $request->phone,
+            'password' => $request->password,
+            'remember_me' => $request->remember_me ?? 0
         ]);
     }
 
-    /**
-     * Login user and create token
-     *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
-     */
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'phone' => 'required|string',
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
 
-        $credentials = request(['email', 'password']);
+        $credentials = request(['phone', 'password']);
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
 
         if (!Auth::attempt($credentials))
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Ошибка авторизации'
             ], 401);
 
         $user = $request->user();
@@ -229,11 +127,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout user (Revoke the token)
-     *
-     * @return [string] message
-     */
+
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
@@ -242,11 +136,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Get the authenticated User
-     *
-     * @return [json] user object
-     */
     public function user(Request $request)
     {
         return response()->json($request->user());
@@ -268,39 +157,38 @@ class AuthController extends Controller
 
     public function sendSmsVerify(Request $request)
     {
-        $phone = $request->get('phone');
+        $phone = $this->preparePhone($request->get('phone'));
 
         $user = User::where("phone", $phone)->first();
 
-        if (is_null($user))
-            return response()
-                ->json([
-                    "message" => "Пользователь не найден!",
-                    "is_deliveryman" => false,
-                    "status" => 404
-                ]);
-
-        if ($user->auth_code != null)
-            return response()
-                ->json([
-                    "message" => "Введите предидущий код из СМС!",
-                    "is_deliveryman" => false,
-                    "status" => 200
-                ]);
-
-        $code = random_int(100000, 999999);
+        try {
+            $code = random_int(100000, 999999);
+        } catch (\Exception $e) {
+            Log::error(sprintf("%s:%s %s",
+                $e->getLine(),
+                $e->getFile(),
+                $e->getMessage()
+            ));
+        }
 
         $user->auth_code = $code;
         $user->save();
 
-        $this->sendSms($phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+        $this->sendSms($phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+
+        if (!is_null($user))
+            return response()
+                ->json([
+                    "message" => !is_null($user->auth_code) ?
+                        "Введите предыдущий код из СМС!" :
+                        "На ваш номер отправлен СМС с кодом!"
+                ], 200);
 
         return response()
             ->json([
-                "message" => "Код успешно отправлен",
-                "is_deliveryman" => false,
-                "status" => 200
-            ]);
+                "message" => "На ваш номер отправлен СМС с кодом!"
+            ], 200);
+
 
     }
 
@@ -311,23 +199,30 @@ class AuthController extends Controller
 
         $user = User::where("phone", $phone)->first();
 
-        if (is_null($user))
-            return response()
-                ->json([
-                    "message" => "User not found",
-                    "verify" => false,
-                    "status" => 404
-                ]);
+        $validator = Validator::make(
+            [
+                "user" => $user
+            ],
+            [
+                'user' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($code) {
+                        if ($value->auth_code !== $code) {
+                            $fail('Плохой верификационный код');
+                        }
+                    },
+                ]
+            ],
+            [
+                'user.required' => 'Пользователь не найден',
+            ]);
 
-        if ($user->auth_code != $code)
+        if ($validator->fails())
             return response()
-                ->json([
-                    "message" => "Bad code",
-                    "verify" => false,
-                    "status" => 400
-                ]);
+                ->json(
+                    $validator->errors()->toArray(), 500
+                );
 
-        //$user->auth_code = null;
         $user->active = true;
         $user->save();
 

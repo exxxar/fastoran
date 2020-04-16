@@ -17,6 +17,8 @@
                                         <a href="{{route("custom-order")}}"
                                            class="custom-btn c-btn-2 ">Медикаменты</a>
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                        <a href="{{route("custom-order")}}"
+                                           class="custom-btn c-btn-2 ">Цветы</a>
                                     </div>
                                 </div>
                                 <div class="d-none d-sm-block">
@@ -26,6 +28,10 @@
                                         <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
                                            class="custom-btn c-btn-2 ">Медикаменты</a>
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                        <a data-toggle="modal" data-target="#deliverymanQuestOrderModal" data-whatever="@mdo"
+                                           class="custom-btn c-btn-1 ">Доставщик</a>
+                                        <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
+                                           class="custom-btn c-btn-2 ">Цветы</a>
                                     </div>
                                 </div>
                                 <h1>Доставка еды &amp; сервис</h1>

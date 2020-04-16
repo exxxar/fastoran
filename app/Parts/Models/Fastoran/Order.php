@@ -19,6 +19,9 @@ class Order extends Model
         'status' => OrderStatusEnum::class,
     ];
 
+    protected $casts = [
+        'custom_details' => 'array',
+    ];
 
     protected $fillable = [
         'rest_id',
@@ -41,6 +44,8 @@ class Order extends Model
         'receiver_address',
         'receiver_order_note',
         'receiver_domophone',
+
+        'custom_details',
 
         'created_at'
     ];
