@@ -3,17 +3,17 @@
         <form @submit="sendRequest">
             <div class="single-contact-form row">
                 <div class="col-md-6 mb-2">
-                    <input type="text" name="name" class="form-control" v-model="name" placeholder="Ваше Ф.И.О.">
+                    <input type="text" name="name" class="form-control" v-model="name" placeholder="Ваше Ф.И.О." required>
                 </div>
                 <div class="col-md-6 mb-2">
                     <input type="text" name="phone" class="form-control" v-model="phone"
                            pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
                            maxlength="19"
                            v-mask="['+38 (###) ###-##-##']"
-                           placeholder="Номер телефона">
+                           placeholder="Номер телефона" required>
                 </div>
                 <div class="col-md-12 mb-2">
-                    <input type="email" name="email" class="form-control" v-model="email" placeholder="Ваша почта">
+                    <input type="email" name="email" class="form-control" v-model="email" placeholder="Ваша почта" required>
                 </div>
             </div>
             <div class="single-contact-form row">
@@ -28,7 +28,7 @@
             <div class="single-contact-form row">
                 <div class="col-md-12">
                     <textarea name="message" v-model="message" class="form-control"
-                              placeholder="Текст сообщения"></textarea>
+                              placeholder="Текст сообщения" required></textarea>
                 </div>
             </div>
             <div class="contact-btn">
@@ -47,24 +47,19 @@
                 name: '',
                 phone: '',
                 email: '',
-                type: 0,
+                type: null,
                 message: '',
                 question_types: [
                     "Вопросы по заказу",
                     "Стать партнером",
-                    "Стать доставщиком"
+                    "Стать доставщиком",
+                    "Реклама и продвижение",
+                    "Другие вопросы"
                 ]
             };
         },
         methods: {
-            async recaptcha() {
-                // (optional) Wait until recaptcha has been loaded.
-                await this.$recaptchaLoaded()
 
-                return await this.$recaptcha('login')
-
-                // Do stuff with the received token.
-            },
             sendRequest: function (e) {
                 e.preventDefault();
                 axios
@@ -81,7 +76,7 @@
                         this.email = "";
                         this.phone = "";
                         this.message = "";
-                    });
+                    })
 
 
             },
