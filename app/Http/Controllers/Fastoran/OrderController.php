@@ -134,7 +134,8 @@ class OrderController extends Controller
 
         $user = $this->getUser();
 
-        Log::info("TEST 1");
+        $client = $request->get("client")??null;
+
         if (is_null($user))
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
@@ -142,7 +143,17 @@ class OrderController extends Controller
                 'name' => $request->receiver_name ?? ''
             ]);
 
-        Log::info("TEST 2");
+        if (!is_null($client)){
+            $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
+            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),$message);
+            return response()
+                ->json([
+                    "message" => "Сообщение с Андройд успешно получено",
+                    "status" => 200
+                ]);
+        }
+
+
         $user = User::where("phone", $phone)->first();
 
         if (is_null($user))
@@ -151,11 +162,11 @@ class OrderController extends Controller
                     "message" => "Что-то пошло не так! Проверьте данные!"
                 ], 200);
 
-        Log::info("TEST 3");
+
         $order = Order::create($request->all());
 
         $tmp_custom_details = "";
-        Log::info("TEST 4");
+
         if (!is_null($order->custom_details))
             if (count($order->custom_details) > 0) {
                 $tmp_custom_details = "*Дополнительно к заказу:*\n";
@@ -168,7 +179,7 @@ class OrderController extends Controller
 
                 $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
             }
-        Log::info("TEST 5");
+
         $coords = (object)$this->getCoordsByAddress($request->get("receiver_address"));
         $order->latitude = $coords->latitude;
         $order->longitude = $coords->longitude;
@@ -178,7 +189,7 @@ class OrderController extends Controller
         $order_details = $request->get("order_details");
 
         $delivery_order_tmp = "";
-        Log::info("TEST 6");
+
         foreach ($order_details as $od) {
 
             $emptyProductId = true;
@@ -262,7 +273,7 @@ class OrderController extends Controller
                 ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
             ]
         ]);
-        Log::info("TEST 9");
+
         return response()
             ->json([
                 "message" => $message,
