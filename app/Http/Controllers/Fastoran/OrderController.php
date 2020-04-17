@@ -679,8 +679,8 @@ class OrderController extends Controller
         if (strlen(trim($order->delivery_note))===0)
             return response()
                 ->json([
-                    "message" => "Ошибка установки комментария"
-                ], 400);
+                    "message" => "Комментарий к заказу уже был установлен"
+                ], 200);
 
         $order->delivery_note = $request->get("comment") ?? '';
         $order->save();
