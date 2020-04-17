@@ -12,11 +12,8 @@ use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
-use Yandex\Geocode\Facades\YandexGeocodeFacade;
+
 
 
 class OrderController extends Controller
@@ -91,9 +88,7 @@ class OrderController extends Controller
 
 
         if (!is_null($user)) {
-
             $this->sendSms($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code);
-
             return response()
                 ->json([
                     "message" => "СМС успешно отправлено",
@@ -101,10 +96,8 @@ class OrderController extends Controller
         }
 
 
-        $http = new Client;
-
-        $http->post(is_null($user) ? env('APP_URL') . 'api/v1/auth/signup_phone' : env('APP_URL') . 'api/v1/auth/sms', [
-            'form_params' => [
+         $this->doHttpRequest(is_null($user) ? env('APP_URL') . 'api/v1/auth/signup_phone' : env('APP_URL') . 'api/v1/auth/sms',[
+            [
                 'phone' => $phone,
 
             ],
@@ -141,26 +134,12 @@ class OrderController extends Controller
 
         $user = $this->getUser();
 
-        $client = $request->get("client")??null;
-
-
         if (is_null($user))
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
                 'phone' => $phone,
                 'name' => $request->receiver_name ?? ''
             ]);
-
-
-        if (!is_null($client)){
-            $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
-            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),$message);
-            return response()
-                ->json([
-                    "message" => "Сообщение с Андройд успешно получено",
-                    "status" => 200
-                ]);
-        }
 
         $user = User::where("phone", $phone)->first();
 
@@ -198,20 +177,20 @@ class OrderController extends Controller
 
         foreach ($order_details as $od) {
 
-          /*  if (!is_null($od->product_id))
+            if (!is_null($od["product_id"]))
             {
                 $detail = OrderDetail::create([
-                    "product_details"=>RestMenu::find($od->product_id),
-                    'price'=>$od->price,
-                    'count'=>$od->count,
+                    "product_details"=>RestMenu::find($od["product_id"]),
+                    'price'=>$od["price"],
+                    'count'=>$od["count"],
                     'order_id'=>$order->id,
                 ]);
             }
-            else  {*/
+            else  {
                 $detail = OrderDetail::create($od);
                 $detail->order_id = $order->id;
                 $detail->save();
-            //}
+            }
 
             $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
                 $detail->product_details["id"],
@@ -526,17 +505,25 @@ class OrderController extends Controller
 
         $user = $this->getUser();
 
-        if (is_null($user))
-            return response()
-                ->json([
-                    "message" => "Deliveryman not found!"
-                ], 200);
+        $validator = Validator::make(
+            [
+                "user" => $user,
+                "order" => $order,
+            ],
+            [
+                'user' => 'required',
+                'order' => 'required'
+            ],
+            [
+                'user.required' => 'Доставщик не найден',
+                'order.required' => 'Заказ не найден',
+            ]);
 
-        if (is_null($order))
+        if ($validator->fails())
             return response()
-                ->json([
-                    "message" => "Order not found!"
-                ], 404);
+                ->json(
+                    $validator->errors()->toArray(), 500
+                );
 
         $order->deliveryman_id = null;
         $order->status = OrderStatusEnum::DeclineByAdmin;
@@ -689,11 +676,16 @@ class OrderController extends Controller
             ->where("id", $orderId)
             ->first();
 
+        if (strlen(trim($order->delivery_note))===0)
+            return response()
+                ->json([
+                    "message" => "Ошибка установки комментария"
+                ], 400);
+
         $order->delivery_note = $request->get("comment") ?? '';
         $order->save();
 
         $user = $this->getUser();
-
 
         $message = sprintf("Администратор *#%s* установил пометку к заказу *#%s*",
             $user->id,
