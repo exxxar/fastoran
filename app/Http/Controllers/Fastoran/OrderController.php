@@ -134,6 +134,7 @@ class OrderController extends Controller
 
         $user = $this->getUser();
 
+        Log::info("TEST 1");
         if (is_null($user))
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
@@ -141,6 +142,7 @@ class OrderController extends Controller
                 'name' => $request->receiver_name ?? ''
             ]);
 
+        Log::info("TEST 2");
         $user = User::where("phone", $phone)->first();
 
         if (is_null($user))
@@ -149,11 +151,11 @@ class OrderController extends Controller
                     "message" => "Что-то пошло не так! Проверьте данные!"
                 ], 200);
 
-
+        Log::info("TEST 3");
         $order = Order::create($request->all());
 
         $tmp_custom_details = "";
-
+        Log::info("TEST 4");
         if (!is_null($order->custom_details))
             if (count($order->custom_details) > 0) {
                 $tmp_custom_details = "*Дополнительно к заказу:*\n";
@@ -166,7 +168,7 @@ class OrderController extends Controller
 
                 $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
             }
-
+        Log::info("TEST 5");
         $coords = (object)$this->getCoordsByAddress($request->get("receiver_address"));
         $order->latitude = $coords->latitude;
         $order->longitude = $coords->longitude;
@@ -176,7 +178,7 @@ class OrderController extends Controller
         $order_details = $request->get("order_details");
 
         $delivery_order_tmp = "";
-
+        Log::info("TEST 6");
         foreach ($order_details as $od) {
 
             if (!is_null($od["product_id"])) {
@@ -186,10 +188,14 @@ class OrderController extends Controller
                     'count' => $od["count"],
                     'order_id' => $order->id,
                 ]);
+
+                Log::info("TEST 6.1");
             } else {
                 $detail = OrderDetail::create($od);
                 $detail->order_id = $order->id;
                 $detail->save();
+
+                Log::info("TEST 6.2");
             }
 
             $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
@@ -202,7 +208,7 @@ class OrderController extends Controller
 
             $delivery_order_tmp .= $local_tmp;
         }
-
+        Log::info("TEST 7");
         $rest = Restoran::find($order->rest_id);
 
         if (is_null($rest->latitude) || is_null($rest->longitude)) {
@@ -211,7 +217,7 @@ class OrderController extends Controller
             $rest->longitude = $coords->longitude;
             $rest->save();
         }
-
+        Log::info("TEST 8");
         $range = ($this->calculateTheDistance(
                 $order->latitude ?? 0,
                 $order->longitude ?? 0,
@@ -252,7 +258,7 @@ class OrderController extends Controller
                 ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
             ]
         ]);
-
+        Log::info("TEST 9");
         return response()
             ->json([
                 "message" => $message,
