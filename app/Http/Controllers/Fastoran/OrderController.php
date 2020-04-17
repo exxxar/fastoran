@@ -181,7 +181,9 @@ class OrderController extends Controller
         Log::info("TEST 6");
         foreach ($order_details as $od) {
 
-            if (!is_null($od["product_id"])) {
+            $emptyProductId = true;
+            if (isset($od["product_id"])) {
+                $emptyProductId = false;
                 $detail = OrderDetail::create([
                     "product_details" => RestMenu::find($od["product_id"]),
                     'price' => $od["price"],
@@ -190,7 +192,9 @@ class OrderController extends Controller
                 ]);
 
                 Log::info("TEST 6.1");
-            } else {
+            }
+
+            if ($emptyProductId) {
                 $detail = OrderDetail::create($od);
                 $detail->order_id = $order->id;
                 $detail->save();
