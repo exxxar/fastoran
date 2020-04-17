@@ -7,13 +7,13 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Order;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
-
 
 
 class OrderController extends Controller
@@ -96,7 +96,7 @@ class OrderController extends Controller
         }
 
 
-         $this->doHttpRequest(is_null($user) ? env('APP_URL') . 'api/v1/auth/signup_phone' : env('APP_URL') . 'api/v1/auth/sms',[
+        $this->doHttpRequest(is_null($user) ? env('APP_URL') . 'api/v1/auth/signup_phone' : env('APP_URL') . 'api/v1/auth/sms', [
             [
                 'phone' => $phone,
 
@@ -153,17 +153,19 @@ class OrderController extends Controller
         $order = Order::create($request->all());
 
         $tmp_custom_details = "";
-        if (count($order->custom_details)>0) {
-            $tmp_custom_details = "*Дополнительно к заказу:*\n";
-            $sum = 0;
-            foreach ($order->custom_details as $key => $custom_detail) {
-                $detail = (object)$custom_detail;
-                $sum += $detail->price;
-                $tmp_custom_details .= ($key + 1) . "# " . $detail->name . " (" . $detail->price . " руб.)\n";
-            }
 
-            $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
-        }
+        if (!is_null($order->custom_details))
+            if (count($order->custom_details) > 0) {
+                $tmp_custom_details = "*Дополнительно к заказу:*\n";
+                $sum = 0;
+                foreach ($order->custom_details as $key => $custom_detail) {
+                    $detail = (object)$custom_detail;
+                    $sum += $detail->price;
+                    $tmp_custom_details .= ($key + 1) . "# " . $detail->name . " (" . $detail->price . " руб.)\n";
+                }
+
+                $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
+            }
 
         $coords = (object)$this->getCoordsByAddress($request->get("receiver_address"));
         $order->latitude = $coords->latitude;
@@ -177,16 +179,14 @@ class OrderController extends Controller
 
         foreach ($order_details as $od) {
 
-            if (!is_null($od["product_id"]))
-            {
+            if (!is_null($od["product_id"])) {
                 $detail = OrderDetail::create([
-                    "product_details"=>RestMenu::find($od["product_id"]),
-                    'price'=>$od["price"],
-                    'count'=>$od["count"],
-                    'order_id'=>$order->id,
+                    "product_details" => RestMenu::find($od["product_id"]),
+                    'price' => $od["price"],
+                    'count' => $od["count"],
+                    'order_id' => $order->id,
                 ]);
-            }
-            else  {
+            } else {
                 $detail = OrderDetail::create($od);
                 $detail->order_id = $order->id;
                 $detail->save();
@@ -222,8 +222,9 @@ class OrderController extends Controller
 
         $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
 
-        if (count($order->custom_details)>0)
-            $price2 += 50;
+        if (!is_null($order->custom_details))
+            if (count($order->custom_details) > 0)
+                $price2 += 50;
 
         $message = sprintf("*Заявка #%s*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЗаметка к заказу:\n%s\n\n%s\nАдрес доставки:%s\nПолная цена доставки:*%s руб.*(Дистанция:%.2fкм)\nЦена основного заказа:*%s руб.*",
             $order->id,
@@ -232,7 +233,7 @@ class OrderController extends Controller
             $order->receiver_phone ?? $user->phone ?? 'Без номера телефона (ошибка)',
             $delivery_order_tmp,
             $order->receiver_order_note ?? "Не указана",
-            $tmp_custom_details??"Нет дополнительных позиций",
+            $tmp_custom_details ?? "Нет дополнительных позиций",
             $order->receiver_address ?? "Не задан",
             $price2,
             $range2,
@@ -676,7 +677,7 @@ class OrderController extends Controller
             ->where("id", $orderId)
             ->first();
 
-        if (strlen(trim($order->delivery_note))===0)
+        if (strlen(trim($order->delivery_note)) === 0)
             return response()
                 ->json([
                     "message" => "Комментарий к заказу уже был установлен"
