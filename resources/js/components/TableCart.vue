@@ -153,19 +153,19 @@
 
                                 <div class="accordion-body billing-method fix">
 
-                                    <form action="#" class="billing-form checkout-form">
+                                    <form  @submit="getRangePrice" class="billing-form checkout-form">
                                         <div class="row">
                                             <div class="col-12 mb--20">
-                                                <select v-model="delivery.city">
+                                                <select v-model="delivery.city" required>
                                                     <option value="Донецк">Донецк</option>
                                                     <option value="Макеевка">Макеевка</option>
                                                 </select>
                                             </div>
                                             <div class="col-12 mb--20">
-                                                <input placeholder="Улица" type="text" v-model="delivery.street">
+                                                <input placeholder="Улица" type="text" v-model="delivery.street" required>
                                             </div>
                                             <div class="col-md-6  col-12 mb--20">
-                                                <input placeholder="Номер дома" type="text"
+                                                <input placeholder="Номер дома" type="text" required
                                                        v-model="delivery.home_number">
                                             </div>
 
@@ -175,7 +175,7 @@
                                             </div>
 
                                             <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя">
+                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя" required>
                                             </div>
 
 
@@ -195,7 +195,7 @@
                                             </div>
 
                                             <div class="col-12 mb--20">
-                                                <button type="button" class="food__btn" @click="getRangePrice">
+                                                <button type="submit" class="food__btn">
                                                     Рассчитать цену доставки
                                                 </button>
                                             </div>
@@ -338,7 +338,7 @@
                 let sum = 0;
 
                 this.custom_products.forEach(element => {
-                    if (element.price != null)
+                    if (element.price != null&&element.name.trim().length>0)
                         sum += parseInt(element.price)
                 });
                 return sum;
@@ -358,6 +358,7 @@
                 return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount;
             },
             addCustomProduct() {
+                this.custom_products = this.custom_products.filter(item=>item.name.trim().length>0&&item.price>0)
                 this.custom_products.push({
                     name: "",
                     price: null
@@ -373,11 +374,19 @@
                 this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
 
             },
-            getRangePrice() {
+            getRangePrice(e) {
+                e.preventDefault();
+
                 if (this.cartTotalCount === 0) {
                     this.sendMessage("Сперва добавьте товар в корзину!")
                     return
                 }
+
+                if (this.getCustomProductsSum()===0){
+                    this.custom_products = [];
+                    this.custom_delivery_price = 0;
+                }
+
                 let address = `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
                     .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
@@ -398,13 +407,17 @@
                 // e.preventDefault();
                 this.sending = true;
 
-                localStorage.setItem("phone", this.phone);
-                localStorage.setItem("food_city", this.delivery.city);
-                localStorage.setItem("food_street", this.delivery.street);
-                localStorage.setItem("food_first_name", this.delivery.first_name);
+                localStorage.setItem("phone", this.phone== null ? '' :this.phone);
+                localStorage.setItem("food_city", this.delivery.city== null ? '' :this.delivery.city);
+                localStorage.setItem("food_street", this.delivery.street== null ? '' :this.delivery.street);
+                localStorage.setItem("food_first_name", this.delivery.first_name == null ? '' : this.delivery.first_name);
                 localStorage.setItem("food_home_number", this.delivery.home_number == null ? '' : this.delivery.home_number);
                 localStorage.setItem("food_flat_number", this.delivery.flat_number == null ? '' : this.delivery.flat_number);
 
+                if (this.getCustomProductsSum()===0){
+                    this.custom_products = [];
+                    this.custom_delivery_price = 0;
+                }
 
                 let products = [];
                 this.cartProducts.forEach(function (item) {

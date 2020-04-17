@@ -140,7 +140,7 @@ class OrderController extends Controller
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
                 'phone' => $phone,
-                'name' => $request->receiver_name ?? ''
+                'name' => $request->name ?? $request->receiver_name?? ''
             ]);
 
         if (!is_null($client)){
@@ -382,7 +382,6 @@ class OrderController extends Controller
                 ->with("orders", $orders);
     }
 
-
     public function acceptOrder(Request $request, $orderId)
     {
 
@@ -618,7 +617,6 @@ class OrderController extends Controller
 
 
     }
-
 
     public function setDeliveredStatus(Request $request, $orderId)
     {

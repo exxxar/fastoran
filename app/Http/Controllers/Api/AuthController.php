@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Classes\Utilits;
 use App\Enums\UserTypeEnum;
+use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\Notifications\SignupActivate;
 use App\User;
@@ -76,7 +77,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        // $this->sendSms($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+        event(new SendSmsEvent($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
@@ -173,7 +174,7 @@ class AuthController extends Controller
         $user->auth_code = $code;
         $user->save();
 
-        $this->sendSms($phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code);
+        event(new SendSmsEvent($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         if (!is_null($user))
             return response()
