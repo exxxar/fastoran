@@ -47,6 +47,7 @@ class Order extends Model
 
         'custom_details',
 
+        'client',
         'created_at'
     ];
 

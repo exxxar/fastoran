@@ -46,6 +46,8 @@ class CreateOrdersTable extends Migration
             $table->string('receiver_order_note')->nullable();
             $table->string('receiver_domophone')->nullable();
 
+            $table->string('client')->nullable();
+
             $table->json('custom_details')->nullable();
 
 

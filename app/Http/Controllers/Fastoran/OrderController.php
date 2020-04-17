@@ -152,15 +152,15 @@ class OrderController extends Controller
             ]);
 
 
-        if (!is_null($client)){
-            $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на $phone для уточнения заказа!";
+       /* if (!is_null($client)){
+            $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
             $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),$message);
             return response()
                 ->json([
                     "message" => "Сообщение с Андройд успешно получено",
                     "status" => 200
                 ]);
-        }
+        }*/
 
         $user = User::where("phone", $phone)->first();
 
@@ -193,13 +193,25 @@ class OrderController extends Controller
         $order->save();
 
         $order_details = $request->get("order_details");
+
         $delivery_order_tmp = "";
 
         foreach ($order_details as $od) {
 
-            $detail = OrderDetail::create($od);
-            $detail->order_id = $order->id;
-            $detail->save();
+            if (!is_null($od->product_id))
+            {
+                $detail = OrderDetail::create([
+                    "product_details"=>RestMenu::find($od->product_id),
+                    'price'=>$od->price,
+                    'count'=>$od->count,
+                    'order_id'=>$order->id,
+                ]);
+            }
+            else  {
+                $detail = OrderDetail::create($od);
+                $detail->order_id = $order->id;
+                $detail->save();
+            }
 
             $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
                 $detail->product_details["id"],
