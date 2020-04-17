@@ -27,7 +27,7 @@ class AuthController extends Controller
             'telegram_chat_id' => 'required',
         ]);
 
-        $this->doHttpRequest(
+        return $this->doHttpRequest(
             env('APP_URL') . '/api/v1/auth/signup', [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
     public function loginPhone(Request $request)
     {
-        $this->doHttpRequest(
+        return $this->doHttpRequest(
             env('APP_URL') . '/api/v1/auth/login', [
             'phone' => $request->phone,
             'password' => $request->password,

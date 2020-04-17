@@ -1,7 +1,7 @@
 <template>
     <div class="cart-main-area section-padding--lg bg--white">
         <div class="container">
-            <div class="row" v-if="!canMakeOrder()">
+            <div class="row" v-if="this.getMinOrderSum() > this.cartTotalPrice">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <div class="alert alert-danger" role="alert">
                         Ваша сумма заказа меньше миниальной ({{getMinOrderSum()}} руб.) в данном ресторане!!
@@ -251,7 +251,7 @@
                                     </li>
                                     <li>
                                         <button class="food__btn" type="button"
-                                                :disabled="!preparedToSend||!is_valid||!canMakeOrder"
+                                                :disabled="canMakeOrder()===false"
                                                 @click="sendRequest">Оформить
                                             заказ
                                         </button>
@@ -348,8 +348,14 @@
                      0 : this.cartProducts[0].product.restoran.min_sum;
             },
             canMakeOrder() {
-                console.log(this.cartTotalCount, this.getMinOrderSum(),this.cartTotalPrice)
-                return this.cartTotalCount === 0 ? false : this.getMinOrderSum() <= this.cartTotalPrice
+
+                let acceptMinPrice = this.getMinOrderSum() <= this.cartTotalPrice;
+                let acceptCoords = this.preparedToSend;
+                let acceptPhoneNumber = this.is_valid;
+                let acceptMinCount = this.cartTotalCount >0 ;
+
+                console.log("test:", acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount)
+                return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount;
             },
             addCustomProduct() {
                 this.custom_products.push({
