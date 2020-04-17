@@ -202,7 +202,6 @@ class OrderController extends Controller
                     'order_id' => $order->id,
                 ]);
 
-                Log::info("TEST 6.1");
             }
 
             if ($emptyProductId) {
@@ -210,7 +209,6 @@ class OrderController extends Controller
                 $detail->order_id = $order->id;
                 $detail->save();
 
-                Log::info("TEST 6.2");
             }
 
             $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
@@ -223,7 +221,7 @@ class OrderController extends Controller
 
             $delivery_order_tmp .= $local_tmp;
         }
-        Log::info("TEST 7");
+
         $rest = Restoran::find($order->rest_id);
 
         if (is_null($rest->latitude) || is_null($rest->longitude)) {
@@ -232,7 +230,6 @@ class OrderController extends Controller
             $rest->longitude = $coords->longitude;
             $rest->save();
         }
-        Log::info("TEST 8");
         $range = ($this->calculateTheDistance(
                 $order->latitude ?? 0,
                 $order->longitude ?? 0,
