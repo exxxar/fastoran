@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Validator;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 
-Route::get('/', 'RestController@getMainPage');
+Route::get('/', 'RestController@getMainPage')->name("main");
 Route::any('/search', 'RestController@searchFood')->name("search");
 
 Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");

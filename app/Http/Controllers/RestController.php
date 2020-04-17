@@ -111,6 +111,8 @@ class RestController extends Controller
             ->where("id", $kitchenId)
             ->first();
 
+        if (is_null($kitchen))
+            return redirect()->route("main");
 
         $restorans = is_null($kitchen) ? null : $kitchen->restorans()->get();
 
@@ -129,6 +131,9 @@ class RestController extends Controller
         $restoran = Restoran::with(["kitchens", "categories", "categories.menus"])->where("url", $domain)
             ->first();
 
+        if (is_null($restoran))
+            return redirect()->route("main");
+
         $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
 
         if ($request->ajax())
@@ -146,6 +151,9 @@ class RestController extends Controller
         $restoran = Restoran::with(["menus"])
             ->where("id", $id)
             ->first();
+
+        if (is_null($restoran))
+            return redirect()->route("main");
 
         $categories = MenuCategory::all();
 
