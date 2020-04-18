@@ -1,5 +1,20 @@
 const mix = require('laravel-mix');
 
+const CompressionPlugin = require('compression-webpack-plugin');
+
+
+mix.webpackConfig({
+    plugins: [
+        new CompressionPlugin({
+            filename: '[path].br[query]',
+            algorithm: 'brotliCompress',
+            test: /\.(js|css|html|svg)$/,
+            compressionOptions: {level: 11},
+            minRatio: 1,
+            deleteOriginalAssets: false,
+        })
+    ],
+});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -28,7 +43,7 @@ mix.js('resources/js/app.js', 'public/js')
     //.sourceMaps()
     .options({
         processCssUrls: false
-    });
+    })
 
 
 

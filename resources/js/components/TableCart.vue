@@ -153,7 +153,7 @@
 
                                 <div class="accordion-body billing-method fix">
 
-                                    <form  @submit="getRangePrice" class="billing-form checkout-form">
+                                    <form @submit="getRangePrice" class="billing-form checkout-form">
                                         <div class="row">
                                             <div class="col-12 mb--20">
                                                 <select v-model="delivery.city" required>
@@ -162,7 +162,8 @@
                                                 </select>
                                             </div>
                                             <div class="col-12 mb--20">
-                                                <input placeholder="Улица" type="text" v-model="delivery.street" required>
+                                                <input placeholder="Улица" type="text" v-model="delivery.street"
+                                                       required>
                                             </div>
                                             <div class="col-md-6  col-12 mb--20">
                                                 <input placeholder="Номер дома" type="text" required
@@ -175,7 +176,8 @@
                                             </div>
 
                                             <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя" required>
+                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя"
+                                                       required>
                                             </div>
 
 
@@ -338,27 +340,26 @@
                 let sum = 0;
 
                 this.custom_products.forEach(element => {
-                    if (element.price != null&&element.name.trim().length>0)
+                    if (element.price != null && element.name.trim().length > 0)
                         sum += parseInt(element.price)
                 });
                 return sum;
             },
             getMinOrderSum() {
                 return this.cartTotalCount === 0 ?
-                     0 : this.cartProducts[0].product.restoran.min_sum;
+                    0 : this.cartProducts[0].product.restoran.min_sum;
             },
             canMakeOrder() {
 
                 let acceptMinPrice = this.getMinOrderSum() <= this.cartTotalPrice;
                 let acceptCoords = this.preparedToSend;
                 let acceptPhoneNumber = this.is_valid;
-                let acceptMinCount = this.cartTotalCount >0 ;
+                let acceptMinCount = this.cartTotalCount > 0;
 
-                console.log("test:", acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount)
                 return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount;
             },
             addCustomProduct() {
-                this.custom_products = this.custom_products.filter(item=>item.name.trim().length>0&&item.price>0)
+                this.custom_products = this.custom_products.filter(item => item.name.trim().length > 0 && item.price > 0)
                 this.custom_products.push({
                     name: "",
                     price: null
@@ -367,12 +368,9 @@
                 this.custom_delivery_price = 50;
             },
             removeCustomProduct(id) {
-
                 this.custom_products = this.custom_products.filter((item, index) => index !== id)
                 this.sendMessage("Товар удален")
-
                 this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
-
             },
             getRangePrice(e) {
                 e.preventDefault();
@@ -382,12 +380,12 @@
                     return
                 }
 
-                if (this.getCustomProductsSum()===0){
+                if (this.getCustomProductsSum() === 0) {
                     this.custom_products = [];
                     this.custom_delivery_price = 0;
                 }
 
-                let address = `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
+                let address = `Украина, г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
                     .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
                         "address": address
@@ -407,14 +405,14 @@
                 // e.preventDefault();
                 this.sending = true;
 
-                localStorage.setItem("phone", this.phone== null ? '' :this.phone);
-                localStorage.setItem("food_city", this.delivery.city== null ? '' :this.delivery.city);
-                localStorage.setItem("food_street", this.delivery.street== null ? '' :this.delivery.street);
+                localStorage.setItem("phone", this.phone == null ? '' : this.phone);
+                localStorage.setItem("food_city", this.delivery.city == null ? '' : this.delivery.city);
+                localStorage.setItem("food_street", this.delivery.street == null ? '' : this.delivery.street);
                 localStorage.setItem("food_first_name", this.delivery.first_name == null ? '' : this.delivery.first_name);
                 localStorage.setItem("food_home_number", this.delivery.home_number == null ? '' : this.delivery.home_number);
                 localStorage.setItem("food_flat_number", this.delivery.flat_number == null ? '' : this.delivery.flat_number);
 
-                if (this.getCustomProductsSum()===0){
+                if (this.getCustomProductsSum() === 0) {
                     this.custom_products = [];
                     this.custom_delivery_price = 0;
                 }
@@ -442,7 +440,7 @@
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
                         order_details: products,
-                        custom_details:this.custom_products
+                        custom_details: this.custom_products
 
 
                     })
@@ -486,7 +484,7 @@
                 this.$store.dispatch("removeProduct", id)
             },
             clearCart() {
-                this.products = [{name: '', price: null}];
+                this.custom_products = [];
 
                 this.deliveryPrice = 0;
                 this.delivery_range = null;

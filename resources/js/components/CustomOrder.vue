@@ -62,7 +62,7 @@
         <hr>
         <div class="row mb-2">
             <div class="col-sm-12">
-                <button type="submit" class="btn food__btn" style="width:100%"><span>Заказть товар</span></button>
+                <button type="submit" class="btn food__btn" style="width:100%"><span>Заказать товар</span></button>
             </div>
 
         </div>

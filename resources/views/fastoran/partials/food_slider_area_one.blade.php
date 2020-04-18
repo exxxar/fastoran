@@ -19,6 +19,8 @@
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
                                         <a href="{{route("custom-order")}}"
                                            class="custom-btn c-btn-2 ">Цветы</a>
+                                        <a href="{{route("deliveryman-quest")}}"
+                                           class="custom-btn c-btn-2 ">Доставщик</a>
                                     </div>
                                 </div>
                                 <div class="d-none d-sm-block">

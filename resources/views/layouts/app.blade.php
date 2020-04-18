@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="yandex-verification" content="dc164e606696b6b2"/>
+    <meta name="description" content="Доставка самой вкусной еды из ресторанов и заведений общественного питания города Донецк и города Макеевка. Доставка продуктов, цветов, медикаментов, а также вызов курьера!">
     <title>Fastoran - служба твоей доставки!</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">

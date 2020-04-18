@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Classes\Utilits;
 use App\Enums\OrderStatusEnum;
+use App\Enums\OrderTypeEnum;
 use App\Enums\UserTypeEnum;
+use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
+use App\Parts\Models\Fastoran\DeliveryQuest;
 use App\Parts\Models\Fastoran\Order;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -88,18 +91,18 @@ class OrderController extends Controller
 
 
         if (!is_null($user)) {
-            $this->sendSms($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code);
+            event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $user->auth_code));
             return response()
                 ->json([
                     "message" => "СМС успешно отправлено",
                 ]);
         }
 
-
-        $this->doHttpRequest(is_null($user) ? env('APP_URL') . 'api/v1/auth/signup_phone' : env('APP_URL') . 'api/v1/auth/sms', [
+        $this->doHttpRequest(is_null($user) ?
+            env('APP_URL') . 'api/v1/auth/signup_phone' :
+            env('APP_URL') . 'api/v1/auth/sms', [
             [
                 'phone' => $phone,
-
             ],
         ]);
 
@@ -132,20 +135,20 @@ class OrderController extends Controller
     {
         $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone"));
 
-        $user = $this->getUser();
+        $user = User::where("phone", $phone)->first();//$this->getUser();
 
-        $client = $request->get("client")??null;
+        $client = $request->get("client") ?? null;
 
         if (is_null($user))
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
                 'phone' => $phone,
-                'name' => $request->name ?? $request->receiver_name?? ''
+                'name' => $request->name ?? $request->receiver_name ?? ''
             ]);
 
-        if (!is_null($client)){
+        if (!is_null($client)) {
             $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
-            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),$message);
+            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
             return response()
                 ->json([
                     "message" => "Сообщение с Андройд успешно получено",
@@ -236,9 +239,9 @@ class OrderController extends Controller
                 $rest->latitude ?? 0,
                 $rest->longitude ?? 0) / 1000);
 
-        $range2 = $range + 2;
 
-        $price2 = ceil(env("BASE_DELIVERY_PRICE") + ($range2 * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+
 
         if (!is_null($order->custom_details))
             if (count($order->custom_details) > 0)
@@ -254,12 +257,12 @@ class OrderController extends Controller
             $tmp_custom_details ?? "Нет дополнительных позиций",
             $order->receiver_address ?? "Не задан",
             $price2,
-            $range2,
+            $range,
             $order->summary_price
         );
 
         $order->delivery_price = $price2;
-        $order->delivery_range = floatval(sprintf("%.2f", $range2));
+        $order->delivery_range = floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2))));
         $order->save();
 
         $orderId = $this->prepareNumber($order->id);
@@ -276,6 +279,128 @@ class OrderController extends Controller
                 "message" => $message,
                 "status" => 200
             ]);
+    }
+
+    public function sendDeliverymanQuest(Request $request)
+    {
+        $request->validate([
+            'quest_type' => 'required',
+            'description' => 'required',
+            'point_a.name' => 'required',
+            'point_a.phone' => 'required',
+            'point_a.city' => 'required',
+            'point_a.street' => 'required',
+            'point_a.home_number' => 'required',
+            'point_b.name' => 'required',
+            'point_b.phone' => 'required',
+            'point_b.city' => 'required',
+            'point_b.street' => 'required',
+            'point_b.home_number' => 'required',
+
+        ]);
+
+
+        $quest = DeliveryQuest::create($request->all());
+
+        $point_a = (object)$quest->point_a;
+        $point_b = (object)$quest->point_b;
+
+        $tmp_users = [
+            [
+                "name" => $point_a->name, "phone" => $point_a->phone
+            ],
+            [
+                "name" => $point_b->name, "phone" => $point_b->phone
+            ]
+        ];
+
+        foreach ($tmp_users as $u) {
+            $u = (object)$u;
+            $phone = $this->preparePhone($u->phone);
+
+            $user = User::where("phone", $phone)->first();
+
+            if (is_null($user))
+                $this->doHttpRequest(
+                    env('APP_URL') . 'api/v1/auth/signup_phone', [
+                        'phone' => $phone,
+                    ]
+                );
+        }
+
+        $res = $this->doHttpRequest(
+            env('APP_URL') . 'api/v1/custom_range', [
+                'address_a' => sprintf("Украина, г. %s, %s, %s",
+                    $point_a->city,
+                    $point_a->street,
+                    $point_a->home_number
+                ),
+                'address_b' => sprintf("Украина, г. %s, %s, %s",
+                    $point_b->city,
+                    $point_b->street,
+                    $point_b->home_number
+                ),
+            ]
+        );
+
+        $res = json_decode($res->data);
+
+        $order = Order::create([
+            'rest_id' => null,
+            'user_id' => (User::where("phone", $this->preparePhone($point_a->phone))->first())->id,
+            'status' => OrderStatusEnum::InProcessing,
+            'delivery_price' => intval($res->price),
+            'delivery_range' => floatval($res->range),
+            'delivery_note' => 'Заказ курьера',
+            'receiver_name' => $point_b->name,
+            'receiver_phone' => $point_b->phone,
+            'order_type' => OrderTypeEnum::DeliverymanQuest,
+            'receiver_address' => sprintf("Украина, г. %s, %s, %s",
+                $point_b->city,
+                $point_b->street,
+                $point_b->home_number
+            ),
+        ]);
+
+        $quest->order_id = $order->id;
+        $quest->range = floatval($res->range);
+        $quest->price = intval($res->price);
+        $quest->save();
+
+        $prices = [0,50, 200, 500, 50];
+
+        $work_price = $prices[$quest->quest_type >= count($prices) ? 0 : $quest->quest_type];
+
+        $message = sprintf("*Заявка на услуги курьера #%s*\n*Точка А*\nФ.И.О.:%s\nАдрес:%s\nТелефон:%s\nДополнительная информация:%s\n*Точка Б*\nФ.И.О.:%s\nАдрес:%s\nТелефон:%s\nДополнительная информация:%s\n\n*Заказ:*\n%s\n\nСтоимост услуг курьера: *%s руб. (расстояние %s км + %s руб. за работу) *",
+            $order->id,
+            $point_a->name,
+            $point_a->city . " " . $point_a->street . " " . $point_a->home_number,
+            $point_a->phone,
+            $point_a->more_info,
+            $point_b->name,
+            $point_b->city . " " . $point_b->street . " " . $point_b->home_number,
+            $point_b->phone,
+            $point_b->more_info,
+            $quest->description,
+            $quest->price + $prices[$quest->quest_type >= count($prices) ? 0 : $quest->quest_type],
+            $quest->range,
+            $work_price
+        );
+
+        $orderId = $this->prepareNumber($order->id);
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
+            [
+                ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
+                ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
+            ]
+        ]);
+        return response()
+            ->json([
+                "message" => $message,
+                "status" => 200
+            ]);
+
     }
 
     public function sendCustomOrder(Request $request)
@@ -313,7 +438,8 @@ class OrderController extends Controller
             'receiver_phone' => $phone,
             'receiver_delivery_time' => '',
             'receiver_address' => $address,
-            'custom_details' => $order_details
+            'custom_details' => $order_details,
+            'order_type'=>OrderTypeEnum::UsersCustomOrder
         ]);
 
 
@@ -582,6 +708,35 @@ class OrderController extends Controller
             ->first();
     }
 
+    public function getCustomRange(Request $request)
+    {
+        $request->validate([
+            'address_a' => 'required',
+            'address_b' => 'required'
+        ]);
+
+        $point1 = $request->get("address_a") ?? '';
+        $point2 = $request->get("address_b") ?? '';
+
+        $coords1 = (object)$this->getCoordsByAddress($point1);
+        $coords2 = (object)$this->getCoordsByAddress($point2);
+
+        $range = ($this->calculateTheDistance(
+                $coords1->latitude,
+                $coords1->longitude,
+                $coords2->latitude,
+                $coords2->longitude) / 1000);
+
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+
+
+        return response()
+            ->json([
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
+                "price" => $price
+            ]);
+    }
+
     public function getRange(Request $request, $restId)
     {
         $request->validate([
@@ -600,16 +755,16 @@ class OrderController extends Controller
         $coords = (object)$this->getCoordsByAddress($request->get("address"));
 
         $range = ($this->calculateTheDistance(
-                    $coords->latitude,
-                    $coords->longitude,
-                    $rest->latitude,
-                    $rest->longitude) / 1000) + 2;
+                $coords->latitude,
+                $coords->longitude,
+                $rest->latitude,
+                $rest->longitude) / 1000);
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
         return response()
             ->json([
-                "range" => floatval(sprintf("%.2f", $range)),
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
                 "price" => $price,
                 "latitude" => $coords->latitude,
                 "longitude" => $coords->longitude
@@ -621,7 +776,7 @@ class OrderController extends Controller
     public function setDeliveredStatus(Request $request, $orderId)
     {
 
-        $order = Order::with(["restoran"])
+        $order = Order::with(["restoran", "user"])
             ->where("id", $orderId)
             ->first();
 
@@ -679,6 +834,8 @@ class OrderController extends Controller
             $order->id
         );
 
+
+        event(new SendSmsEvent($order->user->phone, "Ваш заказ доставлен! https://fastoran.com"));
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
@@ -693,16 +850,33 @@ class OrderController extends Controller
             ->where("id", $orderId)
             ->first();
 
-        if (strlen(trim($order->delivery_note)) === 0)
-            return response()
-                ->json([
-                    "message" => "Комментарий к заказу уже был установлен"
-                ], 200);
-
-        $order->delivery_note = $request->get("comment") ?? '';
-        $order->save();
+        $comment = $request->get("comment") ?? '';
 
         $user = $this->getUser();
+
+        if (strlen(trim($comment)) === 0) {
+            $message = sprintf("Администратор *#%s* принял заказ *#%s* без пометки",
+                $user->id,
+                $order->id
+            );
+
+            $this->sendToTelegram($order->restoran->telegram_channel, $message);
+            return response()
+                ->json([
+                    "message" => $message
+                ], 200);
+        }
+
+        /* if (strlen(trim($order->delivery_note)) === 0) {
+             return response()
+                 ->json([
+                     "message" => "Комментарий к заказу уже был установлен"
+                 ], 200);
+         }*/
+
+
+        $order->delivery_note = $comment;
+        $order->save();
 
         $message = sprintf("Администратор *#%s* установил пометку к заказу *#%s*",
             $user->id,

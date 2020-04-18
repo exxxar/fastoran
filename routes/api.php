@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post("/range/{restId}","Fastoran\OrderController@getRange");
+    Route::post("/custom_range","Fastoran\OrderController@getCustomRange");
 
     Route::post('/wish', 'RestController@sendWish')->name("wish");
 
@@ -47,6 +48,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('order/sms', 'OrderController@sendSmsVerify');
         Route::post('order/resend', 'OrderController@resendSmsVerify');
         Route::post('order/custom', 'OrderController@sendCustomOrder');
+        Route::post('order/quest', 'OrderController@sendDeliverymanQuest');
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
         Route::resource('restorans', 'RestoransController');

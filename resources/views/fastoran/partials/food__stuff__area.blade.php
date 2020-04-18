@@ -7,7 +7,7 @@
                         <h2>Fastoran теперь в ваших руках!</h2>
                         <h3>Скачай сейчас<br>и получай заказы еще быстрее!</h3>
                         <ul class="food__stuff__link d-flex">
-                            <li><a target="_blank"
+                            <li><a target="_blank" rel="noreferrer"
                                    href="https://play.google.com/store/apps/details?id=com.killersssurprise.fastoran"><img
                                         class="lazyload" data-src="https://d29u17ylf1ylz9.cloudfront.net/aahar/images/app/3.png"
                                         alt="app images"></a></li>

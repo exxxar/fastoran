@@ -5,6 +5,7 @@ namespace App\Parts\Models\Fastoran;
 use App\Classes\Utilits;
 use App\Enums\ContentTypeEnum;
 use App\Enums\OrderStatusEnum;
+use App\Enums\OrderTypeEnum;
 use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Order extends Model
 
     protected $enumCasts = [
         'status' => OrderStatusEnum::class,
+        'order_type' => OrderTypeEnum::class,
     ];
 
     protected $casts = [
@@ -32,6 +34,7 @@ class Order extends Model
         'longitude',
 
         'status',
+        'order_type',
 
         'delivery_price',
         'delivery_range',
@@ -56,6 +59,11 @@ class Order extends Model
     public function details()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
+
+    public function quests()
+    {
+        return $this->hasMany(DeliveryQuest::class, 'order_id', 'id');
     }
 
     public function user()

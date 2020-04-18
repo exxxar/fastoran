@@ -33,6 +33,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('deliveryman_id')->nullable();
 
             $table->integer('status')->default(\App\Enums\OrderStatusEnum::InProcessing);
+            $table->integer('order_type')->default(\App\Enums\OrderTypeEnum::FromRestoran);
 
             $table->integer('delivery_price')->default(0);
             $table->integer('delivery_range')->default(0);
