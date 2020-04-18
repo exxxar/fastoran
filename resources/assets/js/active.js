@@ -488,6 +488,8 @@
         onePage: true
     });
 
+    $(".meanmenu-reveal").attr({"arial-label":"Мобильное меню"});
+
 
 
     /*=========== ScrollReveal Js Init ===========*/
