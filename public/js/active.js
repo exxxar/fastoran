@@ -488,7 +488,7 @@
         onePage: true
     });
 
-    $(".meanmenu-reveal").attr({"arial-label":"Мобильное меню"});
+    $(".meanmenu-reveal").attr({"aria-label":"Мобильное меню"});
 
 
 
