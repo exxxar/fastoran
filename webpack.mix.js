@@ -45,6 +45,7 @@ mix.js('resources/js/app.js', 'public/js')
         processCssUrls: false
     })
 
-
+mix.minify('public/js/app.js');
+mix.minify('public/css/app.css');
 
 

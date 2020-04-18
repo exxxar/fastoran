@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <!-- Stylesheets -->
 
-    <link rel="stylesheet" href="{{url('css/app.css')}}">
+    <link rel="stylesheet" href="{{url('css/app.min.css')}}">
 
 
     <!-- Modernizer js -->
@@ -48,7 +48,7 @@
 
 <!-- JS Files -->
 
-<script src="{{url('js/app.js')}}"></script>
+<script src="{{url('js/app.min.js')}}"></script>
 <script src="{{url('js/plugins.js')}}"></script>
 <script src="{{url('js/active.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
