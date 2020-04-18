@@ -343,7 +343,7 @@ class OrderController extends Controller
             ]
         );
 
-        $res = json_decode($res->data);
+        $res = json_decode($res->getContent());
 
         $order = Order::create([
             'rest_id' => null,
