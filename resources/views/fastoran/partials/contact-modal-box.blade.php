@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-food btn-fixed text-white" data-toggle="modal" data-target="#contactModalBox"
+<button type="button" aria-label="Отправка сообщения в тех-поддержку"> class="btn btn-food btn-fixed text-white" data-toggle="modal" data-target="#contactModalBox"
         data-whatever="@mdo"><i class="fas fa-envelope-open-text"></i></button>
 
 <div class="modal fade" id="contactModalBox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
