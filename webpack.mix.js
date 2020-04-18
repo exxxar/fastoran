@@ -47,5 +47,9 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.minify('public/js/app.js');
 mix.minify('public/css/app.css');
+mix.minify('public/js/active.js');
+mix.minify('public/js/plugins.js');
+mix.minify('public/js/vendor.js');
+mix.minify('public/js/vendor/modernizr-3.5.0.min.js');
 
 

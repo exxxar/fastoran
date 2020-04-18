@@ -18,8 +18,7 @@
     <link rel="stylesheet" href="{{url('css/app.min.css')}}">
 
 
-    <!-- Modernizer js -->
-    <script src="{{url('js/vendor/modernizr-3.5.0.min.js')}}"></script>
+
 
 </head>
 
@@ -48,9 +47,11 @@
 
 <!-- JS Files -->
 
+<!-- Modernizer js -->
+<script src="{{url('js/vendor/modernizr-3.5.0.min.min.js')}}"></script>
 <script src="{{url('js/app.min.js')}}"></script>
-<script src="{{url('js/plugins.js')}}"></script>
-<script src="{{url('js/active.js')}}"></script>
+<script src="{{url('js/plugins.min.js')}}"></script>
+<script src="{{url('js/active.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 <script>
