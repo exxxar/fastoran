@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-2 col-sm-4 col-md-6 order-1 order-lg-1">
                     <div class="logo">
-                        <a href="{{url('/')}}">
+                        <a href="{{url('/')}}" aria-label="Главная страница">
                             <img src="{{asset('/img/header-logo-2.png')}}" alt="logo images">
                         </a>
                     </div>
@@ -14,17 +14,17 @@
                     <div class="main__menu__wrap">
                         <nav class="main__menu__nav d-none d-lg-block">
                             <ul class="mainmenu">
-                                <li class="drop"><a href="#restorans">Рестораны</a>
+                                <li class="drop"><a href="#restorans" aria-label="Переход к разделу ресторанов">Рестораны</a>
                                     <ul class="dropdown__menu">
                                         @foreach($restorans as $rest)
                                             <li><a href="{{route("rest",$rest->url)}}">{{$rest->name}}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
-                                <li class="drop"><a href="#kitchens">Кухни</a>
+                                <li class="drop"><a href="#kitchens" aria-label="Переход к разделу кухонь">Кухни</a>
                                     <ul class="dropdown__menu">
                                         @foreach($header_kitchen_list as $hkitchen)
-                                            <li><a href="{{route("kitchen",$hkitchen->id)}}">{{$hkitchen->name}}</a>
+                                            <li><a aria-label="Кухня:{{$hkitchen->name}}" href="{{route("kitchen",$hkitchen->id)}}">{{$hkitchen->name}}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -41,11 +41,11 @@
                                 </li>--}}
                                 <li>
                                     <div class="d-sm-none">
-                                        <a  href="{{route('contacts')}}">Контакты</a>
+                                        <a aria-label="Раздел контакты" href="{{route('contacts')}}">Контакты</a>
                                     </div>
 
                                     <div class="d-none d-sm-block">
-                                        <a  href="#contacts" data-toggle="modal"
+                                        <a  aria-label="Раздел контакты" href="#contacts" data-toggle="modal"
                                             data-target="#contactModalBox">Контакты</a>
                                     </div>
 
@@ -86,7 +86,7 @@
                             @endauth--}}
 
                         <div class="shopping__cart">
-                            <a class="minicart-trigger" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>
+                            <a class="minicart-trigger" aria-label="Корзина товаров" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>
                             <div class="shop__qun">
                                 <span> <cart-count-index></cart-count-index> </span>
                             </div>

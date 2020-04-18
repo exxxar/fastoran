@@ -1,7 +1,7 @@
 <div class="col-md-6 col-lg-3 col-sm-6">
     <div class="banner--2">
         <div class="banner__thumb">
-            <a href="#"><img
+            <a href="#" aria-label="{{$product->food_name}}"><img
                     class="lazyload" data-src="{{$product->food_img}}"
                     alt="banner images"></a>
 
@@ -21,8 +21,8 @@
             <mark>{{$product->food_price}}₽</mark>
         </h4>
         <div class="rest-img">
-            <a href="{{route("rest",$product->restoran->url)}}">
-                <img class="lazyload" data-src="{{$product->restoran->logo}}" alt="">
+            <a href="{{route("rest",$product->restoran->url)}}" aria-label="{{$product->restoran->name}}">
+                <img class="lazyload"  data-src="{{$product->restoran->logo}}" alt="{{$product->restoran->name}}">
             </a>
         </div>
         <div class="banner__hover__action banner__left__bottom">
