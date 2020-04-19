@@ -146,7 +146,7 @@ class OrderController extends Controller
                 'name' => $request->name ?? $request->receiver_name ?? ''
             ]);
 
-        if (!is_null($client)) {
+  /*      if (!is_null($client)) {
             $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
             $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
             return response()
@@ -154,7 +154,7 @@ class OrderController extends Controller
                     "message" => "Сообщение с Андройд успешно получено",
                     "status" => 200
                 ]);
-        }
+        }*/
 
 
         $user = User::where("phone", $phone)->first();
