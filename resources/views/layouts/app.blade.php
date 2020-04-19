@@ -9,17 +9,12 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <!-- Stylesheets -->
 
     <link rel="stylesheet" href="{{url('css/app.min.css')}}">
-
-
-
-
 </head>
 
 <body>
@@ -53,23 +48,17 @@
 <script src="{{url('js/plugins.min.js')}}"></script>
 <script src="{{url('js/active.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#clock').countdown('2020/4/06').on('update.countdown', function (event) {
-            var $this = $(this).html(event.strftime(''
-                + '<span class="h1 font-weight-bold">%D</span> Дней%!d'
-                + '<span class="h1 font-weight-bold">%H</span> Часов'
-                + '<span class="h1 font-weight-bold">%M</span> Минут'
-                + '<span class="h1 font-weight-bold">%S</span> Секунд'));
-        });
+    document.addEventListener('lazybeforeunveil', function(e){
+        var bg = e.target.getAttribute('data-bg');
+        if(bg){
+            e.target.style.backgroundImage = 'url(' + bg + ')';
+        }
     });
-
-
 </script>
 
 <!— Yandex.Metrika counter —>
-<script type="text/javascript">
+<script type="text/javascript" async>
     (function (m, e, t, r, i, k, a) {
         m[i] = m[i] || function () {
             (m[i].a = m[i].a || []).push(arguments)

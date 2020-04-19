@@ -1,7 +1,7 @@
 <div class="slider__area slider--one">
     <div class="slider__activation--1">
         <!-- Start Single Slide -->
-        <div class="slide custom-slider-one bg-image--1">
+        <div class="slide custom-slider-one bg-image--1" data-bg="https://fastoran.com/images/bg/1.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">

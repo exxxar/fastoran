@@ -474,3 +474,13 @@ div.circle-button-group {
         min-height: 150px;
     }
 }
+
+.lazyload {
+    opacity: 0;
+}
+
+.lazyloading {
+    opacity: 1;
+    transition: opacity 300ms;
+    background: #f7f7f7 url(../public/ajax-loader.gif) no-repeat center;
+}
