@@ -61,7 +61,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/vkontakte', "Admin\AdminController@uploadVk");
     Route::post('/uploadPhones', "Admin\AdminController@uploadPhones");
     Route::post('/sendMessage', "Admin\AdminController@sendMessage");
-
+    Route::any("/statistics", 'Admin\AdminController@statistics')->name("admin.statistics");
+    Route::get('/getStatistics', "Admin\AdminController@getStatistics");
+    Route::get('/getOrdersByDate/{startDate}/{endDate}', "Admin\AdminController@getOrdersByDate");
 
     Route::any('/kitchens', 'Admin\KitchenController@index');
     Route::get('/kitchens/get', 'Admin\KitchenController@get');

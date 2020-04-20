@@ -2,6 +2,11 @@
     <div>
         <notifications group="message"/>
         <div class="row">
+            <div class="col-lg-4">
+                <b-button variant="primary" class="mt-4 mb-4" target="_blank" href="/admin/statistics">Статистика</b-button>
+            </div>
+        </div>
+        <div class="row">
 
             <!-- kitchen total count -->
             <div class="col-lg-4">

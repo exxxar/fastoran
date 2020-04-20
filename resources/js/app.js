@@ -20,6 +20,13 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 import HighchartsVue from 'highcharts-vue'
 Vue.use(HighchartsVue);
+import Highcharts from 'highcharts'
+import drilldownInit from 'highcharts/modules/drilldown'
+drilldownInit(Highcharts)
+import exportingInit from 'highcharts/modules/exporting'
+exportingInit(Highcharts)
+import exportDataInit from 'highcharts/modules/export-data'
+exportDataInit(Highcharts)
 const moment = require('moment')
 require('moment/locale/ru')
 
@@ -58,6 +65,7 @@ Vue.component('cart-count-index', require('./components/CartCountIndex.vue').def
 
 //Admin
 Vue.component('dashboard', require('./components/admin/Dashboard.vue').default);
+Vue.component('statistics', require('./components/admin/Statistics.vue').default);
 Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
 Vue.component('orders', require('./components/admin/Orders.vue').default);
 Vue.component('new-order', require('./components/admin/NewOrder.vue').default);
