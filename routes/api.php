@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post("/range/{restId}","Fastoran\OrderController@getRange");
+    Route::post("/custom_range","Fastoran\OrderController@getCustomRange");
 
     Route::post('/wish', 'RestController@sendWish')->name("wish");
 
@@ -46,10 +47,11 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::post('order/sms', 'OrderController@sendSmsVerify');
         Route::post('order/resend', 'OrderController@resendSmsVerify');
+        Route::post('order/custom', 'OrderController@sendCustomOrder');
+        Route::post('order/quest', 'OrderController@sendDeliverymanQuest');
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
         Route::resource('restorans', 'RestoransController');
-        Route::resource('categories', 'CategoryController');
         Route::resource('kitchens', 'KitchenController');
         Route::resource('menu_categories', 'MenuCategoryController');
         Route::resource('menus', 'MenuController');
@@ -65,7 +67,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('restorans', 'RestoransController@index');
         Route::any('menus', 'MenuController@index');
 
-        Route::any('/history', 'OrderController@getOrderHistory');
+
         Route::any('/restorans/menu/{restId}', 'MenuController@getMenuByRestId');
         Route::any('/restorans/kitchen/{kitchenId}', 'RestoransController@getRestoransByKitchenId');
 
@@ -77,21 +79,15 @@ Route::group(['prefix' => 'v1'], function () {
 
         ], function () {
 
-
-
-
+            Route::any('/history', 'OrderController@getOrderHistory');
             Route::any("accept_order/{id}", "OrderController@acceptOrder");
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
             Route::any("decline_order/{id}", "OrderController@declineOrder");
             Route::any("decline_order_by_admin/{id}", "OrderController@declineOrderAdmin");
             Route::any("set_deliveryman_type/{type}", "OrderController@setDeliverymanType")->where(["type"=>"[0-9]+"]);
-
-
             Route::any("order/{id}", "OrderController@getOrderById")->where(["id"=>"[0-9]+"]);
             Route::any("order/status/delivered/{id}", "OrderController@setDeliveredStatus");
             Route::any("order/comment/{id}", "OrderController@setCommentToOrder");
-
-
 
         });
     });
@@ -109,7 +105,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('login_phone', 'AuthController@loginPhone');
         Route::post('signup_telegram', 'AuthController@signupTelegram');
-        Route::post('signup_phone', 'AuthController@signupPhone');
+        Route::post('signup_phone', 'AuthController@signupPhone')->name("api.signup.phone");
         Route::post('signup', 'AuthController@signup');
 
         Route::get('signup/activate/{token}', 'AuthController@signupActivate')->name("signup.verify");

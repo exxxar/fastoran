@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\SendSmsEvent;
+use App\Listeners\SmsEventListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         SocialiteWasCalled::class => [
             VKontakteExtendSocialite::class . '@handle',
             YandexExtendSocialite::class.'@handle'
+        ],
+        SendSmsEvent::class => [
+            SmsEventListener::class . '@handle',
         ],
     ];
 

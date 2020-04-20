@@ -6,9 +6,13 @@ namespace App\Classes;
 
 use Allanvb\LaravelSemysms\Exceptions\SmsNotSentException;
 use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\User;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Yandex\Geocode\Facades\YandexGeocodeFacade;
 
 trait Utilits
 {
@@ -43,6 +47,42 @@ trait Utilits
         return $dist;
     }
 
+    public function preparePhone($phone)
+    {
+        $vowels = array("(", ")", "-", " ");
+        return str_replace($vowels, "", $phone ?? '');
+    }
+
+    public function getUser()
+    {
+
+        $id = auth()->guard('api')->user()->id ?? auth()->user()->id ?? null;
+
+        return !is_null($id) ? User::find($id) : null;
+
+    }
+
+    public function doHttpRequest($uri, $params = [])
+    {
+        try {
+
+            $req = Request::create($uri, 'POST', $params);
+
+            $resp = app()->handle($req);
+
+            return response()
+                ->json(json_decode($resp->getContent())
+                );
+
+        } catch (\Exception $e) {
+            Log::error(sprintf("%s:%s %s",
+                $e->getLine(),
+                $e->getFile(),
+                $e->getMessage()
+            ));
+        }
+    }
+
     public function sendSms($phone, $message)
     {
         try {
@@ -52,11 +92,11 @@ trait Utilits
                 'device_id' => 'active'
             ]);
         } catch (SmsNotSentException $e) {
-            SemySMS::sendOne([
-                'to' => $phone,
-                'text' => $message,
-                'device_id' => 211698
-            ]);
+            Log::error(sprintf("%s:%s %s",
+                $e->getLine(),
+                $e->getFile(),
+                $e->getMessage()
+            ));
         }
 
     }
@@ -67,9 +107,34 @@ trait Utilits
             $this->sendMessageToTelegramChannel($id, $message, $keyboard);
             $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
         } catch (TelegramResponseException $e) {
-            Log::info($e->getMessage() . " " . $e->getFile() . " " . $e->getLine());
+            Log::error(sprintf("%s:%s %s",
+                $e->getLine(),
+                $e->getFile(),
+                $e->getMessage()
+            ));
         }
 
+    }
+
+    public function prepareNumber($number = 0, $length = 10)
+    {
+        $tmp = "" . $number;
+        while (strlen($tmp) < $length)
+            $tmp = "0" . $tmp;
+
+        return $tmp;
+    }
+
+    public function getCoordsByAddress($address)
+    {
+        $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
+
+        $data = $data->getResponse();
+
+        return [
+            "latitude" => !is_null($data) ? $data->getLatitude() : 0,
+            "longitude" => !is_null($data) ? $data->getLongitude() : 0
+        ];
     }
 
     protected function sendMessageToTelegramChannel($id, $message, $keyboard = [])

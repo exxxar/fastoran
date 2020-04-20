@@ -27,13 +27,12 @@ class CreateOrderDetailsTable extends Migration
 
             $table->integer('count')->default(0);
             $table->integer('price')->default(0);
-            $table->string('more_info',255)->nullable();
+            $table->string('more_info', 255)->nullable();
 
             $table->unsignedInteger('order_id')->nullable();
-            $table->unsignedInteger('product_id');
+            $table->json('product_details')->nullable();
 
             if (env("DB_CONNECTION") == 'mysql') {
-                $table->foreign('product_id')->references('id')->on('menus');
                 $table->foreign('order_id')->references('id')->on('orders');
             }
 
@@ -47,8 +46,8 @@ class CreateOrderDetailsTable extends Migration
      *
      * @return void
      */
-     public function down()
-     {
-       Schema::dropIfExists($this->tableName);
-     }
+    public function down()
+    {
+        Schema::dropIfExists($this->tableName);
+    }
 }

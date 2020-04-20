@@ -84,6 +84,14 @@
                     text: message
                 });
             },
+            addToCart() {
+                if (!this.checkFirstRestoran(this.product_data.rest_id)) {
+                    this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
+                    return;
+                }
+                this.sendMessage("Товар добавлен в корзину!")
+                this.$store.dispatch('addProductToCart', this.product_data)
+            },
             hasSub(product) {
                 return product.food_sub != null;
             },

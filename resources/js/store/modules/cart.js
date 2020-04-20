@@ -10,6 +10,9 @@ const getters = {
     },
     cartTotalCount: (state, getters) => {
 
+        if (state.items.length===0)
+            return 0;
+
         let summ = 0;
         state.items.forEach((item) => {
             summ += item.quantity
@@ -17,6 +20,9 @@ const getters = {
         return summ
     },
     cartTotalPrice: (state, getters) => {
+        if (state.items.length===0)
+            return 0;
+
         let summ = 0;
         state.items.forEach((item) => {
             summ += item.product.food_price * item.quantity

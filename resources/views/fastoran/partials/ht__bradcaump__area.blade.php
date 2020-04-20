@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt--40">
+          {{--  <div class="row mt--40">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <form action="{{route("search")}}" method="post"
                           class="search-form row">
@@ -31,7 +31,7 @@
 
                     </form>
                 </div>
-            </div>
+            </div>--}}
         </div>
     </div>
 </div>

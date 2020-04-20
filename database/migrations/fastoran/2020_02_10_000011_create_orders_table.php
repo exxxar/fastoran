@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->engine = 'MyISAM';
             $table->increments('id');
 
-            $table->unsignedInteger('rest_id');
+            $table->unsignedInteger('rest_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
 
             $table->string('latitude')->nullable()->comment('широта');
@@ -33,6 +33,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('deliveryman_id')->nullable();
 
             $table->integer('status')->default(\App\Enums\OrderStatusEnum::InProcessing);
+            $table->integer('order_type')->default(\App\Enums\OrderTypeEnum::FromRestoran);
 
             $table->integer('delivery_price')->default(0);
             $table->integer('delivery_range')->default(0);
@@ -45,6 +46,10 @@ class CreateOrdersTable extends Migration
             $table->string('receiver_address')->nullable();
             $table->string('receiver_order_note')->nullable();
             $table->string('receiver_domophone')->nullable();
+
+            $table->string('client')->nullable();
+
+            $table->json('custom_details')->nullable();
 
 
             if (env("DB_CONNECTION") == 'mysql') {

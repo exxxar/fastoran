@@ -53,15 +53,21 @@ Vue.component(
 
 
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
-Vue.component('rest-filter', require('./components/RestFilter.vue').default);
+Vue.component('tags-cloud-list', require('./components/TagsCloud.vue').default);
 
-
+Vue.component('custom-order', require('./components/CustomOrder.vue').default);
+Vue.component('deliveryman-quest-order', require('./components/DeliverymanQuestOrder.vue').default);
 Vue.component('rest-info', require('./components/RestInfo.vue').default);
 Vue.component('cart', require('./components/Cart.vue').default);
 Vue.component('table-cart', require('./components/TableCart.vue').default);
 Vue.component('header-fastoran', require('./components/Header.vue').default);
 Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 Vue.component('cart-count-index', require('./components/CartCountIndex.vue').default);
+Vue.component('contact-form', require('./components/CallbackForm.vue').default);
+Vue.component('user-profile', require('./components/UserCabinet.vue').default);
+Vue.component('login-form', require('./components/LoginFormApi.vue').default);
+Vue.component('order-status', require('./components/OrderStatus.vue').default);
+//Vue.component('simple-order', require('./components/SimpleOrder.vue').default);
 
 //Admin
 Vue.component('dashboard', require('./components/admin/Dashboard.vue').default);
@@ -87,6 +93,12 @@ import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import 'lazysizes';
+
+/*import { VueReCaptcha } from 'vue-recaptcha-v3'
+
+// For more options see below
+Vue.use(VueReCaptcha, { siteKey: '6Ldj1OgUAAAAAO8NKVROz1FrhdRcx4cpP2rbwltr' })*/
+
 // import a plugin
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 

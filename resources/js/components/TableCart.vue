@@ -1,6 +1,13 @@
 <template>
     <div class="cart-main-area section-padding--lg bg--white">
         <div class="container">
+            <div class="row" v-if="this.getMinOrderSum() > this.cartTotalPrice">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <div class="alert alert-danger" role="alert">
+                        Ваша сумма заказа меньше миниальной ({{getMinOrderSum()}} руб.) в данном ресторане!!
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <form action="#">
@@ -67,7 +74,7 @@
                     <!-- Checkout Accordion Start -->
                     <div id="checkout-accordion">
 
-                        <!-- Checkout Method -->
+
                         <div class="single-accordion">
                             <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
                                href="#checkout-method" aria-expanded="true">1. Ввод номера телефона</a>
@@ -75,11 +82,6 @@
                             <div id="checkout-method" class="collapse show" style="">
                                 <div class="checkout-method accordion-body fix">
                                     <form action="#" class="billing-form checkout-form">
-                                        <div class="row" v-if="message.length>0">
-                                            <div class="col-sm-12 mb-2">
-                                                <p>{{message}}</p>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-sm-12 col-md-12  mb-2"><input type="text"
                                                                                           placeholder="Ваш номер телефона"
@@ -91,29 +93,9 @@
                                                                                           maxlength="19"
                                                                                           v-mask="['+38 (###) ###-##-##']">
                                             </div>
-                                            <div class="col-sm-12 col-md-6  mb-2">
-                                                <button type="button" class="food__btn" @click="sendSms"
-                                                        v-if="!is_valid">Проверить
-                                                </button>
-                                                <!-- <button type="button" class="food__btn" @click="resendSms"
-                                                         v-if="smsSended&&!is_valid">Повторно отправить
-                                                 </button>-->
-                                            </div>
+
                                         </div>
-                                        <!---->
-                                        <!--  <div class="row" v-if="smsSended&&!is_valid">
-                                              <div class="col-sm-12 col-md-6  mb-2">
-                                                  <input type="number" v-model="sms_code"
-                                                         placeholder="Введите код из СМС">
-                                              </div>
-                                              <div class="col-sm-12 col-md-6  mb-2">
-                                                  <button type="button" class="food__btn" @click="checkValidCode">
-                                                      Проверить код
-                                                  </button>
-                                              </div>
 
-
-                                          </div>-->
                                     </form>
 
                                 </div>
@@ -121,7 +103,49 @@
 
                         </div>
 
-                        <!-- Billing Method -->
+                        <div class="single-accordion">
+                            <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
+                               href="#more-products" aria-expanded="true">2. Добавить к заказу</a>
+
+                            <div id="more-products" class="collapse show" style="">
+                                <div class="more-product accordion-body fix">
+                                    <form action="#">
+                                        <h5>Вы можете добавить <strong>любой</strong> интересующий вас товар и наш
+                                            курьер доставит его вместе с товаром из ресторана;)</h5>
+                                        <br>
+                                        <h5>При заказе укажите <strong>максимальную</strong> цену товара! Цена
+                                            доставки увеличится <strong>на 50 руб.</strong>
+                                        </h5>
+                                        <br>
+                                        <hr>
+                                        <div class="row mb-2" v-for="(product, index) in custom_products">
+                                            <div class="col-sm-7 mb-2">
+                                                <input class="form-control" type="text" v-model="product.name"
+                                                       minlength="5"
+                                                       placeholder="Описание и кол-во товара" required></div>
+                                            <div class="col-sm-4 mb-2">
+                                                <input class="form-control" type="number" v-model="product.price"
+                                                       min="10" max="1000"
+                                                       placeholder="Цена, руб." required></div>
+                                            <div class="col-sm-1 mb-2 "><a @click="removeCustomProduct(index)"
+                                                                           class="btn-food-link"><i
+                                                class="fas fa-trash"></i></a></div>
+                                        </div>
+
+                                        <div class="row mb-2">
+                                            <div class="col-sm-12">
+                                                <button type="button" @click="addCustomProduct" class="btn btn-success"
+                                                        style="width:100%">
+                                                    <span>Добавить</span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+
                         <div class="single-accordion">
                             <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
                                href="#billing-method" aria-expanded="true">2. Доставка</a>
@@ -129,19 +153,20 @@
 
                                 <div class="accordion-body billing-method fix">
 
-                                    <form action="#" class="billing-form checkout-form">
+                                    <form @submit="getRangePrice" class="billing-form checkout-form">
                                         <div class="row">
                                             <div class="col-12 mb--20">
-                                                <select v-model="delivery.city">
+                                                <select v-model="delivery.city" required>
                                                     <option value="Донецк">Донецк</option>
                                                     <option value="Макеевка">Макеевка</option>
                                                 </select>
                                             </div>
                                             <div class="col-12 mb--20">
-                                                <input placeholder="Улица" type="text" v-model="delivery.street">
+                                                <input placeholder="Улица" type="text" v-model="delivery.street"
+                                                       required>
                                             </div>
                                             <div class="col-md-6  col-12 mb--20">
-                                                <input placeholder="Номер дома" type="text"
+                                                <input placeholder="Номер дома" type="text" required
                                                        v-model="delivery.home_number">
                                             </div>
 
@@ -151,7 +176,8 @@
                                             </div>
 
                                             <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя">
+                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя"
+                                                       required>
                                             </div>
 
 
@@ -171,7 +197,7 @@
                                             </div>
 
                                             <div class="col-12 mb--20">
-                                                <button type="button" class="food__btn" @click="getRangePrice">
+                                                <button type="submit" class="food__btn">
                                                     Рассчитать цену доставки
                                                 </button>
                                             </div>
@@ -199,21 +225,38 @@
                                     <li v-for="item in  cartProducts"><p>{{item.product.food_name}}
                                         x{{item.quantity}} </p>
                                         <p>{{item.quantity*item.product.food_price| currency}}</p></li>
-                                    <li><p class="strong">Цена заказа</p>
+
+                                    <li><p class="strong">Цена основного заказа</p>
                                         <p class="strong">{{cartTotalPrice| currency}}</p></li>
-                                    <li><p class="strong">Цена доставки</p>
+
+                                    <li v-if="getCustomProductsSum()>0"><h4>Дополнительные товары</h4></li>
+                                    <li v-for="item in  custom_products" v-if="item.name.length>0&&item.price>0"><p>
+                                        {{item.name}}</p>
+                                        <p>{{item.price| currency}}</p></li>
+                                    <li v-if="getCustomProductsSum()>0"><p class="strong">Цена дополнительного
+                                        заказа</p>
+                                        <p class="strong">{{getCustomProductsSum()| currency}}</p></li>
+
+
+                                    <li><p class="strong">Полная цена доставки</p>
                                         <p>
-                                            {{deliveryPrice|currency}}
+                                            {{deliveryPrice+custom_delivery_price|currency}}
                                         </p></li>
                                     <li><p class="strong">Всего</p>
-                                        <p class="strong">{{cartTotalPrice+deliveryPrice | currency}}</p></li>
+                                        <p class="strong">
+                                            {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum()
+                                            | currency}}</p></li>
+                                    <li v-if="this.message.length>0" class="status-order">
+                                        {{this.message}}
+                                    </li>
                                     <li>
                                         <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">
                                             Очистить корзину
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="food__btn" type="button" :disabled="!preparedToSend||!is_valid"
+                                        <button class="food__btn" type="button"
+                                                :disabled="canMakeOrder()===false"
                                                 @click="sendRequest">Оформить
                                             заказ
                                         </button>
@@ -236,22 +279,23 @@
         data() {
             return {
                 preparedToSend: false,
-                smsSended: false,
                 is_valid: false,
                 phone: localStorage.getItem("phone", null) ?? null,
                 name: '',
                 message: '',
                 address: '',
+                custom_delivery_price: 0,
                 delivery_range: null,
                 deliveryPrice: 0,
                 sending: false,
                 sms_code: null,
+                custom_products: [],
                 delivery: {
-                    city: localStorage.getItem("food_city", "Донецк") ?? "Донецк",
-                    street: localStorage.getItem("food_street", ""),
-                    first_name: localStorage.getItem("food_first_name", ""),
-                    home_number: localStorage.getItem("food_home_number", ""),
-                    flat_number: localStorage.getItem("food_flat_number", ""),
+                    city: "Донецк",
+                    street: localStorage.getItem("food_street") == null ? '' : localStorage.getItem("food_street"),
+                    first_name: localStorage.getItem("food_first_name") == null ? '' : localStorage.getItem("food_first_name"),
+                    home_number: localStorage.getItem("food_home_number") == null ? '' : localStorage.getItem("food_home_number"),
+                    flat_number: localStorage.getItem("food_flat_number") == null ? '' : localStorage.getItem("food_flat_number"),
                     more_info: '',
                     money_type: '0',
                 },
@@ -263,19 +307,24 @@
             }
         },
 
+        watch: {
+
+            phone: function (newVal, oldVal) {
+                this.is_valid = newVal.length === 19
+            }
+        },
         mounted() {
+            this.is_valid = this.phone.length === 19
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("getProductList")
             }
 
-            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+            Vue.ls.on('store', callback)
 
             this.$store.dispatch("getProductList")
 
-
         },
         activated() {
-
             this.$store.dispatch("getProductList")
         },
         computed: {
@@ -290,48 +339,57 @@
             }
         },
         methods: {
+            getCustomProductsSum() {
+                let sum = 0;
 
-            resendSms() {
-                this.is_valid = false;
-                this.message = "На ваш номер повторно отправлен смс с кодом!";
-                axios
-                    .post("../api/v1/fastoran/order/resend", {
-                        "phone": this.phone,
-                    }).then(resp => {
-                    this.message = resp.data.message;
-
-                })
-            },
-            canSendOrder() {
-                return this.delivery_range != null && this.cartProducts.length > 0 && this.phone.length > 10
-            },
-            sendSms() {
-                this.is_valid = false;
-                this.message = "Спасибо что пользуетесь сервисом!";
-                axios
-                    .post("../api/v1/fastoran/order/sms", {
-                        "phone": this.phone,
-                        "name": this.name
-                    }).then(resp => {
-                    this.is_valid = true;
-                    this.message = "Теперь заполните информацию для доставки"//resp.data.message;
-                    //this.smsSended = true;
-                })
-            },
-            checkValidCode() {
-                axios
-                    .post("../api/v1/fastoran/check_valid_code", {
-                        "phone": this.phone,
-                        "code": this.sms_code
-                    }).then(resp => {
-                    this.is_valid = resp.data.is_valid
-                    this.message = resp.data.message;
-                    this.sendMessage(this.message)
+                this.custom_products.forEach(element => {
+                    if (element.price != null && element.name.trim().length > 0)
+                        sum += parseInt(element.price)
                 });
+                return sum;
             },
-            getRangePrice() {
+            getMinOrderSum() {
+                return this.cartTotalCount === 0 ?
+                    0 : this.cartProducts[0].product.restoran.min_sum;
+            },
+            canMakeOrder() {
 
-                let address = `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
+                let acceptMinPrice = this.getMinOrderSum() <= this.cartTotalPrice;
+                let acceptCoords = this.preparedToSend;
+                let acceptPhoneNumber = this.is_valid;
+                let acceptMinCount = this.cartTotalCount > 0;
+                let sending = this.sending
+
+                return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
+            },
+            addCustomProduct() {
+                this.custom_products = this.custom_products.filter(item => item.name.trim().length > 0 && item.price > 0)
+                this.custom_products.push({
+                    name: "",
+                    price: null
+                })
+
+                this.custom_delivery_price = 50;
+            },
+            removeCustomProduct(id) {
+                this.custom_products = this.custom_products.filter((item, index) => index !== id)
+                this.sendMessage("Товар удален")
+                this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
+            },
+            getRangePrice(e) {
+                e.preventDefault();
+
+                if (this.cartTotalCount === 0) {
+                    this.sendMessage("Сперва добавьте товар в корзину!")
+                    return
+                }
+
+                if (this.getCustomProductsSum() === 0) {
+                    this.custom_products = [];
+                    this.custom_delivery_price = 0;
+                }
+
+                let address = `Украина, г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
                     .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
                         "address": address
@@ -343,24 +401,30 @@
                     this.coords.latitude = resp.data.latitude
                     this.coords.longitude = resp.data.longitude
 
+                    this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
+
                 });
             },
             sendRequest(e) {
                 // e.preventDefault();
                 this.sending = true;
 
-                localStorage.setItem("phone", this.phone);
-                localStorage.setItem("food_city", this.delivery.city);
-                localStorage.setItem("food_street", this.delivery.street);
-                localStorage.setItem("food_first_name", this.delivery.first_name);
-                localStorage.setItem("food_home_number", this.delivery.home_number);
-                localStorage.setItem("food_flat_number", this.delivery.flat_number);
+                localStorage.setItem("phone", this.phone == null ? '' : this.phone);
+                localStorage.setItem("food_city", this.delivery.city == null ? '' : this.delivery.city);
+                localStorage.setItem("food_street", this.delivery.street == null ? '' : this.delivery.street);
+                localStorage.setItem("food_first_name", this.delivery.first_name == null ? '' : this.delivery.first_name);
+                localStorage.setItem("food_home_number", this.delivery.home_number == null ? '' : this.delivery.home_number);
+                localStorage.setItem("food_flat_number", this.delivery.flat_number == null ? '' : this.delivery.flat_number);
 
+                if (this.getCustomProductsSum() === 0) {
+                    this.custom_products = [];
+                    this.custom_delivery_price = 0;
+                }
 
                 let products = [];
                 this.cartProducts.forEach(function (item) {
                     products.push({
-                        product_id: item.product.id,
+                        product_details: item.product,
                         count: item.quantity,
                         price: item.product.food_price,
                         more_info: item.product.selected_sub != null ? item.product.selected_sub : ''
@@ -379,23 +443,26 @@
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
-                        order_details: products
+                        order_details: products,
+                        custom_details: this.custom_products
 
 
                     })
                     .then(response => {
                         this.clearCart()
-                        this.sendMessage(response.data.message);
+                        this.sendMessage("Ваш заказ успешно отправлен! Номер заказа #" + response.data.order_id);
 
+                        ym(61797661, 'reachGoal', 'zakaz');
 
-                        //this.message = '';
-                        //this.sms_code = '';
-                        //this.is_valid = false;
                         this.deliveryPrice = 0;
                         this.delivery_range = null;
                         this.sending = false;
 
-                        window.location.href = "/success";
+                        localStorage.setItem("last_order_id", response.data.order_id)
+                        localStorage.setItem("status_counter", null)
+
+                        this.message = "Ваш заказ успешно отправлен! Номер заказа #" + response.data.order_id
+                        //window.location.href = "/success";
                     });
             },
             sendMessage(message) {
@@ -406,6 +473,7 @@
                     text: message
                 });
             },
+
             hasSub(product) {
                 return product.food_sub != null;
             },
@@ -424,16 +492,34 @@
                 this.$store.dispatch("removeProduct", id)
             },
             clearCart() {
+                this.custom_products = [];
+
                 this.deliveryPrice = 0;
                 this.delivery_range = null;
-                window.location.href = "/success";
+
                 this.$store.dispatch("clearCart")
+
+
             }
         },
         directives: {mask}
     }
 </script>
 <style lang="scss" scoped>
+
+    .more-product {
+        h5 {
+            strong {
+                color: #d50c0d;
+                font-weight: 800;
+            }
+        }
+    }
+
+    .status-order {
+        background: red;
+        color: white;
+    }
 
     .cartbox__item__content {
         h5 {

@@ -476,6 +476,8 @@
         animation: 'slideInRight'
     });
 
+    $("#scrollUp").attr({"aria-label":"Возврат к верхушке сайта"});
+
 
     /*=========== Mobile Menu ===========*/
 
@@ -487,6 +489,8 @@
         meanMenuContainer: '.mobile-menu',
         onePage: true
     });
+
+    $(".meanmenu-reveal").attr({"aria-label":"Мобильное меню"});
 
 
 

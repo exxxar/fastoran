@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\Classes\Utilits;
 use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
@@ -18,7 +19,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RestController extends Controller
 {
-    //
+    use Utilits;
 
     public function __construct()
     {
@@ -79,15 +80,6 @@ class RestController extends Controller
 
     }
 
-    public function getCheckout(Request $request)
-    {
-        return view("fastoran.checkout");
-    }
-
-    public function getCart(Request $request)
-    {
-        return view("fastoran.cart");
-    }
 
     public function getAllMenu(Request $request)
     {
@@ -119,6 +111,8 @@ class RestController extends Controller
             ->where("id", $kitchenId)
             ->first();
 
+        if (is_null($kitchen))
+            return redirect()->route("main");
 
         $restorans = is_null($kitchen) ? null : $kitchen->restorans()->get();
 
@@ -136,6 +130,9 @@ class RestController extends Controller
 
         $restoran = Restoran::with(["kitchens", "categories", "categories.menus"])->where("url", $domain)
             ->first();
+
+        if (is_null($restoran))
+            return redirect()->route("main");
 
         $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
 
@@ -155,6 +152,9 @@ class RestController extends Controller
             ->where("id", $id)
             ->first();
 
+        if (is_null($restoran))
+            return redirect()->route("main");
+
         $categories = MenuCategory::all();
 
 
@@ -167,14 +167,29 @@ class RestController extends Controller
 
 
     public function sendWish(Request $request)
+
     {
+        $request->validate([
+            'phone' => "required",
+            'email' => "email",
+            "from" => "string|required",
+            "message" => "required"
+        ]);
+
         $phone = $request->get("phone") ?? '';
         $email = $request->get("email") ?? '';
         $from = $request->get("from") ?? '';
         $message = $request->get("message") ?? '';
 
-        Log::info("$phone $email $from $message");
 
+        $tmp_message = sprintf("*Заявка на перезвон:*\nТелефон: %s\nПочта: %s\nФ.И.О.: %s\nСообщение: %s",
+            $phone,
+            $email,
+            $from,
+            $message
+        );
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $tmp_message);
         if ($request->ajax())
             return response()
                 ->json([

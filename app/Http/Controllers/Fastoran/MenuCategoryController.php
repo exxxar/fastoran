@@ -57,9 +57,13 @@ class MenuCategoryController extends Controller
      * @param  \App\MenuCategory  $menuCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(MenuCategory $menuCategory)
+    public function show($id)
     {
         //
+        return response()
+            ->json([
+                "products"=>(MenuCategory::with(["menus","menus.restoran"])->where("id",$id)->first())->menus()->get()
+            ]);
     }
 
     /**
