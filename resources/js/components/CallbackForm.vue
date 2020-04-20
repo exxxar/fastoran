@@ -13,7 +13,7 @@
                            placeholder="Номер телефона" required>
                 </div>
                 <div class="col-md-12 mb-2">
-                    <input type="email" name="email" class="form-control" v-model="email" placeholder="Ваша почта" required>
+                    <input type="email" name="email" class="form-control" v-model="email" placeholder="Ваша почта">
                 </div>
             </div>
             <div class="single-contact-form row">

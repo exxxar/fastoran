@@ -10,6 +10,7 @@ use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\DeliveryQuest;
 use App\Parts\Models\Fastoran\Order;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Parts\Models\Fastoran\OrderDetail;
@@ -131,6 +132,18 @@ class OrderController extends Controller
 
     }
 
+    public function show($id)
+    {
+        return response()
+            ->json([
+                "order" => Order::with(["restoran"])
+                    ->whereDate('created_at', Carbon::today())
+                    ->where("id", $id)
+                    ->orderBy("id","DESC")
+                    ->first()
+            ]);
+    }
+
     public function store(Request $request)
     {
         $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone"));
@@ -146,15 +159,15 @@ class OrderController extends Controller
                 'name' => $request->name ?? $request->receiver_name ?? ''
             ]);
 
-  /*      if (!is_null($client)) {
-            $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
-            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
-            return response()
-                ->json([
-                    "message" => "Сообщение с Андройд успешно получено",
-                    "status" => 200
-                ]);
-        }*/
+        /*      if (!is_null($client)) {
+                  $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
+                  $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+                  return response()
+                      ->json([
+                          "message" => "Сообщение с Андройд успешно получено",
+                          "status" => 200
+                      ]);
+              }*/
 
 
         $user = User::where("phone", $phone)->first();
@@ -267,6 +280,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
+
         $this->sendToTelegram($rest->telegram_channel, $message, [
             [
                 ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
@@ -277,6 +291,7 @@ class OrderController extends Controller
         return response()
             ->json([
                 "message" => $message,
+                "order_id" => $order->id,
                 "status" => 200
             ]);
     }
@@ -367,7 +382,7 @@ class OrderController extends Controller
         $quest->price = intval($res->price);
         $quest->save();
 
-        $prices = [0,50, 200, 500, 50];
+        $prices = [0, 50, 200, 500, 50];
 
         $work_price = $prices[$quest->quest_type >= count($prices) ? 0 : $quest->quest_type];
 
@@ -439,7 +454,7 @@ class OrderController extends Controller
             'receiver_delivery_time' => '',
             'receiver_address' => $address,
             'custom_details' => $order_details,
-            'order_type'=>OrderTypeEnum::UsersCustomOrder
+            'order_type' => OrderTypeEnum::UsersCustomOrder
         ]);
 
 
@@ -495,7 +510,9 @@ class OrderController extends Controller
                 ]);
 
         $orders = Order::with(["details", "restoran"])
+            ->whereDate('created_at', Carbon::today())
             ->where("user_id", $user->id)
+            ->orderBy("id","DESC")
             ->get();
 
         return $request->ajax() ? response()
@@ -562,6 +579,7 @@ class OrderController extends Controller
             $user->phone ?? "Без номера"
         );
 
+        $this->sendSms($order->receiver_phone,"Ваш #$order->id заказ готовится!");
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()

@@ -49,6 +49,8 @@ Vue.component('add-cart-btn', require('./components/AddCartBtn.vue').default);
 Vue.component('cart-count-index', require('./components/CartCountIndex.vue').default);
 Vue.component('contact-form', require('./components/CallbackForm.vue').default);
 Vue.component('user-profile', require('./components/UserCabinet.vue').default);
+Vue.component('login-form', require('./components/LoginFormApi.vue').default);
+Vue.component('order-status', require('./components/OrderStatus.vue').default);
 //Vue.component('simple-order', require('./components/SimpleOrder.vue').default);
 
 //Admin

@@ -67,7 +67,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('restorans', 'RestoransController@index');
         Route::any('menus', 'MenuController@index');
 
-        Route::any('/history', 'OrderController@getOrderHistory');
+
         Route::any('/restorans/menu/{restId}', 'MenuController@getMenuByRestId');
         Route::any('/restorans/kitchen/{kitchenId}', 'RestoransController@getRestoransByKitchenId');
 
@@ -79,6 +79,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         ], function () {
 
+            Route::any('/history', 'OrderController@getOrderHistory');
             Route::any("accept_order/{id}", "OrderController@acceptOrder");
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
             Route::any("decline_order/{id}", "OrderController@declineOrder");

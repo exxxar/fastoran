@@ -4,7 +4,7 @@
     @include("fastoran.partials.header")
 
     @include("fastoran.partials.ht__bradcaump__area",["title"=>"Личный кабинет"])
-    <div class="cart-main-area section-padding--lg bg--white">
+ {{--   <div class="cart-main-area section-padding--lg bg--white">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -43,6 +43,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
+
+    <user-profile></user-profile>
     @include("fastoran.partials.footer__area")
 @endsection

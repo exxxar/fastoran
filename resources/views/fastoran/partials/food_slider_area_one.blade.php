@@ -37,6 +37,9 @@
                                     </div>
                                 </div>
                                 <h1>Доставка еды &amp; сервис</h1>
+                                <div class="slider__input custom__slider__input">
+                                    <order-status></order-status>
+                                </div>
                                 {{--   <form class="slider__input custom__slider__input" action="{{route('search')}}" method="post">
                                        @csrf
                                        <input type="text" name="food_name" placeholder="Введите название блюда">

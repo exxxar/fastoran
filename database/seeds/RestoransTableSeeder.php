@@ -1,8 +1,8 @@
 <?php
 
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Rating;
 use App\Parts\Models\Fastoran\Restoran;
-use App\Rating;
 use Illuminate\Database\Seeder;
 
 class RestoransTableSeeder extends Seeder

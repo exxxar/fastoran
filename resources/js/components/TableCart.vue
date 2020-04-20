@@ -246,6 +246,9 @@
                                         <p class="strong">
                                             {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum()
                                             | currency}}</p></li>
+                                    <li v-if="this.message.length>0" class="status-order">
+                                        {{this.message}}
+                                    </li>
                                     <li>
                                         <button class="food__btn" @click="clearCart" v-if="cartProducts.length>0">
                                             Очистить корзину
@@ -289,10 +292,10 @@
                 custom_products: [],
                 delivery: {
                     city: "Донецк",
-                    street: localStorage.getItem("food_street", ""),
-                    first_name: localStorage.getItem("food_first_name", ""),
-                    home_number: localStorage.getItem("food_home_number", ""),
-                    flat_number: localStorage.getItem("food_flat_number", ""),
+                    street: localStorage.getItem("food_street") == null ? '' : localStorage.getItem("food_street"),
+                    first_name: localStorage.getItem("food_first_name") == null ? '' : localStorage.getItem("food_first_name"),
+                    home_number: localStorage.getItem("food_home_number") == null ? '' : localStorage.getItem("food_home_number"),
+                    flat_number: localStorage.getItem("food_flat_number") == null ? '' : localStorage.getItem("food_flat_number"),
                     more_info: '',
                     money_type: '0',
                 },
@@ -355,8 +358,9 @@
                 let acceptCoords = this.preparedToSend;
                 let acceptPhoneNumber = this.is_valid;
                 let acceptMinCount = this.cartTotalCount > 0;
+                let sending = this.sending
 
-                return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount;
+                return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
             },
             addCustomProduct() {
                 this.custom_products = this.custom_products.filter(item => item.name.trim().length > 0 && item.price > 0)
@@ -446,7 +450,7 @@
                     })
                     .then(response => {
                         this.clearCart()
-                        this.sendMessage(response.data.message);
+                        this.sendMessage("Ваш заказ успешно отправлен! Номер заказа #" + response.data.order_id);
 
                         ym(61797661, 'reachGoal', 'zakaz');
 
@@ -454,7 +458,11 @@
                         this.delivery_range = null;
                         this.sending = false;
 
-                        window.location.href = "/success";
+                        localStorage.setItem("last_order_id", response.data.order_id)
+                        localStorage.setItem("status_counter", null)
+
+                        this.message = "Ваш заказ успешно отправлен! Номер заказа #" + response.data.order_id
+                        //window.location.href = "/success";
                     });
             },
             sendMessage(message) {
@@ -491,7 +499,6 @@
 
                 this.$store.dispatch("clearCart")
 
-                window.location.href = "/";
 
             }
         },
@@ -507,6 +514,11 @@
                 font-weight: 800;
             }
         }
+    }
+
+    .status-order {
+        background: red;
+        color: white;
     }
 
     .cartbox__item__content {

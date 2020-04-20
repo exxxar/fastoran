@@ -35,6 +35,7 @@
     @include("fastoran.partials.contact-modal-box")
     @include("fastoran.partials.custom-cart-modal-box")
     @include("fastoran.partials.deliveryman-quest-order-modal-box")
+    @include("fastoran.partials.profile-box")
 
 
 

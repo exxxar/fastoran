@@ -77,7 +77,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        event(new SendSmsEvent($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
+        event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'
@@ -102,14 +102,17 @@ class AuthController extends Controller
             'remember_me' => 'boolean'
         ]);
 
-        $credentials = request(['phone', 'password']);
+        $phone = $this->preparePhone($request->get("phone"));
+
+        $credentials = request(['password']);
+        $credentials['phone'] = $phone;
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
 
         if (!Auth::attempt($credentials))
             return response()->json([
-                'message' => 'Ошибка авторизации'
-            ], 401);
+                'message' => 'Ошибка авторизации! Неправильно введен телефон или код из СМС!'
+            ]);
 
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
@@ -174,7 +177,7 @@ class AuthController extends Controller
         $user->auth_code = $code;
         $user->save();
 
-        event(new SendSmsEvent($user->phone,"Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
+        event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         if (!is_null($user))
             return response()

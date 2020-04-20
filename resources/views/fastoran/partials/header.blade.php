@@ -57,6 +57,11 @@
                 </div>
                 <div class="col-lg-1 col-sm-4 col-md-4 order-2 order-lg-3">
                     <div class="header__right d-flex justify-content-end">
+                        <div class="log__in">
+                            <a data-toggle="modal"
+                               data-target="#profileModal"><i
+                                    class="zmdi zmdi-account-o"></i></a>
+                        </div>
                         {{--    @guest
                                 <div class="log__in">
                                     <a href="{{route("login")}}"><i
