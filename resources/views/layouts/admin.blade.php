@@ -51,6 +51,11 @@
                             @endif
                         @else
                             <li>
+                                <a class="nav-link" href="/admin">
+                                    Главная
+                                </a>
+                            </li>
+                            <li>
                                 <a class="nav-link" href="/admin/kitchens">
                                     Кухни
                                 </a>

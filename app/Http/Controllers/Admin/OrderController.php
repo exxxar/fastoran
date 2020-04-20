@@ -815,11 +815,13 @@ class OrderController extends Controller
         foreach ($orders as $order) {
             $restoran = Restoran::where("id", $order->rest_id)->first();
             $order->rest_name = $restoran->name;
+            $order->deliveryman_name = $order->deliveryman_id;
             $order->deliveryman_phone = $order->deliveryman_id;
             if($order->deliveryman_id != null)
             {
                 $deliveryman = User::where("id", $order->deliveryman_id)->first();
                 $order->deliveryman_phone = $deliveryman['phone'];
+                $order->deliveryman_name = $deliveryman['name'];
             }
         }
         $deleted_orders= Order::onlyTrashed()->get();

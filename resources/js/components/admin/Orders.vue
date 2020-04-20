@@ -106,6 +106,19 @@
                         empty-text="Нет записей для отображения"
                         empty-filtered-text="Нет записей, соответствующих вашему запросу"
                     >
+                        <template v-slot:cell(created_at)="data">
+                            <div :class="[
+                                new Date(data.item.created_at).getDate() == day ? 'today' : '',
+                                new Date(data.item.created_at).getDate() == day-1 ? 'yesterday' : '',
+                                new Date(data.item.created_at).getDate()%2 == 0 ? 'even' : 'odd']">
+                                {{ data.item.created_at | moment("hh:mm:ss, DD.MM.YY") }}
+                            </div>
+                            <span style="font-size: 12px; color: gray">{{ data.item.created_at | moment("from", "now") }}</span>
+                        </template>
+                        <template v-slot:cell(deliveryman_name)="data">
+                            <p>{{data.item.deliveryman_name}}</p>
+                            <p>{{data.item.deliveryman_phone}}</p>
+                        </template>
                         <template v-slot:cell(status)="data">
                             <b-input-group size="sm">
                                 <b-form-select
@@ -139,77 +152,30 @@
                             <b-card>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Цена доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.delivery_price"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'delivery_price')"-->
-<!--                                                          :placeholder="'Введите цену доставки'">-->
-<!--                                            </b-form-input>-->
-                                            {{row.item.delivery_price}}
-                                        </b-form-group>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Диапозон доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.delivery_range"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'delivery_range')"-->
-<!--                                                          :placeholder="'Введите диапозон доставки'">-->
-<!--                                            </b-form-input>-->
-                                            {{row.item.delivery_range}}
-                                        </b-form-group>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Примечание доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.delivery_note"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'delivery_note')"-->
-<!--                                                          :placeholder="'Введите примечание доставки'">-->
-<!--                                            </b-form-input>-->
-                                            {{row.item.delivery_note}}
-                                        </b-form-group>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Идентификатор получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.receiver_name"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'receiver_name')"-->
-<!--                                                          :placeholder="'Введите имя получателя'">-->
-<!--                                            </b-form-input>-->
-                                            {{row.item.user_id}}
+                                        <b-form-group label-cols-lg="4" label="Имя получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.receiver_name}}
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
                                         <b-form-group label-cols-lg="4" label="Телефон получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.receiver_phone"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'receiver_phone')"-->
-<!--                                                          :placeholder="'Введите телефон получателя'">-->
-<!--                                            </b-form-input>-->
-                                           {{row.item.receiver_phone}}
+                                            {{row.item.receiver_phone}}
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Время доставки к получателю" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.receiver_delivery_time"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'receiver_delivery_time')"-->
-<!--                                                          :placeholder="'Введите время доставки к получателю'">-->
-<!--                                            </b-form-input>-->
-                                            {{row.item.receiver_delivery_time}}
+                                        <b-form-group label-cols-lg="4" label="Адрес получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.receiver_address}}
                                         </b-form-group>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Адрес получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
-<!--                                            <b-form-input type="text" disabled-->
-<!--                                                          :value="row.item.receiver_address"-->
-<!--                                                          @blur="save($event.target.value,row.item.id,'receiver_address')"-->
-<!--                                                          :placeholder="'Введите адрес получателя'">-->
-<!--                                            </b-form-input>-->
-                                            {{row.item.receiver_address}}
+                                        <b-form-group label-cols-lg="4" label="Примечание доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            <!--                                            <b-form-input type="text" disabled-->
+                                            <!--                                                          :value="row.item.delivery_note"-->
+                                            <!--                                                          @blur="save($event.target.value,row.item.id,'delivery_note')"-->
+                                            <!--                                                          :placeholder="'Введите примечание доставки'">-->
+                                            <!--                                            </b-form-input>-->
+                                            {{row.item.delivery_note}}
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
@@ -255,7 +221,34 @@
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Идентификатор курьера" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                        <b-form-group label-cols-lg="4" label="Время доставки к получателю" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            <!--                                            <b-form-input type="text" disabled-->
+                                            <!--                                                          :value="row.item.receiver_delivery_time"-->
+                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_delivery_time')"-->
+                                            <!--                                                          :placeholder="'Введите время доставки к получателю'">-->
+                                            <!--                                            </b-form-input>-->
+                                            {{row.item.receiver_delivery_time}}
+                                        </b-form-group>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="7" label="Идентификатор получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            <!--                                            <b-form-input type="text" disabled-->
+                                            <!--                                                          :value="row.item.receiver_name"-->
+                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_name')"-->
+                                            <!--                                                          :placeholder="'Введите имя получателя'">-->
+                                            <!--                                            </b-form-input>-->
+                                            {{row.item.user_id}}
+                                        </b-form-group>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="7" label="Идентификатор ресторана" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.rest_id}}
+                                        </b-form-group>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="7" label="Идентификатор курьера" label-class="font-weight-bold" label-size="sm" class="mb-0">
                                             {{row.item.deliveryman_id}}
                                         </b-form-group>
                                     </div>
@@ -390,6 +383,19 @@
                         empty-text="Нет записей для отображения"
                         empty-filtered-text="Нет записей, соответствующих вашему запросу"
                     >
+                        <template v-slot:cell(created_at)="data">
+                            <div :class="[
+                                new Date(data.item.created_at).getDate() == day ? 'today' : '',
+                                new Date(data.item.created_at).getDate() == day-1 ? 'yesterday' : '',
+                                new Date(data.item.created_at).getDate()%2 == 0 ? 'even' : 'odd']">
+                                {{ data.item.created_at | moment("hh:mm:ss, DD.MM.YY") }}
+                            </div>
+                            <span style="font-size: 12px; color: gray">{{ data.item.created_at | moment("from", "now") }}</span>
+                        </template>
+                        <template v-slot:cell(deliveryman_name)="data">
+                            <p>{{data.item.deliveryman_name}}</p>
+                            <p>{{data.item.deliveryman_phone}}</p>
+                        </template>
                         <template v-slot:cell(status)="data">
                             <b-input-group size="sm">
                                 <b-form-select
@@ -424,25 +430,22 @@
                             <b-card>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Цена доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
-                                            <!--                                            <b-form-input type="text" disabled-->
-                                            <!--                                                          :value="row.item.delivery_price"-->
-                                            <!--                                                          @blur="save($event.target.value,row.item.id,'delivery_price')"-->
-                                            <!--                                                          :placeholder="'Введите цену доставки'">-->
-                                            <!--                                            </b-form-input>-->
-                                            {{row.item.delivery_price}}
+                                        <b-form-group label-cols-lg="4" label="Имя получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.receiver_name}}
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Диапозон доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
-                                            <!--                                            <b-form-input type="text" disabled-->
-                                            <!--                                                          :value="row.item.delivery_range"-->
-                                            <!--                                                          @blur="save($event.target.value,row.item.id,'delivery_range')"-->
-                                            <!--                                                          :placeholder="'Введите диапозон доставки'">-->
-                                            <!--                                            </b-form-input>-->
-                                            {{row.item.delivery_range}}
+                                        <b-form-group label-cols-lg="4" label="Телефон получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.receiver_phone}}
                                         </b-form-group>
                                     </div>
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="4" label="Адрес получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.receiver_address}}
+                                        </b-form-group>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-12 col-md-4 mb-2">
                                         <b-form-group label-cols-lg="4" label="Примечание доставки" label-class="font-weight-bold" label-size="sm" class="mb-0">
                                             <!--                                            <b-form-input type="text" disabled-->
@@ -451,50 +454,6 @@
                                             <!--                                                          :placeholder="'Введите примечание доставки'">-->
                                             <!--                                            </b-form-input>-->
                                             {{row.item.delivery_note}}
-                                        </b-form-group>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Идентификатор получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
-                                            <!--                                            <b-form-input type="text" disabled-->
-                                            <!--                                                          :value="row.item.receiver_name"-->
-                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_name')"-->
-                                            <!--                                                          :placeholder="'Введите имя получателя'">-->
-                                            <!--                                            </b-form-input>-->
-                                            {{row.item.user_id}}
-                                        </b-form-group>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Телефон получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
-                                            <!--                                            <b-form-input type="text" disabled-->
-                                            <!--                                                          :value="row.item.receiver_phone"-->
-                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_phone')"-->
-                                            <!--                                                          :placeholder="'Введите телефон получателя'">-->
-                                            <!--                                            </b-form-input>-->
-                                            {{row.item.receiver_phone}}
-                                        </b-form-group>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Время доставки к получателю" label-class="font-weight-bold" label-size="sm" class="mb-0">
-                                            <!--                                            <b-form-input type="text" disabled-->
-                                            <!--                                                          :value="row.item.receiver_delivery_time"-->
-                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_delivery_time')"-->
-                                            <!--                                                          :placeholder="'Введите время доставки к получателю'">-->
-                                            <!--                                            </b-form-input>-->
-                                            {{row.item.receiver_delivery_time}}
-                                        </b-form-group>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Адрес получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
-                                            <!--                                            <b-form-input type="text" disabled-->
-                                            <!--                                                          :value="row.item.receiver_address"-->
-                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_address')"-->
-                                            <!--                                                          :placeholder="'Введите адрес получателя'">-->
-                                            <!--                                            </b-form-input>-->
-                                            {{row.item.receiver_address}}
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
@@ -540,7 +499,34 @@
                                         </b-form-group>
                                     </div>
                                     <div class="col-sm-12 col-md-4 mb-2">
-                                        <b-form-group label-cols-lg="4" label="Идентификатор курьера" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                        <b-form-group label-cols-lg="4" label="Время доставки к получателю" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            <!--                                            <b-form-input type="text" disabled-->
+                                            <!--                                                          :value="row.item.receiver_delivery_time"-->
+                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_delivery_time')"-->
+                                            <!--                                                          :placeholder="'Введите время доставки к получателю'">-->
+                                            <!--                                            </b-form-input>-->
+                                            {{row.item.receiver_delivery_time}}
+                                        </b-form-group>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="7" label="Идентификатор получателя" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            <!--                                            <b-form-input type="text" disabled-->
+                                            <!--                                                          :value="row.item.receiver_name"-->
+                                            <!--                                                          @blur="save($event.target.value,row.item.id,'receiver_name')"-->
+                                            <!--                                                          :placeholder="'Введите имя получателя'">-->
+                                            <!--                                            </b-form-input>-->
+                                            {{row.item.user_id}}
+                                        </b-form-group>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="7" label="Идентификатор ресторана" label-class="font-weight-bold" label-size="sm" class="mb-0">
+                                            {{row.item.rest_id}}
+                                        </b-form-group>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 mb-2">
+                                        <b-form-group label-cols-lg="7" label="Идентификатор курьера" label-class="font-weight-bold" label-size="sm" class="mb-0">
                                             {{row.item.deliveryman_id}}
                                         </b-form-group>
                                     </div>
@@ -627,8 +613,9 @@
                 fields: [
                     {key: 'created_at', label: 'Дата', sortable: true, sortDirection: 'desc'},
                     {key: 'rest_name', label: 'Ресторан', sortable: true, sortDirection: 'desc'},
-                    {key: 'receiver_name', label: 'Пользователь', sortable: true, sortDirection: 'desc'},
-                    {key: 'deliveryman_phone', label: 'Курьер', sortable: true, sortDirection: 'desc'},
+                    {key: 'deliveryman_name', label: 'Курьер', sortable: true, sortDirection: 'desc'},
+                    {key: 'delivery_range', label: 'Километраж', sortable: true, sortDirection: 'desc'},
+                    {key: 'delivery_price', label: 'Цена доставки', sortable: true, sortDirection: 'desc'},
                     {key: 'summary_price', label: 'Итоговая цена', sortable: true, sortDirection: 'desc'},
                     {key: 'status', label: 'Статус', sortable: true, sortDirection: 'desc'},
                     {key: 'action', label: 'Действие'},
@@ -671,6 +658,7 @@
                 sortDirection1: 'asc',
                 filter1: null,
                 filterOn1: [],
+                day: '',
             }
         },
         computed: {
@@ -684,7 +672,9 @@
             }
         },
         created() {
-            this.loadData()
+            this.loadData();
+            var d = new Date();
+            this.day = d.getDate()
         },
         methods: {
             info(item, index, button) {
@@ -784,3 +774,18 @@
         }
     }
 </script>
+<style scoped>
+    .today {
+        /*color: forestgreen;*/
+        color: red !important;
+    }
+    .yesterday {
+        color: orange !important;
+    }
+    .odd{
+        color: #2176bd;
+    }
+    .even {
+        color: yellowgreen;
+    }
+</style>
