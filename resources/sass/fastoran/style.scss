@@ -484,3 +484,10 @@ div.circle-button-group {
     transition: opacity 300ms;
     background: #f7f7f7 url(../img/ajax-loader.gif) no-repeat center;
 }
+
+
+ul.dropdown__menu {
+    max-height: 200px;
+    height: 200px;
+    overflow-y: scroll;
+}

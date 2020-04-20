@@ -139,7 +139,7 @@ class OrderController extends Controller
                 "order" => Order::with(["restoran"])
                     ->whereDate('created_at', Carbon::today())
                     ->where("id", $id)
-                    ->orderBy("id","DESC")
+                    ->orderBy("id", "DESC")
                     ->first()
             ]);
     }
@@ -512,7 +512,7 @@ class OrderController extends Controller
         $orders = Order::with(["details", "restoran"])
             ->whereDate('created_at', Carbon::today())
             ->where("user_id", $user->id)
-            ->orderBy("id","DESC")
+            ->orderBy("id", "DESC")
             ->get();
 
         return $request->ajax() ? response()
@@ -579,7 +579,7 @@ class OrderController extends Controller
             $user->phone ?? "Без номера"
         );
 
-        $this->sendSms($order->receiver_phone,"Ваш #$order->id заказ готовится!");
+        $this->sendSms($order->receiver_phone, "Ваш #$order->id заказ готовится!");
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
@@ -763,8 +763,8 @@ class OrderController extends Controller
 
         $rest = Restoran::find($restId);
 
-        if (is_null($rest->latitude) || is_null($rest->longitude)) {
-            $coords = (object)$this->getCoordsByAddress($rest->address);
+        if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
+            $coords = (object)$this->getCoordsByAddress("Украина, ".$rest->address);
             $rest->latitude = $coords->latitude;
             $rest->longitude = $coords->longitude;
             $rest->save();
