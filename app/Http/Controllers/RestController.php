@@ -171,7 +171,7 @@ class RestController extends Controller
     {
         $request->validate([
             'phone' => "required",
-            'email' => "email",
+            'email' => "nullable|email",
             "from" => "string|required",
             "message" => "required"
         ]);
