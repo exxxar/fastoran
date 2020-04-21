@@ -90,7 +90,7 @@ class Order extends Model
 
         $time = ((intval($this->delivery_range) / 60) * 100) + $delivery_time;
 
-        return Carbon::parse($this->created_at)->addMinutes($time);
+        return Carbon::parse($this->created_at,'Europe/Moscow')->addMinutes($time);
 
     }
 
