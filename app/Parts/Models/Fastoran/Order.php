@@ -89,7 +89,7 @@ class Order extends Model
         $delivery_time = is_null($this->delivery_note) ? 0 : intval($this->delivery_note);
 
         $time = ((intval($this->delivery_range) / 60) * 100) + $delivery_time;
-        return Carbon::createFromFormat('Y-m-d H:i',$this->created_at )->setTimezone('Europe/Moscow')->addMinutes($time);
+        return Carbon::createFromFormat('Y-m-d H:i',$this->created_at )->addMinutes($time);
 
     }
 
