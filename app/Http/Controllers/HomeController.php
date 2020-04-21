@@ -57,7 +57,6 @@ class HomeController extends Controller
                 'count' => 50
             ]);
 
-
             RestMenu::truncate();
             //работает
             foreach ($response["response"]["items"] as $item) {
