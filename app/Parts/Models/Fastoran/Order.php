@@ -54,7 +54,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price",  "status_text"];
+    protected $appends = ["summary_count", "summary_price", "status_text"];
 
     public function details()
     {
@@ -84,18 +84,22 @@ class Order extends Model
 
     public function getStatusTextAttribute()
     {
-
+        $time = "Не установлено";
+        if (!is_null($this->delivery_note))
+            $time = ((intval($this->delivery_range) / 60) * 100) + intval($this->delivery_note);
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
-                return "В обработке";
+                return "В обработке (время доставки $time)";
             case 1:
-                return "Готовится";
+                return "Готовится (время готовности $this->delivery_note мин.)";
             case 2:
-                return "Доставляется";
+                return "Доставляется (время доставки $time мин.)";
             case 3:
                 return "Доставлено";
         }
+
+
     }
 
     public function getSummaryCountAttribute()
