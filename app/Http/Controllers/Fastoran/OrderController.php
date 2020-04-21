@@ -569,6 +569,7 @@ class OrderController extends Controller
                     $validator->errors()->toArray(), 500
                 );
 
+        $order->status = OrderStatusEnum::InDeliveryProcess;
         $order->deliveryman_id = $user->id;
         $order->save();
 
@@ -641,6 +642,7 @@ class OrderController extends Controller
                 );
 
 
+        $order->status = OrderStatusEnum::DeclineByAdmin;
         $order->deliveryman_id = null;
         $order->save();
 
@@ -648,6 +650,7 @@ class OrderController extends Controller
             $user->id,
             $order->id
         );
+
 
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
@@ -885,15 +888,8 @@ class OrderController extends Controller
                 ], 200);
         }
 
-        /* if (strlen(trim($order->delivery_note)) === 0) {
-             return response()
-                 ->json([
-                     "message" => "Комментарий к заказу уже был установлен"
-                 ], 200);
-         }*/
-
-
         $order->delivery_note = $comment;
+        $order->status = OrderStatusEnum::GettingReady;
         $order->save();
 
         $message = sprintf("Администратор *#%s* установил пометку к заказу *#%s*",
