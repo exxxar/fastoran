@@ -27,6 +27,8 @@
                     <li v-if="order.rest_id!=null"><p class="strong">Заказ из: {{order.restoran.name}}</p>
                     <li><p class="strong">Статус заказа:</p>
                         <p>{{order.status_text}}</p></li>
+                    <li><p class="strong">Будет доставлено в:</p>
+                        <p>{{order.delivered_time}}</p></li>
                     <li><p class="strong">Цена заказа:</p>
                         <p>{{order.summary_price}} руб.</p></li>
                     <li><p class="strong">Цена доставки:</p>

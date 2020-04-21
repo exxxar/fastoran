@@ -8,6 +8,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -54,7 +55,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price", "status_text"];
+    protected $appends = ["summary_count", "summary_price", "status_text", "delivered_time"];
 
     public function details()
     {
@@ -82,11 +83,22 @@ class Order extends Model
         return $this->hasOne(Restoran::class, 'id', 'rest_id');
     }
 
+    public function getDeliveredTimeAttribute()
+    {
+
+        $delivery_time = is_null($this->delivery_note) ? 0 : intval($this->delivery_note);
+
+        $time = ((intval($this->delivery_range) / 60) * 100) + $delivery_time;
+
+        return Carbon::parse($this->created_at)->addMinutes($time);
+
+    }
+
     public function getStatusTextAttribute()
     {
         $time = "Не установлено";
         if (!is_null($this->delivery_note))
-            $time = sprintf("%.0f",((intval($this->delivery_range) / 60) * 100) + intval($this->delivery_note));
+            $time = sprintf("%.0f", ((intval($this->delivery_range) / 60) * 100) + intval($this->delivery_note));
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
