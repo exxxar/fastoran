@@ -86,7 +86,7 @@ class Order extends Model
     {
         $time = "Не установлено";
         if (!is_null($this->delivery_note))
-            $time = sprintf("%.0f",(intval($this->delivery_range) / 60) * 100) + intval($this->delivery_note));
+            $time = sprintf("%.0f",((intval($this->delivery_range) / 60) * 100) + intval($this->delivery_note));
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
