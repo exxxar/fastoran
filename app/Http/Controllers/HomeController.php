@@ -105,7 +105,7 @@ class HomeController extends Controller
                         'food_name' => $item2["title"],
                         'food_remark' => $item2["description"],
                         'food_ext' => $weight ?? 0,
-                        'food_price' => $price,
+                        'food_price' => intval(str_replace([" "], "", $price)),
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,
                         'food_img' => $item2["thumb_photo"],
