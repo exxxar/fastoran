@@ -88,7 +88,7 @@ class Order extends Model
 
         $delivery_time = is_null($this->delivery_note) ? 0 : intval($this->delivery_note);
 
-        $time = ((intval($this->delivery_range) / 60) * 100) + $delivery_time;
+        $time = $this->delivery_range + $delivery_time + 5;
 
         return Carbon::parse($this->created_at, '+3:00')->addMinutes($time)->format('H:i') .
             " - " .
@@ -100,7 +100,7 @@ class Order extends Model
     {
         $time = "Не установлено";
         if (!is_null($this->delivery_note))
-            $time = sprintf("%.0f", ((intval($this->delivery_range) / 60) * 100) + intval($this->delivery_note));
+            $time = sprintf("%.0f", $this->delivery_range + intval($this->delivery_note) + 5);
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
