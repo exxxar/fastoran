@@ -90,7 +90,7 @@ class Order extends Model
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
-                return "В обработке (время доставки $time)";
+                return "В обработке";
             case 1:
                 return "Готовится (время готовности $this->delivery_note мин.)";
             case 2:
