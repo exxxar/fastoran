@@ -93,7 +93,7 @@ class HomeController extends Controller
 
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
-                    $price = intval($item2["price"]["text"]);//$matches[0][0] ?? 0;
+                    $price = intval(str_replace([" "], "", $item2["price"]["text"]));//$matches[0][0] ?? 0;
 
                     $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
 
@@ -104,7 +104,7 @@ class HomeController extends Controller
                         'food_name' => $item2["title"],
                         'food_remark' => $item2["description"],
                         'food_ext' => $weight ?? 0,
-                        'food_price' => intval(str_replace([" "], "", $price)),
+                        'food_price' => $price,
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,
                         'food_img' => $item2["thumb_photo"],
