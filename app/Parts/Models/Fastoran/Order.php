@@ -90,7 +90,7 @@ class Order extends Model
 
         $time = ((intval($this->delivery_range) / 60) * 100) + $delivery_time;
 
-        return  Carbon::createFromFormat('Y-m-d H:i', Carbon::parse($this->created_at,'+3:00')->addMinutes($time))->toDateTimeString();
+        return  Carbon::parse($this->created_at,'+3:00')->addMinutes($time);
 
     }
 
