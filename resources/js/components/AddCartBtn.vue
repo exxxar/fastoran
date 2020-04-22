@@ -1,5 +1,5 @@
 <template>
-    <div class="product-btn-box" v-if="product_id&&product_data">
+    <div class="product-btn-box" >
         <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&!hasSub()"
            @click="addToCart()"><i class="fas fa-cart-plus"></i></a>
 
@@ -13,7 +13,7 @@
            :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
 
 
-        <div v-if="product_id&&product_data">
+        <div v-if="product_id!=null">
             <b-modal :id="'modal-submenu-'+product_id" hide-footer>
 
                 <template v-slot:modal-title>
