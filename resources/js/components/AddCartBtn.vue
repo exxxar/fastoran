@@ -14,7 +14,7 @@
 
 
         <div v-if="product_id!=null">
-            <b-modal :id="'modal-submenu-'+product_id" hide-footer>
+            <b-modal :id="'modal-submenu-'+product_id" hide-footer :no-stacking="true">
 
                 <template v-slot:modal-title>
                     <h3>Выбор подкатегории</h3>
