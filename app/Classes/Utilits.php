@@ -61,13 +61,13 @@ trait Utilits
 
         $text = str_replace(["/"], "\\", $text);
 
-        $start = mb_strpos($text, "выбор:") + 6;
+        $start = mb_strpos($text, "выбор:");
         $end = mb_strpos($text, "Цена:");
 
         if ($start==0||$end==0)
             return null;
 
-        $res = mb_substr($text, $start, $end - $start);
+        $res = mb_substr($text, $start+6, $end - ($start+6));
 
         $res = explode("\\", $res);
 
