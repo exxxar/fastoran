@@ -217,7 +217,6 @@ class RestoransController extends Controller
             }
             catch(\Exception $e)
             {
-
                 return response()->json([
                         'success' => true,
                         'message' => 'Неверные данные в файле',
