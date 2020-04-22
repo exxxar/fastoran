@@ -59,6 +59,8 @@ trait Utilits
 
         $text = str_replace(["\n"], "", $text);
 
+        $text = str_replace(["/"], "\\", $text);
+
         $start = mb_strpos($text, "выбор:") + 6;
         $end = mb_strpos($text, "Цена:");
 
@@ -70,7 +72,7 @@ trait Utilits
         foreach ($res as $r)
             array_push($food_sub, ["name" => trim($r)]);
 
-        return $food_sub;
+        return count($food_sub)==0?null:$food_sub;
     }
 
     public function getUser()
