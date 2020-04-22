@@ -245,13 +245,13 @@ class OrderController extends Controller
             $rest->save();
         }
         $range = ($this->calculateTheDistance(
-                $order->latitude ?? 0,
-                $order->longitude ?? 0,
-                $rest->latitude ?? 0,
-                $rest->longitude ?? 0));
+            $order->latitude ?? 0,
+            $order->longitude ?? 0,
+            $rest->latitude ?? 0,
+            $rest->longitude ?? 0));
 
 
-        $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range* env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         if (!is_null($order->custom_details))
@@ -273,7 +273,7 @@ class OrderController extends Controller
         );
 
         $order->delivery_price = $price2;
-        $order->delivery_range = floatval(sprintf("%.2f", ($range <= 2 ? $range : $range)));
+        $order->delivery_range = floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2))));
         $order->save();
 
         $orderId = $this->prepareNumber($order->id);
@@ -744,17 +744,17 @@ class OrderController extends Controller
         $coords2 = (object)$this->getCoordsByAddress($point2);
 
         $range = ($this->calculateTheDistance(
-                $coords1->latitude,
-                $coords1->longitude,
-                $coords2->latitude,
-                $coords2->longitude) );
+            $coords1->latitude,
+            $coords1->longitude,
+            $coords2->latitude,
+            $coords2->longitude));
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range  * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         return response()
             ->json([
-                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : $range ))),
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
                 "price" => $price
             ]);
     }
@@ -768,7 +768,7 @@ class OrderController extends Controller
         $rest = Restoran::find($restId);
 
         if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
-            $coords = (object)$this->getCoordsByAddress("Украина, ".$rest->address);
+            $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
             $rest->latitude = $coords->latitude;
             $rest->longitude = $coords->longitude;
             $rest->save();
@@ -777,16 +777,16 @@ class OrderController extends Controller
         $coords = (object)$this->getCoordsByAddress($request->get("address"));
 
         $range = ($this->calculateTheDistance(
-                $coords->latitude,
-                $coords->longitude,
-                $rest->latitude,
-                $rest->longitude));
+            $coords->latitude,
+            $coords->longitude,
+            $rest->latitude,
+            $rest->longitude));
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
         return response()
             ->json([
-                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : $range))),
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
                 "price" => $price,
                 "latitude" => $coords->latitude,
                 "longitude" => $coords->longitude
@@ -872,29 +872,17 @@ class OrderController extends Controller
             ->where("id", $orderId)
             ->first();
 
-        $comment = $request->get("comment") ?? '';
+        $comment = $request->get("comment") ?? 'Без пометки';
 
         $user = $this->getUser();
-
-        if (strlen(trim($comment)) === 0) {
-            $message = sprintf("Администратор *#%s* принял заказ *#%s* без пометки",
-                $user->id,
-                $order->id
-            );
-
-            $this->sendToTelegram($order->restoran->telegram_channel, $message);
-            return response()
-                ->json([
-                    "message" => $message
-                ], 200);
-        }
 
         $order->delivery_note = $comment;
         $order->status = OrderStatusEnum::GettingReady;
         $order->save();
 
-        $message = sprintf("Администратор *#%s* установил пометку к заказу *#%s*",
+        $message = sprintf("Администратор *#%s* установил пометку (%s) к заказу *#%s*",
             $user->id,
+            (empty($comment) ? $comment : "готовность " . $comment . " мин."),
             $order->id
         );
 
