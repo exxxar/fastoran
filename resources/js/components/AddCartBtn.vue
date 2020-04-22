@@ -14,7 +14,7 @@
 
 
         <div v-if="product_id!=null">
-            <b-modal :id="'modal-submenu-'+product_id" hide-footer :no-stacking="true">
+            <b-modal :id="'modal-submenu-'+product_id" hide-footer no-stacking>
 
                 <template v-slot:modal-title>
                     <h3>Выбор подкатегории</h3>
@@ -34,7 +34,7 @@
 
 
                 </div>
-                <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
+                <b-button class="mt-3 btn-food" :disabled="selected==null||selected.length===0" block @click="addToCartWithSub">Добавить
                 </b-button>
 
 
@@ -82,6 +82,7 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
+
             addToCartWithSub() {
                 this.addToCart()
 

@@ -580,7 +580,7 @@ class OrderController extends Controller
             $user->phone ?? "Без номера"
         );
 
-        $this->sendSms($order->receiver_phone, "Ваш #$order->id заказ готовится!");
+        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
