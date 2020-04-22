@@ -236,10 +236,10 @@ Route::get("/test_geo_2",function (){
             $content = [];
         }
 
-        return json_decode($content)->properties->distance;
+        return floatval(json_decode($content)->properties->distance??0);
     }
 
-    dd(calculateTheDistance('48.006619','37.809605','48.071888','37.897919'));
+    dd(calculateTheDistance('48.006619','37.809605','47.977030','37.871176'));
 });
 
 
