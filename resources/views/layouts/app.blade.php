@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <!-- Stylesheets -->
 
-    <link rel="stylesheet" href="{{url('css/app.min.css')}}">
+    <link rel="stylesheet" href="{{url('css/app.min.css')}}?ver=1.0.1">
 </head>
 
 <body>
@@ -44,10 +44,10 @@
 <!-- JS Files -->
 
 <!-- Modernizer js -->
-<script src="{{url('js/vendor/modernizr-3.5.0.min.min.js')}}"></script>
-<script src="{{url('js/app.min.js')}}"></script>
-<script src="{{url('js/plugins.min.js')}}"></script>
-<script src="{{url('js/active.min.js')}}"></script>
+<script src="{{url('js/vendor/modernizr-3.5.0.min.min.js')}}?ver=1.0.1"></script>
+<script src="{{url('js/app.min.js')}}?ver=1.0.1"></script>
+<script src="{{url('js/plugins.min.js')}}?ver=1.0.1"></script>
+<script src="{{url('js/active.min.js')}}?ver=1.0.1"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script>
     document.addEventListener('lazybeforeunveil', function(e){
