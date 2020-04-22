@@ -196,7 +196,7 @@
 
 @media #{$sm-layout}{
     .tags-cloud {
-        padding: 0px;
+        padding: 0px !important;
         .food-categories {
             padding: 50px 0px;
         }
@@ -502,7 +502,7 @@
 @media #{$xs-layout}{
 
     .tags-cloud {
-        padding: 0px;
+        padding: 0px  !important;
         .food-categories {
             padding: 50px 0px;
         }
