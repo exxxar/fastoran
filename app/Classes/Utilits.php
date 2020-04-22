@@ -18,10 +18,9 @@ trait Utilits
 {
     protected $earth_radius = 6372795;
 
-    public function calculateTheDistance($fA, $lA, $fB, $lB)
+    public function mathDist($fA, $lA, $fB, $lB)
     {
-
-// перевести координаты в радианы
+        // перевести координаты в радианы
         $lat1 = $fA * M_PI / 180;
         $lat2 = $fB * M_PI / 180;
         $long1 = $lA * M_PI / 180;
@@ -45,6 +44,21 @@ trait Utilits
         $dist = $ad * $this->earth_radius;
 
         return $dist;
+
+    }
+
+    public function calculateTheDistance($fA, $lA, $fB, $lB)
+    {
+        try {
+            $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
+
+
+        } catch (\Exception $e) {
+            $content = [];
+        }
+
+        return json_decode($content)->properties->distance;
+
     }
 
     public function preparePhone($phone)
@@ -64,10 +78,10 @@ trait Utilits
         $start = mb_strpos($text, "выбор:");
         $end = mb_strpos($text, "Цена:");
 
-        if ($start==0||$end==0)
+        if ($start == 0 || $end == 0)
             return null;
 
-        $res = mb_substr($text, $start+6, $end - ($start+6));
+        $res = mb_substr($text, $start + 6, $end - ($start + 6));
 
         $res = explode("\\", $res);
 
@@ -75,7 +89,7 @@ trait Utilits
         foreach ($res as $r)
             array_push($food_sub, ["name" => trim($r)]);
 
-        return count($food_sub)==0?null:json_encode($food_sub);
+        return count($food_sub) == 0 ? null : json_encode($food_sub);
     }
 
     public function getUser()

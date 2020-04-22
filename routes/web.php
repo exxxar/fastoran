@@ -225,6 +225,23 @@ Route::get("/test_getdata", function () {
     Storage::put('file.txt', $tmp);
 });
 
+Route::get("/test_geo_2",function (){
+    function calculateTheDistance($fA, $lA, $fB, $lB)
+    {
+        try {
+            $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
+
+
+        } catch (\Exception $e) {
+            $content = [];
+        }
+
+        return json_decode($content)->properties->distance;
+    }
+
+    dd(calculateTheDistance('48.006619','37.809605','48.071888','37.897919'));
+});
+
 
 Route::get("/test_rest_text", function () {
     $text = "Цена: 50 рублей.
