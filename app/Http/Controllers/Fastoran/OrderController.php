@@ -150,8 +150,6 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->first();//$this->getUser();
 
-        $client = $request->get("client") ?? null;
-
         if (is_null($user))
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
@@ -280,6 +278,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
+        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ в обработке!"));
 
         $this->sendToTelegram($rest->telegram_channel, $message, [
             [
@@ -403,6 +402,8 @@ class OrderController extends Controller
         );
 
         $orderId = $this->prepareNumber($order->id);
+
+        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ в обработке!"));
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
             [
@@ -580,7 +581,7 @@ class OrderController extends Controller
             $user->phone ?? "Без номера"
         );
 
-        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
+        //event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
