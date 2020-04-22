@@ -227,11 +227,9 @@ Route::get("/test_getdata", function () {
 
 
 Route::get("/test_rest_text", function () {
-    $text = "На выбор:
+    $text = "Цена: 50 рублей.
 
-Барбекю\ Горчичный\Карри\КетчупКисло-сладкий\Сырный\Чесночный
-
-Цена:";
+#кофе";
 
     $vowels = array("(", ")",  "\n");
 
@@ -243,6 +241,8 @@ Route::get("/test_rest_text", function () {
     $start = mb_strpos($text, "выбор:")+6;
     $end = mb_strpos($text, "Цена:");
 
+    if ($start==0||$end==0)
+        return null;
     $res = mb_substr($text, $start, $end - $start);
 
     $res = explode("\\",$res);
@@ -251,7 +251,10 @@ Route::get("/test_rest_text", function () {
     foreach ($res as $r)
         array_push($food_sub,["name"=>trim($r)]);
 
-    dd($food_sub);
+
+    //dd($food_sub);
+
+
 });
 
 

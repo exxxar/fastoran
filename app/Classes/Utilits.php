@@ -64,6 +64,9 @@ trait Utilits
         $start = mb_strpos($text, "выбор:") + 6;
         $end = mb_strpos($text, "Цена:");
 
+        if ($start==0||$end==0)
+            return null;
+
         $res = mb_substr($text, $start, $end - $start);
 
         $res = explode("\\", $res);
