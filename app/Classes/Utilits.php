@@ -49,7 +49,7 @@ trait Utilits
 
     public function calculateTheDistance($fA, $lA, $fB, $lB)
     {
-        try {
+        /*try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
 
 
@@ -57,8 +57,9 @@ trait Utilits
             $content = [];
         }
 
-        return json_decode($content)->properties->distance;
+        return json_decode($content)->properties->distance;*/
 
+        $this->mathDist($fA, $lA, $fB, $lB);
     }
 
     public function preparePhone($phone)
