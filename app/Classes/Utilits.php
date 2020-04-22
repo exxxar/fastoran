@@ -59,7 +59,7 @@ trait Utilits
 
         return json_decode($content)->properties->distance;*/
 
-        $this->mathDist($fA, $lA, $fB, $lB);
+        return $this->mathDist($fA, $lA, $fB, $lB);
     }
 
     public function preparePhone($phone)
