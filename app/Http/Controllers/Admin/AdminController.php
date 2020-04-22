@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
 use App\Parts\Models\Fastoran\MenuCategory;
@@ -52,12 +53,10 @@ class AdminController extends Controller
         $delivery_range = Order::where('status',3)->sum('delivery_range');
         $delivery_price = Order::where('status',3)->sum('delivery_price');
 
-
         $users_count = array(User::all()->count(), User::onlyTrashed()->count());
         $users_counts = array(
             User::where('active', 0)->count(),
             User::where('active', 1)->count(),
-
         );
         $data = collect([
             'kitchen_count' => $kitchen_count ,
@@ -91,17 +90,42 @@ class AdminController extends Controller
                 "status" => 200,
             ]);
     }
+    public function preparePhone($phone)
+    {
+        $vowels = array("(", ")", "-", " ");
+        return str_replace($vowels, "", $phone ?? '');
+    }
     public function sendMessage(Request $request)
     {
-        SemySMS::sendMultiple([
-            'to' => $request->phones,
-            'text' => "$request->message"
-        ]);
+        $phones =array();
+        foreach ($request->phones as $phone) {
+            $tmp = $this->preparePhone($phone);
+            array_push($phones, $tmp);
+        }
+//        SemySMS::sendMultiple([
+//            'to' => $phones,
+//            'text' => $request->message,
+//            'device_id' => 'active'
+//        ]);
+
+//        $messages = SemySMS::multiple();
+
+        foreach ($phones as $phone) {
+            event(new SendSmsEvent($phone, $request->message));
+//            $messages->addRecipient([
+//                'to' => $phone,
+//                'text' => $request->message,
+//            ]);
+
+        }
+//        $messages->send();
+
 
         return response()
             ->json([
                 "message" => "Сообщения отправлены",
                 "status" => 200,
+                'phones' => $phones,
             ]);
     }
     public function uploadVk(Request $request)
@@ -210,7 +234,6 @@ class AdminController extends Controller
     }
     public function  statistics()
     {
-
         $kitchen_count = Kitchen::where('is_active', 1)->count();
         $menu_count = RestMenu::all()->count();
         $menu_category_count = MenuCategory::all()->count();

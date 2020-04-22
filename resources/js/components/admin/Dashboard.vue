@@ -605,12 +605,12 @@
                                 console.log(this.phones)
                             });
                     }
-                    // axios.post(`/admin/sendMessage`, {
-                    //     message: this.message,
-                    //     phones: this.phones
-                    // }).then(resp => {
-                    //     this.sendMessage(resp.data.message);
-                    // });
+                    axios.post(`/admin/sendMessage`, {
+                        message: this.message,
+                        phones: this.phones
+                    }).then(resp => {
+                        this.sendMessage(resp.data.message);
+                    });
                 }
                 this.loading = false;
             },
