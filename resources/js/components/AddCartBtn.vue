@@ -1,5 +1,5 @@
 <template>
-    <div class="product-btn-box">
+    <div class="product-btn-box" v-if="product_id&&product_data">
         <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&!hasSub()"
            @click="addToCart()"><i class="fas fa-cart-plus"></i></a>
 

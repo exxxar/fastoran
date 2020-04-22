@@ -109,7 +109,7 @@ class HomeController extends Controller
                         'food_name' => $item2["title"],
                         'food_remark' =>$description,
                         'food_ext' => $weight ?? 0,
-                        'food_sub' => $this->prepareSub($description),
+                        'food_sub' => null,//$this->prepareSub($description),
                         'food_price' => $price,
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,
