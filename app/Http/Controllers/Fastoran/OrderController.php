@@ -248,7 +248,7 @@ class OrderController extends Controller
                 $order->latitude ?? 0,
                 $order->longitude ?? 0,
                 $rest->latitude ?? 0,
-                $rest->longitude ?? 0) / 1000);
+                $rest->longitude ?? 0));
 
 
         $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
@@ -747,7 +747,7 @@ class OrderController extends Controller
                 $coords1->latitude,
                 $coords1->longitude,
                 $coords2->latitude,
-                $coords2->longitude) / 1000);
+                $coords2->longitude) );
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
@@ -780,7 +780,7 @@ class OrderController extends Controller
                 $coords->latitude,
                 $coords->longitude,
                 $rest->latitude,
-                $rest->longitude) / 1000);
+                $rest->longitude));
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
