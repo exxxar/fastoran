@@ -72,7 +72,7 @@ trait Utilits
         foreach ($res as $r)
             array_push($food_sub, ["name" => trim($r)]);
 
-        return count($food_sub)==0?null:$food_sub;
+        return count($food_sub)==0?null:json_encode($food_sub);
     }
 
     public function getUser()
