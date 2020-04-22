@@ -251,7 +251,7 @@ class OrderController extends Controller
                 $rest->longitude ?? 0));
 
 
-        $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range* env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         if (!is_null($order->custom_details))
@@ -273,7 +273,7 @@ class OrderController extends Controller
         );
 
         $order->delivery_price = $price2;
-        $order->delivery_range = floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2))));
+        $order->delivery_range = floatval(sprintf("%.2f", ($range <= 2 ? $range : $range)));
         $order->save();
 
         $orderId = $this->prepareNumber($order->id);
@@ -749,12 +749,12 @@ class OrderController extends Controller
                 $coords2->latitude,
                 $coords2->longitude) );
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range  * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         return response()
             ->json([
-                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : $range ))),
                 "price" => $price
             ]);
     }
@@ -782,11 +782,11 @@ class OrderController extends Controller
                 $rest->latitude,
                 $rest->longitude));
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
 
         return response()
             ->json([
-                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : $range))),
                 "price" => $price,
                 "latitude" => $coords->latitude,
                 "longitude" => $coords->longitude
