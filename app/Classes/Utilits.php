@@ -53,6 +53,26 @@ trait Utilits
         return str_replace($vowels, "", $phone ?? '');
     }
 
+
+    public function prepareSub($text)
+    {
+
+        $text = str_replace(["\n"], "", $text);
+
+        $start = mb_strpos($text, "выбор:") + 6;
+        $end = mb_strpos($text, "Цена:");
+
+        $res = mb_substr($text, $start, $end - $start);
+
+        $res = explode("\\", $res);
+
+        $food_sub = [];
+        foreach ($res as $r)
+            array_push($food_sub, ["name" => trim($r)]);
+
+        return $food_sub;
+    }
+
     public function getUser()
     {
 

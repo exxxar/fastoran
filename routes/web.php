@@ -36,7 +36,6 @@ Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/all-menu', 'RestController@getAllMenu')->name("all.menu");
 
 
-
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->name("kitchen");
@@ -228,9 +227,31 @@ Route::get("/test_getdata", function () {
 
 
 Route::get("/test_rest_text", function () {
-    $text = "на выбор: Лосось 220 рублей/ Угорь 255 рублей/ Тунец 240 рублей/ Креветка тигровая 260 рублей.";
-    preg_match_all('/(на выбор: \w+)/u', $text, $matches);
-    dd($matches);
+    $text = "На выбор:
+
+Барбекю\ Горчичный\Карри\КетчупКисло-сладкий\Сырный\Чесночный
+
+Цена:";
+
+    $vowels = array("(", ")",  "\n");
+
+
+    $text = str_replace($vowels, "", $text);
+
+    //$lower_text = mb_strtolower($text,"UTF-8");
+
+    $start = mb_strpos($text, "выбор:")+6;
+    $end = mb_strpos($text, "Цена:");
+
+    $res = mb_substr($text, $start, $end - $start);
+
+    $res = explode("\\",$res);
+
+    $food_sub = [];
+    foreach ($res as $r)
+        array_push($food_sub,["name"=>trim($r)]);
+
+    dd($food_sub);
 });
 
 
@@ -303,3 +324,5 @@ Route::get('/test_valid', function () {
 
 
 });
+
+
