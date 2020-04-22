@@ -278,7 +278,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ в обработке!"));
+        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
         $this->sendToTelegram($rest->telegram_channel, $message, [
             [
@@ -403,7 +403,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ в обработке!"));
+        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке! "));
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
             [
