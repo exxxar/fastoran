@@ -9,7 +9,7 @@
             <h5>Загружаем-с товар из категории</h5>
         </div>
         <div class="row">
-            <div class="col-md-6 col-lg-3 col-sm-6" v-for="product in products">
+            <div class="col-md-6 col-lg-3 col-sm-6 banner-item" v-for="product in products">
                 <div class="banner--2">
                     <div class="banner__thumb">
                         <a href="#"><img
