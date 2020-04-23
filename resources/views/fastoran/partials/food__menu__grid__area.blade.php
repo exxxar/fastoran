@@ -38,8 +38,10 @@
                             <!-- Start Single tab -->
                                 <div class="single__tab__panel tab-pane fade" id="{{$cat->alias}}" role="tabpanel">
                                     <div class="row">
+                                        <a name="{{$cat->alias}}"></a>
                                     @foreach($cat->getFilteredMenu($restoran->id) as $product)
                                         <!-- Start Single Banner -->
+
                                         @include("fastoran.partials.food__menu__item",["product"=>$product])
                                         <!-- End Single Banner -->
                                         @endforeach

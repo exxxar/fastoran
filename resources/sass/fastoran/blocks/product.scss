@@ -128,7 +128,7 @@
 
     .food__nav {
         border: 0 none;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
         justify-content: center;
 
         a {
@@ -138,7 +138,7 @@
             font-size: 18px;
             height: 40px;
             line-height: 38px;
-            padding: 0 24px;
+            padding: 0 5px;
             text-transform: capitalize;
             @include transition(0.4s);
 
@@ -352,7 +352,7 @@
         display: block;
     }
     .special__food__menu .food__nav a {
-        padding: 0 15px;
+        padding: 0 5px;
     }
     .special__food__menu .fd__tab__content .single__tab__panel .tab__content__wrap .single__tab__content .food__menu .food__menu__details .fd__menu__title__prize h4 a {
         font-size: 22px;
@@ -370,19 +370,19 @@
         display: block;
     }
     .special__food__menu .food__nav a {
-        padding: 0 15px;
+        padding: 0 5px;
     }
     .special__food__menu .fd__tab__content .single__tab__panel .tab__content__wrap .single__tab__content .food__menu,
     .special__food__menu .fd__tab__content .single__tab__panel .tab__content__wrap .single__tab__content .food__menu .food__menu__details .fd__menu__title__prize {
         display: block;
     }
     .special__food__menu .food__nav a {
-        padding: 0 28px;
-        margin-bottom: 10px;
+        padding: 0 5px;
+        margin-bottom: 0px;
     }
     .special__food__menu .food__nav {
         border: 0 none;
-        margin-bottom: 40px;
+        margin-bottom: 10px;
     }
     .special__food__menu .fd__tab__content .single__tab__panel .tab__content__wrap .single__tab__content .food__menu .food__menu__details .fd__menu__title__prize h4 a {
         font-size: 18px;
