@@ -14,10 +14,24 @@ use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Yandex\Geocode\Facades\YandexGeocodeFacade;
 
+/**
+ * Trait Utilits
+ * @package App\Classes
+ */
 trait Utilits
 {
+    /**
+     * @var int
+     */
     protected $earth_radius = 6372795;
 
+    /**
+     * @param $fA
+     * @param $lA
+     * @param $fB
+     * @param $lB
+     * @return float|int
+     */
     public function mathDist($fA, $lA, $fB, $lB)
     {
         // перевести координаты в радианы
@@ -47,6 +61,13 @@ trait Utilits
 
     }
 
+    /**
+     * @param $fA
+     * @param $lA
+     * @param $fB
+     * @param $lB
+     * @return float
+     */
     public function calculateTheDistance($fA, $lA, $fB, $lB)
     {
         try {
@@ -57,10 +78,14 @@ trait Utilits
             $content = [];
         }
 
-        return floatval(json_decode($content)->properties->distance??0);
+        return floatval(json_decode($content)->properties->distance ?? 0);
 
     }
 
+    /**
+     * @param $phone
+     * @return string|string[]
+     */
     public function preparePhone($phone)
     {
         $vowels = array("(", ")", "-", " ");
@@ -68,6 +93,10 @@ trait Utilits
     }
 
 
+    /**
+     * @param $text
+     * @return false|string|null
+     */
     public function prepareSub($text)
     {
 
@@ -92,6 +121,9 @@ trait Utilits
         return count($food_sub) == 0 ? null : json_encode($food_sub);
     }
 
+    /**
+     * @return |null
+     */
     public function getUser()
     {
 
@@ -101,6 +133,11 @@ trait Utilits
 
     }
 
+    /**
+     * @param $uri
+     * @param array $params
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function doHttpRequest($uri, $params = [])
     {
         try {
@@ -122,6 +159,10 @@ trait Utilits
         }
     }
 
+    /**
+     * @param $phone
+     * @param $message
+     */
     public function sendSms($phone, $message)
     {
         try {
@@ -140,6 +181,11 @@ trait Utilits
 
     }
 
+    /**
+     * @param $id
+     * @param $message
+     * @param array $keyboard
+     */
     public function sendToTelegram($id, $message, $keyboard = [])
     {
         try {
@@ -155,6 +201,11 @@ trait Utilits
 
     }
 
+    /**
+     * @param int $number
+     * @param int $length
+     * @return string
+     */
     public function prepareNumber($number = 0, $length = 10)
     {
         $tmp = "" . $number;
@@ -164,6 +215,10 @@ trait Utilits
         return $tmp;
     }
 
+    /**
+     * @param $address
+     * @return array
+     */
     public function getCoordsByAddress($address)
     {
         $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
@@ -176,6 +231,11 @@ trait Utilits
         ];
     }
 
+    /**
+     * @param $id
+     * @param $message
+     * @param array $keyboard
+     */
     protected function sendMessageToTelegramChannel($id, $message, $keyboard = [])
     {
         Telegram::sendMessage([
@@ -187,5 +247,26 @@ trait Utilits
             ])
         ]);
 
+    }
+
+    public function prepareChannelId($channelName)
+    {
+        try {
+            $content = file_get_contents("https://api.telegram.org/bot".env("TELEGRAM_BOT_TOKEN")."/getChat?chat_id=@$channelName");
+        } catch (\Exception $e) {
+            $content = [];
+        }
+
+        return json_decode($content)->result->id ?? null;
+    }
+
+    public function prepareTelegramText(array $text=[]){
+        $tmp = "";
+
+        foreach ($text as $key => $value) {
+            $tmp .= sprintf($key, $value);
+        }
+
+        return $tmp;
     }
 }

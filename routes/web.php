@@ -225,7 +225,7 @@ Route::get("/test_getdata", function () {
     Storage::put('file.txt', $tmp);
 });
 
-Route::get("/test_geo_2",function (){
+Route::get("/test_geo_2", function () {
     function calculateTheDistance($fA, $lA, $fB, $lB)
     {
         try {
@@ -236,10 +236,10 @@ Route::get("/test_geo_2",function (){
             $content = [];
         }
 
-        return floatval(json_decode($content)->properties->distance??0);
+        return floatval(json_decode($content)->properties->distance ?? 0);
     }
 
-    dd(calculateTheDistance('48.006619','37.809605','47.977030','37.871176'));
+    dd(calculateTheDistance('48.006619', '37.809605', '47.977030', '37.871176'));
 });
 
 
@@ -248,25 +248,25 @@ Route::get("/test_rest_text", function () {
 
 #кофе";
 
-    $vowels = array("(", ")",  "\n");
+    $vowels = array("(", ")", "\n");
 
 
     $text = str_replace($vowels, "", $text);
 
     //$lower_text = mb_strtolower($text,"UTF-8");
 
-    $start = mb_strpos($text, "выбор:")+6;
+    $start = mb_strpos($text, "выбор:") + 6;
     $end = mb_strpos($text, "Цена:");
 
-    if ($start==0||$end==0)
+    if ($start == 0 || $end == 0)
         return null;
     $res = mb_substr($text, $start, $end - $start);
 
-    $res = explode("\\",$res);
+    $res = explode("\\", $res);
 
     $food_sub = [];
     foreach ($res as $r)
-        array_push($food_sub,["name"=>trim($r)]);
+        array_push($food_sub, ["name" => trim($r)]);
 
 
     //dd($food_sub);
@@ -345,4 +345,37 @@ Route::get('/test_valid', function () {
 
 });
 
+Route::get("/test_channel", function () {
 
+    try {
+        $content = file_get_contents("https://api.telegram.org/bot1144024861:AAEIkP-Cn4RkG4OqHX7OeOnlC6fh2ckDSTY/getChat?chat_id=@dacha_vertu");
+
+
+    } catch (\Exception $e) {
+        $content = [];
+    }
+
+
+    dd(json_decode($content)->result->id ?? 0);
+});
+
+
+Route::get("/test_formated_text", function () {
+    function prepareTelegramText(array $text = [])
+    {
+        $tmp = "";
+
+        foreach ($text as $key => $value) {
+            $tmp .= sprintf($key . "\n", $value);
+        }
+
+        return $tmp;
+    }
+
+    return prepareTelegramText([
+
+        "Заказ:*#%s*" => "123",
+        "Заказ:*2#%s*" => "test"
+
+    ]);
+});

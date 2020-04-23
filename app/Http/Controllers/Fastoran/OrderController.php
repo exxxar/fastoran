@@ -258,14 +258,28 @@ class OrderController extends Controller
             if (count($order->custom_details) > 0)
                 $price2 += 50;
 
-        $message = sprintf("*Заявка #%s*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЗаметка к заказу:\n%s\n\n%s\nАдрес доставки:%s\nПолная цена доставки:*%s руб.*(Дистанция:%.2fкм)\nЦена основного заказа:*%s руб.*",
+        $message = sprintf(
+            "
+            *Заявка #%s* (из %s)\n
+        Ресторан:_%s_\n
+        Ф.И.О.:_%s_\n
+        Телефон:_%s_\n
+        Заказ:\n%s\n
+        Заметка к заказу:\n%s\n\n%s\n
+        Время доставки: %s\n
+        Адрес доставки:%s\n
+        Полная цена доставки:*%s руб.*(Дистанция:%.2fкм)\n
+        Цена основного заказа:*%s руб.*
+        ",
             $order->id,
+            $order->client,
             $rest->name ?? "Заведение без имени (ошибка)",
             $order->receiver_name ?? $user->name ?? 'Без имени',
             $order->receiver_phone ?? $user->phone ?? 'Без номера телефона (ошибка)',
             $delivery_order_tmp,
             $order->receiver_order_note ?? "Не указана",
             $tmp_custom_details ?? "Нет дополнительных позиций",
+            $order->receiver_delivery_time ?? "По готовности",
             $order->receiver_address ?? "Не задан",
             $price2,
             $range,

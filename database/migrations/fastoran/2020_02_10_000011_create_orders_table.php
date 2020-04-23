@@ -34,6 +34,7 @@ class CreateOrdersTable extends Migration
 
             $table->integer('status')->default(\App\Enums\OrderStatusEnum::InProcessing);
             $table->integer('order_type')->default(\App\Enums\OrderTypeEnum::FromRestoran);
+            $table->boolean('take_by_self')->default(false);
 
             $table->integer('delivery_price')->default(0);
             $table->integer('delivery_range')->default(0);

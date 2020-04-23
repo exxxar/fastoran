@@ -40,6 +40,7 @@ class Order extends Model
         'delivery_price',
         'delivery_range',
         'delivery_note',
+        'take_by_self',
 
         'receiver_name',
         'receiver_phone',
