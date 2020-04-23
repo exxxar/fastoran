@@ -9,7 +9,7 @@
                                aria-selected="true">Все товары</a>
                             @foreach($restoran->categories->all() as $cat)
                                 <a class="mt-2" id="nav-{{$cat->alias}}-tab" data-toggle="tab"
-                                   href="#nav-{{$cat->alias}}" role="tab" aria-selected="false">{{$cat->name}}</a>
+                                   href="#{{$cat->alias}}" role="tab" aria-selected="false">{{$cat->name}}</a>
                             @endforeach
 
                         </div>
@@ -36,7 +36,7 @@
 
                         @foreach($restoran->categories->all() as $cat)
                             <!-- Start Single tab -->
-                                <div class="single__tab__panel tab-pane fade" id="nav-{{$cat->alias}}" role="tabpanel">
+                                <div class="single__tab__panel tab-pane fade" id="{{$cat->alias}}" role="tabpanel">
                                     <div class="row">
                                     @foreach($cat->getFilteredMenu($restoran->id) as $product)
                                         <!-- Start Single Banner -->
