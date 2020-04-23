@@ -371,7 +371,6 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->delete();
         $order_details = OrderDetail::where('order_id', $id)->delete();
-//        $order_details->delete();
         return response()
             ->json([
                 'status' => 200,
@@ -779,7 +778,6 @@ class OrderController extends Controller
             ], 200);
     }
 
-
     public function setDeliverymanType(Request $request, $type)
     {
         $user = User::find($request->user()->id);
@@ -810,11 +808,10 @@ class OrderController extends Controller
 
     public function get()
     {
-//        $orders = Order::with(["restoran"])->get();
         $orders = Order::all();
         foreach ($orders as $order) {
-            $restoran = Restoran::where("id", $order->rest_id)->first();
-            $order->rest_name = $restoran->name;
+            $restoran = Restoran::withTrashed()->where("id", $order->rest_id)->first();
+            $order->rest_name = $restoran['name'];
             $order->deliveryman_name = $order->deliveryman_id;
             $order->deliveryman_phone = $order->deliveryman_id;
             if($order->deliveryman_id != null)
@@ -846,10 +843,7 @@ class OrderController extends Controller
 
     public function getDetails($id)
     {
-//        $orders = Order::with(["details"])->where("id", $id)->get();
         $details = OrderDetail::with(["product"])->where("order_id", $id)->get();
-//        $products = RestMenu::where("id", )
-//        $orders = Order::all();
         return response()
             ->json([
                 "details" => $details,
