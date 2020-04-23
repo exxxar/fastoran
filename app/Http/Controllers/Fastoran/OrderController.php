@@ -271,7 +271,7 @@ class OrderController extends Controller
             "Цена основного заказа:*%s руб.*"
             ,
             $order->id,
-            $order->client,
+            $order->client??"fastoran.com",
             $rest->name ?? "Заведение без имени (ошибка)",
             $order->receiver_name ?? $user->name ?? 'Без имени',
             $order->receiver_phone ?? $user->phone ?? 'Без номера телефона (ошибка)',
