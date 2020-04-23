@@ -385,7 +385,9 @@
 /*------------------------------
 	Banner Style Two
 --------------------------------*/
-
+.banner-item {
+    padding:30px;
+}
 .banner--2 {
     margin-top: 40px;
     position: relative;
@@ -501,8 +503,6 @@
         }
     }
 }
-
-
 .banner__hover__inner h2
 .banner__left__top p {
     font-size: 18px;
