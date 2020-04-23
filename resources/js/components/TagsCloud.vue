@@ -1,7 +1,7 @@
 <template>
     <div class="tags-cloud">
         <ul class="food-categories">
-            <li v-for="category in categories"><a :href="'#'+category.alias" @click="loadProducts(category.id)">{{category.name}}</a></li>
+            <li v-for="category in categories"><a :href="'#'+category.name" @click="loadProducts(category.id)">{{category.name}}</a></li>
         </ul>
 
         <div class="tags-preloader" v-if="preloader">
