@@ -25,26 +25,26 @@ class DatabaseSeeder extends Seeder
         $tmp = [];
 
         $rest = Restoran::create([
-            'name' => 'Оливье 80',
-            'description' => 'Ресторан семейных традиций "Оливье 80"',
-            'adress' => 'проспект Гурова, 16, Донецк',
+            'name' => 'Дача',
+            'description' => '"Дача"- самый "вкусный" караоке- клуб в Донецке. Место встречи для настоящих и будущих друзей.',
+            'adress' => 'Украина, г. Донецк, ул. Артема, 92',
             'city' => 'Донецк',
             'region' => "Ворошиловский",
-            'phone1' => "+380714524586",
+            'phone1' => "+380716518001",
             'phone2' => "",
-            'inst_page' => "olivie80",
+            'inst_page' => "dacha_vertu",
             'site' => "",
-            'telegram_channel' => "-1001498666636",
-            'vk_page' => "https://vk.com/olivie80",
-            'logo' => "https://sun9-41.userapi.com/c857728/v857728771/1c8b67/tH7W7gdbWrk.jpg",
-            'url' => "olivie80",
+            'telegram_channel' => "-1001447555333",
+            'vk_page' => "https://vk.com/dacha_vertu",
+            'logo' => "https://sun9-68.userapi.com/c855720/v855720553/22a96a/6bC0bN414G0.jpg",
+            'url' => "dacha_vertu",
             'rest_img' => "https://fastoran.com/images/bg/18.jpg",
         ]);
 
         $rest->kitchens()->attach([
             Kitchen::where("name", "Русская кухня")->first()->id,
             Kitchen::where("name", "Европейская кухня")->first()->id,
-            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
+            Kitchen::where("name", "Японская кухня")->first()->id,
         ]);
 
 

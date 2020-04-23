@@ -2,19 +2,19 @@
     <div>
         <form @submit="sendRequest">
             <div class="single-contact-form row">
-                <div class="col-md-6 mb-2">
+                <div class="col-md-12 mb-2">
                     <input type="text" name="name" class="form-control" v-model="name" placeholder="Ваше Ф.И.О." required>
                 </div>
-                <div class="col-md-6 mb-2">
+                <div class="col-md-12 mb-2">
                     <input type="text" name="phone" class="form-control" v-model="phone"
                            pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
                            maxlength="19"
                            v-mask="['+38 (###) ###-##-##']"
                            placeholder="Номер телефона" required>
                 </div>
-                <div class="col-md-12 mb-2">
+               <!-- <div class="col-md-12 mb-2">
                     <input type="email" name="email" class="form-control" v-model="email" placeholder="Ваша почта">
-                </div>
+                </div>-->
             </div>
             <div class="single-contact-form row">
                 <div class="col-md-12 mb-2">
@@ -46,7 +46,6 @@
             return {
                 name: '',
                 phone: '',
-                email: '',
                 type: null,
                 message: '',
                 question_types: [
@@ -65,7 +64,6 @@
                 axios
                     .post('../api/v1/wish', {
                         from: this.name,
-                        email: this.email,
                         phone: this.phone,
                         message: "*" + this.question_types[this.type] + "*:\n" + this.message
                     })
@@ -73,7 +71,6 @@
                         this.sendMessage("Сообщение успешно отправлено");
                         $('#contactModalBox').modal('hide')
                         this.name="";
-                        this.email = "";
                         this.phone = "";
                         this.message = "";
                     })

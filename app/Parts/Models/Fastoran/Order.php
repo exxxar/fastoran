@@ -8,6 +8,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -39,6 +40,7 @@ class Order extends Model
         'delivery_price',
         'delivery_range',
         'delivery_note',
+        'take_by_self',
 
         'receiver_name',
         'receiver_phone',
@@ -54,7 +56,7 @@ class Order extends Model
         'created_at'
     ];
 
-    protected $appends = ["summary_count", "summary_price",  "status_text"];
+    protected $appends = ["summary_count", "summary_price", "status_text", "delivered_time"];
 
     public function details()
     {
@@ -82,20 +84,37 @@ class Order extends Model
         return $this->hasOne(Restoran::class, 'id', 'rest_id');
     }
 
-    public function getStatusTextAttribute()
+    public function getDeliveredTimeAttribute()
     {
 
+        $delivery_time = is_null($this->delivery_note) ? 0 : intval($this->delivery_note);
+
+        $time = $this->delivery_range + $delivery_time + 5;
+
+        return Carbon::parse($this->created_at, '+3:00')->addMinutes($time)->format('H:i') .
+            " - " .
+            Carbon::parse($this->created_at, '+3:00')->addMinutes($time + 10)->format('H:i');
+
+    }
+
+    public function getStatusTextAttribute()
+    {
+        $time = "Не установлено";
+        if (!is_null($this->delivery_note))
+            $time = sprintf("%.0f", $this->delivery_range + intval($this->delivery_note) + 5);
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
                 return "В обработке";
             case 1:
-                return "Готовится";
+                return "Готовится (время готовности $this->delivery_note мин.)";
             case 2:
-                return "Доставляется";
+                return "Доставляется (время доставки $time мин.)";
             case 3:
                 return "Доставлено";
         }
+
+
     }
 
     public function getSummaryCountAttribute()

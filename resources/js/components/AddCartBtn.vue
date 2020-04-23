@@ -1,5 +1,5 @@
 <template>
-    <div class="product-btn-box">
+    <div class="product-btn-box" >
         <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&!hasSub()"
            @click="addToCart()"><i class="fas fa-cart-plus"></i></a>
 
@@ -13,8 +13,8 @@
            :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
 
 
-        <div v-if="product_id&&product_data">
-            <b-modal :id="'modal-submenu-'+product_id" hide-footer>
+        <div v-if="product_id!=null">
+            <b-modal :id="'modal-submenu-'+product_id" hide-footer no-stacking>
 
                 <template v-slot:modal-title>
                     <h3>Выбор подкатегории</h3>
@@ -34,7 +34,7 @@
 
 
                 </div>
-                <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
+                <b-button class="mt-3 btn-food" :disabled="selected==null||selected.length===0" block @click="addToCartWithSub">Добавить
                 </b-button>
 
 
@@ -82,6 +82,7 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
+
             addToCartWithSub() {
                 this.addToCart()
 

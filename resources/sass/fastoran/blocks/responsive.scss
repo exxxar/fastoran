@@ -195,6 +195,14 @@
 }
 
 @media #{$sm-layout}{
+    .tags-cloud {
+        padding: 0px !important;
+        .food-categories {
+            padding: 50px 0px;
+        }
+    }
+
+
     ul.dropdown__menu {
         max-height: 200px;
         height: 200px;
@@ -492,6 +500,13 @@
 }
 
 @media #{$xs-layout}{
+
+    .tags-cloud {
+        padding: 0px  !important;
+        .food-categories {
+            padding: 50px 0px;
+        }
+    }
     ul.dropdown__menu {
         max-height: 200px;
         height: 200px;

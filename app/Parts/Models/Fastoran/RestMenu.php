@@ -10,11 +10,16 @@ class RestMenu extends Model
 {
     use SoftDeletes;
 
+    protected $casts = [
+      "food_sub"=>'array'
+    ];
+
     protected $fillable = [
         'food_name',
         'food_remark',
         'food_ext',
         'food_price',
+        'food_sub',
         'rest_id',
         'food_category_id',
         'food_img',

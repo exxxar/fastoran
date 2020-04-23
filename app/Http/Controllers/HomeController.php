@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Utilits;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
+
+    use Utilits;
+
     /**
      * Create a new controller instance.
      *
@@ -57,7 +61,6 @@ class HomeController extends Controller
                 'count' => 50
             ]);
 
-
             RestMenu::truncate();
             //работает
             foreach ($response["response"]["items"] as $item) {
@@ -81,7 +84,7 @@ class HomeController extends Controller
                     //dd($matches);
 
 
-                    $cat = count($matches[0])>0?$matches[0][0]:"#безкатегории";
+                    $cat = count($matches[0]) > 0 ? $matches[0][0] : "#безкатегории";
 
 
                     $category = MenuCategory::where("name", $cat)->first();
@@ -94,17 +97,19 @@ class HomeController extends Controller
 
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
-                    $price = intval($item2["price"]["text"]);//$matches[0][0] ?? 0;
+                    $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
 
                     $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
 
                     if (is_null($rest))
                         continue;
 
+                    $description = $item2["description"];
                     $product = RestMenu::create([
                         'food_name' => $item2["title"],
-                        'food_remark' => $item2["description"],
+                        'food_remark' =>$description,
                         'food_ext' => $weight ?? 0,
+                        'food_sub' => $this->prepareSub($description),
                         'food_price' => $price,
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,

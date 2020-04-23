@@ -150,8 +150,6 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->first();//$this->getUser();
 
-        $client = $request->get("client") ?? null;
-
         if (is_null($user))
 
             $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
@@ -247,10 +245,10 @@ class OrderController extends Controller
             $rest->save();
         }
         $range = ($this->calculateTheDistance(
-                $order->latitude ?? 0,
-                $order->longitude ?? 0,
-                $rest->latitude ?? 0,
-                $rest->longitude ?? 0) / 1000);
+            $order->latitude ?? 0,
+            $order->longitude ?? 0,
+            $rest->latitude ?? 0,
+            $rest->longitude ?? 0));
 
 
         $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
@@ -260,14 +258,27 @@ class OrderController extends Controller
             if (count($order->custom_details) > 0)
                 $price2 += 50;
 
-        $message = sprintf("*Заявка #%s*\nРесторан:_%s_\nФ.И.О.:_%s_\nТелефон:_%s_\nЗаказ:\n%s\nЗаметка к заказу:\n%s\n\n%s\nАдрес доставки:%s\nПолная цена доставки:*%s руб.*(Дистанция:%.2fкм)\nЦена основного заказа:*%s руб.*",
+        $message = sprintf(
+            "*Заявка #%s* (из %s)\n" .
+            "Ресторан:_%s_\n" .
+            "Ф.И.О.:_%s_\n" .
+            "Телефон:_%s_\n" .
+            "Заказ:\n%s\n" .
+            "Заметка к заказу:\n%s\n\n%s\n" .
+            "Время доставки: %s\n" .
+            "Адрес доставки:%s\n" .
+            "Полная цена доставки:*%s руб.*(Дистанция:%.2fкм)\n" .
+            "Цена основного заказа:*%s руб.*"
+            ,
             $order->id,
+            $order->client??"fastoran.com",
             $rest->name ?? "Заведение без имени (ошибка)",
             $order->receiver_name ?? $user->name ?? 'Без имени',
             $order->receiver_phone ?? $user->phone ?? 'Без номера телефона (ошибка)',
             $delivery_order_tmp,
             $order->receiver_order_note ?? "Не указана",
             $tmp_custom_details ?? "Нет дополнительных позиций",
+            $order->receiver_delivery_time ?? "По готовности",
             $order->receiver_address ?? "Не задан",
             $price2,
             $range,
@@ -280,6 +291,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
+        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
         $this->sendToTelegram($rest->telegram_channel, $message, [
             [
@@ -403,6 +415,8 @@ class OrderController extends Controller
         );
 
         $orderId = $this->prepareNumber($order->id);
+
+        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке! "));
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
             [
@@ -569,6 +583,7 @@ class OrderController extends Controller
                     $validator->errors()->toArray(), 500
                 );
 
+        $order->status = OrderStatusEnum::InDeliveryProcess;
         $order->deliveryman_id = $user->id;
         $order->save();
 
@@ -579,7 +594,7 @@ class OrderController extends Controller
             $user->phone ?? "Без номера"
         );
 
-        $this->sendSms($order->receiver_phone, "Ваш #$order->id заказ готовится!");
+        //event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
         return response()
@@ -641,6 +656,7 @@ class OrderController extends Controller
                 );
 
 
+        $order->status = OrderStatusEnum::DeclineByAdmin;
         $order->deliveryman_id = null;
         $order->save();
 
@@ -648,6 +664,7 @@ class OrderController extends Controller
             $user->id,
             $order->id
         );
+
 
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 
@@ -740,10 +757,10 @@ class OrderController extends Controller
         $coords2 = (object)$this->getCoordsByAddress($point2);
 
         $range = ($this->calculateTheDistance(
-                $coords1->latitude,
-                $coords1->longitude,
-                $coords2->latitude,
-                $coords2->longitude) / 1000);
+            $coords1->latitude,
+            $coords1->longitude,
+            $coords2->latitude,
+            $coords2->longitude));
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
@@ -764,7 +781,7 @@ class OrderController extends Controller
         $rest = Restoran::find($restId);
 
         if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
-            $coords = (object)$this->getCoordsByAddress("Украина, ".$rest->address);
+            $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
             $rest->latitude = $coords->latitude;
             $rest->longitude = $coords->longitude;
             $rest->save();
@@ -773,10 +790,10 @@ class OrderController extends Controller
         $coords = (object)$this->getCoordsByAddress($request->get("address"));
 
         $range = ($this->calculateTheDistance(
-                $coords->latitude,
-                $coords->longitude,
-                $rest->latitude,
-                $rest->longitude) / 1000);
+            $coords->latitude,
+            $coords->longitude,
+            $rest->latitude,
+            $rest->longitude));
 
         $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
@@ -868,36 +885,17 @@ class OrderController extends Controller
             ->where("id", $orderId)
             ->first();
 
-        $comment = $request->get("comment") ?? '';
+        $comment = $request->get("comment") ?? 'Без пометки';
 
         $user = $this->getUser();
 
-        if (strlen(trim($comment)) === 0) {
-            $message = sprintf("Администратор *#%s* принял заказ *#%s* без пометки",
-                $user->id,
-                $order->id
-            );
-
-            $this->sendToTelegram($order->restoran->telegram_channel, $message);
-            return response()
-                ->json([
-                    "message" => $message
-                ], 200);
-        }
-
-        /* if (strlen(trim($order->delivery_note)) === 0) {
-             return response()
-                 ->json([
-                     "message" => "Комментарий к заказу уже был установлен"
-                 ], 200);
-         }*/
-
-
         $order->delivery_note = $comment;
+        $order->status = OrderStatusEnum::GettingReady;
         $order->save();
 
-        $message = sprintf("Администратор *#%s* установил пометку к заказу *#%s*",
+        $message = sprintf("Администратор *#%s* установил пометку (%s) к заказу *#%s*",
             $user->id,
+            (empty($comment) ? $comment : "готовность " . $comment . " мин."),
             $order->id
         );
 

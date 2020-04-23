@@ -36,7 +36,6 @@ Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/all-menu', 'RestController@getAllMenu')->name("all.menu");
 
 
-
 Route::get('/kitchen-list', 'RestController@getKitchenList')->name("kitchen-list");
 Route::get('/rest-list', 'RestController@getRestList')->name("rest-list");
 Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen')->name("kitchen");
@@ -226,11 +225,53 @@ Route::get("/test_getdata", function () {
     Storage::put('file.txt', $tmp);
 });
 
+Route::get("/test_geo_2", function () {
+    function calculateTheDistance($fA, $lA, $fB, $lB)
+    {
+        try {
+            $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
+
+
+        } catch (\Exception $e) {
+            $content = [];
+        }
+
+        return floatval(json_decode($content)->properties->distance ?? 0);
+    }
+
+    dd(calculateTheDistance('48.006619', '37.809605', '47.977030', '37.871176'));
+});
+
 
 Route::get("/test_rest_text", function () {
-    $text = "на выбор: Лосось 220 рублей/ Угорь 255 рублей/ Тунец 240 рублей/ Креветка тигровая 260 рублей.";
-    preg_match_all('/(на выбор: \w+)/u', $text, $matches);
-    dd($matches);
+    $text = "Цена: 50 рублей.
+
+#кофе";
+
+    $vowels = array("(", ")", "\n");
+
+
+    $text = str_replace($vowels, "", $text);
+
+    //$lower_text = mb_strtolower($text,"UTF-8");
+
+    $start = mb_strpos($text, "выбор:") + 6;
+    $end = mb_strpos($text, "Цена:");
+
+    if ($start == 0 || $end == 0)
+        return null;
+    $res = mb_substr($text, $start, $end - $start);
+
+    $res = explode("\\", $res);
+
+    $food_sub = [];
+    foreach ($res as $r)
+        array_push($food_sub, ["name" => trim($r)]);
+
+
+    //dd($food_sub);
+
+
 });
 
 
@@ -302,4 +343,39 @@ Route::get('/test_valid', function () {
         ], 200);
 
 
+});
+
+Route::get("/test_channel", function () {
+
+    try {
+        $content = file_get_contents("https://api.telegram.org/bot1144024861:AAEIkP-Cn4RkG4OqHX7OeOnlC6fh2ckDSTY/getChat?chat_id=@dacha_vertu");
+
+
+    } catch (\Exception $e) {
+        $content = [];
+    }
+
+
+    dd(json_decode($content)->result->id ?? 0);
+});
+
+
+Route::get("/test_formated_text", function () {
+    function prepareTelegramText(array $text = [])
+    {
+        $tmp = "";
+
+        foreach ($text as $key => $value) {
+            $tmp .= sprintf($key . "\n", $value);
+        }
+
+        return $tmp;
+    }
+
+    return prepareTelegramText([
+
+        "Заказ:*#%s*" => "123",
+        "Заказ:*2#%s*" => "test"
+
+    ]);
 });

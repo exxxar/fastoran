@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 class RestoransTableSeeder extends Seeder
 {
+    use \App\Classes\Utilits;
     /**
      * Run the database seeds.
      *
@@ -219,6 +220,32 @@ class RestoransTableSeeder extends Seeder
 
 
         array_push($tmp, $rest->id);
+
+
+        $rest = Restoran::create([
+            'name' => 'Оливье 80',
+            'description' => 'Ресторан семейных традиций "Оливье 80"',
+            'adress' => 'Украина, г. Донецк, пр. Гурова, 16',
+            'city' => 'Донецк',
+            'region' => "Ворошиловский",
+            'phone1' => "+380714524586",
+            'phone2' => "",
+            'inst_page' => "olivie80",
+            'site' => "",
+            'work_time'=>'11:00-19:45',
+            'telegram_channel' => "-1001498666636",
+            'vk_page' => "https://vk.com/olivie80",
+            'logo' => "https://sun9-41.userapi.com/c857728/v857728771/1c8b67/tH7W7gdbWrk.jpg",
+            'url' => "olivie80",
+            'rest_img' => "https://fastoran.com/images/bg/18.jpg",
+        ]);
+
+        $rest->kitchens()->attach([
+            Kitchen::where("name", "Русская кухня")->first()->id,
+            Kitchen::where("name", "Европейская кухня")->first()->id,
+            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
+        ]);
+
 
         foreach ($tmp as $restId) {
             $rate = Rating::create([

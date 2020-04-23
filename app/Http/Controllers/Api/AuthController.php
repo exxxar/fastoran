@@ -77,7 +77,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
+       // event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'

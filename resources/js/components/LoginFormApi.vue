@@ -1,7 +1,7 @@
 <template>
-    <div class="login-form">
-        <p v-if="message!=null" v-html="message"></p>
-        <form v-on:submit.prevent="login">
+    <div>
+        <form v-on:submit.prevent="login"class="login-form">
+            <p v-if="message!=null" v-html="message"></p>
             <div class="row">
                 <div class="col-12 mt-2">
                     <input type="text" class="form-control"  v-model="phone"
