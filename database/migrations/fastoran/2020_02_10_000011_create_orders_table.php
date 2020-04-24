@@ -31,6 +31,8 @@ class CreateOrdersTable extends Migration
             $table->string('longitude')->nullable()->comment('долгота');
 
             $table->unsignedInteger('deliveryman_id')->nullable();
+            $table->string('deliveryman_latitude')->nullable()->comment('широта для доставщика');
+            $table->string('deliveryman_longitude')->nullable()->comment('долгота для доставщика');
 
             $table->integer('status')->default(\App\Enums\OrderStatusEnum::InProcessing);
             $table->integer('order_type')->default(\App\Enums\OrderTypeEnum::FromRestoran);

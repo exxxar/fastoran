@@ -82,6 +82,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::any('/history', 'OrderController@getOrderHistory');
             Route::any("accept_order/{id}", "OrderController@acceptOrder");
             Route::any("deliveryman_orders", "OrderController@getDeliverymanOrders");
+            Route::any("deliveryman_order_location", "OrderController@setDeliverymanLocation");
             Route::any("decline_order/{id}", "OrderController@declineOrder");
             Route::any("decline_order_by_admin/{id}", "OrderController@declineOrderAdmin");
             Route::any("set_deliveryman_type/{type}", "OrderController@setDeliverymanType")->where(["type"=>"[0-9]+"]);
