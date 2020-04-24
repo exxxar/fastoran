@@ -25,7 +25,7 @@
 
             <div class="d-block text-center ">
 
-                <div class="map-section" v-if="coords_client.length>0&coords_deliveryman.length>0">
+                <div class="map-section" v-if="coords_client.length>0&&coords_deliveryman.length>0">
                     <yandex-map
                         :coords="coords_deliveryman"
                         zoom=15
