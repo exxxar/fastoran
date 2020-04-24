@@ -12,7 +12,6 @@
                                 <div
                                     class="contact-box name d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
                                     <input type="text" name="name" placeholder="Ваше Ф.И.О." required>
-                                    <input type="email" name="email" placeholder="Ваша почта" required>
                                     <input type="text" name="phone" placeholder="Номер телефона" required>
                                 </div>
                             </div>

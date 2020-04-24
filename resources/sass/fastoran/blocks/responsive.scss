@@ -576,6 +576,45 @@
         padding: 0 17px;
     }
 
+    .col-6 {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+
+    .popular__food {
+
+
+
+        .pp__food__inner {
+
+            .pp__food__details {
+
+                h4 {
+                    font-size:10px;
+
+                    a {
+                        color: #ed2124;
+                    }
+                }
+
+                .pp__meta {
+                    display:none !important;
+                }
+
+                .pp__food__bottom {
+                    margin-top: 5px;
+                    .pp__btn {
+                        .food__btn {
+                            font-size:8px;
+                            font-weight: 600;
+                            text-transform:uppercase;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
 

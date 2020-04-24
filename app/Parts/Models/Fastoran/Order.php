@@ -29,7 +29,10 @@ class Order extends Model
     protected $fillable = [
         'rest_id',
         'user_id',
+
         'deliveryman_id',
+        'deliveryman_latitude',
+        'deliveryman_longitude',
 
         'latitude',
         'longitude',

@@ -1,4 +1,4 @@
-<div class="col-md-6 col-lg-3 col-sm-6">
+<div class="col-md-6 col-lg-3 col-sm-6 banner-item">
     <div class="banner--2">
         <div class="banner__thumb">
             <a href="#" aria-label="{{$product->food_name}}"><img

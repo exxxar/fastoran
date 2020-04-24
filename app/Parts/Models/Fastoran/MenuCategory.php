@@ -15,7 +15,7 @@ class MenuCategory extends Model
         'sort',
     ];
 
-    protected $appends = ["in_category_count","alias"];
+    protected $appends = ["in_category_count", "alias"];
 
 
     public function getInCategoryCountAttribute()
@@ -25,11 +25,12 @@ class MenuCategory extends Model
 
     public function getAliasAttribute()
     {
-        return $this->table . "_" . $this->id;
+        return mb_substr($this->name, 1);//$this->table . "_" . $this->id;
     }
 
-    public function getFilteredMenu($restId){
-        return $this->menus->filter(function ($prod) use ($restId){
+    public function getFilteredMenu($restId)
+    {
+        return $this->menus->filter(function ($prod) use ($restId) {
             return $prod->rest_id == $restId;
         });
     }

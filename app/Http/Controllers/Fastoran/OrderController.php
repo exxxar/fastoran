@@ -271,7 +271,7 @@ class OrderController extends Controller
             "Цена основного заказа:*%s руб.*"
             ,
             $order->id,
-            $order->client??"fastoran.com",
+            $order->client ?? "fastoran.com",
             $rest->name ?? "Заведение без имени (ошибка)",
             $order->receiver_name ?? $user->name ?? 'Без имени',
             $order->receiver_phone ?? $user->phone ?? 'Без номера телефона (ошибка)',
@@ -904,6 +904,35 @@ class OrderController extends Controller
         return response()
             ->json([
                 "message" => $message
+            ], 200);
+    }
+
+    public function setDeliverymanLocation(Request $request)
+    {
+        $request->validate([
+            'deliveryman_latitude' => 'required',
+            'deliveryman_longitude' => 'required',
+        ]);
+
+        $user = $this->getUser();
+
+        $orders = Order::with(["restoran"])
+            ->where("deliveryman_id", $user->id)
+            ->whereBetween("status", [
+                OrderStatusEnum::InProcessing,
+                OrderStatusEnum::InDeliveryProcess
+            ])->get();
+
+
+        foreach ($orders as $order) {
+            $order->deliveryman_latitude = $request->deliveryman_latitude;
+            $order->deliveryman_longitude = $request->deliveryman_longitude;
+            $order->save();
+        }
+
+        return response()
+            ->json([
+                "message" => "success"
             ], 200);
     }
 
