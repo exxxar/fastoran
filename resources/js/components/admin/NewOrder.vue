@@ -1,7 +1,7 @@
 <template>
     <div>
-        <notifications group="message"/>
         <b-container fluid>
+            <notifications group="message"/>
             <div class="row">
                 <div class="single-accordion" style="width: 100%; ">
                     <a class="accordion-head" href="#" aria-expanded="true" style="background-color: #3490dc;">1. Выберите заведение</a>
@@ -52,7 +52,6 @@
                                                 <p class="mb-1">
                                                    <span
                                                        class="amount">Цена: {{item.food_price| currency}}
-                                                       {{item}}
                                                    </span>
                                                 </p>
                                                 <button class="btn btn-primary" v-if="!hasSub(item)" @click="addProductToCart(item)">Добавить</button>
@@ -76,8 +75,8 @@
                                         </thead>
                                         <tbody>
                                         <tr v-if="cartProducts.length>0" v-for="item in cartProducts">
-                                            <td class="product-name"><a href="#">{{item.product.food_name}} <span
-                                                v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span></a>
+                                            <td class="product-name">{{item.product.food_name}} <span
+                                                v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span>
                                             </td>
                                             <td class="product-price"><span
                                                 class="amount">{{item.product.food_price| currency}} </span></td>
@@ -104,7 +103,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -191,6 +189,7 @@
 
                                             <div class="col-12 mb--20">
                                                 <button type="button" class="btn btn-primary" @click="getRangePrice">
+                                                    <b-spinner v-if="delivery_loading" small label="Small Spinner"></b-spinner>
                                                     Рассчитать цену доставки
                                                 </button>
                                             </div>
@@ -206,8 +205,6 @@
                 <!-- Order Details -->
                 <div class="col-lg-6 col-12 mb-30">
 
-<!--                    <div class="order-details-wrapper" style="height: 47px;">-->
-<!--                        <h2 style="background: #3490dc; height: 47px;">Заказ</h2>-->
                     <div class="single-accordion">
                         <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
                            href="#billing-method" aria-expanded="true" style="background-color: #3490dc;">5. Заказ</a>
@@ -246,25 +243,25 @@
                     </div>
                 </div>
             </div>
-            <b-modal id="modal-submenu" hide-footer v-if="selected_product!=null">
+            <div v-if="selected_product!=null">
+                <b-modal id="modal-submenu"hide-footer no-stacking>
+                    <template v-slot:modal-title>
+                        <h3>Выбор подкатегории</h3>
+                    </template>
+                    <div class="d-block text-center">
+                        <b-form-checkbox-group :id="'modal-submenu-check'" v-model="selected" name="flavour-2">
+                            <li class="sub-item" v-for="sub in getFoodSub()">
 
-                <template v-slot:modal-title>
-                    <h3>Выбор подкатегории</h3>
-                </template>
-                <div class="d-block text-center">
-                    <b-form-checkbox-group :id="'modal-submenu-check'" v-model="selected" name="flavour-2">
+                                <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
+                                </b-form-checkbox>
 
-                        <li class="sub-item" v-for="sub in getFoodSub()">
-
-                            <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
-                            </b-form-checkbox>
-
-                        </li>
-                    </b-form-checkbox-group>
-                </div>
-                <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
-                </b-button>
-            </b-modal>
+                            </li>
+                        </b-form-checkbox-group>
+                    </div>
+                    <b-button class="mt-3 btn-food" :disabled="selected==null" block @click="addToCartWithSub">Добавить
+                    </b-button>
+                </b-modal>
+            </div>
         </b-container>
     </div>
 </template>
@@ -313,9 +310,10 @@
                 },
                 loading: false,
                 menu_loading: false,
+                delivery_loading: false,
                 search: '',
                 selected: null,
-                selected_product: null
+                selected_product: ''
             }
         },
         created() {
@@ -356,7 +354,7 @@
                     .get(`/admin/restorans/getRestorans`)
                     .then(resp => {
                         this.restorans = resp.data.restorans;
-                        this.restorans.push({ value: null, text: 'Выберете ресторан' })
+                        this.restorans.push({ value: null, text: 'Выберете ресторан' });
                         this.loading = false;
                     });
             },
@@ -369,7 +367,6 @@
                         this.items = resp.data.menu;
                         this.menu_loading = false;
                     });
-
             },
             openSubMenu(product) {
                 this.selected_product = product;
@@ -380,34 +377,33 @@
             },
             addToCartWithSub() {
                 this.addProductToCart(this.selected_product);
-
                 this.selected.forEach((item, key) => {
                     if (key <= this.selected.length - 2) {
                         this.increment(this.selected_product);
                     }
-
                 });
 
                 let tmp = this.selected.join();
-                const cartItem = this.cartProducts.find(item => item.product.id === this.selected_product.id)
-                cartItem.product.selected_sub = tmp
-                // this.$store.dispatch("addSub", {id: this.product_id, more_info: tmp})
-                this.$bvModal.hide("modal-submenu")
-                this.selected_product=null;
+                const cartItem = this.cartProducts.find(item => item.product.id === this.selected_product.id);
+                cartItem.product.selected_sub = tmp;
+                this.$bvModal.hide("modal-submenu");
+                // this.selected_product=null;
+                this.selected=null;
             },
             addProductToCart(product) {
-                let cartItem = this.cartProducts.find(item => item.product.id === product.id)
+                let cartItem = this.cartProducts.find(item => item.product.id === product.id);
                 if (!cartItem)
                     this.cartProducts.push({
                         product,
                         quantity: 1
-                    })
+                    });
                 else
                     cartItem.quantity++;
             },
             getRangePrice() {
-                if (this.delivery.city !=null && this.delivery.street != '' && this.delivery.home_number !='')
+                if (this.delivery.city !=null && this.delivery.street != '' && this.delivery.home_number !='' && this.rest_id!=null)
                 {
+                    this.delivery_loading= true;
                     let address = `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                     axios
                         .post("/admin/orders/range/" + this.rest_id, {
@@ -415,12 +411,15 @@
                         }).then(resp => {
 
                         this.preparedToSend = true;
-                        this.delivery_range = resp.data.range
-                        this.deliveryPrice = resp.data.price
-                        this.coords.latitude = resp.data.latitude
-                        this.coords.longitude = resp.data.longitude
-
+                        this.delivery_range = resp.data.range;
+                        this.deliveryPrice = resp.data.price;
+                        this.coords.latitude = resp.data.latitude;
+                        this.coords.longitude = resp.data.longitude;
+                        this.delivery_loading=false;
                     });
+                }
+                else {
+                    this.sendMessage('Введите все необходимые данные!', 'error');
                 }
             },
             makeOrder() {
@@ -449,17 +448,17 @@
                         order_details: products
                     })
                     .then(response => {
-                        this.clearCart()
+                        this.clearCart();
                         this.sendMessage(response.data.message);
                         ym(61797661,'reachGoal','zakaz');
                         this.deliveryPrice = 0;
                         this.delivery_range = null;
                     });
             },
-            sendMessage(message) {
+            sendMessage(message, type = 'success') {
                 this.$notify({
-                    group: 'info',
-                    type: 'success',
+                    group: 'message',
+                    type: type,
                     title: 'Создание нового заказа',
                     text: message
                 });
@@ -476,19 +475,20 @@
                 this.sendMessage('Лишний товар убран из корзины!');
 
                 if (this.hasSub(product)){
-                    let tmp_item = this.cartProducts.find(item => item.product.id === product.id)
-                    let tmp = tmp_item.product.selected_sub
-                    tmp = tmp.split(',')
-                    tmp = tmp.slice(0,tmp.length-1).join()
-                    tmp_item.product.selected_sub = tmp
+                    let tmp_item = this.cartProducts.find(item => item.product.id === product.id);
+                    let tmp = tmp_item.product.selected_sub;
+                    tmp = tmp.split(',');
+                    if(tmp.length!=1) {
+                        tmp = tmp.slice(0, tmp.length - 1).join();
+                        tmp_item.product.selected_sub = tmp;
+                    }
                 }
-                let cartItem = this.cartProducts.find(item => item.product.id === product.id)
+                let cartItem = this.cartProducts.find(item => item.product.id === product.id);
                 if (cartItem.quantity > 1)
                     cartItem.quantity--;
             },
             remove(id) {
                 this.cartProducts = this.cartProducts.filter(item => item.product.id != id);
-                // this.$store.dispatch("removeProduct", id)
             },
             clearCart() {
                 this.deliveryPrice = 0;
