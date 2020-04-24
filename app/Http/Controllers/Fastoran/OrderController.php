@@ -870,8 +870,10 @@ class OrderController extends Controller
         );
 
 
-        event(new SendSmsEvent($order->user->phone, "Ваш заказ доставлен! https://fastoran.com"));
-        $this->sendToTelegram($order->restoran->telegram_channel, $message);
+        if (!is_null($order->user->phone)) {
+            event(new SendSmsEvent($order->user->phone, "Ваш заказ доставлен! https://fastoran.com"));
+            $this->sendToTelegram($order->restoran->telegram_channel, $message);
+        }
 
         return response()
             ->json([
