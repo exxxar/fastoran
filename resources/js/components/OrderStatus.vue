@@ -148,12 +148,12 @@
                             this.$bvModal.show("result-modal")
                             this.order = resp.data.order
 
-                            if (this.order.latitude != null && this.order.longitude != null)
+                          ///  if (this.order.latitude != null && this.order.longitude != null)
                                 this.coords_client = [
                                     this.order.latitude, this.order.longitude
                                 ];
 
-                            if (this.order.deliveryman_latitude != null && this.order.deliveryman_longitude != null)
+                           // if (this.order.deliveryman_latitude != null && this.order.deliveryman_longitude != null)
                                 this.coords_deliveryman = [
                                     this.order.deliveryman_latitude, this.order.deliveryman_longitude
                                 ];
