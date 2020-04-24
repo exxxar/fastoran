@@ -81,8 +81,8 @@
                 order: null,
                 searching: false,
                 counter: null,
-                coords_client: null,
-                coords_deliveryman: null,
+                coords_client: [],
+                coords_deliveryman: [],
                 settings: {
                     apiKey: 'c3ddaef1-2a3e-4aea-bd55-698a8735fc7d',
                     lang: 'ru_RU',
