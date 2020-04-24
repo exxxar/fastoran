@@ -71,6 +71,7 @@ Route::prefix('admin')->group(function () {
     Route::any("/statistics", 'Admin\AdminController@statistics')->name("admin.statistics");
     Route::get('/getStatistics', "Admin\AdminController@getStatistics");
     Route::get('/getOrdersByDate/{startDate}/{endDate}', "Admin\AdminController@getOrdersByDate");
+    Route::get('/downloadStatistics', "Admin\AdminController@downloadStatistics");
 
     Route::any('/kitchens', 'Admin\KitchenController@index');
     Route::get('/kitchens/get', 'Admin\KitchenController@get');

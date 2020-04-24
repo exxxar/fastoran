@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use DB;
+use App\UsersExport;
 
 class AdminController extends Controller
 {
@@ -232,7 +233,7 @@ class AdminController extends Controller
 
         return view('admin.main', compact("auth", "token"));
     }
-    public function  statistics()
+    public function statistics()
     {
         $kitchen_count = Kitchen::where('is_active', 1)->count();
         $menu_count = RestMenu::all()->count();
@@ -412,5 +413,8 @@ class AdminController extends Controller
                 'date' => $startDate,
             ]);
 
+    }
+    public function downloadStatistics() {
+        return Excel::download(new UsersExport, 'statistics.xlsx');
     }
 }

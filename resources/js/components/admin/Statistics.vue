@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div class="row">
+            <div class="col-lg-4">
+                <b-button variant="primary" class="mt-4 mb-4" target="_blank" href="/admin/downloadStatistics">Скачать статистику</b-button>
+            </div>
+        </div>
         <div class="single-accordion" style="width: 100%;">
             <a class="accordion-head" href="#" aria-expanded="true" style="background-color: #3490dc;">Работа курьеров</a>
             <div class="accordion-body fix text-center">
@@ -523,8 +528,6 @@
             }
         },
         created() {
-            // const now = new Date()
-            // const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
             this.max = new Date();
             this.endDate = new Date();
             var year = new Date().getFullYear();
@@ -533,15 +536,6 @@
             var end = this.endDate.getFullYear() +'-'+(this.endDate.getMonth()+1)+'-'+ this.endDate.getDate();
             this.endDate = end;
             this.startDate = start;
-            // 15th two months prior
-            // const minDate = new Date(today)
-            // minDate.setMonth(minDate.getMonth() - 2)
-            // minDate.setDate(15)
-            // 15th in two months
-            // this.startDate = new Date().setFullYear(new Date().getFullYear()-2, 0, 1);
-            // const maxDate = new Date(today)
-            // maxDate.setMonth(maxDate.getMonth() + 2)
-            // maxDate.setDate(15)
             this.loadData()
         },
         methods: {

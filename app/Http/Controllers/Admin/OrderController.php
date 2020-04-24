@@ -541,54 +541,32 @@ class OrderController extends Controller
             'address' => 'required'
         ]);
 
-
-        $data = YandexGeocodeFacade::setQuery($request->get("address") ?? '')->load();
-
-        $data = $data->getResponse();
-
-        if (is_null($data))
-            return response()
-                ->json([
-                    "range" => 0,
-                    "price" => 500,
-                    "latitude" => 0,
-                    "longitude" => 0
-                ]);
-
-        $lat = $data->getLatitude();
-        $lon = $data->getLongitude();
-
         $rest = Restoran::find($restId);
 
-        if (is_null($rest->latitude) || is_null($rest->longitude)) {
-
-            $data = YandexGeocodeFacade::setQuery($rest->adress ?? '')->load();
-
-            $data = $data->getResponse();
-
-            if (!is_null($data)) {
-                $lat = $data->getLatitude();
-                $lon = $data->getLongitude();
-
-                $rest->latitude = $lat;
-                $rest->longitude = $lon;
-                $rest->save();
-            }
-
+        if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
+            $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
+            $rest->latitude = $coords->latitude;
+            $rest->longitude = $coords->longitude;
+            $rest->save();
         }
 
-        $range = ($this->calculateTheDistance($lat, $lon, $rest->latitude ?? 0, $rest->longitude ?? 0) / 1000) + 2;
+        $coords = (object)$this->getCoordsByAddress($request->get("address"));
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + ($range * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $range = ($this->calculateTheDistance(
+            $coords->latitude,
+            $coords->longitude,
+            $rest->latitude,
+            $rest->longitude));
+
+        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
         return response()
             ->json([
-                "range" => floatval(sprintf("%.2f", $range)),
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
                 "price" => $price,
-                "latitude" => $lat,
-                "longitude" => $lon
+                "latitude" => $coords->latitude,
+                "longitude" => $coords->longitude
             ]);
-
 
     }
 

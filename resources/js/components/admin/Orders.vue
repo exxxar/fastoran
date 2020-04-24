@@ -587,10 +587,19 @@
                             <b-form-group label-cols-lg="4" label="Название продукта" label-class="font-weight-bold" label-size="sm" class="mb-0">
                                 <b-form-textarea
                                     id="textarea"
+                                    :value="detail.product_details.food_name"
+                                    disabled
+                                    rows="3"
+                                    max-rows="6"
+                                    v-if="detail.product_details != null"
+                                ></b-form-textarea>
+                                <b-form-textarea
+                                    id="textarea"
                                     :value="detail.product.food_name"
                                     disabled
                                     rows="3"
                                     max-rows="6"
+                                    v-else
                                 ></b-form-textarea>
                             </b-form-group>
                        </div>
