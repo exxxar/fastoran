@@ -147,15 +147,17 @@
                             }
                             this.$bvModal.show("result-modal")
                             this.order = resp.data.order
-                            this.coords_client = [
-                                this.order.latitude, this.order.longitude
-                            ];
 
-                            this.coords_deliveryman = [
-                                this.order.deliveryman_latitude, this.order.deliveryman_longitude
-                            ];
+                            if (this.order.latitude != null && this.order.longitude != null)
+                                this.coords_client = [
+                                    this.order.latitude, this.order.longitude
+                                ];
 
-                            console.log(this.coords_deliveryman)
+                            if (this.order.deliveryman_latitude != null && this.order.deliveryman_longitude != null)
+                                this.coords_deliveryman = [
+                                    this.order.deliveryman_latitude, this.order.deliveryman_longitude
+                                ];
+
                             localStorage.setItem("last_order_id", this.order_id)
                         }
                     )
