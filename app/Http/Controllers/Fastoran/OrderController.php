@@ -927,6 +927,14 @@ class OrderController extends Controller
         foreach ($orders as $order) {
             $order->deliveryman_latitude = $request->deliveryman_latitude;
             $order->deliveryman_longitude = $request->deliveryman_longitude;
+
+            Log::info(sprintf("#%s %s км.",
+                $order->id,
+                $this->calculateTheDistance(
+                    $order->latitude,
+                    $order->longitude,
+                    $request->deliveryman_latitude,
+                    $request->deliveryman_longitude)));
             $order->save();
         }
 
