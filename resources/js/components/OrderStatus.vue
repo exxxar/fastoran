@@ -1,6 +1,7 @@
 <template>
     <div>
         <p v-if="counter">Статус заказа можно проверить через: {{counter}} секунд.</p>
+
         <form v-on:submit.prevent="findOrder">
             <div class="row">
                 <div class="col-12 col-sm-8 mt-2">
@@ -23,6 +24,27 @@
         <b-modal id="result-modal" class="test" hide-footer title="Проверка заказа">
 
             <div class="d-block text-center ">
+
+                <div class="map-section" v-if="coords_client&&coords_deliveryman">
+                    <yandex-map
+                        :coords="coords_deliveryman"
+                        zoom=15
+                    >
+                        <ymap-marker
+                            :coords="coords_client"
+                            :icon="markerClientIcon"
+                            marker-id="123124"
+                        />
+                        <ymap-marker
+                            :coords="coords_deliveryman"
+                            :icon="markerDeliverymanIcon"
+                            marker-id="123123"
+                            @click="testMarker"
+                            hint-content="Ваш доставщик уже в пути!"
+                        />
+                    </yandex-map>
+                </div>
+
                 <ul class="status-list" v-if="order!=null">
                     <li v-if="order.rest_id!=null"><p class="strong">Заказ из: {{order.restoran.name}}</p>
                     <li><p class="strong">Статус заказа:</p>
@@ -38,6 +60,8 @@
                     <li><p class="strong">Последнее изменение статуса:</p>
                         <p>{{order.updated_at}}</p></li>
                 </ul>
+
+
                 <div class="loader" v-else>
                     <img src="img/ajax-loader.gif" alt="">
                 </div>
@@ -48,6 +72,7 @@
 
 <script>
     import {mask} from 'vue-the-mask'
+    import {yandexMap, ymapMarker} from 'vue-yandex-maps'
 
     export default {
         data() {
@@ -56,6 +81,28 @@
                 order: null,
                 searching: false,
                 counter: null,
+                coords_client: null,
+                coords_deliveryman: null,
+                settings: {
+                    apiKey: 'c3ddaef1-2a3e-4aea-bd55-698a8735fc7d',
+                    lang: 'ru_RU',
+                    coordorder: 'latlong',
+                    version: '2.1'
+                },
+                markerDeliverymanIcon: {
+                    layout: 'default#imageWithContent',
+                    imageHref: '../img/icons/deliveryman.png',
+                    imageSize: [43, 43],
+                    imageOffset: [0, -25],
+                    contentOffset: [0, 15],
+                },
+                markerClientIcon: {
+                    layout: 'default#imageWithContent',
+                    imageHref: '../img/icons/client.png',
+                    imageSize: [43, 43],
+                    imageOffset: [0, -25],
+                    contentOffset: [0, 15],
+                }
             }
         },
         mounted() {
@@ -67,6 +114,9 @@
 
         },
         methods: {
+            testMarker() {
+                console.log("жду тебя, ждууу!")
+            },
             startTimer(time) {
                 this.counter = time != null ? Math.min(time, 30) : 30;
 
@@ -97,6 +147,16 @@
                             }
                             this.$bvModal.show("result-modal")
                             this.order = resp.data.order
+                            this.coords_client = [
+                                this.order.latitude, this.order.longitude
+                            ];
+
+                            this.coords_deliveryman = [
+                                this.order.deliveryman_latitude, this.order.deliveryman_longitude
+                            ];
+
+                            console.log(this.coords_deliveryman)
+                            localStorage.setItem("last_order_id", this.order_id)
                         }
                     )
             },
@@ -112,11 +172,17 @@
         },
         directives: {
             mask
-        }
+        },
+        components: {yandexMap, ymapMarker}
     }
 </script>
 
 <style lang="scss">
+
+    .map-section {
+        width: 100%;
+        height: 350px;
+    }
 
     #result-modal {
         .modal-content {
@@ -156,8 +222,8 @@
         font-weight: 700;
         line-height: 100%;
 
-        max-width:300px;
-        min-height:50px;
+        max-width: 300px;
+        min-height: 50px;
 
         &[disabled] {
             background: darkgray;
@@ -189,5 +255,9 @@
                 font-weight: bold;
             }
         }
+    }
+
+    .ymap-container {
+        height: 100%;
     }
 </style>
