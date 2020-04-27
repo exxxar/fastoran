@@ -72,10 +72,12 @@ trait Utilits
     {
         try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
-
-
         } catch (\Exception $e) {
-            $content = [];
+            $content = json_encode([
+                "properties" => [
+                    "distance" => 0
+                ]
+            ]);
         }
 
         return floatval(json_decode($content)->properties->distance ?? 0);
@@ -252,7 +254,7 @@ trait Utilits
     public function prepareChannelId($channelName)
     {
         try {
-            $content = file_get_contents("https://api.telegram.org/bot".env("TELEGRAM_BOT_TOKEN")."/getChat?chat_id=@$channelName");
+            $content = file_get_contents("https://api.telegram.org/bot" . env("TELEGRAM_BOT_TOKEN") . "/getChat?chat_id=@$channelName");
         } catch (\Exception $e) {
             $content = [];
         }
@@ -260,7 +262,8 @@ trait Utilits
         return json_decode($content)->result->id ?? null;
     }
 
-    public function prepareTelegramText(array $text=[]){
+    public function prepareTelegramText(array $text = [])
+    {
         $tmp = "";
 
         foreach ($text as $key => $value) {

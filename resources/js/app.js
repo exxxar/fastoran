@@ -19,18 +19,20 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 import HighchartsVue from 'highcharts-vue'
+
 Vue.use(HighchartsVue);
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
+
 drilldownInit(Highcharts)
 import exportingInit from 'highcharts/modules/exporting'
+
 exportingInit(Highcharts)
 import exportDataInit from 'highcharts/modules/export-data'
+
 exportDataInit(Highcharts)
 const moment = require('moment')
 require('moment/locale/ru')
-
-
 
 
 Vue.use(require('vue-moment'), {
@@ -54,7 +56,6 @@ Vue.component(
 );
 
 
-
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
 Vue.component('tags-cloud-list', require('./components/TagsCloud.vue').default);
 
@@ -70,6 +71,7 @@ Vue.component('contact-form', require('./components/CallbackForm.vue').default);
 Vue.component('user-profile', require('./components/UserCabinet.vue').default);
 Vue.component('login-form', require('./components/LoginFormApi.vue').default);
 Vue.component('order-status', require('./components/OrderStatus.vue').default);
+Vue.component('promo-block', require('./components/PromoBlock.vue').default);
 //Vue.component('simple-order', require('./components/SimpleOrder.vue').default);
 
 //Admin
@@ -121,10 +123,16 @@ let options = {
 
 Vue.use(Storage, options);
 
+import 'vue-datetime/dist/vue-datetime.css'
+
+import { Datetime } from 'vue-datetime';
+
+Vue.component('datetime', Datetime);
+
 
 Vue.use(VueCurrencyFilter,
     {
-        symbol : '₽',
+        symbol: '₽',
         thousandsSeparator: '.',
         fractionCount: 2,
         fractionSeparator: ',',

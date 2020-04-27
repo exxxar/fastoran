@@ -10,8 +10,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-lg-12">
-                    <form action="#">
-                        <div class="table-content table-responsive">
+                    <form v-if="cartProducts!=null">
+                        <div class="table-content table-responsive" v-if="cartProducts.length>0">
                             <table>
                                 <thead>
                                 <tr class="title-top">
@@ -148,12 +148,53 @@
 
                         <div class="single-accordion">
                             <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
-                               href="#billing-method" aria-expanded="true">2. Доставка</a>
+                               href="#billing-method" aria-expanded="true">2. Доставка
+
+                            </a>
                             <div id="billing-method" class="collapse show" style="">
 
                                 <div class="accordion-body billing-method fix">
 
-                                    <form @submit="getRangePrice" class="billing-form checkout-form">
+                                    <div>
+                                        <b-form-checkbox
+                                            id="checkbox-delivery-1"
+                                            v-model="take_by_self"
+                                            name="checkbox-delivery-1"
+                                            :unchecked-value="false"
+                                        >
+                                            Самовывоз
+                                        </b-form-checkbox>
+                                    </div>
+                                    <div class="take_by_self" v-if="take_by_self">
+                                        <div class="map-section" v-if="getRestCoords!=null">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label>Укажие ваше имя</label>
+                                                    <input type="text" class="form-control"
+                                                           v-model="delivery.first_name" placeholder="Ваше имя"
+                                                           required>
+
+                                                </div>
+
+                                            </div>
+                                            <h3 class="mt-2">Забрать заказ можно по адресу:
+                                                {{getRestCoords().address}}</h3>
+
+                                            <yandex-map
+                                                :coords="getRestCoords().coords"
+                                                zoom=15
+                                            >
+                                                <ymap-marker
+                                                    :coords="getRestCoords().coords"
+                                                    :icon="marker"
+                                                    marker-id="123123"
+                                                    hint-content="Место где вы сможете забрать заказ"
+                                                />
+                                            </yandex-map>
+                                        </div>
+                                    </div>
+                                    <form v-if="!take_by_self" @submit="getRangePrice"
+                                          class="billing-form checkout-form">
                                         <div class="row">
                                             <div class="col-12 mb--20">
                                                 <select v-model="delivery.city" required>
@@ -161,6 +202,19 @@
                                                     <option value="Макеевка">Макеевка</option>
                                                 </select>
                                             </div>
+                                            <div class="col-12 mb--20">
+                                                <label>Выбери дату и время доставки (<a
+                                                    v-if="delivery.receiver_delivery_time.length>0"
+                                                    @click="resetSelectedDatetime">сбросить время доставки</a><span
+                                                    v-else>не обязательно</span>)</label>
+                                                <datetime v-model="delivery.receiver_delivery_time"
+                                                          :min-datetime="getCurrentDatetimeRange().min"
+                                                          :max-datetime="getCurrentDatetimeRange().max"
+                                                          type="datetime"
+
+                                                ></datetime>
+                                            </div>
+
                                             <div class="col-12 mb--20">
                                                 <input placeholder="Улица" type="text" v-model="delivery.street"
                                                        required>
@@ -230,7 +284,7 @@
                                         <p class="strong">{{cartTotalPrice| currency}}</p></li>
 
                                     <li v-if="getCustomProductsSum()>0"><h4>Дополнительные товары</h4></li>
-                                    <li v-for="item in  custom_products" v-if="item.name.length>0&&item.price>0"><p>
+                                    <li v-for="item in  custom_products" v-if="item.name!=null"><p>
                                         {{item.name}}</p>
                                         <p>{{item.price| currency}}</p></li>
                                     <li v-if="getCustomProductsSum()>0"><p class="strong">Цена дополнительного
@@ -274,6 +328,7 @@
 </template>
 <script>
     import {mask} from 'vue-the-mask'
+    import {yandexMap, ymapMarker} from 'vue-yandex-maps'
 
     export default {
         data() {
@@ -283,13 +338,19 @@
                 phone: localStorage.getItem("phone", null) ?? null,
                 name: '',
                 message: '',
-                address: '',
                 custom_delivery_price: 0,
                 delivery_range: null,
                 deliveryPrice: 0,
                 sending: false,
-                sms_code: null,
+                take_by_self: false,
                 custom_products: [],
+                marker: {
+                    layout: 'default#imageWithContent',
+                    imageHref: '../img/icons/deliveryman.png',
+                    imageSize: [43, 43],
+                    imageOffset: [0, -25],
+                    contentOffset: [0, 15],
+                },
                 delivery: {
                     city: "Донецк",
                     street: localStorage.getItem("food_street") == null ? '' : localStorage.getItem("food_street"),
@@ -298,6 +359,7 @@
                     flat_number: localStorage.getItem("food_flat_number") == null ? '' : localStorage.getItem("food_flat_number"),
                     more_info: '',
                     money_type: '0',
+                    receiver_delivery_time: '',
                 },
                 coords: {
                     latitude: 0,
@@ -308,15 +370,22 @@
         },
 
         watch: {
-
+            take_by_self: function (newVal, oldVal) {
+                this.preparedToSend = newVal;
+                this.delivery.receiver_delivery_time = '';
+                this.delivery.delivery_range = 0;
+                console.log("prepare ", this.preparedToSend ? "тру" : "фалсе")
+            },
             phone: function (newVal, oldVal) {
-                this.is_valid = newVal.length === 19
+                this.is_valid = this.phone == null ? false : newVal.length === 19
             }
         },
         mounted() {
-            this.is_valid = this.phone.length === 19
+            this.is_valid = this.phone == null ? false : this.phone.length === 19
             let callback = (val, oldVal, uri) => {
+                console.log("Test")
                 this.$store.dispatch("getProductList")
+                console.log("Test 2")
             }
 
             Vue.ls.on('store', callback)
@@ -325,7 +394,9 @@
 
         },
         activated() {
+
             this.$store.dispatch("getProductList")
+
         },
         computed: {
             cartProducts: function () {
@@ -339,6 +410,27 @@
             }
         },
         methods: {
+            resetSelectedDatetime() {
+                this.delivery.receiver_delivery_time = '';
+            },
+            getCurrentDatetimeRange() {
+
+                var max_date = new Date();
+                var min_date = new Date();
+
+
+                min_date.setDate(min_date.getDate());
+                max_date.setDate(max_date.getDate() + 1);
+
+                min_date.setHours(11, 0);
+                max_date.setHours(20, 45);
+
+                return {
+                    min: min_date.toISOString(),
+                    max: max_date.toISOString(),
+
+                }
+            },
             getCustomProductsSum() {
                 let sum = 0;
 
@@ -347,6 +439,15 @@
                         sum += parseInt(element.price)
                 });
                 return sum;
+            },
+            getRestCoords() {
+                return {
+                    coords: [
+                        this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.latitude : 0,
+                        this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.longitude : 0
+                    ],
+                    address: this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.adress : 'Не указано'
+                }
             },
             getMinOrderSum() {
                 return this.cartTotalCount === 0 ?
@@ -443,6 +544,7 @@
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
+                        take_by_self: this.take_by_self ,
                         order_details: products,
                         custom_details: this.custom_products
 
@@ -502,7 +604,8 @@
 
             }
         },
-        directives: {mask}
+        directives: {mask},
+        components: {yandexMap, ymapMarker}
     }
 </script>
 <style lang="scss" scoped>

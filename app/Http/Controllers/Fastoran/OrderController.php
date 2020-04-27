@@ -238,7 +238,7 @@ class OrderController extends Controller
 
         $rest = Restoran::find($order->rest_id);
 
-        if (is_null($rest->latitude) || is_null($rest->longitude)) {
+        if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude == 0 || $rest->longitude == 0) {
             $coords = (object)$this->getCoordsByAddress($rest->address);
             $rest->latitude = $coords->latitude;
             $rest->longitude = $coords->longitude;
@@ -280,7 +280,7 @@ class OrderController extends Controller
             $tmp_custom_details ?? "Нет дополнительных позиций",
             $order->receiver_delivery_time ?? "По готовности",
             $order->receiver_address ?? "Не задан",
-            $price2,
+            (!$order->take_by_self ? $price2 : "самовывоз, 0"),
             $range,
             $order->summary_price
         );
