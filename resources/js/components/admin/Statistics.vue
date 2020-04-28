@@ -6,6 +6,36 @@
             </div>
         </div>
         <div class="single-accordion" style="width: 100%;">
+            <a class="accordion-head" href="#" aria-expanded="true" style="background-color: #3490dc;">Статистика по ресторанам</a>
+            <div class="accordion-body fix text-center">
+                <div class="row align-items-center">
+<!--                    <div class="col-sm-12 col-md-4 mb-2">-->
+<!--                        <label>Выберете ресторан:</label>-->
+<!--                        <b-form-select v-model="rest_id" :options="restorans" :disabled="loading"></b-form-select>-->
+<!--                    </div>-->
+                    <div class="col-sm-12 col-md-4 mb-2">
+                        <label for="start-datepicker">Выберете начальную дату:</label>
+                        <b-form-datepicker id="start-datepicker" v-model="rest_startDate" locale="ru" close-button label-close-button="Закрыть"></b-form-datepicker>
+                    </div>
+                    <div class="col-sm-12 col-md-4 mb-2">
+                        <label for="end-datepicker">Выберете конечную дату:</label>
+                        <b-form-datepicker id="end-datepicker" v-model="rest_endDate" :max="max" locale="ru" close-button label-close-button="Закрыть"></b-form-datepicker>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <b-button variant="primary" class="mt-4"
+                                  style="float:left"
+                                  :href="'/admin/getRestoransStatistics/'+rest_startDate+'/'+rest_endDate"
+                        >Скачать</b-button>
+<!--                        <b-button variant="primary" class="mt-4"-->
+<!--                                  style="float:left"-->
+
+<!--                                  @click="test"-->
+<!--                        >Скачать</b-button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single-accordion" style="width: 100%;">
             <a class="accordion-head" href="#" aria-expanded="true" style="background-color: #3490dc;">Работа курьеров</a>
             <div class="accordion-body fix text-center">
                 <b-row>
@@ -509,6 +539,11 @@
                 startDate: '',
                 endDate: '',
                 max: '',
+
+                restorans:[],
+                rest_id: null,
+                rest_startDate: '',
+                rest_endDate: '',
             }
         },
         computed: {
@@ -536,7 +571,15 @@
             var end = this.endDate.getFullYear() +'-'+(this.endDate.getMonth()+1)+'-'+ this.endDate.getDate();
             this.endDate = end;
             this.startDate = start;
-            this.loadData()
+
+            this.rest_endDate = new Date();
+            var month = new Date().getMonth();
+            this.rest_startDate = new Date(year, month, 1);
+            start = year +'-'+ (month + 1) +'-'+ this.rest_startDate.getDate();
+            end = year +'-'+ (month + 1) +'-'+ this.rest_endDate.getDate();
+            this.rest_endDate = end;
+            this.rest_startDate = start;
+            this.loadData();
         },
         methods: {
             async loadData() {
@@ -546,7 +589,12 @@
                 this.users = response.data.users;
                 this.ordersChartOptions.series[0].data = response.data.series;
                 this.ordersChartOptions.drilldown.series = response.data.drilldown;
-                console.log(this.ordersChartOptions);
+                const res = await axios
+                    .get(`/admin/restorans/getRestorans`)
+                    .then(resp => {
+                        this.restorans = resp.data.restorans;
+                        this.restorans.push({ value: null, text: 'Выберете ресторан' });
+                    });
                 this.loading = false;
             },
             onFiltered(filteredItems) {
@@ -564,11 +612,23 @@
                 const response = await axios.get(`/admin/getOrdersByDate/` + this.startDate + '/' + this.endDate);
                 this.ordersChartOptions.series[0].data = response.data.series;
                 this.ordersChartOptions.drilldown.series = response.data.drilldown;
+            },
+            async test() {
+                const response = await axios.get('/admin/getRestoransStatistics/'+this.rest_startDate+'/'+this.rest_endDate);
+                console.log(response.data.statistics);
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .accordion-body {
+        overflow:visible;
+        padding: 30px;
+        border: 1px solid #eeeeee;
+        border-top-color: rgb(238, 238, 238);
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top: none;
+    }
 </style>
