@@ -920,6 +920,7 @@ class OrderController extends Controller
 
         $orders = Order::with(["restoran"])
             ->where("deliveryman_id", $user->id)
+            ->whereDate('created_at', Carbon::today())
             ->whereBetween("status", [
                 OrderStatusEnum::InProcessing,
                 OrderStatusEnum::InDeliveryProcess
@@ -929,14 +930,14 @@ class OrderController extends Controller
         foreach ($orders as $order) {
             $order->deliveryman_latitude = $request->deliveryman_latitude;
             $order->deliveryman_longitude = $request->deliveryman_longitude;
-
+/*
             Log::info(sprintf("#%s %s км.",
                 $order->id,
                 $this->calculateTheDistance(
                     $order->latitude,
                     $order->longitude,
                     $request->deliveryman_latitude,
-                    $request->deliveryman_longitude)));
+                    $request->deliveryman_longitude)));*/
             $order->save();
         }
 
