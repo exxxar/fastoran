@@ -920,6 +920,7 @@ class OrderController extends Controller
 
         $orders = Order::with(["restoran"])
             ->where("deliveryman_id", $user->id)
+            ->whereDate('created_at', Carbon::today())
             ->whereBetween("status", [
                 OrderStatusEnum::InProcessing,
                 OrderStatusEnum::InDeliveryProcess
