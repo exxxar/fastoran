@@ -10,6 +10,9 @@ const getters = {
     },
     cartTotalCount: (state, getters) => {
 
+        if (state.items==null)
+            return 0;
+
         if (state.items.length===0)
             return 0;
 
@@ -20,6 +23,9 @@ const getters = {
         return summ
     },
     cartTotalPrice: (state, getters) => {
+        if (state.items==null)
+            return 0;
+
         if (state.items.length===0)
             return 0;
 

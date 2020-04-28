@@ -43,6 +43,12 @@
  * Date: 2019-05-01T21:04Z
  */
 
+/*!
+ * vue-datetime v1.0.0-beta.11
+ * (c) 2019 Mario Juárez
+ * Released under the MIT License.
+ */
+
 /*! 
   * portal-vue © Thorsten Lünborg, 2019 
   * 
