@@ -13,8 +13,10 @@
     @include("fastoran.partials.food__stuff__area")
     @include("fastoran.partials.food__special__offer")
     {{--   @include("fastoran.partials.food__testimonial__area")--}}
-    {{--   @include("fastoran.partials.fd__counterup__area")
-       @include("fastoran.partials.fd__subscribe__wrapper")
-       @include("fastoran.partials.food__contact__form")--}}
+    {{--   @include("fastoran.partials.fd__counterup__area")--}}
+{{--       @include("fastoran.partials.fd__subscribe__wrapper")--}}
+
+    @include("fastoran.partials.food__contact")
+    @include("fastoran.partials.food__contact__form")
     @include("fastoran.partials.footer__area")
 @endsection
