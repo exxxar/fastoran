@@ -21,7 +21,7 @@
             </div>
         </form>
 
-        <b-modal id="result-modal" class="test" hide-footer title="Проверка заказа">
+        <b-modal id="result-modal" class="test" hide-footer title="Проверка заказа" v-model="visible">
 
             <div class="d-block text-center ">
 
@@ -82,6 +82,8 @@
                 searching: false,
                 counter: null,
                 coords_client: [],
+                visible: false,
+                map_updater: null,
                 coords_deliveryman: [],
                 settings: {
                     apiKey: 'c3ddaef1-2a3e-4aea-bd55-698a8735fc7d',
@@ -113,6 +115,14 @@
 
 
         },
+        watch: {
+            visible: function (newVal, oldVal) {
+                if (this.visible && this.order_id != null) {
+                    this.map_updater = setInterval(() => this.findOrder(), 15000)
+                } else
+                    clearInterval(this.map_updater)
+            }
+        },
         methods: {
             testMarker() {
                 console.log("жду тебя, ждууу!")
@@ -136,6 +146,7 @@
                 this.searching = true;
                 this.sendMessage("Выполняем поиск заказа!")
 
+                //todo: подключить Pusher
                 axios
                     .get("../api/v1/fastoran/orders/" + this.order_id)
                     .then(resp => {
@@ -159,6 +170,7 @@
                                 ];
 
                             localStorage.setItem("last_order_id", this.order_id)
+
                         }
                     )
             },
