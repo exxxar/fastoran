@@ -14,6 +14,7 @@ use App\Parts\Models\Fastoran\Restoran;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\Rating;
 use App\PhonesImport;
+use App\RestoranStatisticsSheet;
 use App\User;
 use App\RestoranInCategory;
 use ATehnix\VkClient\Auth;
@@ -24,6 +25,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use DB;
 use App\UsersExport;
+use App\RestoransStatisticsExport;
 
 class AdminController extends Controller
 {
@@ -418,35 +420,66 @@ class AdminController extends Controller
     public function downloadStatistics() {
         return Excel::download(new UsersExport, 'statistics.xlsx');
     }
-    public function getStatisticsRestorans($startDate, $endDate) {
+    public function getRestoransStatistics($startDate, $endDate) {
         $restorans = Restoran::all();
+        $all_deliverymans = User::where('user_type', 1)->get();
         $statistics = array();
-        foreach ($restorans as $rest) {
-            $orders_count = Order::whereBetween('created_at', [$startDate, $endDate])->where('status',3)->where('rest_id', $rest->id)->count();
-            $all_deliverymans = User::where('user_type', 1)->get();
+        foreach ($restorans as $restoran) {
             $deliverymans = array();
             foreach ($all_deliverymans as $deliveryman){
-                $deliveryman->orders_count = Order::whereBetween('created_at', [$startDate, $endDate])->where('deliveryman_id',$deliveryman->id)->where('status',3)->where('rest_id', $rest->id)->count();
-                if( $deliveryman->orders_count != 0 ) {
+                $orders_count = Order::whereBetween('created_at', [$startDate, $endDate])
+                    ->where('rest_id',$restoran->id)
+                    ->where('deliveryman_id',$deliveryman->id)
+                    ->where('status',3)
+                    ->count();
+                if( $orders_count != 0 ) {
                     $d = (object)[];
                     $d->id = $deliveryman->id;
                     $d->name = $deliveryman->name;
                     $d->phone = $deliveryman->phone;
                     $d->deliveryman_type= DeliveryTypeEnum::getKey($deliveryman->deliveryman_type);
-                    $d->orders_count = $deliveryman->orders_count;
-                    $d->delivery_range = $deliveryman->delivery_range = Order::whereBetween('created_at', [$startDate, $endDate])->where('deliveryman_id', $deliveryman->id)->where('status', 3)->where('rest_id', $rest->id)->sum('delivery_range');
-                    $d->delivery_price = $deliveryman->delivery_price = Order::whereBetween('created_at', [$startDate, $endDate])->where('deliveryman_id', $deliveryman->id)->where('status', 3)->where('rest_id', $rest->id)->sum('delivery_price');
-                    $orders = Order::where('deliveryman_id', $deliveryman->id)->where('status', 3)->get();
-                    $deliveryman->summary_price = $orders->sum('summary_price');
-                    $d->summary_price = $deliveryman->summary_price;
+                    $d->orders_count = $orders_count;
+                    $d->delivery_range = Order::whereBetween('created_at', [$startDate, $endDate])
+                        ->where('rest_id',$restoran->id)
+                        ->where('deliveryman_id', $deliveryman->id)
+                        ->where('status', 3)
+                        ->sum('delivery_range');
+                    $d->delivery_price = Order::whereBetween('created_at', [$startDate, $endDate])
+                        ->where('rest_id',$restoran->id)
+                        ->where('deliveryman_id', $deliveryman->id)
+                        ->where('status', 3)
+                        ->sum('delivery_price');
+                    $orders = Order::whereBetween('created_at', [$startDate, $endDate])
+                        ->where('rest_id',$restoran->id)
+                        ->where('deliveryman_id', $deliveryman->id)
+                        ->where('status', 3)
+                        ->get();
+                    $d->summary_price = $orders->sum('summary_price');
                     array_push($deliverymans, $d);
                 }
             }
             $r = (object)[];
-            $r->name = $rest->name;
-            $r->orders_count = $orders_count;
+            $r->name = $restoran->name;
+            $r->orders_count = Order::whereBetween('created_at', [$startDate, $endDate])
+                ->where('rest_id',$restoran->id)
+                ->where('status',3)
+                ->count();
+            $r->delivery_range = Order::whereBetween('created_at', [$startDate, $endDate])
+                ->where('rest_id',$restoran->id)
+                ->where('status', 3)
+                ->sum('delivery_range');
+            $r->delivery_price = Order::whereBetween('created_at', [$startDate, $endDate])
+                ->where('rest_id',$restoran->id)
+                ->where('status', 3)
+                ->sum('delivery_price');
+            $orders = Order::whereBetween('created_at', [$startDate, $endDate])
+                ->where('rest_id',$restoran->id)
+                ->where('status', 3)
+                ->get();
+            $r->summary_price = $orders->sum('summary_price');
             $r->couriers = $deliverymans;
             array_push($statistics, $r);
         }
+        return Excel::download(new RestoransStatisticsExport($statistics), 'statistics.xlsx');
     }
 }

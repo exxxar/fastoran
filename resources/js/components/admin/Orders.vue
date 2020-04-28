@@ -119,6 +119,24 @@
                             <p>{{data.item.deliveryman_name}}</p>
                             <p>{{data.item.deliveryman_phone}}</p>
                         </template>
+                        <template v-slot:cell(delivery_range)="data">
+                            <b-input-group size="sm">
+                                <b-form-input type="number"
+                                              :value="data.item.delivery_range"
+                                              @blur="save($event.target.value,data.item.id,'delivery_range')"
+                                              :placeholder="'Введите километраж'">
+                                </b-form-input>
+                            </b-input-group>
+                        </template>
+                        <template v-slot:cell(delivery_price)="data">
+                            <b-input-group size="sm">
+                                <b-form-input type="number"
+                                              :value="data.item.delivery_price"
+                                              @blur="save($event.target.value,data.item.id,'delivery_price')"
+                                              :placeholder="'Введите сумму доставки'">
+                                </b-form-input>
+                            </b-input-group>
+                        </template>
                         <template v-slot:cell(status)="data">
                             <b-input-group size="sm">
                                 <b-form-select
@@ -396,6 +414,24 @@
                             <p>{{data.item.deliveryman_name}}</p>
                             <p>{{data.item.deliveryman_phone}}</p>
                         </template>
+                        <template v-slot:cell(delivery_range)="data">
+                            <b-input-group size="sm">
+                                <b-form-input type="number"
+                                              :value="data.item.delivery_range"
+                                              @blur="save($event.target.value,data.item.id,'delivery_range')"
+                                              :placeholder="'Введите километраж'">
+                                </b-form-input>
+                            </b-input-group>
+                        </template>
+                        <template v-slot:cell(delivery_price)="data">
+                            <b-input-group size="sm">
+                                <b-form-input type="number"
+                                              :value="data.item.delivery_price"
+                                              @blur="save($event.target.value,data.item.id,'delivery_price')"
+                                              :placeholder="'Введите сумму доставки'">
+                                </b-form-input>
+                            </b-input-group>
+                        </template>
                         <template v-slot:cell(status)="data">
                             <b-input-group size="sm">
                                 <b-form-select
@@ -620,6 +656,7 @@
                 sortBy: 'created_at',
                 sortDesc: true,
                 fields: [
+                    {key: 'id', label: '#', sortable: true, sortDirection: 'desc'},
                     {key: 'created_at', label: 'Дата', sortable: true, sortDirection: 'desc'},
                     {key: 'rest_name', label: 'Ресторан', sortable: true, sortDirection: 'desc'},
                     {key: 'deliveryman_name', label: 'Курьер', sortable: true, sortDirection: 'desc'},
