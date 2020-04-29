@@ -352,7 +352,7 @@ class AdminController extends Controller
     }
     public function getOrdersByDate($startDate, $endDate)
     {
-        $orders = Order::whereBetween('created_at', [$startDate, $endDate])->get();
+        $orders = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])->where('status', 3)->get();
         foreach ($orders as $order)
         {
             $order->year = $order->created_at->year;
@@ -427,7 +427,7 @@ class AdminController extends Controller
         foreach ($restorans as $restoran) {
             $deliverymans = array();
             foreach ($all_deliverymans as $deliveryman){
-                $orders_count = Order::whereBetween('created_at', [$startDate, $endDate])
+                $orders_count = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                     ->where('rest_id',$restoran->id)
                     ->where('deliveryman_id',$deliveryman->id)
                     ->where('status',3)
@@ -439,17 +439,17 @@ class AdminController extends Controller
                     $d->phone = $deliveryman->phone;
                     $d->deliveryman_type= DeliveryTypeEnum::getKey($deliveryman->deliveryman_type);
                     $d->orders_count = $orders_count;
-                    $d->delivery_range = Order::whereBetween('created_at', [$startDate, $endDate])
+                    $d->delivery_range = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                         ->where('rest_id',$restoran->id)
                         ->where('deliveryman_id', $deliveryman->id)
                         ->where('status', 3)
                         ->sum('delivery_range');
-                    $d->delivery_price = Order::whereBetween('created_at', [$startDate, $endDate])
+                    $d->delivery_price = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                         ->where('rest_id',$restoran->id)
                         ->where('deliveryman_id', $deliveryman->id)
                         ->where('status', 3)
                         ->sum('delivery_price');
-                    $orders = Order::whereBetween('created_at', [$startDate, $endDate])
+                    $orders = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                         ->where('rest_id',$restoran->id)
                         ->where('deliveryman_id', $deliveryman->id)
                         ->where('status', 3)
@@ -460,19 +460,19 @@ class AdminController extends Controller
             }
             $r = (object)[];
             $r->name = $restoran->name;
-            $r->orders_count = Order::whereBetween('created_at', [$startDate, $endDate])
+            $r->orders_count = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                 ->where('rest_id',$restoran->id)
                 ->where('status',3)
                 ->count();
-            $r->delivery_range = Order::whereBetween('created_at', [$startDate, $endDate])
+            $r->delivery_range = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                 ->where('rest_id',$restoran->id)
                 ->where('status', 3)
                 ->sum('delivery_range');
-            $r->delivery_price = Order::whereBetween('created_at', [$startDate, $endDate])
+            $r->delivery_price = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                 ->where('rest_id',$restoran->id)
                 ->where('status', 3)
                 ->sum('delivery_price');
-            $orders = Order::whereBetween('created_at', [$startDate, $endDate])
+            $orders = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
                 ->where('rest_id',$restoran->id)
                 ->where('status', 3)
                 ->get();
@@ -480,6 +480,6 @@ class AdminController extends Controller
             $r->couriers = $deliverymans;
             array_push($statistics, $r);
         }
-        return Excel::download(new RestoransStatisticsExport($statistics), 'statistics.xlsx');
+        return Excel::download(new RestoransStatisticsExport($statistics), 'report.xlsx');
     }
 }
