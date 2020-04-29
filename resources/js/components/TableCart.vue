@@ -461,7 +461,11 @@
                 let acceptMinCount = this.cartTotalCount > 0;
                 let sending = this.sending
 
-                return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
+                console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
+                let res = acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
+
+                console.log(res);
+                return res;
             },
             addCustomProduct() {
                 this.custom_products = this.custom_products.filter(item => item.name.trim().length > 0 && item.price > 0)
@@ -544,7 +548,7 @@
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
-                        take_by_self: this.take_by_self ,
+                        take_by_self: this.take_by_self,
                         order_details: products,
                         custom_details: this.custom_products
 
