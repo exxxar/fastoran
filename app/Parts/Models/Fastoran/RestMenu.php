@@ -3,12 +3,18 @@
 namespace App\Parts\Models\Fastoran;
 
 use App\Enums\ContentTypeEnum;
+use App\Enums\FoodStatusEnum;
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RestMenu extends Model
 {
-    use SoftDeletes;
+    use CastsEnums,SoftDeletes;
+
+    protected $enumCasts = [
+        'food_status' => FoodStatusEnum::class,
+    ];
 
     protected $casts = [
       "food_sub"=>'array'
@@ -20,6 +26,7 @@ class RestMenu extends Model
         'food_ext',
         'food_price',
         'food_sub',
+        'food_status',
         'rest_id',
         'food_category_id',
         'food_img',

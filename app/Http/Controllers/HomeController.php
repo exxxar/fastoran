@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Utilits;
+use App\Enums\FoodStatusEnum;
 use App\Parts\Models\Fastoran\MenuCategory;
+use App\Parts\Models\Fastoran\Promotion;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\Parts\Models\Fastoran\Rating;
@@ -105,17 +107,45 @@ class HomeController extends Controller
                         continue;
 
                     $description = $item2["description"];
+
+                    $food_status = [
+                        "Акция!" => FoodStatusEnum::Promotion,
+                        "Топ!" => FoodStatusEnum::InTheTop,
+                        "Хит продаж!" => FoodStatusEnum::BestSeller,
+                        "Новинка!" => FoodStatusEnum::NewFood,
+                    ];
+
+                    $food_status_index = null;
+
+                    foreach ($food_status as $key => $status)
+                        if (mb_strpos(mb_strtolower($description), mb_strtolower($key)))
+                            $food_status_index = $key;
+
+
                     $product = RestMenu::create([
                         'food_name' => $item2["title"],
-                        'food_remark' =>$description,
+                        'food_remark' => $description,
                         'food_ext' => $weight ?? 0,
                         'food_sub' => $this->prepareSub($description),
                         'food_price' => $price,
+                        'food_status' => is_null($food_status_index) ? FoodStatusEnum::Unset : $food_status[$food_status_index],
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,
                         'food_img' => $item2["thumb_photo"],
                         'stop_list' => false,
                     ]);
+
+                    if (!is_null($food_status_index))
+                        if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
+                            $promotion = Promotion::where('product->food_name', $product->food_name)
+                                ->where('product->rest_id', $product->rest_id)
+                                ->first();
+
+                            if (is_null($promotion))
+                                Promotion::create([
+                                    'product' => $product
+                                ]);
+                        }
 
 
                     if (is_null($rest->categories()->find($category->id)))

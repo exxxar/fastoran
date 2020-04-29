@@ -13,9 +13,10 @@ class CreatePromocodesTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('promocodes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('id')->nullable();
+            $table->string('code',12)->unique();
             $table->boolean('active')->default(true);
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('promotion_id');
@@ -26,6 +27,7 @@ class CreatePromocodesTable extends Migration
 
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

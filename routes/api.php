@@ -49,7 +49,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('order/resend', 'OrderController@resendSmsVerify');
         Route::post('order/custom', 'OrderController@sendCustomOrder');
         Route::post('order/quest', 'OrderController@sendDeliverymanQuest');
+        Route::post('order/price_by_code', 'PromocodeController@getPriceByCode');
         Route::post("check_valid_code", "OrderController@checkValidCode");
+        Route::post("generate_promocode", "PromocodeController@generate");
 
         Route::resource('restorans', 'RestoransController');
         Route::resource('kitchens', 'KitchenController');
@@ -140,6 +142,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('order', 'RestContoller@makeOrder');
     });
 
+});
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Маршрут не найден!'], 404);
 });
 
 

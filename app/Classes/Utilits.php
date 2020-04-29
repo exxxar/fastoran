@@ -6,6 +6,9 @@ namespace App\Classes;
 
 use Allanvb\LaravelSemysms\Exceptions\SmsNotSentException;
 use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\Enums\FoodStatusEnum;
+use App\Parts\Models\Fastoran\Promocode;
+use App\Parts\Models\Fastoran\RestMenu;
 use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -271,5 +274,48 @@ trait Utilits
         }
 
         return $tmp;
+    }
+
+    public function getPriceWithDiscountByCode($code, $productId, $userId = null)
+    {
+
+        $product = RestMenu::find($productId);
+
+        if (is_null($product))
+            return 0;
+
+        if (is_null($code) || $product->food_status !== FoodStatusEnum::Promotion)
+            return $product->food_price;
+
+        $promocode = Promocode::with(["promotion"])
+            ->where("code", $code)
+            ->whereNull("user_id")
+            ->first();
+
+        if (is_null($promocode))
+            return $product->food_price;
+
+        if (is_null($promocode->promotion->product))
+            return $product->food_price;
+
+        if ($promocode->promotion->product->food_name != $product->food_name ||
+            $promocode->promotion->product->rest_id != $product->rest_id)
+            return $product->food_price;
+
+
+        if (!is_null($userId)) {
+            $promocode->user_id = $userId;
+            $promocode->save();
+
+            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
+                sprintf("Пользовател #%s успешно активировал промокод _%s_",
+                    $userId,
+                    $code
+                )
+            );
+        }
+
+        return min($product->food_price * (100 - $promocode->promotion->discount), 1);
+
     }
 }

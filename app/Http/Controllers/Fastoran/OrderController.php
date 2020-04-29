@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Classes\Utilits;
+use App\Enums\FoodStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\Enums\UserTypeEnum;
@@ -10,6 +11,8 @@ use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\DeliveryQuest;
 use App\Parts\Models\Fastoran\Order;
+use App\Parts\Models\Fastoran\Promocode;
+use App\Parts\Models\Fastoran\Promotion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +21,7 @@ use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 class OrderController extends Controller
@@ -144,6 +148,8 @@ class OrderController extends Controller
             ]);
     }
 
+
+
     public function store(Request $request)
     {
         $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone"));
@@ -171,10 +177,7 @@ class OrderController extends Controller
         $user = User::where("phone", $phone)->first();
 
         if (is_null($user))
-            return response()
-                ->json([
-                    "message" => "Что-то пошло не так! Проверьте данные!"
-                ], 200);
+            throw new HttpException(404,"Пользователь не найден!");
 
 
         $order = Order::create($request->all());
@@ -209,10 +212,15 @@ class OrderController extends Controller
             $emptyProductId = true;
             if (isset($od["product_id"])) {
                 $emptyProductId = false;
+
+                $product = RestMenu::find($od["product_id"]);
+                $product_price = $this->getPriceWithDiscountByCode($request->get("code") ?? null, $product->id,$user->id);
+                $product_count = $od["count"];
+
                 $detail = OrderDetail::create([
-                    "product_details" => RestMenu::find($od["product_id"]),
-                    'price' => $od["price"],
-                    'count' => $od["count"],
+                    "product_details" => $product,
+                    'price' => $product_price,
+                    'count' => $product_count,
                     'order_id' => $order->id,
                 ]);
 
@@ -930,14 +938,14 @@ class OrderController extends Controller
         foreach ($orders as $order) {
             $order->deliveryman_latitude = $request->deliveryman_latitude;
             $order->deliveryman_longitude = $request->deliveryman_longitude;
-/*
-            Log::info(sprintf("#%s %s км.",
-                $order->id,
-                $this->calculateTheDistance(
-                    $order->latitude,
-                    $order->longitude,
-                    $request->deliveryman_latitude,
-                    $request->deliveryman_longitude)));*/
+            /*
+                        Log::info(sprintf("#%s %s км.",
+                            $order->id,
+                            $this->calculateTheDistance(
+                                $order->latitude,
+                                $order->longitude,
+                                $request->deliveryman_latitude,
+                                $request->deliveryman_longitude)));*/
             $order->save();
         }
 

@@ -6,17 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
 {
-    protected $dates = [
-        'start_at', 'end_at'
+    protected $casts = [
+        'product' => 'array',
     ];
 
     protected $fillable = [
-        'title',
-        'img_url',
-        'description',
-        'old_price',
-        'start_at',
-        'end_at',
+        'discount',
+        'product',
         'active'
     ];
 
