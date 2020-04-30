@@ -29,7 +29,7 @@
                     </div>
 
                     <h4 class="banner__h4">
-                        <mark>{{product.food_price}}₽</mark>
+                        {{product.food_price}}₽
                     </h4>
                     <div class="rest-img">
                         <a :href="'../rest/'+product.rest_info.url">
