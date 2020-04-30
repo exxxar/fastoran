@@ -90,7 +90,7 @@ class Order extends Model
     public function getDeliveredTimeAttribute()
     {
 
-        $delivery_time = is_null($this->delivery_note) ? 0 : intval($this->delivery_note);
+        $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note))*2;
 
         $time = $this->delivery_range + $delivery_time + 5;
 
