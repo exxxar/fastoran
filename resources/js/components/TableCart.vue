@@ -521,6 +521,8 @@
                     }).then(resp => {
                     this.promocode_message = `Цена акционного товара ${resp.data.price} руб.`;
                     this.is_valid_promocode = true;
+                }).catch(resp=>{
+                    this.promocode_message = resp.data.message
                 })
             },
             canMakeOrder() {

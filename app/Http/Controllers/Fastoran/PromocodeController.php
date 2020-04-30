@@ -20,6 +20,10 @@ class PromocodeController extends Controller
         $request->validate([
             "product_id" => "required",
             "code" => "required|exists:promocodes"
+        ],  [
+            'product_id.required' => 'Акционный товар не найден!',
+            'code.required' => 'Код должен объязательно присутствовать!',
+            'code.exists' => 'Такой промокод не существует!',
         ]);
 
 
