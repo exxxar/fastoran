@@ -166,7 +166,6 @@ class OrderController extends Controller
 
         }
 
-        Log::info("PHONE=$phone");
 
         $user = User::where("phone", $phone)->first();
 
