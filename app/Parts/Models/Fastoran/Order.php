@@ -92,7 +92,7 @@ class Order extends Model
 
         $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note))*2;
 
-        $time = $this->delivery_range + $delivery_time + 5;
+        $time = max($this->delivery_range, 10) + $delivery_time;
 
         return Carbon::parse($this->created_at, '+3:00')->addMinutes($time)->format('H:i') .
             " - " .
