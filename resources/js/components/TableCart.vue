@@ -601,8 +601,11 @@
                     this.custom_delivery_price = 0;
                 }
 
-                let tmp_time = new Date(this.delivery.receiver_delivery_time);
-                let receiver_delivery_time = tmp_time.toLocaleDateString('ru-RU') + " "+tmp_time.toLocaleTimeString('ru-RU')
+                let receiver_delivery_time = '';
+                if (this.delivery.receiver_delivery_time !== '') {
+                    let tmp_time = new Date(this.delivery.receiver_delivery_time);
+                    receiver_delivery_time = tmp_time.toLocaleDateString('ru-RU') + " " + tmp_time.toLocaleTimeString('ru-RU')
+                }
 
                 let products = [];
                 this.cartProducts.forEach(function (item) {
