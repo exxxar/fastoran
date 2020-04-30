@@ -56,7 +56,7 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
             'name' => 'nullable|string',
             'telegram_chat_id' => 'nullable|string'
         ]);
