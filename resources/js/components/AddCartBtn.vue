@@ -199,7 +199,6 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
-        background: #f8fafc7a;
         padding: 10px 0px;
 
         p {
