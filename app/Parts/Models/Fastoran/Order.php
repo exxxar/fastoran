@@ -102,9 +102,11 @@ class Order extends Model
 
     public function getStatusTextAttribute()
     {
+        $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note))*2;
+
         $time = "Не установлено";
         if (!is_null($this->delivery_note))
-            $time = sprintf("%.0f", $this->delivery_range + intval($this->delivery_note) + 5);
+            $time = sprintf("%.0f", max($this->delivery_range, 10) + $delivery_time);
         switch (intval(OrderStatusEnum::getInstance($this->status)->value)) {
             default:
             case 0:
