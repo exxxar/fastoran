@@ -498,6 +498,7 @@
 
                 if (this.cartTotalCount === 0) {
                     this.sendMessage("Сперва добавьте товар в корзину!")
+                    this.promocode_message = "Необходимо добавить товар в корзину для начала!";
                     return
                 }
 
@@ -618,7 +619,7 @@
                         receiver_longitude: this.coords.longitude,
                         rest_id: this.cartProducts[0].product.rest_id,
                         status: 0,
-                        receiver_delivery_time: '',
+                        receiver_delivery_time: this.delivery.receiver_delivery_time,
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',

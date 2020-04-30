@@ -10,7 +10,7 @@
             <h5>Загружаем-с товар из категории</h5>
         </div>
 
-        <div class="container">
+        <div class="container mb-5">
             <div class="row">
                 <div class="col-md-6 col-lg-3 col-sm-6 col-6 banner-item" v-for="product in products">
                     <div class="banner--2">
