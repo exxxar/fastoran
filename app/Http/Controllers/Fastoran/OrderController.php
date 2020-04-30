@@ -159,7 +159,6 @@ class OrderController extends Controller
 
         if (is_null($user)) {
 
-            Log::info(env('APP_URL') . 'api/v1/auth/signup_phone');
            $this->doHttpRequest( '../api/v1/auth/signup', [
                 'phone' => $phone,
                 'name' => $request->name ?? $request->receiver_name ?? ''

@@ -48,7 +48,7 @@ class AuthController extends Controller
             '../api/v1/auth/signup', [
             'name' => $request->name,
             'phone' => $request->phone,
-            'telegram_chat_id' => $request->has("telegram_chat_id") ? $request->telegram_chat_id : 0
+            'telegram_chat_id' => $request->has("telegram_chat_id") ? $request->telegram_chat_id : null
 
         ]);
     }
@@ -56,12 +56,19 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
             'name' => 'nullable|string',
             'telegram_chat_id' => 'nullable|string'
         ]);
 
         $code = random_int(100000, 999999);
+
+        $user = User::where("phone", $request->phone)->first();//$this->getUser();
+
+        if (!is_null($user))
+            return response()->json([
+                'message' => 'Пользователь уже был создан ранее!'
+            ], 201);
 
         $user = new User([
             'name' => $request->name ?? '',
