@@ -19,6 +19,7 @@ class CreatePromotionsTable extends Migration
             $table->json('product')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

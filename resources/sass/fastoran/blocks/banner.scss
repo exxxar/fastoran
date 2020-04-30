@@ -386,19 +386,22 @@
 	Banner Style Two
 --------------------------------*/
 .banner-item {
-    padding: 0px 40px;
+    padding: 0px 10px;
 }
 
 .banner--2 {
     margin-top: 40px;
     position: relative;
+    background: white;
+    padding: 10px;
+    box-sizing: border-box;
 
     &[data-promo]:after {
         content: attr(data-promo);
         position: absolute;
         z-index: 1000;
         background: #e3342f;
-        top: 30px;
+        top: 0px;
         right: 0;
         padding: 10px;
         font-weight: 900;

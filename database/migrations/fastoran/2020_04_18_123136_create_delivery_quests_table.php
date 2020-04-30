@@ -30,6 +30,7 @@ class CreateDeliveryQuestsTable extends Migration
             }*/
 
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::enableForeignKeyConstraints();
     }

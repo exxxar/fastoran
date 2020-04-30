@@ -1,5 +1,5 @@
 <div class="col-md-6 col-lg-3 col-sm-6 banner-item">
-    <div class="banner--2" {{$product->food_status===0?'data-promo="Акция"':""}}>
+    <div class="banner--2" {{$product->food_status->value==\App\Enums\FoodStatusEnum::Promotion?'data-promo="Акция"':""}}>
         <div class="banner__thumb">
             <a href="#" aria-label="{{$product->food_name}}"><img
                     class="lazyload" data-src="{{$product->food_img}}"
