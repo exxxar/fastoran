@@ -298,6 +298,9 @@ trait Utilits
         if (is_null($promocode->promotion->product))
             return $product->food_price;
 
+        if (!$promocode->promotion->active)
+            return $product->food_price;
+
         if ($promocode->promotion->product->food_name != $product->food_name ||
             $promocode->promotion->product->rest_id != $product->rest_id)
             return $product->food_price;

@@ -51,7 +51,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('order/quest', 'OrderController@sendDeliverymanQuest');
         Route::post('order/price_by_code', 'PromocodeController@getPriceByCode');
         Route::post("check_valid_code", "OrderController@checkValidCode");
-        Route::post("generate_promocode", "PromocodeController@generate");
+
 
         Route::resource('restorans', 'RestoransController');
         Route::resource('kitchens', 'KitchenController');
@@ -80,6 +80,8 @@ Route::group(['prefix' => 'v1'], function () {
             'middleware' => 'auth:api',
 
         ], function () {
+
+            Route::post("generate_promocode", "PromocodeController@generate");
 
             Route::any('/history', 'OrderController@getOrderHistory');
             Route::any("accept_order/{id}", "OrderController@acceptOrder");

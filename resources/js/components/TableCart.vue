@@ -103,48 +103,6 @@
 
                         </div>
 
-                        <div class="single-accordion">
-                            <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
-                               href="#more-products" aria-expanded="true">2. Добавить к заказу</a>
-
-                            <div id="more-products" class="collapse show" style="">
-                                <div class="more-product accordion-body fix">
-                                    <form action="#">
-                                        <h5>Вы можете добавить <strong>любой</strong> интересующий вас товар и наш
-                                            курьер доставит его вместе с товаром из ресторана;)</h5>
-                                        <br>
-                                        <h5>При заказе укажите <strong>максимальную</strong> цену товара! Цена
-                                            доставки увеличится <strong>на 50 руб.</strong>
-                                        </h5>
-                                        <br>
-                                        <hr>
-                                        <div class="row mb-2" v-for="(product, index) in custom_products">
-                                            <div class="col-sm-7 mb-2">
-                                                <input class="form-control" type="text" v-model="product.name"
-                                                       minlength="5"
-                                                       placeholder="Описание и кол-во товара" required></div>
-                                            <div class="col-sm-4 mb-2">
-                                                <input class="form-control" type="number" v-model="product.price"
-                                                       min="10" max="1000"
-                                                       placeholder="Цена, руб." required></div>
-                                            <div class="col-sm-1 mb-2 "><a @click="removeCustomProduct(index)"
-                                                                           class="btn-food-link"><i
-                                                class="fas fa-trash"></i></a></div>
-                                        </div>
-
-                                        <div class="row mb-2">
-                                            <div class="col-sm-12">
-                                                <button type="button" @click="addCustomProduct" class="btn btn-success"
-                                                        style="width:100%">
-                                                    <span>Добавить</span></button>
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-
-                        </div>
 
                         <div class="single-accordion">
                             <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
@@ -251,6 +209,9 @@
                                             </div>
 
                                             <div class="col-12 mb--20">
+                                                <p>{{delivery_range_message}}</p>
+                                            </div>
+                                            <div class="col-12 mb--20">
                                                 <button type="submit" class="food__btn">
                                                     Рассчитать цену доставки
                                                 </button>
@@ -264,8 +225,84 @@
                     </div><!-- Checkout Accordion Start -->
                 </div>
 
+
                 <!-- Order Details -->
                 <div class="col-lg-6 col-12 mb-30">
+
+                    <div class="single-accordion">
+                        <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
+                           href="#more-products" aria-expanded="true">3. Добавить к заказу</a>
+
+                        <div id="more-products" class="collapse show" style="">
+                            <div class="more-product accordion-body fix">
+                                <form action="#">
+                                    <h5>Вы можете добавить <strong>любой</strong> интересующий вас товар и наш
+                                        курьер доставит его вместе с товаром из ресторана;)</h5>
+                                    <br>
+                                    <h5>При заказе укажите <strong>максимальную</strong> цену товара! Цена
+                                        доставки увеличится <strong>на 50 руб.</strong>
+                                    </h5>
+                                    <br>
+                                    <hr>
+                                    <div class="row mb-2" v-for="(product, index) in custom_products">
+                                        <div class="col-sm-7 mb-2">
+                                            <input class="form-control" type="text" v-model="product.name"
+                                                   minlength="5"
+                                                   placeholder="Описание и кол-во товара" required></div>
+                                        <div class="col-sm-4 mb-2">
+                                            <input class="form-control" type="number" v-model="product.price"
+                                                   min="10" max="1000"
+                                                   placeholder="Цена, руб." required></div>
+                                        <div class="col-sm-1 mb-2 "><a @click="removeCustomProduct(index)"
+                                                                       class="btn-food-link"><i
+                                            class="fas fa-trash"></i></a></div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-sm-12">
+                                            <button type="button" @click="addCustomProduct" class="btn btn-success"
+                                                    style="width:100%">
+                                                <span>Добавить</span></button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="single-accordion">
+                        <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
+                           href="#promocode" aria-expanded="true">4. Акционный прмокод</a>
+
+                        <div id="promocode" class="collapse show" style="">
+                            <div class="promocode accordion-body fix">
+                                <form v-on:submit.prevent="requestPromocode" class="billing-form checkout-form">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12  mb-2"><input type="text"
+                                                                                      placeholder="Ваш промокод"
+                                                                                      name="phone"
+                                                                                      v-model="code"
+                                                                                      class="form_control" required>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12  mb-2">
+                                            <p>{{promocode_message}}</p>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12  mb-2">
+                                            <button class="food__btn" type="submit">Получить скидку</button>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div class="order-details-wrapper">
                         <h2>Ваш заказ</h2>
@@ -338,6 +375,10 @@
                 phone: localStorage.getItem("phone", null) ?? null,
                 name: '',
                 message: '',
+                delivery_range_message: '',
+                promocode_message: '',
+                is_valid_promocode: false,
+                code: null,
                 custom_delivery_price: 0,
                 delivery_range: null,
                 deliveryPrice: 0,
@@ -453,19 +494,48 @@
                 return this.cartTotalCount === 0 ?
                     0 : this.cartProducts[0].product.restoran.min_sum;
             },
+            requestPromocode() {
+
+                if (this.cartTotalCount === 0) {
+                    this.sendMessage("Сперва добавьте товар в корзину!")
+                    return
+                }
+
+                this.promocode_message = "Проверяем наличие акционных товаров в корзине..."
+                let promo_product = (this.cartProducts.filter(item => {
+                    return item.product.food_status === 1
+
+                }));
+
+
+                if (promo_product.length===0) {
+                    this.promocode_message = "В корзине нет акционных товаров";
+                    return;
+                }
+
+                this.promocode_message = "Запрашиваем скидку на товар";
+                let product_id = promo_product[0].product.id;
+
+                axios
+                    .post('../api/v1/fastoran/order/price_by_code', {
+                        code: this.code,
+                        product_id: product_id
+                    }).then(resp => {
+                    this.promocode_message = `Цена акционного товара ${resp.data.price} руб.`;
+                    this.is_valid_promocode = true;
+                })
+            },
             canMakeOrder() {
 
-                let acceptMinPrice = this.getMinOrderSum() <= this.cartTotalPrice;
+                let acceptMinPrice = (this.getMinOrderSum() <= this.cartTotalPrice) || this.is_valid_promocode;
                 let acceptCoords = this.preparedToSend;
                 let acceptPhoneNumber = this.is_valid;
                 let acceptMinCount = this.cartTotalCount > 0;
                 let sending = this.sending
 
-                console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
-                let res = acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
+                //console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
 
-                console.log(res);
-                return res;
+                return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
             },
             addCustomProduct() {
                 this.custom_products = this.custom_products.filter(item => item.name.trim().length > 0 && item.price > 0)
@@ -494,6 +564,8 @@
                     this.custom_delivery_price = 0;
                 }
 
+                this.delivery_range_message = "Расчитываем цену доставки...";
+
                 let address = `Украина, г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
                     .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
@@ -505,8 +577,10 @@
                     this.deliveryPrice = resp.data.price
                     this.coords.latitude = resp.data.latitude
                     this.coords.longitude = resp.data.longitude
-
                     this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
+
+                    this.delivery_range_message = `Цена доставки составляет ${resp.data.price + this.custom_delivery_price} руб. `;
+
 
                 });
             },

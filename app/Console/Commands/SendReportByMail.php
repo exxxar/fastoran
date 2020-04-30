@@ -119,7 +119,7 @@ class SendReportByMail extends Command
             array_push($statistics, $r);
         }
         Excel::store(new RestoransStatisticsExport($statistics), $report_name);
-        $filename = storage_path() .'\\app\\'.$report_name;
+        $filename = storage_path() .'/app/'.$report_name;
         Mail::to(env('ADMIN_MAIL'))->send(new ReportMail($filename));
     }
 }

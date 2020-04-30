@@ -2,10 +2,14 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Promotion extends Model
 {
+    use SoftDeletes;
+
     protected $casts = [
         'product' => 'array',
     ];
