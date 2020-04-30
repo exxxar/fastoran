@@ -44,7 +44,7 @@ class AuthController extends Controller
             'telegram_chat_id' => 'nullable|string'
         ]);
 
-         $this->doHttpRequest(
+        $this->doHttpRequest(
             '../api/v1/auth/signup', [
             'name' => $request->name,
             'phone' => $request->phone,
@@ -63,12 +63,18 @@ class AuthController extends Controller
 
         $code = random_int(100000, 999999);
 
-        $user = User::where("phone", $request->phone)->first();//$this->getUser();
+        $user = User::where("phone", $request->phone)->withTrashed()->first();//$this->getUser();
 
-        if (!is_null($user))
+        if (!is_null($user)) {
+            if (!is_null($user->deleted_at)) {
+                $user->deleted_at = null;
+                $user->save();
+            }
             return response()->json([
                 'message' => 'Пользователь уже был создан ранее!'
             ], 201);
+        }
+
 
         $user = new User([
             'name' => $request->name ?? '',
