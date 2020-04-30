@@ -509,7 +509,7 @@
                 }));
 
 
-                if (promo_product.length===0) {
+                if (promo_product.length === 0) {
                     this.promocode_message = "В корзине нет акционных товаров";
                     return;
                 }
@@ -601,6 +601,8 @@
                     this.custom_delivery_price = 0;
                 }
 
+                let receiver_delivery_time = new Date(this.delivery.receiver_delivery_time);
+
                 let products = [];
                 this.cartProducts.forEach(function (item) {
                     products.push({
@@ -619,7 +621,7 @@
                         receiver_longitude: this.coords.longitude,
                         rest_id: this.cartProducts[0].product.rest_id,
                         status: 0,
-                        receiver_delivery_time: this.delivery.receiver_delivery_time,
+                        receiver_delivery_time: receiver_delivery_time.toString(),
                         receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
