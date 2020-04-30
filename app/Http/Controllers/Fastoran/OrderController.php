@@ -664,7 +664,7 @@ class OrderController extends Controller
                 );
 
 
-        $order->status = OrderStatusEnum::DeclineByAdmin;
+        $order->status = OrderStatusEnum::InProcessing;
         $order->deliveryman_id = null;
         $order->save();
 
