@@ -117,7 +117,7 @@
         },
         watch: {
             visible: function (newVal, oldVal) {
-                if (this.visible && this.order_id != null) {
+                if (this.visible && this.order_id != null && coords_client.length > 0 && coords_deliveryman.length > 0) {
                     this.map_updater = setInterval(() => this.findOrder(), 15000)
                 } else
                     clearInterval(this.map_updater)
