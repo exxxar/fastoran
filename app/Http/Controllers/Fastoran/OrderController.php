@@ -170,8 +170,11 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->first();
 
-        if (is_null($user))
-            throw new HttpException(404,"Пользователь не найден!");
+        if (is_null($user)) {
+            Log::info("Пользователь не найден!");
+            throw new HttpException(404, "Пользователь не найден!");
+
+        }
 
 
         $order = Order::create($request->all());
