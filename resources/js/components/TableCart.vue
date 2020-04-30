@@ -415,7 +415,6 @@
                 this.preparedToSend = newVal;
                 this.delivery.receiver_delivery_time = '';
                 this.delivery.delivery_range = 0;
-                console.log("prepare ", this.preparedToSend ? "тру" : "фалсе")
             },
             phone: function (newVal, oldVal) {
                 this.is_valid = this.phone == null ? false : newVal.length === 19
@@ -424,9 +423,7 @@
         mounted() {
             this.is_valid = this.phone == null ? false : this.phone.length === 19
             let callback = (val, oldVal, uri) => {
-                console.log("Test")
                 this.$store.dispatch("getProductList")
-                console.log("Test 2")
             }
 
             Vue.ls.on('store', callback)

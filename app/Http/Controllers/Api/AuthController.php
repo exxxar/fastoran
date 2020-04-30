@@ -44,12 +44,11 @@ class AuthController extends Controller
             'telegram_chat_id' => 'nullable|string'
         ]);
 
-
-        return $this->doHttpRequest(
-            env('APP_URL') . 'api/v1/auth/signup', [
+         $this->doHttpRequest(
+            '../api/v1/auth/signup', [
             'name' => $request->name,
             'phone' => $request->phone,
-            'telegram_chat_id' => $request->telegram_chat_id
+            'telegram_chat_id' => $request->has("telegram_chat_id") ? $request->telegram_chat_id : 0
 
         ]);
     }
@@ -77,7 +76,7 @@ class AuthController extends Controller
 
         $user->save();
 
-       // event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
+        // event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'

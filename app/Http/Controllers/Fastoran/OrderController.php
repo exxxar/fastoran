@@ -152,27 +152,20 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone"));
+        $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone") ?? '+380710000012');
 
         $user = User::where("phone", $phone)->first();//$this->getUser();
 
-        if (is_null($user))
 
-            $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
+        if (is_null($user)) {
+
+            Log::info(env('APP_URL') . 'api/v1/auth/signup_phone');
+           $this->doHttpRequest( '../api/v1/auth/signup', [
                 'phone' => $phone,
                 'name' => $request->name ?? $request->receiver_name ?? ''
             ]);
 
-        /*      if (!is_null($client)) {
-                  $message = "Заказ с Андройд устройства (временно в ручном режиме):\nПерезвоните на *$phone* для уточнения заказа!";
-                  $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
-                  return response()
-                      ->json([
-                          "message" => "Сообщение с Андройд успешно получено",
-                          "status" => 200
-                      ]);
-              }*/
-
+        }
 
         $user = User::where("phone", $phone)->first();
 
