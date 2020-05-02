@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <!-- Stylesheets -->
     @laravelPWA
-    <link rel="stylesheet" href="{{url('css/mobile/app.min.css')}}?ver={{ config('app.version')}}">
+    <link rel="stylesheet" href="{{url('../css/mobile/app.min.css')}}?ver={{ config('app.version')}}">
 </head>
 
 <body>
