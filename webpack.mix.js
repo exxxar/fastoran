@@ -40,13 +40,16 @@ mix.copyDirectory('resources/assets/images', 'public/images');
 mix.js('resources/js/app.js', 'public/js')
     //.extract(['vue'])
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/mobile/assets/app.scss', 'public/css/mobile')
    // .sourceMaps()
     .options({
         processCssUrls: false
     })
 
+
 mix.minify('public/js/app.js');
 mix.minify('public/css/app.css');
+mix.minify('public/css/mobile/app.css');
 mix.minify('public/js/active.js');
 mix.minify('public/js/plugins.js');
 mix.minify('public/js/vendor.js');

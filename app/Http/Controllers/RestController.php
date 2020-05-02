@@ -134,7 +134,7 @@ class RestController extends Controller
         if (is_null($restoran))
             return redirect()->route("main");
 
-        $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
+        $products = RestMenu::where("rest_id", $restoran->id)->paginate(200);
 
         if ($request->ajax())
             return response()
@@ -143,7 +143,7 @@ class RestController extends Controller
                 ]);
 
         return view("rest", compact("restoran", "products"))
-            ->with('i', ($request->get('page', 1) - 1) * 50);
+            ->with('i', ($request->get('page', 1) - 1) * 200);
     }
 
     public function getMenuByRestoran(Request $request, $id)

@@ -6,7 +6,6 @@
     <meta name="yandex-verification" content="dc164e606696b6b2"/>
     <meta name="description" content="Доставка самой вкусной еды из ресторанов и заведений общественного питания города Донецк и города Макеевка. Доставка продуктов, цветов, медикаментов, а также вызов курьера!">
     <title>Fastoran - служба твоей доставки!</title>
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Favicons -->
@@ -48,6 +47,7 @@
 <script src="{{url('js/app.min.js')}}?ver={{ config('app.version')}}"></script>
 <script src="{{url('js/plugins.min.js')}}?ver={{ config('app.version')}}"></script>
 <script src="{{url('js/active.min.js')}}?ver={{ config('app.version')}}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script>
     document.addEventListener('lazybeforeunveil', function(e){

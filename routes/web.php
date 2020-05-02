@@ -14,11 +14,12 @@
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Enums\UserTypeEnum;
+use App\Http\Controllers\Fastoran\MenuCategoryController;
+use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
-use App\Rating;
 use App\User;
 use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
@@ -28,6 +29,25 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
+Route::get("/mobile", function () {
+
+    $products = RestMenu::with(["restoran"])->get();
+
+    $random_menus = $products
+        ->shuffle()
+        ->take(12);
+
+
+    return view("mobile.pages.index", compact(  "random_menus"));
+})->name("mobile.index");
+
+Route::view("/mobile-restorans", "mobile.pages.restorans")->name("mobile.restorans");
+Route::get("/mobile-restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
+Route::view("/mobile-profile", "mobile.pages.restorans")->name("mobile.profile");
+Route::view("/mobile-promotions", "mobile.pages.restorans")->name("mobile.promotions");
+Route::view("/mobile-cart", "mobile.pages.restorans")->name("mobile.cart");
+Route::view("/mobile-status", "mobile.pages.restorans")->name("mobile.status");
+Route::get("/mobile-category/{id}",  'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 
 Route::get('/', 'RestController@getMainPage')->name("main");
 Route::any('/search', 'RestController@searchFood')->name("search");

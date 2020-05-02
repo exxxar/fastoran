@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\MenuCategory;
+use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,6 +27,8 @@ class RestoransController extends Controller
                 ->json([
                     'restorans' => $restorans,
                 ]);
+
+
 
         return view('admin.restorans.index', compact('restorans'))
             ->with('i', ($request->get('page', 1) - 1) * 50);
@@ -55,11 +59,24 @@ class RestoransController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Restoran  $restorans
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function show(Restoran $restorans)
+    public function show(Request $request, $domain)
     {
-        //
+        $restoran = Restoran::with(["kitchens", "categories", "categories.menus"])->where("url", $domain)
+            ->first();
+
+        if (is_null($restoran))
+            return redirect()->route("mobile.index");
+
+        $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
+
+
+        $menu_categories = $restoran->categories->all();
+
+
+        return view("mobile.pages.restoran-info", compact("restoran", "products","menu_categories"))
+            ->with('i', ($request->get('page', 1) - 1) * 50);
     }
 
     /**

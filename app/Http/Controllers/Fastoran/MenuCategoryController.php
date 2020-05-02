@@ -43,7 +43,7 @@ class MenuCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,22 +54,26 @@ class MenuCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MenuCategory  $menuCategory
+     * @param \App\MenuCategory $menuCategory
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
-        return response()
-            ->json([
-                "products"=>(MenuCategory::with(["menus","menus.restoran"])->where("id",$id)->first())->menus()->get()
-            ]);
+        $category = MenuCategory::with(["menus", "menus.restoran"])->where("id", $id)->first();
+        $products = $category->menus()->get();
+        if ($request->ajax())
+            return response()
+                ->json([
+                    "products" => $products
+                ]);
+
+        return view("mobile.pages.categories", compact("products","category"));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MenuCategory  $menuCategory
+     * @param \App\MenuCategory $menuCategory
      * @return \Illuminate\Http\Response
      */
     public function edit(MenuCategory $menuCategory)
@@ -80,8 +84,8 @@ class MenuCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MenuCategory  $menuCategory
+     * @param \Illuminate\Http\Request $request
+     * @param \App\MenuCategory $menuCategory
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, MenuCategory $menuCategory)
@@ -92,7 +96,7 @@ class MenuCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MenuCategory  $menuCategory
+     * @param \App\MenuCategory $menuCategory
      * @return \Illuminate\Http\Response
      */
     public function destroy(MenuCategory $menuCategory)
