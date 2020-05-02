@@ -5,8 +5,8 @@ return [
     'manifest' => [
         'name' => env('APP_NAME', 'Fastoran'),
         'short_name' => 'Fastoran',
-        'start_url' => '/',
-        'background_color' => '#ffffff',
+        'start_url' => '/mobile',
+        'background_color' => '#000000',
         'theme_color' => '#000000',
         'display' => 'standalone',
         'orientation'=> 'portrait',
