@@ -17,6 +17,7 @@
         "guzzlehttp/guzzle": "^6.5",
         "irazasyed/telegram-bot-sdk": "^3.0",
         "jackmartin/laravel-yandex-geocode": "^1.2",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^6.2",
         "laravel/passport": "^8.3",
         "laravel/socialite": "^4.3",
@@ -24,6 +25,7 @@
         "laravel/ui": "^1.1",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.11",
+        "riverskies/laravel-mobile-detect": "^1.3",
         "silviolleite/laravelpwa": "^1.0",
         "socialiteproviders/vkontakte": "^4.0",
         "socialiteproviders/yandex": "^3.0"

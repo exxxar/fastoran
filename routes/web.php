@@ -27,7 +27,15 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
+use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
+
+
+Route::get("/testm", function () {
+
+   return view("home");
+});
 
 Route::get("/mobile", function () {
 
@@ -38,7 +46,7 @@ Route::get("/mobile", function () {
         ->take(12);
 
 
-    return view("mobile.pages.index", compact(  "random_menus"));
+    return view("mobile.pages.index", compact("random_menus"));
 })->name("mobile.index");
 
 Route::view("/mobile-restorans", "mobile.pages.restorans")->name("mobile.restorans");
@@ -47,7 +55,7 @@ Route::view("/mobile-profile", "mobile.pages.restorans")->name("mobile.profile")
 Route::view("/mobile-promotions", "mobile.pages.restorans")->name("mobile.promotions");
 Route::view("/mobile-cart", "mobile.pages.cart")->name("mobile.cart");
 Route::view("/mobile-status", "mobile.pages.status")->name("mobile.status");
-Route::get("/mobile-category/{id}",  'Fastoran\\MenuCategoryController@show')->name("mobile.category");
+Route::get("/mobile-category/{id}", 'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 
 Route::get('/', 'RestController@getMainPage')->name("main");
 Route::any('/search', 'RestController@searchFood')->name("search");
