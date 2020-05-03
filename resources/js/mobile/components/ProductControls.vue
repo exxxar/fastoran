@@ -126,10 +126,10 @@
                 this.$bvModal.show("modal-submenu-" + this.product.id)
             },
             addToCart() {
-                if (!this.checkFirstRestoran(this.product.rest_id)) {
+               /* if (!this.checkFirstRestoran(this.product.rest_id)) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
-                }
+                }*/
                 this.sendMessage("Товар добавлен в корзину!")
                 this.$store.dispatch('addProductToCart', this.product)
             },

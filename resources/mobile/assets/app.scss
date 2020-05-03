@@ -267,7 +267,9 @@ a:focus {
     align-items: center;
     -webkit-box-pack: center;
     justify-content: center;
-    padding-bottom: env(safe-area-inset-bottom)
+    padding-bottom: env(safe-area-inset-bottom);
+
+
 }
 
 .appBottomMenu .item {
@@ -296,9 +298,14 @@ a:focus {
     position: relative
 }
 
+.appBottomMenu .item.item-with-badge  p {
+    margin: 0;
+}
+
 .appBottomMenu .item p {
     margin: 0
 }
+
 
 .appBottomMenu .item i {
     font-size: 26px;
@@ -314,6 +321,19 @@ a:focus {
     left: 0;
     bottom: 2px;
     right: 0
+}
+
+.appBottomMenu .item.item-with-badge .badge {
+    min-width: 16px;
+    height: 16px;
+    line-height: 9px !important;
+    font-size: 10px;
+    padding: 2px 4px !important;
+    position: absolute;
+    transform: translateX(120%);
+    top: 3px;
+    left: 40%;
+    width: max-content;
 }
 
 .appBottomMenu .item.active {
@@ -508,7 +528,7 @@ body.sidebarActive {
 
 .appFooter {
     border-top: 1px solid #E5E9F2;
-    padding: 30px 20px;
+    padding: 30px 0px;
     font-size: 14px;
     line-height: 1.5em;
     text-align: center

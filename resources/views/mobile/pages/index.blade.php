@@ -39,4 +39,6 @@
 
 
     @include("mobile.partials.main.listview")
+
+    @include("mobile.partials.bottom_menu",["active"=>0])
 @endsection

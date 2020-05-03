@@ -1,6 +1,6 @@
 <!-- App Bottom Menu -->
 <div class="appBottomMenu">
-    <div class="item active">
+    <div class="item {{$active==0?"active":""}}">
         <a href="{{route("mobile.index")}}">
             <p>
                 <i class="icon ion-md-restaurant"></i>
@@ -8,7 +8,7 @@
             </p>
         </a>
     </div>
-    <div class="item">
+    <div class="item {{$active==1?"active":""}}">
         <a href="{{route("mobile.status")}}">
             <p>
                 <i class="icon ion-ios-stats"></i>
@@ -16,16 +16,17 @@
             </p>
         </a>
     </div>
-    <div class="item">
+    <div class="item item-with-badge {{$active==2?"active":""}}">
         <a href="{{route("mobile.cart")}}">
             <p>
                 <i class="icon ion-ios-cart"></i>
-                <span>Корзина</span>
-
+               <span>Корзина</span>
+                <mobile-cart-counter></mobile-cart-counter>
             </p>
+
         </a>
     </div>
-    <div class="item">
+    <div class="item {{$active==3?"active":""}}">
         <a href="{{route("mobile.promotions")}}">
             <p>
                 <i class="icon ion-ios-star"></i>

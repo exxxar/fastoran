@@ -24,9 +24,10 @@
 @include("mobile.partials.header")
 @include("mobile.partials.main.search_box")
 
+<div id="wrapper">
 <!-- App Capsule -->
 <div id="appCapsule">
-    <div class="appContent" id="wrapper">
+    <div class="appContent" >
 
         <notifications :position="'top left'" :width="'100%'" :group="'info'" :classes="'custom-style'"></notifications>
         @yield("content")
@@ -36,9 +37,9 @@
 
 </div>
 <!-- * appCapsule -->
-@include("mobile.partials.bottom_menu")
-@include("mobile.partials.main.sidebar_menu")
 
+@include("mobile.partials.main.sidebar_menu")
+</div>
 
 <!-- ///////////// Js Files ////////////////////  -->
 
@@ -47,7 +48,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script>
     $(document).ready(function () {
-        setTimeout(() => $(".loading").css({"display": "none"}), 300);
+        setTimeout(() => $(".loading").css({"display": "none"}), 1);
         $(".toggleSidebar").click(() => {
             if ($("body").hasClass("sidebarActive")) {
                 $(".sidebarWrapper").css({"display": "none"})

@@ -11,4 +11,6 @@
     @include("mobile.partials.main.section_title",[ "title"=>"Рестораны", "muted"=>"Больше вкусностей", "link"=>route('mobile.restorans')])
     @include("mobile.partials.main.post_carousel")
     <!-- * Post Carousel -->
+
+    @include("mobile.partials.bottom_menu",["active"=>0])
 @endsection

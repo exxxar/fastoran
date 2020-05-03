@@ -45,8 +45,8 @@ Route::view("/mobile-restorans", "mobile.pages.restorans")->name("mobile.restora
 Route::get("/mobile-restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
 Route::view("/mobile-profile", "mobile.pages.restorans")->name("mobile.profile");
 Route::view("/mobile-promotions", "mobile.pages.restorans")->name("mobile.promotions");
-Route::view("/mobile-cart", "mobile.pages.restorans")->name("mobile.cart");
-Route::view("/mobile-status", "mobile.pages.restorans")->name("mobile.status");
+Route::view("/mobile-cart", "mobile.pages.cart")->name("mobile.cart");
+Route::view("/mobile-status", "mobile.pages.status")->name("mobile.status");
 Route::get("/mobile-category/{id}",  'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 
 Route::get('/', 'RestController@getMainPage')->name("main");
