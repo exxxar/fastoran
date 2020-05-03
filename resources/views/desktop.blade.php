@@ -134,7 +134,7 @@
     <!-- Features -->
     <div class="features">
         <div class="section-heading">
-            <h2 class="title">Discover<br>Some Features.</h2>
+            <h2 class="title">Опробуй<br>качество услуг</h2>
         </div>
 
 
@@ -147,8 +147,8 @@
                             <img src="assets/img/item/bootstrap.png" alt="cordova" style="margin-right: -2px;">
                         </div>
                         <div class="text">
-                            <strong>Bootstrap 4 Based</strong>
-                            Developed on bootstrap, the most popular css framework.
+                            <strong>Единая платформа доставки</strong>
+                           Множество ресторанов-партнеров объединены под одним брендом.
                         </div>
                     </div>
                 </div>
@@ -160,8 +160,8 @@
                                       aria-label="checkbox outline"></ion-icon>
                         </div>
                         <div class="text">
-                            <strong>UI Components</strong>
-                            Ready to use many components. They are great for the mobile interface.
+                            <strong>Открыты к сотруднчиеству</strong>
+                            Приглашаем к сотрудничеству рестораторов и доставщиков!
                         </div>
                     </div>
                 </div>
@@ -173,8 +173,8 @@
                                       aria-label="color fill outline"></ion-icon>
                         </div>
                         <div class="text">
-                            <strong>User Friendly Design</strong>
-                            Designed with the popular design lines for the best user experience. .
+                            <strong>Ориентир на клиента</strong>
+                            Постоянная поддержка и обновление системы.
                         </div>
                     </div>
                 </div>
@@ -186,8 +186,8 @@
                                       aria-label="cloud upload outline"></ion-icon>
                         </div>
                         <div class="text">
-                            <strong>Life-time Free Updates</strong>
-                            Purchase once &amp; get life-time free updates.
+                            <strong>Удобство использования</strong>
+                           Используем современные технологии для удобства наших пользователей.
                         </div>
                     </div>
                 </div>
@@ -199,8 +199,8 @@
                             </ion-icon>
                         </div>
                         <div class="text">
-                            <strong>Clean Markup</strong>
-                            Clean and readable code structure and validated by W3C.
+                            <strong>Реклама</strong>
+                            Ракламируем и продвигаем заведения наших партнеров.
                         </div>
                     </div>
                 </div>
@@ -212,8 +212,8 @@
                             </ion-icon>
                         </div>
                         <div class="text">
-                            <strong>Sass Css Files</strong>
-                            Most powerful professional grade CSS extension language.
+                            <strong>Уникальные сервисы</strong>
+                            Наличие уникальных возможностей по доставке для наших клиентов!
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
 
 <div class="footer">
     <div class="container">
-        Copyright © <a href="https://themeforest.net/user/bragher/portfolio" target="_blank">Bragher</a> 2020. All
+        Copyright © <a href="https://fastoran.com" target="_blank">Fastoran</a> 2020. All
         Rights Reserved.
         <a href="#" class="gotopButton">
             <ion-icon name="arrow-up" role="img" class="md hydrated" aria-label="arrow up"></ion-icon>
