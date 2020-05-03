@@ -8,9 +8,11 @@
                     <div class="card-header">Dashboard</div>
                     @desktop
                     <p>Desktop</p>
-                    @elsedesktop
-                    <p>Mobile</p>
                     @enddesktop
+
+                    @mobile
+                    <p>Mobile</p>
+                    @endmobile
 
                     <div class="card-body">
                         @if (session('status'))

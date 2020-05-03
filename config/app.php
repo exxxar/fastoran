@@ -183,6 +183,7 @@ return [
         BenSampo\Enum\EnumServiceProvider::class,
         ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
         Yandex\Geocode\YandexGeocodeServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -237,7 +238,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'SemySMS' => Allanvb\LaravelSemysms\Facades\SemySMS::class,
         'YaGeo' => Yandex\Geocode\Facades\YandexGeocodeFacade::class,
-        'MobileDetect' => Riverskies\Laravel\MobileDetect\Facades\MobileDetect::class
+        'MobileDetect' => Riverskies\Laravel\MobileDetect\Facades\MobileDetect::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];

@@ -24,6 +24,8 @@ use App\User;
 use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
 use Carbon\Carbon;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -32,9 +34,14 @@ use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 
-Route::get("/testm", function () {
+Route::get("/testm", function (Request $request) {
 
-   return view("home");
+    $res = $request->server('HTTP_USER_AGENT');
+
+    echo Agent::is('Windows') . "TEST 1<BR>";
+    echo Agent::isNexus(). "TEST 2<BR>";
+    echo Agent::isMobile(). "TEST 3<BR>";
+
 });
 
 Route::get("/mobile", function () {
