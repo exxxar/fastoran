@@ -33,36 +33,19 @@ use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
+Route::get("/desktop", "RestController@desktop")->name("mobile.desktop");
 
-Route::get("/testm", function (Request $request) {
-
-    $res = $request->server('HTTP_USER_AGENT');
-
-    echo Agent::is('Windows') . "TEST 1<BR>";
-    echo Agent::isNexus(). "TEST 2<BR>";
-    echo Agent::isMobile(). "TEST 3<BR>";
-
+Route::prefix('m')->group(function () {
+    Route::get("/", "RestController@mobile")->name("mobile.index");
+    Route::view("/restorans", "mobile.pages.restorans")->name("mobile.restorans");
+    Route::get("/restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
+    Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");
+    Route::view("/promotions", "mobile.pages.restorans")->name("mobile.promotions");
+    Route::view("/cart", "mobile.pages.cart")->name("mobile.cart");
+    Route::view("/status", "mobile.pages.status")->name("mobile.status");
+    Route::get("/category/{id}", 'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 });
 
-Route::get("/mobile", function () {
-
-    $products = RestMenu::with(["restoran"])->get();
-
-    $random_menus = $products
-        ->shuffle()
-        ->take(12);
-
-
-    return view("mobile.pages.index", compact("random_menus"));
-})->name("mobile.index");
-
-Route::view("/mobile-restorans", "mobile.pages.restorans")->name("mobile.restorans");
-Route::get("/mobile-restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
-Route::view("/mobile-profile", "mobile.pages.restorans")->name("mobile.profile");
-Route::view("/mobile-promotions", "mobile.pages.restorans")->name("mobile.promotions");
-Route::view("/mobile-cart", "mobile.pages.cart")->name("mobile.cart");
-Route::view("/mobile-status", "mobile.pages.status")->name("mobile.status");
-Route::get("/mobile-category/{id}", 'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 
 Route::get('/', 'RestController@getMainPage')->name("main");
 Route::any('/search', 'RestController@searchFood')->name("search");

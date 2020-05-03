@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
+use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RestController extends Controller
@@ -24,6 +25,25 @@ class RestController extends Controller
     public function __construct()
     {
 
+    }
+
+    public function mobile(Request $request)
+    {
+
+
+        $products = RestMenu::with(["restoran"])->get();
+
+        $random_menus = $products
+            ->shuffle()
+            ->take(12);
+
+        return view("mobile.pages.index", compact("random_menus"));
+
+    }
+
+    public function desktop(Request $request)
+    {
+        return view('desktop');
     }
 
     public function searchFood(Request $request)
