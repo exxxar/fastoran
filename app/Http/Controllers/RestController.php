@@ -43,6 +43,9 @@ class RestController extends Controller
 
     public function desktop(Request $request)
     {
+        if (Agent::isMobile())
+            return redirect()->route("mobile.index");
+
         return view('desktop');
     }
 
