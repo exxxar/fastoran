@@ -7355,6 +7355,7 @@ a:hover, a:active, a.active {
     display: flex;
     position: relative;
     align-items: center;
+    transform: scale(0.9);
     justify-content: center; }
 .phoneWrapper .in {
     width: 370px;
