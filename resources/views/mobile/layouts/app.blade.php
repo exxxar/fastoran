@@ -48,7 +48,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script>
     $(document).ready(function () {
-        setTimeout(() => $(".loading").css({"display": "none"}), 1);
+        setTimeout(() => $(".loading").css({"display": "none"}), 300);
         $(".toggleSidebar").click(() => {
             if ($("body").hasClass("sidebarActive")) {
                 $(".sidebarWrapper").css({"display": "none"})

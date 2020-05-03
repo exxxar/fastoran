@@ -56,7 +56,7 @@ class RestMenu extends Model
 
     public function category()
     {
-        return $this->hasOne(MenuCategory::class, 'id', 'food_category_id');
+        return $this->hasOne(MenuCategory::class, 'id', 'food_category_id')->orderBy('LENGTH(name)', 'ASC');
     }
 
     public function getFoodExtAttribute()

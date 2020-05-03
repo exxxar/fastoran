@@ -646,6 +646,10 @@
                 min-width: 200px;
             }
 
+            th.product-price {
+                min-width: 60px !important;
+                width: 60px;
+            }
             th.product-thumbnail {
                 min-width: 60px !important;
                 width: 60px;
