@@ -88,7 +88,7 @@
             </div>
 
             <div class="qrBlock" style="display: none;">
-                <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="qr">
+                <img src="https://sun9-4.userapi.com/c854524/v854524588/22957a/GCEBPBdErgs.jpg" alt="qr" class="qr">
                 <div class="text">
                     <strong>Попробовать на<br>мобильном устройстве</strong>
                    Отсканируй QR-код на своём телефоне
@@ -120,7 +120,7 @@
     <a href="javascript:;" class="close-button">
         <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle"></ion-icon>
     </a>
-    <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="qr">
+    <img src="https://sun9-4.userapi.com/c854524/v854524588/22957a/GCEBPBdErgs.jpg" alt="qr" class="qr">
     <div class="text">
         <div class="qr-text">
             Отсканируй QR-код на своём телефоне
@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="qrCodeImg">
-            <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="img">
+            <img src="https://sun9-4.userapi.com/c854524/v854524588/22957a/GCEBPBdErgs.jpg" alt="qr" class="img">
         </div>
     </div>
     <!-- * qrWidget -->
