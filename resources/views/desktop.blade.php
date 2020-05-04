@@ -88,7 +88,7 @@
             </div>
 
             <div class="qrBlock" style="display: none;">
-                <img src="assets/img/qr.jpg" alt="qr" class="qr">
+                <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="qr">
                 <div class="text">
                     <strong>View on your <br>Mobile Device</strong>
                     Scan the QR code to <br>view on your mobile device
@@ -120,7 +120,7 @@
     <a href="javascript:;" class="close-button">
         <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle"></ion-icon>
     </a>
-    <img src="assets/img/qr.jpg" alt="qr" class="qr">
+    <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/ alt="qr" class="qr">
     <div class="text">
         <div class="qr-text">
             Scan the QR code to view on your mobile device
@@ -144,7 +144,7 @@
                 <div class="col-4">
                     <div class="item">
                         <div class="iconWrapper">
-                            <img src="assets/img/item/bootstrap.png" alt="cordova" style="margin-right: -2px;">
+                            <img src="{{asset('img/icons/icon-96x96.png')}}" alt="cordova" style="margin-right: -2px;">
                         </div>
                         <div class="text">
                             <strong>Единая платформа доставки</strong>
@@ -156,8 +156,8 @@
                 <div class="col-4">
                     <div class="item">
                         <div class="iconWrapper">
-                            <ion-icon name="checkbox-outline" role="img" class="md hydrated"
-                                      aria-label="checkbox outline"></ion-icon>
+                            <ion-icon name="share" role="img" class="md hydrated"
+                                      aria-label="share"></ion-icon>
                         </div>
                         <div class="text">
                             <strong>Открыты к сотруднчиеству</strong>
@@ -169,8 +169,8 @@
                 <div class="col-4">
                     <div class="item">
                         <div class="iconWrapper">
-                            <ion-icon name="color-fill-outline" role="img" class="md hydrated"
-                                      aria-label="color fill outline"></ion-icon>
+                            <ion-icon name="people" role="img" class="md hydrated"
+                                      aria-label="people"></ion-icon>
                         </div>
                         <div class="text">
                             <strong>Ориентир на клиента</strong>
@@ -182,8 +182,8 @@
                 <div class="col-4">
                     <div class="item">
                         <div class="iconWrapper">
-                            <ion-icon name="cloud-upload-outline" role="img" class="md hydrated"
-                                      aria-label="cloud upload outline"></ion-icon>
+                            <ion-icon name="cart" role="img" class="md hydrated"
+                                      aria-label="cart"></ion-icon>
                         </div>
                         <div class="text">
                             <strong>Удобство использования</strong>
@@ -195,7 +195,7 @@
                 <div class="col-4">
                     <div class="item">
                         <div class="iconWrapper">
-                            <ion-icon name="logo-html5" role="img" class="md hydrated" aria-label="logo html5">
+                            <ion-icon name="flash" role="img" class="md hydrated" aria-label="flash">
                             </ion-icon>
                         </div>
                         <div class="text">
@@ -208,7 +208,7 @@
                 <div class="col-4">
                     <div class="item">
                         <div class="iconWrapper">
-                            <ion-icon name="logo-sass" role="img" class="md hydrated" aria-label="logo sass">
+                            <ion-icon name="git-compare" role="img" class="md hydrated" aria-label="git compare">
                             </ion-icon>
                         </div>
                         <div class="text">
@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="qrCodeImg">
-            <img src="assets/img/qr.jpg" alt="qr" class="img">
+            <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="img">
         </div>
     </div>
     <!-- * qrWidget -->
@@ -264,26 +264,45 @@
                   aria-label="arrow forward outline"></ion-icon>
     </a>
     <div class="sidebarTitle">
-        Our Products
+        Наши сервисы доставки
     </div>
     <div class="sidebarFooter">
-        <a href="https://themeforest.net/user/bragher/portfolio" class="btn btn-success" target="_blank">
-            View Our Portfolio
+        <a href="" class="btn btn-success" target="_blank">
+            Хочу себе такой сервис
         </a>
     </div>
     <div class="sidebarProducts">
         <div class="row">
-            <a href="https://finapp.bragherstudio.com" class="item col-6" data-name="Finapp" target="_blank"><img
-                    src="https://www.bragherstudio.com/data/logo/finapp.png" alt="Finapp" class="productlogo"><strong>Finapp</strong>
-                <div class="text">Wallet &amp; Banking Mobile HTML Template</div>
-            </a><a href="https://mobilekit.bragherstudio.com" class="item col-6" data-name="Mobilekit"
-                   target="_blank"><img src="https://www.bragherstudio.com/data/logo/mobilekit.png" alt="Mobilekit"
-                                        class="productlogo"><strong>Mobilekit</strong>
-                <div class="text">Mobile UI Kit HTML Template</div>
-            </a><a href="https://bitter.bragherstudio.com" class="item col-6" data-name="Bitter" target="_blank"><img
-                    src="https://www.bragherstudio.com/data/logo/bitter.png" alt="Bitter" class="productlogo"><strong>Bitter</strong>
-                <div class="text">Mobile HTML Template</div>
-            </a></div>
+            <a href="https://fastoran.com/contacts" class="item col-6" data-name="Mobilekit"
+               target="_blank"><img src="{{asset('img/icons/icon-96x96.png')}}" alt="Mobilekit"
+                                    class="productlogo"><strong>Доставка из ресторана</strong>
+                <div class="text">Организация сервиса заказ еды из ресторана для вашего сайта</div>
+            </a>
+
+            <a href="https://fastoran.com/contacts" class="item col-6" data-name="Mobilekit"
+               target="_blank"><img src="{{asset('img/icons/icon-96x96.png')}}" alt="Mobilekit"
+                                    class="productlogo"><strong>Доставка из магазина</strong>
+                <div class="text">Организация сервиса заказ продуктов из торговых точек на вашем сайте</div>
+            </a>
+
+            <a href="https://fastoran.com/contacts" class="item col-6" data-name="Mobilekit"
+               target="_blank"><img src="{{asset('img/icons/icon-96x96.png')}}" alt="Mobilekit"
+                                    class="productlogo"><strong>Доставка из аптек</strong>
+                <div class="text">Организация сервиса заказ лекарственных препаратов из аптечных пунктов через ваш сайт</div>
+            </a>
+
+            <a href="https://fastoran.com/contacts" class="item col-6" data-name="Mobilekit"
+               target="_blank"><img src="{{asset('img/icons/icon-96x96.png')}}" alt="Mobilekit"
+                                    class="productlogo"><strong>Доставка цветов</strong>
+                <div class="text">Организация сервиса заказ цветов для мероприятий через ваш сайт</div>
+            </a>
+
+            <a href="https://fastoran.com/contacts" class="item col-6" data-name="Mobilekit"
+               target="_blank"><img src="{{asset('img/icons/icon-96x96.png')}}" alt="Mobilekit"
+                                    class="productlogo"><strong>Доставка предметов</strong>
+                <div class="text">Организация сервиса вызова и работы курьера из точки А в точку Б для доставки прозвольного типа заказа</div>
+            </a>
+        </div>
     </div>
 </div>
 
