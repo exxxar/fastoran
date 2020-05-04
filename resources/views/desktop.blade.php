@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="description" content="Bitter Bootstrap 4 Based Mobile Template">
     <meta name="keywords"
-          content="android, application template, cordova, hybrid, magazine, mobile, mobile template, modern, news, phonegap, responsive, social, web app, web app kit, webview">
+          content="Прилиожения, сервис доставки, доставка, донецк, фасторан, еда, рестораны">
     <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"
             data-stencil-namespace="ionicons"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"
@@ -90,8 +90,8 @@
             <div class="qrBlock" style="display: none;">
                 <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="qr">
                 <div class="text">
-                    <strong>View on your <br>Mobile Device</strong>
-                    Scan the QR code to <br>view on your mobile device
+                    <strong>Попробовать на<br>мобильном устройстве</strong>
+                   Отсканируй QR-код на своём телефоне
                 </div>
             </div>
 
@@ -120,10 +120,10 @@
     <a href="javascript:;" class="close-button">
         <ion-icon name="close-circle" role="img" class="md hydrated" aria-label="close circle"></ion-icon>
     </a>
-    <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/ alt="qr" class="qr">
+    <img src="http://qrcodes.com.ua/api/?u=https://fastoran.com/m/" alt="qr" class="qr">
     <div class="text">
         <div class="qr-text">
-            Scan the QR code to view on your mobile device
+            Отсканируй QR-код на своём телефоне
         </div>
     </div>
 </div>
@@ -267,7 +267,7 @@
         Наши сервисы доставки
     </div>
     <div class="sidebarFooter">
-        <a href="" class="btn btn-success" target="_blank">
+        <a href="https://fastoran.com/contacts" class="btn btn-success" target="_blank">
             Хочу себе такой сервис
         </a>
     </div>
@@ -309,9 +309,9 @@
 <div class="mobileDetected">
     <div class="in">
         <div><img src="{{asset('img/index-logo1.png')}}" alt="logo" class="logo"></div>
-        Tap button to live preview.
+        Попробуй прямо сейчас!
         <div class="mt-5">
-            <a href="{{route("mobile.index")}}" class="btn btn-success" target="_blank">Live Preview</a>
+            <a href="{{route("mobile.index")}}" class="btn btn-success" target="_blank">Попробовать</a>
         </div>
     </div>
 </div>
