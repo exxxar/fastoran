@@ -26,11 +26,10 @@
                                   style="float:left"
                                   :href="'/admin/getRestoransStatistics/'+rest_startDate+'/'+rest_endDate"
                         >Скачать</b-button>
-<!--                        <b-button variant="primary" class="mt-4"-->
-<!--                                  style="float:left"-->
-
-<!--                                  @click="test"-->
-<!--                        >Скачать</b-button>-->
+                        <b-button variant="primary" class="mt-4 ml-2"
+                                  style="float:left"
+                                  :href="'/admin/getPaymentReport/'+rest_startDate+'/'+rest_endDate"
+                        >Программистам</b-button>
                     </div>
                 </div>
             </div>
@@ -614,8 +613,7 @@
                 this.ordersChartOptions.drilldown.series = response.data.drilldown;
             },
             async test() {
-                const response = await axios.get('/admin/getRestoransStatistics/'+this.rest_startDate+'/'+this.rest_endDate);
-                console.log(response.data.statistics);
+                const response = await axios.get('/admin/getPaymentReport/'+this.rest_startDate+'/'+this.rest_endDate);
             }
         }
     }
