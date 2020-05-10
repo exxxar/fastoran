@@ -91,6 +91,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/getOrdersByDate/{startDate}/{endDate}', "Admin\AdminController@getOrdersByDate");
     Route::get('/downloadStatistics', "Admin\AdminController@downloadStatistics");
     Route::get('/getRestoransStatistics/{startDate}/{endDate}', "Admin\AdminController@getRestoransStatistics");
+    Route::get('/getPaymentReport/{startDate}/{endDate}', "Admin\AdminController@getPaymentReport");
 
     Route::any('/kitchens', 'Admin\KitchenController@index');
     Route::get('/kitchens/get', 'Admin\KitchenController@get');

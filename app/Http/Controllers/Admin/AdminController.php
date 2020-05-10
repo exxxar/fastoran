@@ -13,6 +13,7 @@ use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\Rating;
+use App\PaymentReportExport;
 use App\PhonesImport;
 use App\RestoranStatisticsSheet;
 use App\User;
@@ -21,11 +22,13 @@ use ATehnix\VkClient\Auth;
 use ATehnix\VkClient\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use DB;
 use App\UsersExport;
 use App\RestoransStatisticsExport;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class AdminController extends Controller
 {
@@ -481,5 +484,43 @@ class AdminController extends Controller
             array_push($statistics, $r);
         }
         return Excel::download(new RestoransStatisticsExport($statistics), 'report.xlsx');
+    }
+
+    public function getPaymentReport($startDate, $endDate) {
+        $restorans = Restoran::all();
+
+        $report = (object)[];
+        $report->total_payment_delivery_price = 0;
+        $report->total_payment_summary_price = 0;
+
+        $restorans_records = array();
+        $result = array();
+        foreach ($restorans as $restoran) {
+            $r = (object)[];
+            $r->name = $restoran->name;
+            $orders = Order::whereBetween('created_at', [$startDate." 00:00:00", $endDate." 23:59:59"])
+                ->where('rest_id',$restoran->id)
+                ->where('status', 3)
+                ->get();
+            $r->orders_count = $orders->count();
+            $r->delivery_price = $orders->sum('delivery_price');
+            $r->payment_delivery_price = $r->delivery_price * 60 / 100;
+            $report->total_payment_delivery_price += $r->payment_delivery_price;
+            $r->summary_price = $orders->sum('summary_price');
+            $r->payment_summary_price = $r->summary_price * 15 / 100;
+            if($restoran->name =='ДонМак' || $restoran->name =='Пиццерия "Большой Джон"')
+            {
+                $r->payment_summary_price = $r->summary_price * 7.5 / 100;
+            }
+            $report->total_payment_summary_price += $r->payment_summary_price;
+            array_push($restorans_records, $r);
+        }
+
+        $report->person_payment_delivery_price = $report->total_payment_delivery_price/4;
+        $report->person_payment_summary_price = $report->total_payment_summary_price/4;
+        $report->restorans = $restorans_records;
+        array_push($result, $report);
+
+        return Excel::download(new PaymentReportExport($result), 'payment_report.xlsx');
     }
 }
