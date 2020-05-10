@@ -14,19 +14,37 @@
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Enums\UserTypeEnum;
+use App\Http\Controllers\Fastoran\MenuCategoryController;
+use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
-use App\Rating;
 use App\User;
 use ATehnix\VkClient\Auth as VkAuth;
 use ATehnix\VkClient\Client;
 use Carbon\Carbon;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
+use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
+
+Route::get("/desktop", "RestController@desktop")->name("mobile.desktop");
+
+Route::prefix('m')->group(function () {
+    Route::get("/", "RestController@mobile")->name("mobile.index");
+    Route::view("/restorans", "mobile.pages.restorans")->name("mobile.restorans");
+    Route::get("/restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
+    Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");
+    Route::view("/promotions", "mobile.pages.restorans")->name("mobile.promotions");
+    Route::view("/cart", "mobile.pages.cart")->name("mobile.cart");
+    Route::view("/status", "mobile.pages.status")->name("mobile.status");
+    Route::get("/category/{id}", 'Fastoran\\MenuCategoryController@show')->name("mobile.category");
+});
 
 
 Route::get('/', 'RestController@getMainPage')->name("main");

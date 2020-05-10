@@ -88,6 +88,19 @@ Vue.component('stop-list', require('./components/admin/StopList.vue').default);
 Vue.component('users', require('./components/admin/Users.vue').default);
 
 
+//Mobile
+Vue.component('mobile-promo-slider', require('./mobile/components/PromoSlider').default);
+Vue.component('mobile-product-item', require('./mobile/components/ProductItem').default);
+Vue.component('mobile-product-item-v2', require('./mobile/components/ProductItemV2').default);
+Vue.component('mobile-product-controls', require('./mobile/components/ProductControls').default);
+Vue.component('mobile-tags-cloud', require('./mobile/components/TagsCloud').default);
+Vue.component('mobile-callback-from', require('./mobile/components/CallbackFrom').default);
+Vue.component('mobile-restoran-info', require('./mobile/components/RestoranInfo').default);
+Vue.component('mobile-cart-counter', require('./mobile/components/CartCounter').default);
+Vue.component('mobile-cart', require('./mobile/components/Cart').default);
+Vue.component('mobile-order-status', require('./mobile/components/OrderStatus').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

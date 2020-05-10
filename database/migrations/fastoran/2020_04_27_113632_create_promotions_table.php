@@ -15,14 +15,11 @@ class CreatePromotionsTable extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->default('');
-            $table->string('img_url', 1000)->default('');
-            $table->string('description', 1000)->default('');
-            $table->integer('old_price')->default(0);
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
+            $table->double('discount')->default(99.9);
+            $table->json('product')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

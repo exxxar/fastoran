@@ -1,5 +1,5 @@
-<div class="col-md-6 col-lg-3 col-sm-6 banner-item">
-    <div class="banner--2">
+<div class="col-md-6 col-lg-3 col-sm-6 col-6 banner-item">
+    <div class="banner--2" {{$product->food_status->value==\App\Enums\FoodStatusEnum::Promotion?'data-promo=Акция':""}}>
         <div class="banner__thumb">
             <a href="#" aria-label="{{$product->food_name}}"><img
                     class="lazyload" data-src="{{$product->food_img}}"
@@ -18,7 +18,7 @@
             </div>
         @endif
         <h4 class="banner__h4" >
-            <mark>{{$product->food_price}}₽</mark>
+           {{$product->food_price}}₽
         </h4>
         <div class="rest-img">
             <a href="{{route("rest",$product->restoran->url)}}" aria-label="{{$product->restoran->name}}">

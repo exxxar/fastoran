@@ -2,76 +2,63 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use App\Classes\Utilits;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\Promocode;
+use App\Parts\Models\Fastoran\Promotion;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PromocodeController extends Controller
 {
-    public function getList(Request $request)
-    {
+    use Utilits;
 
+    public function getPriceByCode(Request $request)
+    {
+        $request->validate([
+            "product_id" => "required",
+            "code" => "required|exists:promocodes"
+        ],  [
+            'product_id.required' => 'Акционный товар не найден!',
+            'code.required' => 'Код должен объязательно присутствовать!',
+            'code.exists' => 'Такой промокод не существует!',
+        ]);
+
+
+        return response()
+            ->json([
+                "price" => $this->getPriceWithDiscountByCode($request->code, $request->product_id)
+            ]);
     }
 
     public function generate(Request $request)
     {
-
-    }
-
-    public function duplicate(Request $request)
-    {
-
-    }
-
-    public function search(Request $request)
-    {
         $request->validate([
-            "code" => "required|max:12|min:12"
+            "promotion_id" => "required"
         ]);
 
-        $code = Promocode::where("code", $request->code)
-            ->first();
+        $promotion = Promotion::find($request->promotion_id);
+        if (is_null($promotion))
+            throw new HttpException(404,"Акция по коду не найдена!");
 
-        return is_null($code) ?
-            (
-            response()
-                ->json([
-                    "promocode" => $code
-                ])
-            ) :
-            (
-            response()
-                ->json([
-                    "message" => "Промокод не найден!"
-                ], 404)
-            );
+        try {
+            $code = substr(md5(random_int(1000000, 9999999)), 0, 12);
 
-    }
+            Promocode::create([
+                'code' => $code,
+                'active' => true,
+                'user_id' => null,
+                'promotion_id' => $promotion->id,
+            ]);
+        } catch (\Exception $e) {
+        }
 
-    public function activate(Request $request)
-    {
-        $request->validate([
-            "code" => "required|max:12|min:12",
-            "phone" => "required"
-        ]);
-
-        $user = User::where("phone", $request->phone)
-            ->first();
-
-        $code = Promocode::where("code", $request->code)
-            ->first();
-
-
-        if ($code->user_id != null)
-            return response()
-                ->json([
-                    "message" => $code->user->id !== $user->id ?
-                        "Код уже был ранее активирован другим пользователем" :
-                        "Код уже был ранее активирован Вами"
-                ]);
-
-        
+        return response()
+            ->json([
+                "code" => $code
+            ]);
     }
 
 

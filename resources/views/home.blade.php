@@ -6,6 +6,13 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Dashboard</div>
+                    @desktop
+                    <p>Desktop</p>
+                    @enddesktop
+
+                    @mobile
+                    <p>Mobile</p>
+                    @endmobile
 
                     <div class="card-body">
                         @if (session('status'))

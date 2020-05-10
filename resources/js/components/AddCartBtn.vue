@@ -169,14 +169,14 @@
     }
 
     .product-btn-box {
-        position: absolute;
+        position: relative;
         top: 0;
         left: 0;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         width: 100%;
-        height: 100%;
+        height: 70px;
         font-size: 20px;
         padding: 10px;
         z-index: 11;
@@ -197,10 +197,9 @@
 
     .cnt-container {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         width: 100%;
-        background: #f8fafc7a;
-        padding: 10px;
+        padding: 10px 0px;
 
         p {
             text-align: center;

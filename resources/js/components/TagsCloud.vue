@@ -1,54 +1,60 @@
 <template>
     <div class="tags-cloud">
         <ul class="food-categories">
-            <li v-for="category in categories"><a :href="category.name" @click="loadProducts(category.id)">{{category.name}}</a></li>
+            <li v-for="category in categories"><a :href="category.name" @click="loadProducts(category.id)">{{category.name}}</a>
+            </li>
         </ul>
 
         <div class="tags-preloader" v-if="preloader">
             <img src="/img/ajax-loader.gif" alt="">
             <h5>Загружаем-с товар из категории</h5>
         </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-3 col-sm-6 banner-item" v-for="product in products">
-                <div class="banner--2">
-                    <div class="banner__thumb">
-                        <a href="#"><img
-                            class="lazyload" :data-src="product.food_img"
-                            alt="banner images"></a>
+
+        <div class="container mb-5">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 col-sm-6 col-6 banner-item" v-for="product in products">
+                    <div class="banner--2">
+                        <div class="banner__thumb">
+                            <a href="#"><img
+                                class="lazyload" :data-src="product.food_img"
+                                alt="banner images"></a>
 
 
-                    </div>
-                    <add-cart-btn :product_id="product.id" v-if="product.rest_info.is_work"
-                                  :product_data="product"></add-cart-btn>
+                        </div>
+                        <add-cart-btn :product_id="product.id" v-if="product.rest_info.is_work"
+                                      :product_data="product"></add-cart-btn>
 
-                    <div class="product-btn-box" v-else>
-                        <p class="text-center">
-                            <mark class="color--white">Время работы: <strong>{{product.rest_info.work_time}}</strong>
-                            </mark>
-                        </p>
-                    </div>
+                        <div class="product-btn-box" v-else>
+                            <p class="text-center">
+                                <mark class="color--white">Время работы:
+                                    <strong>{{product.rest_info.work_time}}</strong>
+                                </mark>
+                            </p>
+                        </div>
 
-                    <h4 class="banner__h4">
-                        <mark>{{product.food_price}}₽</mark>
-                    </h4>
-                    <div class="rest-img">
-                        <a :href="'../rest/'+product.rest_info.url">
-                            <img class="lazyload" :data-src="product.rest_info.logo" alt="">
-                        </a>
-                    </div>
-                    <div class="banner__hover__action banner__left__bottom">
-                        <div class="banner__hover__inner">
+                        <h4 class="banner__h4">
+                            {{product.food_price}}₽
+                        </h4>
+                        <div class="rest-img">
+                            <a :href="'../rest/'+product.rest_info.url">
+                                <img class="lazyload" :data-src="product.rest_info.logo" alt="">
+                            </a>
+                        </div>
+                        <div class="banner__hover__action banner__left__bottom">
+                            <div class="banner__hover__inner">
 
-                            <h2 class="pink-text">
-                                <mark>{{product.food_name}}</mark>
-                            </h2>
+                                <h2 class="pink-text">
+                                    <mark>{{product.food_name}}</mark>
+                                </h2>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
 </template>
 <script>
@@ -58,7 +64,7 @@
                 selectedCategory: null,
                 categories: [],
                 products: [],
-                preloader:false
+                preloader: false
             }
         },
         mounted() {
@@ -98,23 +104,25 @@
 
     .tags-preloader {
         position: absolute;
-        left:0;
+        left: 0;
         top: 0;
-        height:100%;
-        width:100%;
+        height: 100%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         z-index: 10;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
+
         img {
-            margin-top:50px;
-            width:75px;
-            height:75px;
+            margin-top: 50px;
+            width: 75px;
+            height: 75px;
         }
 
     }
+
     .food-categories {
         width: 100%;
         display: flex;
@@ -131,7 +139,7 @@
                 height: 100%;
                 width: 100%;
                 padding: 10px;
-                color:white;
+                color: white;
                 border: 1px dashed white;
 
                 &:hover {

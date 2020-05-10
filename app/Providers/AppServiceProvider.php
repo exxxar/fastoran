@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -22,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
 
-
     }
 
     /**
@@ -36,12 +36,15 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set("Europe/Moscow");
         //
         try {
-            $header_kitchen_list = Kitchen::where("is_active", 1)->get();
+            $restorans = Restoran::where("moderation", true)
+                ->get();
 
-            $restorans = Restoran::where("moderation", true)->get();
+            $restorans = $restorans->shuffle();
 
-            View::share('header_kitchen_list', $header_kitchen_list);
+            $menu_categories = MenuCategory::all()->shuffle();
+
             View::share('restorans', $restorans);
+            View::share('menu_categories', $menu_categories);
         } catch (\Exception $e) {
 
         }

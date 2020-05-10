@@ -39,17 +39,16 @@ class AuthController extends Controller
     public function signupPhone(Request $request)
     {
         $request->validate([
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
             'name' => 'nullable|string',
             'telegram_chat_id' => 'nullable|string'
         ]);
 
-
-        return $this->doHttpRequest(
-            env('APP_URL') . 'api/v1/auth/signup', [
+        $this->doHttpRequest(
+            env("APP_URL").'/api/v1/auth/signup', [
             'name' => $request->name,
             'phone' => $request->phone,
-            'telegram_chat_id' => $request->telegram_chat_id
+            'telegram_chat_id' => $request->has("telegram_chat_id") ? $request->telegram_chat_id : null
 
         ]);
     }
@@ -57,12 +56,25 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'phone' => 'required|unique:users',
+            'phone' => 'required',
             'name' => 'nullable|string',
             'telegram_chat_id' => 'nullable|string'
         ]);
 
         $code = random_int(100000, 999999);
+
+        $user = User::where("phone", $request->phone)->withTrashed()->first();//$this->getUser();
+
+        if (!is_null($user)) {
+            if (!is_null($user->deleted_at)) {
+                $user->deleted_at = null;
+                $user->save();
+            }
+            return response()->json([
+                'message' => 'Пользователь уже был создан ранее!'
+            ], 201);
+        }
+
 
         $user = new User([
             'name' => $request->name ?? '',
@@ -77,7 +89,7 @@ class AuthController extends Controller
 
         $user->save();
 
-       // event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
+        // event(new SendSmsEvent($user->phone, "Ваш пароль для доступа к ресурсу https://fastoran.com: " . $code));
 
         return response()->json([
             'message' => 'Пользователь успешно создан! СМС с паролем доступа к ресурсу придет в течении нескольких минут!'

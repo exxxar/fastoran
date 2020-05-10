@@ -2,21 +2,21 @@
 
 namespace App\Parts\Models\Fastoran;
 
+use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Promotion extends Model
 {
-    protected $dates = [
-        'start_at', 'end_at'
+    use SoftDeletes;
+
+    protected $casts = [
+        'product' => 'array',
     ];
 
     protected $fillable = [
-        'title',
-        'img_url',
-        'description',
-        'old_price',
-        'start_at',
-        'end_at',
+        'discount',
+        'product',
         'active'
     ];
 

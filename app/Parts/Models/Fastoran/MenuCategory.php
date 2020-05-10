@@ -25,7 +25,7 @@ class MenuCategory extends Model
 
     public function getAliasAttribute()
     {
-        return mb_substr($this->name, 1);//$this->table . "_" . $this->id;
+        return /*mb_substr($this->name, 1);//*/$this->table . "_" . $this->id;
     }
 
     public function getFilteredMenu($restId)

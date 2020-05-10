@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
+use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RestController extends Controller
@@ -24,6 +25,28 @@ class RestController extends Controller
     public function __construct()
     {
 
+    }
+
+    public function mobile(Request $request)
+    {
+
+
+        $products = RestMenu::with(["restoran"])->get();
+
+        $random_menus = $products
+            ->shuffle()
+            ->take(12);
+
+        return view("mobile.pages.index", compact("random_menus"));
+
+    }
+
+    public function desktop(Request $request)
+    {
+        if (Agent::isMobile())
+            return redirect()->route("mobile.index");
+
+        return view('desktop');
     }
 
     public function searchFood(Request $request)
@@ -134,7 +157,7 @@ class RestController extends Controller
         if (is_null($restoran))
             return redirect()->route("main");
 
-        $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
+        $products = RestMenu::where("rest_id", $restoran->id)->paginate(200);
 
         if ($request->ajax())
             return response()
@@ -143,7 +166,7 @@ class RestController extends Controller
                 ]);
 
         return view("rest", compact("restoran", "products"))
-            ->with('i', ($request->get('page', 1) - 1) * 50);
+            ->with('i', ($request->get('page', 1) - 1) * 200);
     }
 
     public function getMenuByRestoran(Request $request, $id)
