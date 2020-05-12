@@ -11,11 +11,14 @@ use App\Http\Controllers\Controller;
 //use App\Parts\Models\Fastoran\Kitchen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\Classes\Utilits;
 use App\User;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    use Utilits;
+
     public function __construct()
     {
          $this->middleware('auth');
@@ -51,22 +54,43 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'phone' => 'required',
-            'password' => 'required',
+        ]);
+        $phone = $this->preparePhone($request->get("phone"));
+        $code = random_int(100000, 999999);
+
+        $user = User::where("phone", $phone)->withTrashed()->first();//$this->getUser();
+
+        if (!is_null($user)) {
+            if (!is_null($user->deleted_at)) {
+                $user->deleted_at = null;
+                $user->save();
+            }
+            return response()->json([
+                'status' => 201,
+                'message' => 'Пользователь уже был создан ранее!'
+            ], 201);
+        }
+
+        $user = new User([
+            'name' => $request->name ?? '',
+            'email' => $request->email ?? $phone . "@fastoran.com",
+            'password' => bcrypt($code),
+            'phone' => $phone,
+            'active' => true,
+            'auth_code' => $code,
+            'user_type' => $request->user_type,
+            'deliveryman_type' => $request->deliveryman_type,
+            'bonus' => 0
         ]);
 
-        User::create([
-            'name' => $request->get('name') ?? '',
-            'email' => $request->get('email') ?? $request->get('phone') . '@fastoran.com',
-            'phone' => $request->get('phone') ?? '',
-            'password' => bcrypt($request->get( 'password')),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        $user->save();
+
         return response()
-                ->json([
-                    'status' => 200,
-                    "message" => "Пользователь успешно добавлен"
-                ]);
+            ->json([
+                'status' => 200,
+                'user' => $user,
+                "message" => "Пользователь успешно добавлен"
+            ]);
     }
 
     /**

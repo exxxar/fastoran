@@ -390,7 +390,6 @@ class OrderController extends Controller
 
     public function acceptOrder(Request $request, $orderId)
     {
-
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();

@@ -19,18 +19,16 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 import HighchartsVue from 'highcharts-vue'
-
 Vue.use(HighchartsVue);
+
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
-
 drilldownInit(Highcharts)
 import exportingInit from 'highcharts/modules/exporting'
-
 exportingInit(Highcharts)
 import exportDataInit from 'highcharts/modules/export-data'
-
 exportDataInit(Highcharts)
+
 const moment = require('moment')
 require('moment/locale/ru')
 
