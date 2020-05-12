@@ -516,8 +516,14 @@
                         }
                     },
                     tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y} шт</b><br/>'
+                        //headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        // pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y} шт</b>, <b>{point.sum_delivery_range</b><br/>',
+                        formatter: function() {
+                            var header = '<span style="font-size:11px">'+this.series.name+'</span><br>';
+                            var pointF = '<span style="color:' + this.point.color +'">' + this.point.name + '</span>: <b>' + this.y + ' шт</b>, <b>' + this.point.options.sum_delivery_range + ' км.</b><br/>';
+                            return header + pointF;
+                        }
+
                     },
                     series: [
                         {

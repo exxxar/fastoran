@@ -1,6 +1,63 @@
 <template>
     <b-container fluid>
         <notifications group="message"/>
+        <div class="row">
+            <div class="col-lg-4">
+                <b-button variant="primary" class="mt-4 mb-4" v-b-modal.new-user>Создать пользователя</b-button>
+            </div>
+        </div>
+        <b-modal id="new-user" title="Создать пользователя">
+            <b-form-input
+                v-model="new_user.name"
+                type="text"
+                placeholder="Введите имя пользователя"
+                class="mb-2"
+                required
+            ></b-form-input>
+            <b-form-input
+                v-model="new_user.phone"
+                type="text"
+                placeholder="Введите телефон пользователя"
+                class="mb-2"
+                required
+                pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
+                maxlength="19"
+                v-mask="['+38 (###) ###-##-##']"
+            ></b-form-input>
+            <b-form-select
+                v-model="new_user.user_type"
+                :options="types"
+                class="mb-2"
+            >
+            </b-form-select>
+            <b-form-select
+                v-if="new_user.user_type == 1"
+                v-model="new_user.deliveryman_type"
+                :options="delivery_types"
+                class="mb-2"
+            >
+            </b-form-select>
+            <template v-slot:modal-footer>
+                <div class="w-100">
+
+                    <b-button
+                        variant="primary"
+                        class="float-right"
+                        @click="createUser()"
+                        :disabled="new_user.name=='' || new_user.phone=='' || (new_user.user_type==1 && new_user.deliveryman_type==0)"
+                    >
+                       Сохранить
+                    </b-button>
+                    <b-button
+                    variant="primary"
+                    class="float-right mr-2"
+                    @click="cancel()"
+                >
+                    Отмена
+                </b-button>
+                </div>
+            </template>
+        </b-modal>
         <b-tabs content-class="mt-3">
             <b-tab title="Все" active>
                 <b-row>
@@ -1071,6 +1128,12 @@
                 },
                 loading: false,
 
+                new_user: {
+                    name:'',
+                    phone:'',
+                    user_type: 0,
+                    deliveryman_type: 0
+                }
                 // password: '',
                 // passwordItem: null,
                 // passwordState: null,
@@ -1259,7 +1322,31 @@
                     .then(() => {
                         this.sendMessage('Новый пароль пользователя успешно отправлен')
                     });
-            }
+            },
+            createUser() {
+                console.log(this.new_user)
+                if(this.new_user.user_type!=1) {
+                    this.new_user.deliveryman_type=0;
+                }
+                axios.post('/admin/users/store', this.new_user)
+                    .then(resp => {
+                        this.users.push(resp.data.user);
+                        this.new_user.name='';
+                        this.new_user.phone='';
+                        this.new_user.user_type=0;
+                        this.new_user.deliveryman_type=0;
+                        this.$bvModal.hide("new-user");
+                        this.sendMessage(resp.data.message)
+                    });
+            },
+            cancel() {
+                this.new_user.name='';
+                this.new_user.phone='';
+                this.new_user.user_type=0;
+                this.new_user.deliveryman_type=0;
+                this.$bvModal.hide("new-user");
+            },
+
         }
     }
 </script>

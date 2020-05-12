@@ -152,6 +152,7 @@ Route::prefix('admin')->group(function () {
 
     Route::any('/users', 'Admin\UserController@index');
     Route::get('/users/get', 'Admin\UserController@get');
+    Route::post('/users/store', 'Admin\UserController@store');
 //    Route::post('/users/changePassword', 'Admin\UserController@changePassword');
     Route::post('/users/sendAuthCode', 'Admin\UserController@sendAuthCode');
     Route::get('/users/getPhones', 'Admin\UserController@getPhones');

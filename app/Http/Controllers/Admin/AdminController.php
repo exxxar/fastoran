@@ -373,6 +373,8 @@ class AdminController extends Controller
             $series_year->drilldown = $year;
             $count = $year_orders->count();
             $series_year->y = $count;
+            $year_sum_delivery_range = $year_orders->sum('delivery_range');
+            $series_year->sum_delivery_range = $year_sum_delivery_range;
             array_push($series, $series_year);
 
             //drilldown (year)
@@ -390,14 +392,16 @@ class AdminController extends Controller
                 $series_month->drilldown = $month_name;
                 $count = $month_orders->count();
                 $series_month->y = $count;
+                $month_sum_delivery_range = $month_orders->sum('delivery_range');
+                $series_month->sum_delivery_range = $month_sum_delivery_range;
                 array_push($drilldown_year->data, $series_month);
 
                 $drilldown_month = (object)[];
                 $drilldown_month->name = $month_name;
                 $drilldown_month->id = $month_name;
                 $drilldown_month->data = array();
-
                 array_push($drilldown, $drilldown_month);
+
                 $tmp_days = $month_orders->groupBy('day');
                 foreach ($tmp_days as $day => $day_orders) {
                     //month_data_day // drilldown (month.data)
@@ -405,6 +409,8 @@ class AdminController extends Controller
                     $series_day->name = $day;
                     $count = $day_orders->count();
                     $series_day->y = $count;
+                    $day_sum_delivery_range = $day_orders->sum('delivery_range');
+                    $series_day->sum_delivery_range = $day_sum_delivery_range;
                     array_push($drilldown_month->data, $series_day);
                 }
             }
