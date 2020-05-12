@@ -352,12 +352,22 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Order $order
+     * @param \App\Order $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, $id)
     {
-        //
+        $param = $request->get("param");
+        $value = $request->get("value");
+
+        $order = Order::find($id);
+        $order[$param] = $value;
+        $order->save();
+
+        return response()
+            ->json([
+                "message" => "Изменения сохранены",
+            ],200);
     }
 
     /**

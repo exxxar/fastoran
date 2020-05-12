@@ -84,9 +84,9 @@ class RestoransController extends Controller
         $param = $request->get("param");
         $value = $request->get("value");
 
-        $user = Restoran::find($id);
-        $user[$param] = $value;
-        $user->save();
+        $restoran = Restoran::find($id);
+        $restoran[$param] = $value;
+        $restoran->save();
 
         return response()
             ->json([
