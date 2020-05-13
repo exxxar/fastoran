@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Classes\Utilits;
 use App\Enums\OrderStatusEnum;
 use App\Events\CheckOldOrdersEvent;
 use App\Parts\Models\Fastoran\Order;
@@ -10,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class OrderCheckListener
 {
+    use Utilits;
     /**
      * Create the event listener.
      *
