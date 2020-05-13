@@ -149,7 +149,6 @@ class OrderController extends Controller
     }
 
 
-
     public function store(Request $request)
     {
         $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone") ?? '+380710000012');
@@ -159,7 +158,7 @@ class OrderController extends Controller
 
         if (is_null($user)) {
 
-           $this->doHttpRequest( env("APP_URL").'/api/v1/auth/signup', [
+            $this->doHttpRequest(env("APP_URL") . '/api/v1/auth/signup', [
                 'phone' => $phone,
                 'name' => $request->name ?? $request->receiver_name ?? ''
             ]);
@@ -210,7 +209,7 @@ class OrderController extends Controller
                 $emptyProductId = false;
 
                 $product = RestMenu::find($od["product_id"]);
-                $product_price = $this->getPriceWithDiscountByCode($request->get("code") ?? null, $product->id,$user->id);
+                $product_price = $this->getPriceWithDiscountByCode($request->get("code") ?? null, $product->id, $user->id);
                 $product_count = $od["count"];
 
                 $detail = OrderDetail::create([
@@ -420,6 +419,8 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
+        $this->testRestoransOrder($orderId);
+
         event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке! "));
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
@@ -433,6 +434,30 @@ class OrderController extends Controller
                 "message" => $message,
                 "status" => 200
             ]);
+
+    }
+
+    private function testRestoransOrder($lastOrderId)
+    {
+        $orders = Order::with(["restoran"])->where("status", "0")->get();
+
+        foreach ($orders as $order) {
+            $orderId = $this->prepareNumber($order->id);
+
+            if ($lastOrderId === $orderId)
+                continue;
+
+            $message = sprintf("\xE2\x9D\x97\xE2\x9D\x97\xE2\x9D\x97Заказ *#%s* не подтвержден! (%s)\xE2\x9D\x97\xE2\x9D\x97\xE2\x9D\x97", $order->id, $order->created_at);
+
+            $orderId = $this->prepareNumber($order->id);
+
+            $this->sendMessageToTelegramChannel($order->resotran->telegram_channel, $message, [
+                [
+                    ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
+                    ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
+                ]
+            ]);
+        }
 
     }
 
@@ -717,6 +742,8 @@ class OrderController extends Controller
             $comment,
             $order->user->phone ?? "Не найден номер телефона"
         );
+
+        event(new SendSmsEvent($order->user->phone, $message));
 
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
 

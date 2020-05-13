@@ -372,7 +372,7 @@
             return {
                 preparedToSend: false,
                 is_valid: false,
-                phone: localStorage.getItem("phone", null) ?? null,
+                phone: localStorage.getItem("phone", null),
                 name: '',
                 message: '',
                 delivery_range_message: '',
