@@ -37,7 +37,7 @@ class OrderCheckListener
         $lastOrderId = $event->orderId;
         $channel = $event->channel;
 
-        $orders = Order::where("status", OrderStatusEnum::InProcessing)->get();
+        $orders = Order::where("status", OrderStatusEnum::InProcessing)->take(5)->skip(0)->get();
 
         if (count($orders) <= 1)
             return;
