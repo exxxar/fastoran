@@ -295,7 +295,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        event(new CheckOldOrdersEvent($orderId,$rest->telegram_channel));
+        event(new CheckOldOrdersEvent($orderId,$rest->telegram_channel,$rest->id));
 
         event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 

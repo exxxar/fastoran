@@ -16,17 +16,19 @@ class CheckOldOrdersEvent
 
     public $orderId;
     public $channel;
+    public $restId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($orderId,$channel)
+    public function __construct($orderId,$channel,$restId)
     {
         //
         $this->orderId = $orderId;
         $this->channel = $channel;
+        $this->restId = $restId;
     }
 
 
