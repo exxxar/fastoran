@@ -54,7 +54,7 @@ class OrderCheckListener
 
             if ($lastOrderId === $orderId)
                 continue;
-            $message .= sprintf("*#%s*(%s), ", $order->id, $order->created_at);
+            $message .= sprintf("*#%s*(%s)\n", $order->id, $order->created_at);
         }
         $restId = $this->prepareNumber($restId);
         array_push($buttons, [
