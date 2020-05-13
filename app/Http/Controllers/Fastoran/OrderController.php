@@ -440,7 +440,7 @@ class OrderController extends Controller
 
     private function testRestoransOrder($lastOrderId)
     {
-        $orders = Order::with(["restoran"])->where("status", "0")->get();
+        $orders = Order::with(["restoran"])->where("status", OrderStatusEnum::InProcessing)->get();
 
         foreach ($orders as $order) {
             $orderId = $this->prepareNumber($order->id);
