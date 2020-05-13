@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\CheckOldOrdersEvent;
 use App\Events\SendSmsEvent;
+use App\Listeners\OrderCheckListener;
 use App\Listeners\SmsEventListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -29,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendSmsEvent::class => [
             SmsEventListener::class . '@handle',
+        ],
+        CheckOldOrdersEvent::class => [
+            OrderCheckListener::class . '@handle',
         ],
     ];
 

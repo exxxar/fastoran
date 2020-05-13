@@ -7,6 +7,7 @@ use App\Enums\FoodStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\Enums\UserTypeEnum;
+use App\Events\CheckOldOrdersEvent;
 use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\Parts\Models\Fastoran\DeliveryQuest;
@@ -294,7 +295,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        $this->testRestoransOrder($orderId,$rest->telegram_channel);
+        event(new CheckOldOrdersEvent($orderId,$rest->telegram_channel));
 
         event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
@@ -438,29 +439,6 @@ class OrderController extends Controller
 
     }
 
-    private function testRestoransOrder($lastOrderId,$channel)
-    {
-        $orders = Order::where("status", OrderStatusEnum::InProcessing)->get();
-
-        foreach ($orders as $order) {
-            $orderId = $this->prepareNumber($order->id);
-
-            if ($lastOrderId === $orderId)
-                continue;
-
-            $message = sprintf("\xE2\x9D\x97\xE2\x9D\x97\xE2\x9D\x97Заказ *#%s* не подтвержден! (%s)\xE2\x9D\x97\xE2\x9D\x97\xE2\x9D\x97", $order->id, $order->created_at);
-
-            $orderId = $this->prepareNumber($order->id);
-
-            $this->sendMessageToTelegramChannel($channel, $message, [
-                [
-                    ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
-                    ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
-                ]
-            ]);
-        }
-
-    }
 
     public function sendCustomOrder(Request $request)
     {
