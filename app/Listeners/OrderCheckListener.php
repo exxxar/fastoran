@@ -12,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 class OrderCheckListener
 {
     use Utilits;
+
     /**
      * Create the event listener.
      *
@@ -39,15 +40,13 @@ class OrderCheckListener
         $restId = $event->restId;
 
         $orders = Order::where("status", OrderStatusEnum::InProcessing)
-            ->where("rest_id",$restId)
-            ->take(5)
-            ->skip(0)
+            ->where("rest_id", $restId)
             ->get();
 
         if (count($orders) <= 1)
             return;
 
-        $message = "";
+        $message = sprintf("\xE2\x9D\x97У вас осталось %s заказов в обработке!:", count($orders));
         $buttons = [];
 
         foreach ($orders as $order) {
@@ -55,21 +54,13 @@ class OrderCheckListener
 
             if ($lastOrderId === $orderId)
                 continue;
-
-            $message .= sprintf("\xE2\x9D\x97\xE2\x9D\x97\xE2\x9D\x97Заказ *#%s* не подтвержден! (%s)\n", $order->id, $order->created_at);
-
-            $accept = sprintf("Подтвердить (#%s)!",$order->id);
-            $decline = sprintf("Отменить (#%s)!",$order->id);
-            $orderId = $this->prepareNumber($order->id);
-
-            array_push($buttons,   [
-                ["text" => $accept, "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
-                ["text" => $decline, "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
-            ]);
-
-
+            $message .= sprintf("*#%s*(%s), ", $order->id, $order->created_at);
         }
+        $restId = $this->prepareNumber($restId);
+        array_push($buttons, [
+            ["text" => "Показать", "url" => "https://t.me/delivery_service_dn_bot?start=004$restId"],
+        ]);
 
-        $this->sendMessageToTelegramChannel($channel, $message,$buttons);
+        $this->sendMessageToTelegramChannel($channel, $message, $buttons);
     }
 }
