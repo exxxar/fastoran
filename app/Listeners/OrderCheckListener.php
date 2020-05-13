@@ -46,7 +46,7 @@ class OrderCheckListener
         if (count($orders) <= 1)
             return;
 
-        $message = sprintf("\xE2\x9D\x97У вас осталось %s заказов в обработке!:", count($orders));
+        $message = sprintf("\xE2\x9D\x97У вас осталось %s заказов в обработке!:\n", count($orders)-1);
         $buttons = [];
 
         foreach ($orders as $order) {
