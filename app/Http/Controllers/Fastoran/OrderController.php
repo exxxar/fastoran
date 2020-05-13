@@ -294,7 +294,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        $this->testRestoransOrder($orderId);
+        $this->testRestoransOrder($orderId,$rest->telegram_channel);
 
         event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
@@ -438,9 +438,9 @@ class OrderController extends Controller
 
     }
 
-    private function testRestoransOrder($lastOrderId)
+    private function testRestoransOrder($lastOrderId,$channel)
     {
-        $orders = Order::with(["restoran"])->where("status", OrderStatusEnum::InProcessing)->get();
+        $orders = Order::where("status", OrderStatusEnum::InProcessing)->get();
 
         foreach ($orders as $order) {
             $orderId = $this->prepareNumber($order->id);
@@ -452,7 +452,7 @@ class OrderController extends Controller
 
             $orderId = $this->prepareNumber($order->id);
 
-            $this->sendMessageToTelegramChannel($order->resotran->telegram_channel, $message, [
+            $this->sendMessageToTelegramChannel($channel, $message, [
                 [
                     ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
                     ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
