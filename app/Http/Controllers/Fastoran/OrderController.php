@@ -187,7 +187,7 @@ class OrderController extends Controller
                 foreach ($order->custom_details as $key => $custom_detail) {
                     $detail = (object)$custom_detail;
                     $sum += $detail->price;
-                    $tmp_custom_details .= ($key + 1) . "# " . $detail->name . " (" . $detail->price . " руб.)\n";
+                    $tmp_custom_details .= ($key + 1) . "# " . ($detail->name??$detail->title) . " (" . $detail->price . " руб.)\n";
                 }
 
                 $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
