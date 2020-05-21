@@ -187,7 +187,7 @@ class OrderController extends Controller
                 foreach ($order->custom_details as $key => $custom_detail) {
                     $detail = (object)$custom_detail;
                     $sum += $detail->price;
-                    $tmp_custom_details .= ($key + 1) . "# " . ($detail->name??$detail->title) . " (" . $detail->price . " руб.)\n";
+                    $tmp_custom_details .= ($key + 1) . "# " . ($detail->name ?? $detail->title) . " (" . $detail->price . " руб.)\n";
                 }
 
                 $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
@@ -295,7 +295,7 @@ class OrderController extends Controller
 
         $orderId = $this->prepareNumber($order->id);
 
-        event(new CheckOldOrdersEvent($orderId,$rest->telegram_channel,$rest->id));
+        event(new CheckOldOrdersEvent($orderId, $rest->telegram_channel, $rest->id));
 
         event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
@@ -565,8 +565,9 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman) {
-                            $fail('Пользователь не является доставщиком');
+                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
+                            $value->user_type !== UserTypeEnum::Admin) {
+                            $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
                 ],
@@ -595,7 +596,9 @@ class OrderController extends Controller
         $order->deliveryman_id = $user->id;
         $order->save();
 
-        $message = sprintf("Заказ *#%s* (%s) взят доставщиком *#%s (%s)*",
+        $message = sprintf($user->user_type === UserTypeEnum::Deliveryman ?
+            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*":
+            "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*",
             $order->id,
             $order->receiver_phone,
             $user->id,
@@ -629,8 +632,9 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman) {
-                            $fail('Пользователь не является доставщиком');
+                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
+                            $value->user_type !== UserTypeEnum::Admin) {
+                            $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
                 ],
@@ -639,8 +643,12 @@ class OrderController extends Controller
                     function ($attribute, $value, $fail) use ($user) {
                         if (is_null($user)) {
                             $fail("Ошибка валидации пользователя");
-                            return;
+                            return false;
                         }
+
+                        if ($user->user_type === UserTypeEnum::Admin)
+                            return true;
+
 
                         if ($value->deliveryman_id !== $user->id) {
                             $fail(sprintf("Заказ #%s не принадлежит доставщику #%s",
@@ -668,7 +676,10 @@ class OrderController extends Controller
         $order->deliveryman_id = null;
         $order->save();
 
-        $message = sprintf("Доставщик *#%s* отказался от заказа *#%s*",
+
+        $message = sprintf($user->user_type === UserTypeEnum::Deliveryman ?
+            "Доставщик *#%s* отказася от заказа *#%s*" :
+            "Администратор *#%s* установил пометку 'отказ' к заказу *#%s*",
             $user->id,
             $order->id
         );
@@ -836,8 +847,9 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman) {
-                            $fail('Пользователь не является доставщиком');
+                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
+                            $value->user_type !== UserTypeEnum::Admin) {
+                            $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
                 ],
@@ -846,8 +858,11 @@ class OrderController extends Controller
                     function ($attribute, $value, $fail) use ($user) {
                         if (is_null($user)) {
                             $fail("Ошибка валидации пользователя");
-                            return;
+                            return false;
                         }
+
+                        if ($user->user_type === UserTypeEnum::Admin)
+                            return true;
 
                         if ($value->deliveryman_id !== $user->id) {
                             $fail(sprintf("Заказ #%s не принадлежит доставщику #%s",
@@ -874,7 +889,9 @@ class OrderController extends Controller
         $order->status = OrderStatusEnum::Delivered;
         $order->save();
 
-        $message = sprintf("Доставщик *#%s* успешно доставил заказ *#%s*",
+        $message = sprintf($user->user_type === UserTypeEnum::Deliveryman ?
+            "Доставщик *#%s* успешно доставил заказ *#%s*" :
+            "Администратор *#%s* установил пометку 'доставлено' к заказу *#%s*",
             $user->id,
             $order->id
         );
