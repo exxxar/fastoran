@@ -155,7 +155,7 @@ class OrderController extends Controller
     {
         $phone = $this->preparePhone($request->get("phone") ?? $request->get("receiver_phone") ?? '+380710000012');
 
-        $user = User::where("phone", $phone)->first();//$this->getUser();
+        $user = User::where("phone", $phone)->withTrashed()->first();//$this->getUser();
 
         $banned = BlackList::where("ip",$request->ip())->first();
 
