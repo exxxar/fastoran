@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\BlackList;
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class CheckBanned
 {
@@ -18,6 +19,7 @@ class CheckBanned
     {
         $banned = BlackList::where("ip", $request->ip())->first();
 
+        Log::info($request->ip());
         if (!is_null($banned))
             return redirect('banned');;
 
