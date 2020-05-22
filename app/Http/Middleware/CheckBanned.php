@@ -20,7 +20,7 @@ class CheckBanned
         $banned = BlackList::where("ip", $request->ip())->first();
 
         if (!is_null($banned))
-            die("Спасибо что пользоватлись нашим сервисом")
+            die("Спасибо что пользоватлись нашим сервисом");
 
         return $next($request);
     }
