@@ -19,9 +19,8 @@ class CheckBanned
     {
         $banned = BlackList::where("ip", $request->ip())->first();
 
-        Log::info($request->ip());
         if (!is_null($banned))
-            return redirect('banned');;
+            die("Спасибо что пользоватлись нашим сервисом")
 
         return $next($request);
     }
