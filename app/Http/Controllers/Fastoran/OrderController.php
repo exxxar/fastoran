@@ -159,7 +159,6 @@ class OrderController extends Controller
 
         $banned = BlackList::where("ip",$request->ip())->first();
 
-        return response()->json($user);
 
         if (!is_null($banned))
             return response()
@@ -168,6 +167,7 @@ class OrderController extends Controller
                     "order_id" => null,
                     "status" => 404
                 ]);
+
 
         if (is_null($user)) {
 
@@ -194,6 +194,7 @@ class OrderController extends Controller
                     "status" => 404
                 ]);
         }
+
 
 
         $user = User::where("phone", $phone)->first();
