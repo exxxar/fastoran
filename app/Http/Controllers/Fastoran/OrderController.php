@@ -159,6 +159,8 @@ class OrderController extends Controller
 
         $banned = BlackList::where("ip",$request->ip())->first();
 
+        return response()->json($user);
+
         if (!is_null($banned))
             return response()
                 ->json([
