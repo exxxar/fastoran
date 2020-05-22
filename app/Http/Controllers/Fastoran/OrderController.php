@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use App\BlackList;
 use App\Classes\Utilits;
 use App\Enums\FoodStatusEnum;
 use App\Enums\OrderStatusEnum;
@@ -156,6 +157,15 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->first();//$this->getUser();
 
+        $banned = BlackList::where("ip",$request->ip())->first();
+
+        if (!is_null($banned))
+            return response()
+                ->json([
+                    "message" => "Пользователь заблокирован",
+                    "order_id" => null,
+                    "status" => 404
+                ]);
 
         if (is_null($user)) {
 
@@ -164,6 +174,23 @@ class OrderController extends Controller
                 'name' => $request->name ?? $request->receiver_name ?? ''
             ]);
 
+        }
+
+        if (!is_null($user->deleted_at)) {
+            try {
+                BlackList::create([
+                    'ip' => $request->ip()
+                ]);
+            } catch (\Exception $e) {
+                Log::info($e->getMessage());
+            }
+
+            return response()
+                ->json([
+                    "message" => "Пользователь не найден",
+                    "order_id" => null,
+                    "status" => 404
+                ]);
         }
 
 
@@ -597,7 +624,7 @@ class OrderController extends Controller
         $order->save();
 
         $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
-            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*":
+            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*" :
             "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*"),
             $order->id,
             $order->receiver_phone,

@@ -109,7 +109,7 @@ class RestController extends Controller
         $products = RestMenu::paginate(20);
 
         return view('product-list', compact('products'))
-            ->with('i', ($request->get('page', 1) - 1) * 15);
+            ->with('i', ($request->get('page', 1) - 1) * 20);
     }
 
     public function getRestList(Request $request)
