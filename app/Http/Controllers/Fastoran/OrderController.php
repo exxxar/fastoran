@@ -596,9 +596,9 @@ class OrderController extends Controller
         $order->deliveryman_id = $user->id;
         $order->save();
 
-        $message = sprintf($user->user_type === UserTypeEnum::Deliveryman ?
+        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
             "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*":
-            "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*",
+            "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*"),
             $order->id,
             $order->receiver_phone,
             $user->id,
@@ -677,9 +677,9 @@ class OrderController extends Controller
         $order->save();
 
 
-        $message = sprintf($user->user_type === UserTypeEnum::Deliveryman ?
+        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
             "Доставщик *#%s* отказася от заказа *#%s*" :
-            "Администратор *#%s* установил пометку 'отказ' к заказу *#%s*",
+            "Администратор *#%s* установил пометку 'отказ' к заказу *#%s*"),
             $user->id,
             $order->id
         );
