@@ -33,6 +33,8 @@ use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
+Route::view("/banned", "banned")->name("banned");
+
 Route::get("/desktop", "RestController@desktop")->name("mobile.desktop");
 
 Route::prefix('m')->group(function () {
