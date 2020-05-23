@@ -178,6 +178,8 @@ class OrderController extends Controller
 
         }
 
+        $user = User::where("phone", $phone)->withTrashed()->first();
+
         if (!is_null($user->deleted_at)) {
             try {
                 BlackList::create([
@@ -194,10 +196,6 @@ class OrderController extends Controller
                     "status" => 404
                 ]);
         }
-
-
-
-        $user = User::where("phone", $phone)->first();
 
         if (is_null($user)) {
             Log::info("Пользователь не найден!");
