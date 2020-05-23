@@ -594,8 +594,8 @@ class OrderController extends Controller
                     'required',
                     function ($attribute, $value, $fail) {
                         Log::info($value->user_type);
-                        if ($value->user_type != UserTypeEnum::Deliveryman ||
-                            $value->user_type != UserTypeEnum::Admin) {
+                        if ((int)$value->user_type != (int)UserTypeEnum::Deliveryman ||
+                            (int)$value->user_type != (int)UserTypeEnum::Admin) {
                             $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
