@@ -577,10 +577,13 @@ class OrderController extends Controller
 
     public function acceptOrder(Request $request, $orderId)
     {
+        Log::info("acceptOrder");
 
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
+
+
 
         $user = $this->getUser();
 
