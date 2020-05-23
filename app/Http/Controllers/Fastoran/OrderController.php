@@ -593,8 +593,8 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
-                            $value->user_type !== UserTypeEnum::Admin) {
+                        if ($value->user_type !== UserTypeEnum::Deliveryman /*||
+                            $value->user_type !== UserTypeEnum::Admin*/) {
                             $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
