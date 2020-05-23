@@ -157,7 +157,7 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->withTrashed()->first();//$this->getUser();
 
-        $banned = BlackList::where("ip", $request->ip())->first();
+        $banned = BlackList::where("ip",$request->ip())->first();
 
 
         if (!is_null($banned))
@@ -614,6 +614,8 @@ class OrderController extends Controller
                 'order.required' => 'Заказ не найден',
             ]);
 
+        Log::info('TYT');
+
         if ($validator->fails())
             return response()
                 ->json(
@@ -624,14 +626,18 @@ class OrderController extends Controller
         $order->deliveryman_id = $user->id;
         $order->save();
 
-        $message = sprintf(
-            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*",
+        Log::info(print_r($order));
 
+        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
+            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*" :
+            "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*"),
             $order->id,
             $order->receiver_phone,
             $user->id,
             $user->phone ?? "Без номера"
         );
+
+        Log::info($message);
 
         //event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
