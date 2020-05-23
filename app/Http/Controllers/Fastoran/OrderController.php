@@ -614,7 +614,7 @@ class OrderController extends Controller
                 'order.required' => 'Заказ не найден',
             ]);
 
-        Log::info(print_r( $validator->errors()->toArray()));
+        Log::info(print_r( $validator->errors()->toArray(),true));
 
         if ($validator->fails())
             return response()
