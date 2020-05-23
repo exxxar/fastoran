@@ -593,7 +593,6 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        Log::info($value->user_type);
                         if ($value->user_type === 0) {
                             $fail('Пользователь не является доставщиком или администратором');
                         }
@@ -626,7 +625,6 @@ class OrderController extends Controller
         $order->deliveryman_id = $user->id;
         $order->save();
 
-        Log::info(print_r($order));
 
         $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
             "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*" :
@@ -637,7 +635,6 @@ class OrderController extends Controller
             $user->phone ?? "Без номера"
         );
 
-        Log::info($message);
 
         //event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
@@ -666,8 +663,7 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
-                            $value->user_type !== UserTypeEnum::Admin) {
+                        if ($value->user_type === 0) {
                             $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
@@ -881,8 +877,7 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
-                            $value->user_type !== UserTypeEnum::Admin) {
+                        if ($value->user_type === 0) {
                             $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
