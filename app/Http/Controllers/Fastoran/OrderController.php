@@ -868,6 +868,8 @@ class OrderController extends Controller
 
         $user = $this->getUser();
 
+        Log::info("setDeliveredStatus");
+
         $validator = Validator::make(
             [
                 "user" => $user,
@@ -887,11 +889,11 @@ class OrderController extends Controller
                     function ($attribute, $value, $fail) use ($user) {
                         if (is_null($user)) {
                             $fail("Ошибка валидации пользователя");
-                            return false;
+                            return;
                         }
-
+                        Log::info($user->user_type);
                         if ($user->user_type === UserTypeEnum::Admin)
-                            return true;
+                            return;
 
                         if ($value->deliveryman_id !== $user->id) {
                             $fail(sprintf("Заказ #%s не принадлежит доставщику #%s",
