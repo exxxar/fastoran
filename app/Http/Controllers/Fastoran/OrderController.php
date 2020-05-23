@@ -157,7 +157,7 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->withTrashed()->first();//$this->getUser();
 
-        $banned = BlackList::where("ip",$request->ip())->first();
+        $banned = BlackList::where("ip", $request->ip())->first();
 
 
         if (!is_null($banned))
@@ -593,8 +593,8 @@ class OrderController extends Controller
                 'user' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if ($value->user_type !== UserTypeEnum::Deliveryman /*||
-                            $value->user_type !== UserTypeEnum::Admin*/) {
+                        if ($value->user_type !== UserTypeEnum::Deliveryman ||
+                            $value->user_type !== UserTypeEnum::Admin) {
                             $fail('Пользователь не является доставщиком или администратором');
                         }
                     },
@@ -624,9 +624,9 @@ class OrderController extends Controller
         $order->deliveryman_id = $user->id;
         $order->save();
 
-        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
-            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*" :
-            "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*"),
+        $message = sprintf(
+            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*",
+
             $order->id,
             $order->receiver_phone,
             $user->id,
