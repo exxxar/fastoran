@@ -8,6 +8,16 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row" v-if="!this.getRestIsWork().is_work">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <div class="alert alert-danger" role="alert">
+                        Время работы рестора {{this.getRestIsWork().time}}! Ваш заказ примут в обработку как только
+                        ресторан откроется!
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <form v-if="cartProducts!=null">
@@ -478,6 +488,13 @@
                 });
                 return sum;
             },
+            getRestIsWork() {
+                return {
+                    time: this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.work_time : "11:00-18:00",
+                    is_work: this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.is_work : false
+                }
+
+            },
             getRestCoords() {
                 return {
                     coords: [
@@ -521,7 +538,7 @@
                     }).then(resp => {
                     this.promocode_message = `Цена акционного товара ${resp.data.price} руб.`;
                     this.is_valid_promocode = true;
-                }).catch(error=>{
+                }).catch(error => {
                     console.log(error)
                     this.promocode_message = "Ошибочный код!"
                 })

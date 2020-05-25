@@ -7,10 +7,10 @@
 
 
         </div>
-        @if ($product->restoran->is_work)
-            <add-cart-btn :product_id="{{$product->id}}"
-                          :product_data="{{$product}}"></add-cart-btn>
-        @else
+
+        <add-cart-btn :product_id="{{$product->id}}"
+                             :product_data="{{$product}}"></add-cart-btn>
+        @if (!$product->restoran->is_work)
             <div class="product-btn-box">
                 <p class="text-center">
                     <mark class="color--white">Время работы: <strong>{{$product->restoran->work_time}}</strong></mark>
@@ -29,7 +29,7 @@
             <div class="banner__hover__inner">
 
                 <h2 class="pink-text">
-                    <mark>{{$product->food_name}}</mark>
+                    {{$product->food_name}}
                 </h2>
 
             </div>
