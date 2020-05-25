@@ -12,7 +12,7 @@
             <div class="row" v-if="!this.getRestIsWork().is_work">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <div class="alert alert-danger" role="alert">
-                        Время работы рестора {{this.getRestIsWork().time}}! Ваш заказ примут в обработку как только
+                        Время работы ресторана {{this.getRestIsWork().time}}! Ваш заказ примут в обработку как только
                         ресторан откроется!
                     </div>
                 </div>
@@ -491,7 +491,7 @@
             getRestIsWork() {
                 return {
                     time: this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.work_time : "11:00-18:00",
-                    is_work: this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.is_work : false
+                    is_work: this.cartTotalCount !== 0 ? this.cartProducts[0].product.restoran.is_work : true
                 }
 
             },
