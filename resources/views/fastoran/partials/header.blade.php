@@ -41,13 +41,18 @@
                                 </li>--}}
                                 <li>
                                     <div class="d-sm-none">
-                                        <a aria-label="Раздел контакты" href="{{route('contacts')}}">Контакты</a>
+                                        <a aria-label="Раздел контакты" href="{{route('contacts')}}">Партнерам</a>
                                     </div>
 
                                     <div class="d-none d-sm-block">
                                         <a  aria-label="Раздел контакты" href="#contacts" data-toggle="modal"
-                                            data-target="#contactModalBox">Контакты</a>
+                                            data-target="#contactModalBox">Партнерам</a>
                                     </div>
+
+                                </li>
+
+                                <li>
+                                    <a aria-label="Раздел контакты" href="{{route('about')}}">О нас</a>
 
                                 </li>
                             </ul>

@@ -215,7 +215,7 @@ class OrderController extends Controller
                 foreach ($order->custom_details as $key => $custom_detail) {
                     $detail = (object)$custom_detail;
                     $sum += $detail->price;
-                    $tmp_custom_details .= ($key + 1) . "# " . ($detail->name ?? $detail->title) . " (" . $detail->price . " руб.)\n";
+                    $tmp_custom_details .= ($key + 1) . "# " . ($detail->name ?? $detail->title ?? "Не указано") . " (" . $detail->price . " руб.)\n";
                 }
 
                 $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
@@ -290,7 +290,7 @@ class OrderController extends Controller
             if (count($order->custom_details) > 0)
                 $price2 += 50;
 
-        $message = sprintf(
+        $message_channel = sprintf(
             "*Заявка #%s* (из %s)\n" .
             "Ресторан:_%s_\n" .
             "Ф.И.О.:_%s_\n" .
@@ -299,7 +299,6 @@ class OrderController extends Controller
             "Заметка к заказу:\n%s\n\n%s\n" .
             "Время доставки: %s\n" .
             "Адрес доставки:%s\n" .
-            "Полная цена доставки:*%s руб.*(Дистанция:%.2fкм)\n" .
             "Цена основного заказа:*%s руб.*"
             ,
             $order->id,
@@ -312,9 +311,13 @@ class OrderController extends Controller
             $tmp_custom_details ?? "Нет дополнительных позиций",
             $order->receiver_delivery_time ?? "По готовности",
             $order->receiver_address ?? "Не задан",
-            (!$order->take_by_self ? $price2 : "самовывоз, 0"),
-            $range,
             $order->summary_price
+        );
+
+        $message_admin = sprintf("%s\nПолная цена доставки:*%s руб.*(Дистанция:%.2fкм)\n",
+            $message_channel,
+            (!$order->take_by_self ? $price2 : "самовывоз, 0"),
+            $range
         );
 
         $order->delivery_price = $price2;
@@ -327,16 +330,19 @@ class OrderController extends Controller
 
         event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
-        $this->sendToTelegram($rest->telegram_channel, $message, [
+        $this->sendMessageToTelegramChannel($rest->telegram_channel, $message_channel, [
             [
                 ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
                 ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
             ]
         ]);
 
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
+
+
         return response()
             ->json([
-                "message" => $message,
+                "message" => $message_channel,
                 "order_id" => $order->id,
                 "status" => 200
             ]);
@@ -467,6 +473,33 @@ class OrderController extends Controller
 
     }
 
+    public function sendPhoneOrder(Request $request)
+    {
+        $phone = $this->preparePhone($request->get("phone"));
+        $name = $request->get("name") ?? '';
+
+        $user = $this->getUser();
+
+        if (is_null($user))
+            $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
+                'phone' => $phone,
+                'name' => $name
+
+            ]);
+
+        $message = sprintf("*Заявка на оформление заказа по телефону*\nФ.И.О.:%s\nТелефон:%s\n",
+            $name,
+            $phone
+        );
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+        return response()
+            ->json([
+                "message" => $message,
+                "status" => 200
+            ]);
+    }
 
     public function sendCustomOrder(Request $request)
     {
@@ -577,12 +610,10 @@ class OrderController extends Controller
 
     public function acceptOrder(Request $request, $orderId)
     {
-        Log::info("acceptOrder");
 
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
-
 
 
         $user = $this->getUser();

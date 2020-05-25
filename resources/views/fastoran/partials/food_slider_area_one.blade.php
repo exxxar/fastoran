@@ -19,6 +19,9 @@
                                         <a href="{{route("custom-order")}}"
                                            class="custom-btn c-btn-2 ">Цветы</a>
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                        <a href="{{route("phone-order")}}"
+                                           class="custom-btn c-btn-2 ">Заказать по телефону</a>
+
 
                                        {{-- <a href="{{route("deliveryman-quest")}}"
                                            class="custom-btn c-btn-2 ">Доставщик</a>--}}
@@ -28,11 +31,11 @@
                                     <div class="circle-button-group">
                                         <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
                                            class="custom-btn c-btn-1 ">Продукты</a>
-                                  {{--      <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
-                                           class="custom-btn c-btn-2 ">Медикаменты</a>--}}
                                         <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
                                            class="custom-btn c-btn-2 ">Цветы</a>
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
+                                        <a data-toggle="modal" data-target="#customPhoneModal" data-whatever="@mdo"
+                                           class="custom-btn c-btn-1 ">Заказать по телефону</a>
                                       {{--  <a data-toggle="modal" data-target="#deliverymanQuestOrderModal" data-whatever="@mdo"
                                            class="custom-btn c-btn-1 ">Доставщик</a>--}}
 

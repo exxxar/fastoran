@@ -65,6 +65,7 @@ Route::view('/checkout', "fastoran.checkout")->name("checkout");
 
 Route::view("/faq", "fastoran.faq")->name("faq");
 Route::view("/custom-order", "fastoran.custom-order")->name("custom-order");
+Route::view("/phone-order", "fastoran.phone-order")->name("phone-order");
 Route::view("/deliveryman-quest", "fastoran.deliveryman-quest")->name("deliveryman-quest");
 Route::view("/about", "fastoran.about")->name("about");
 Route::view("/partner", "fastoran.partner")->name("partner");
