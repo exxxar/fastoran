@@ -66,8 +66,8 @@ class ResendOrdersInQueue extends Command
                 $delivery_order_tmp .= sprintf("#%s %s (%s) %s шт. %s руб.\n",
                     $od->product_details["id"],
                     $od->product_details["food_name"],
-                    $detail->more_info ?? '-',
-                    $detail->count,
+                    $od->more_info ?? '-',
+                    $od->count,
                     $od->product_details["food_price"]
                 );
 
