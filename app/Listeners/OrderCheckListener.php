@@ -49,7 +49,7 @@ class OrderCheckListener
         $message = sprintf("\xE2\x9D\x97У вас осталось %s заказов в обработке!:\n", count($orders)-1);
         $buttons = [];
 
-        $counter = 10;
+        $counter = 2;
 
         foreach ($orders as $order) {
             $orderId = $this->prepareNumber($order->id);
