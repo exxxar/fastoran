@@ -9,6 +9,7 @@ use App\Events\SendSmsEvent;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Promocode;
+use App\Parts\Models\Fastoran\RestMenu;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -57,12 +58,21 @@ class ResendOrdersInQueue extends Command
             $order->status = OrderStatusEnum::InProcessing;
             $order->save();
 
-            $order_details = OrderDetail::where("order_id", $order->id)->first();
-            Log::info("STEP 2");
-            $delivery_order_tmp = $this->prepareOrderDetails(
-                $order_details,
-                $order,
-                $user);
+            $detail = OrderDetail::where("order_id", $order->id)->first();
+
+            $delivery_order_tmp = "";
+
+            foreach ($detail->product_details as $od)
+
+                $delivery_order_tmp .= sprintf("#%s %s (%s) %s шт. %s руб.\n",
+                    $od["id"],
+                    $od["food_name"],
+                    $detail->more_info ?? '-',
+                    $detail->count,
+                    $od["food_price"]
+                );
+
+
             Log::info("STEP 3");
             $range = $order->delivery_range;
             $price2 = $order->delivery_price;
