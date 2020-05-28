@@ -57,22 +57,20 @@ class ResendOrdersInQueue extends Command
             $order->status = OrderStatusEnum::InProcessing;
             $order->save();
 
-            $detail = OrderDetail::where("order_id", $order->id)->first();
+            $details = OrderDetail::where("order_id", $order->id)->get();
 
             $delivery_order_tmp = "";
 
-            foreach ($detail->product_details as $od)
+            foreach ($details as $od)
 
                 $delivery_order_tmp .= sprintf("#%s %s (%s) %s шт. %s руб.\n",
-                    $od->id,
-                    $od->food_name,
+                    $od->product_details["id"],
+                    $od->product_details["food_name"],
                     $detail->more_info ?? '-',
                     $detail->count,
-                    $od->food_price
+                    $od->product_details["food_price"]
                 );
 
-
-            Log::info("STEP 3");
             $range = $order->delivery_range;
             $price2 = $order->delivery_price;
 
