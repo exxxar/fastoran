@@ -52,6 +52,9 @@ class ResendOrdersInQueue extends Command
             $rest = $order->restoran;
             $user = $order->user;
 
+            $order->status = OrderStatusEnum::InProcessing;
+            $order->save();
+
             $order_details = OrderDetail::where("order_id", $order->id)->first();
 
             $delivery_order_tmp = $this->prepareOrderDetails(
