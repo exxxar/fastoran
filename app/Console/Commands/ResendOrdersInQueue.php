@@ -10,6 +10,7 @@ use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Promocode;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ResendOrdersInQueue extends Command
 {
@@ -52,16 +53,17 @@ class ResendOrdersInQueue extends Command
             $rest = $order->restoran;
             $user = $order->user;
 
+            Log::info("STEP 1");
             $order->status = OrderStatusEnum::InProcessing;
             $order->save();
 
             $order_details = OrderDetail::where("order_id", $order->id)->first();
-
+            Log::info("STEP 2");
             $delivery_order_tmp = $this->prepareOrderDetails(
                 $order_details,
                 $order,
                 $user);
-
+            Log::info("STEP 3");
             $range = $order->delivery_range;
             $price2 = $order->delivery_price;
 
