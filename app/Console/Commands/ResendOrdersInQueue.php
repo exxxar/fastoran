@@ -54,7 +54,6 @@ class ResendOrdersInQueue extends Command
             $rest = $order->restoran;
             $user = $order->user;
 
-            Log::info("STEP 1");
             $order->status = OrderStatusEnum::InProcessing;
             $order->save();
 
@@ -65,11 +64,11 @@ class ResendOrdersInQueue extends Command
             foreach ($detail->product_details as $od)
 
                 $delivery_order_tmp .= sprintf("#%s %s (%s) %s шт. %s руб.\n",
-                    $od["id"],
-                    $od["food_name"],
+                    $od->id,
+                    $od->food_name,
                     $detail->more_info ?? '-',
                     $detail->count,
-                    $od["food_price"]
+                    $od->food_price
                 );
 
 
