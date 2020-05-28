@@ -225,48 +225,24 @@ class OrderController extends Controller
         $order->latitude = $coords->latitude;
         $order->longitude = $coords->longitude;
         $order->user_id = $user->id;
+
         $order->save();
 
         $order_details = $request->get("order_details");
 
-        $delivery_order_tmp = "";
-
-        foreach ($order_details as $od) {
-
-            $emptyProductId = true;
-            if (isset($od["product_id"])) {
-                $emptyProductId = false;
-
-                $product = RestMenu::find($od["product_id"]);
-                $product_price = $this->getPriceWithDiscountByCode($request->get("code") ?? null, $product->id, $user->id);
-                $product_count = $od["count"];
-
-                $detail = OrderDetail::create([
-                    "product_details" => $product,
-                    'price' => $product_price,
-                    'count' => $product_count,
-                    'order_id' => $order->id,
-                ]);
-
-            }
-
-            if ($emptyProductId) {
-                $detail = OrderDetail::create($od);
-                $detail->order_id = $order->id;
-                $detail->save();
-
-            }
-
-            $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
-                $detail->product_details["id"],
-                $detail->product_details["food_name"],
-                $detail->more_info ?? '-',
-                $detail->count,
-                $detail->product_details["food_price"]
-            );
-
-            $delivery_order_tmp .= $local_tmp;
+        $code = $request->get("code") ?? null;
+        if (!is_null($code)){
+            $tmp_code = Promocode::where("code",$code)->first();
+            $tmp_code->user_id = $user->id;
+            $tmp_code->save();
         }
+
+        $delivery_order_tmp = $this->prepareOrderDetails(
+            $order_details,
+            $order,
+            $user,
+            $code
+            );
 
         $rest = Restoran::find($order->rest_id);
 
@@ -289,6 +265,7 @@ class OrderController extends Controller
         if (!is_null($order->custom_details))
             if (count($order->custom_details) > 0)
                 $price2 += 50;
+
 
         $message_channel = sprintf(
             "*Заявка #%s* (из %s)\n" .
@@ -323,6 +300,26 @@ class OrderController extends Controller
         $order->delivery_price = $price2;
         $order->delivery_range = floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2))));
         $order->save();
+
+        if (!$rest->is_work) {
+
+            $order->status = OrderStatusEnum::InQueue;
+            $order->save();
+
+            $message_admin = sprintf("Заказ #%s (%s) не может быть выполнен в данное время суток и был добавлен в очередь!",
+                $order->id,
+                $rest->name
+            );
+            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
+            event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в будет принят в обработку с 11:00!"));
+
+            return response()
+                ->json([
+                    "message" => $message_admin,
+                    "order_id" => $order->id,
+                    "status" => 200
+                ]);
+        }
 
         $orderId = $this->prepareNumber($order->id);
 

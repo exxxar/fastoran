@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('email:sendReport today')->dailyAt('23:00');
+        $schedule->command('order:queue')->dailyAt('11:01');
         $schedule->command('email:sendReport week')->weeklyOn(7, '23:00');
     }
 

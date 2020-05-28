@@ -7,6 +7,7 @@ namespace App\Classes;
 use Allanvb\LaravelSemysms\Exceptions\SmsNotSentException;
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Enums\FoodStatusEnum;
+use App\Parts\Models\Fastoran\OrderDetail;
 use App\Parts\Models\Fastoran\Promocode;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\User;
@@ -320,5 +321,49 @@ trait Utilits
 
         return min($product->food_price * (100 - $promocode->promotion->discount), 1);
 
+    }
+
+    public function prepareOrderDetails($order_details, $order, $user, $code = null)
+    {
+        $delivery_order_tmp = "";
+
+        foreach ($order_details as $od) {
+
+            $emptyProductId = true;
+            if (isset($od["product_id"])) {
+                $emptyProductId = false;
+
+                $product = RestMenu::find($od["product_id"]);
+                $product_price = $this->getPriceWithDiscountByCode($code, $product->id, $user->id);
+                $product_count = $od["count"];
+
+                $detail = OrderDetail::create([
+                    "product_details" => $product,
+                    'price' => $product_price,
+                    'count' => $product_count,
+                    'order_id' => $order->id,
+                ]);
+
+            }
+
+            if ($emptyProductId) {
+                $detail = OrderDetail::create($od);
+                $detail->order_id = $order->id;
+                $detail->save();
+
+            }
+
+            $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
+                $detail->product_details["id"],
+                $detail->product_details["food_name"],
+                $detail->more_info ?? '-',
+                $detail->count,
+                $detail->product_details["food_price"]
+            );
+
+            $delivery_order_tmp .= $local_tmp;
+        }
+
+        return $delivery_order_tmp;
     }
 }

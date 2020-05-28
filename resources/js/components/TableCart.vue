@@ -4,7 +4,7 @@
             <div class="row" v-if="this.getMinOrderSum() > this.cartTotalPrice">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <div class="alert alert-danger" role="alert">
-                        Ваша сумма заказа меньше миниальной ({{getMinOrderSum()}} руб.) в данном ресторане!!
+                        Ваша сумма заказа меньше минимальной ({{getMinOrderSum()}} руб.) в данном ресторане!!
                     </div>
                 </div>
             </div>
