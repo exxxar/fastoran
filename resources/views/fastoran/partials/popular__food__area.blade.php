@@ -26,12 +26,17 @@
                             <div class="pp__food__details">
                                 <h4><a href="{{route("rest",$rest->url)}}">
                                         {{$rest->name}}</a></h4>
-                                <ul class="pp__meta d-flex">
-                                    <li><a href="#"><i class="zmdi zmdi-comment-outline"></i>{{$rest->comments_count}}
-                                        </a></li>
-                                    <li><a href="#"><i
-                                                class="zmdi zmdi-favorite-outline"></i>{{$rest->rating->like_count}}</a>
-                                    </li>
+                                <ul class="pp__meta d-flex flex-wrap">
+                                    {{-- <li><a href="#"><i class="zmdi zmdi-comment-outline"></i>{{$rest->comments_count}}
+                                         </a></li>
+                                     <li><a href="#"><i
+                                                 class="zmdi zmdi-favorite-outline"></i>{{$rest->rating->like_count}}</a>
+                                     </li>--}}
+                                    <li>Доставка от {{$rest->price_delivery}} ₽</li>
+                                    <li>Заказ от {{$rest->min_sum}} ₽</li>
+                                    <li>{{$rest->work_time}}</li>
+
+
                                 </ul>
                                 <div class="pp__food__bottom d-flex justify-content-between align-items-center">
                                     <div class="pp__btn">

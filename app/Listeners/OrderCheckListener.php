@@ -65,7 +65,7 @@ class OrderCheckListener
         }
 
         if (count($orders)>10)
-            $message .= "\n...\n*Остальной список можно глянуть в боте!*";
+            $message .= "\n...\n*Полный список можно глянуть в боте!*";
 
         $restId = $this->prepareNumber($restId);
         array_push($buttons, [
