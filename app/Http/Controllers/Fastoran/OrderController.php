@@ -325,8 +325,6 @@ class OrderController extends Controller
 
         event(new CheckOldOrdersEvent($orderId, $rest->telegram_channel, $rest->id));
 
-        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
-
         $this->sendMessageToTelegramChannel($rest->telegram_channel, $message_channel, [
             [
                 ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
@@ -336,6 +334,8 @@ class OrderController extends Controller
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
 
+
+        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
 
         return response()
             ->json([
