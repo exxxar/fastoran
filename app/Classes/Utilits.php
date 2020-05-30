@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Yandex\Geocode\Exception;
 use Yandex\Geocode\Facades\YandexGeocodeFacade;
 
 /**
@@ -227,9 +228,18 @@ trait Utilits
      */
     public function getCoordsByAddress($address)
     {
-        $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
+        $data = null;
+        try {
+            $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
 
-        $data = $data->getResponse();
+            $data = $data->getResponse();
+        }catch(Exception $e){
+            Log::error(sprintf("%s:%s %s",
+                $e->getLine(),
+                $e->getFile(),
+                $e->getMessage()
+            ));
+        }
 
         return [
             "latitude" => !is_null($data) ? $data->getLatitude() : 0,

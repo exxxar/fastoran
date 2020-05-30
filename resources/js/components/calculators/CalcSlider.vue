@@ -1,0 +1,76 @@
+<template>
+    <section class="calc">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+
+                    <ul class="slides">
+                        <li><img @click="changeCalc(1)" src="https://sun9-57.userapi.com/c853628/v853628795/20a6ac/9evk9dyjNRg.jpg" class="slide-item" alt=""></li>
+                        <li><img @click="changeCalc(2)" src="https://sun9-25.userapi.com/c853628/v853628795/20a6b5/TsC0AOrG9B4.jpg" class="slide-item" alt=""></li>
+                        <li><img @click="changeCalc(3)" src="https://sun9-8.userapi.com/c853628/v853628795/20a69a/a-NFYnkkcFQ.jpg" class="slide-item" alt=""></li>
+                        <li><img @click="changeCalc(4)" src="https://sun9-57.userapi.com/c853628/v853628795/20a6ac/9evk9dyjNRg.jpg" class="slide-item" alt=""></li>
+
+
+                    </ul>
+
+                    <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
+                    <roll-calc v-if="slideIndex===2"></roll-calc>
+
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</template>
+<script>
+ /*   import VueSlickCarousel from 'vue-slick-carousel'
+    import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+    // optional style for arrows & dots
+    import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'*/
+    import ChelentanoCalc from "./ChelentanoCalc";
+
+    export default {
+
+        data() {
+            return {
+                slideIndex: 1
+            }
+        },
+        methods: {
+            changeCalc(number) {
+                this.slideIndex = number
+            }
+        },
+        components: {
+            ChelentanoCalc
+        }
+    }
+</script>
+<style lang="scss">
+    .calc {
+        background-image: url('https://fastoran.com/images/bg/4.jp');
+        background-size: cover;
+        background-position: center center;
+
+    }
+
+    .carousel-caption {
+        bottom: auto;
+        top: 20px;
+
+    }
+
+    .slides {
+        width:100%;
+        display:flex;
+        justify-content:center;
+        padding:20px 0px;
+        .slide-item {
+            width:100px;
+            height:100px;
+            padding:10px;
+        }
+    }
+
+</style>

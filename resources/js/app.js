@@ -71,6 +71,9 @@ Vue.component('user-profile', require('./components/UserCabinet.vue').default);
 Vue.component('login-form', require('./components/LoginFormApi.vue').default);
 Vue.component('order-status', require('./components/OrderStatus.vue').default);
 Vue.component('promo-block', require('./components/PromoBlock.vue').default);
+Vue.component('chelentano-calc', require('./components/calculators/ChelentanoCalc.vue').default);
+Vue.component('calc-slider', require('./components/calculators/CalcSlider.vue').default);
+Vue.component('roll-calc', require('./components/calculators/RollCalc.vue').default);
 //Vue.component('simple-order', require('./components/SimpleOrder.vue').default);
 
 //Admin
@@ -140,6 +143,10 @@ import 'vue-datetime/dist/vue-datetime.css'
 import { Datetime } from 'vue-datetime';
 
 Vue.component('datetime', Datetime);
+
+import Tabs from 'vue-tabs-component';
+
+Vue.use(Tabs);
 
 
 Vue.use(VueCurrencyFilter,
