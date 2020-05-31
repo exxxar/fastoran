@@ -271,7 +271,7 @@
             .btn-counter {
                 width: 25px;
                 height: 25px;
-                background: darkred;
+                background: darkorange;
                 color: white;
                 padding: 0px;
                 display: flex;

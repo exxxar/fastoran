@@ -3,18 +3,21 @@ const mix = require('laravel-mix');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 
-mix.webpackConfig({
-    plugins: [
-        new CompressionPlugin({
-            filename: '[path].br[query]',
-            algorithm: 'brotliCompress',
-            test: /\.(js|css|html|svg)$/,
-            compressionOptions: {level: 11},
-            minRatio: 1,
-            deleteOriginalAssets: false,
-        })
-    ],
-});
+if (mix.inProduction()) {
+    mix.webpackConfig({
+        plugins: [
+            new CompressionPlugin({
+                filename: '[path].br[query]',
+                algorithm: 'brotliCompress',
+                test: /\.(js|css|html|svg)$/,
+                compressionOptions: {level: 11},
+                minRatio: 1,
+                deleteOriginalAssets: false,
+            })
+        ],
+    });
+}
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -41,18 +44,19 @@ mix.js('resources/js/app.js', 'public/js')
     //.extract(['vue'])
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/mobile/assets/app.scss', 'public/css/mobile')
-   // .sourceMaps()
+    // .sourceMaps()
     .options({
         processCssUrls: false
     })
 
-
-mix.minify('public/js/app.js');
-mix.minify('public/css/app.css');
-mix.minify('public/css/mobile/app.css');
-mix.minify('public/js/active.js');
-mix.minify('public/js/plugins.js');
-mix.minify('public/js/vendor.js');
-mix.minify('public/js/vendor/modernizr-3.5.0.min.js');
+if (mix.inProduction()) {
+    mix.minify('public/js/app.js')
+    mix.minify('public/css/app.css')
+    mix.minify('public/css/mobile/app.css')
+    mix.minify('public/js/active.js')
+    mix.minify('public/js/plugins.js')
+    mix.minify('public/js/vendor.js')
+    mix.minify('public/js/vendor/modernizr-3.5.0.min.js')
+}
 
 

@@ -3,7 +3,7 @@
 @section('content')
     @include("fastoran.partials.header")
     @include("fastoran.partials.food_slider_area_one")
-{{--    <calc-slider></calc-slider>--}}
+    <calc-slider></calc-slider>
     @include("fastoran.partials.fb__service__area")
     @include("fastoran.partials.popular__food__area")
     {{--    @include("fastoran.partials.food__category__area")--}}

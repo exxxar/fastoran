@@ -810,6 +810,7 @@ class OrderController extends Controller
 
         $orders = Order::with(["details", "restoran", "details.product", "user"])
             ->where("deliveryman_id", $user->id)
+            ->where("status", OrderStatusEnum::InDeliveryProcess)
             ->get();
 
         return response()
