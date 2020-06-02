@@ -5,7 +5,7 @@
             <mark>Выбираем основу пиццы...</mark>
         </h2>
         <div class="row mt-4 mb-4">
-            <div class="col-6" v-for="fill in getFilling(8)">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(8)">
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
@@ -32,7 +32,7 @@
         </h2>
 
         <div class="row mt-4">
-            <div class="col-6">
+            <div class="col-12 col-sm-12 col-md-6">
                 <h3 class="text-left mb-4">
                     <mark>{{getCategory(1).title}}</mark>
                 </h3>
@@ -61,7 +61,7 @@
 
 
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-12 col-md-6">
                 <h3 class="text-left mb-4">
                     <mark>{{getCategory(2).title}}</mark>
                 </h3>
@@ -119,7 +119,7 @@
             <mark>{{getCategory(4).title}}</mark>
         </h3>
         <div class="row mt-4">
-            <div class="col-6" v-for="fill in getFilling(4)">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(4)">
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span

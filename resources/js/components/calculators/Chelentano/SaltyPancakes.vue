@@ -5,7 +5,7 @@
             <mark>Основа блинчика</mark>
         </h2>
         <div class="row mt-4">
-            <div class="col-6" v-for="fill in getFilling(7)">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(7)">
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
