@@ -25,24 +25,23 @@ class DatabaseSeeder extends Seeder
         $tmp = [];
 
         $rest = Restoran::create([
-            'name' => 'Шаурма на углях',
-            'description' => '',
-            'adress' => 'г. Донецк, ул. Кобозева, 48а',
+            'name' => 'Челентано',
+            'description' => 'https://sun9-70.userapi.com/c857036/v857036007/13eea3/5ttvuSSqtOo.jpg',
+            'adress' => 'г. Донецк, бульвар Пушкина, 24',
             'city' => 'Донецк',
             'region' => "Ворошиловский",
             'phone1' => "",
             'phone2' => "",
-            'inst_page' => "shaurma_dn",
+            'inst_page' => "chelentano_dn",
             'site' => "",
-            'telegram_channel' => "-1001268258388",
+            'telegram_channel' => "-1001117924560",
             'vk_page' => "",
             'logo' => "https://sun9-39.userapi.com/c855528/v855528134/22db6a/3Lh6z7EP9N4.jpg",
-            'url' => "shaurma_dn",
+            'url' => "chelentano_dn",
             'rest_img' => "https://fastoran.com/images/bg/18.jpg",
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Русская кухня")->first()->id,
             Kitchen::where("name", "Европейская кухня")->first()->id,
         ]);
 

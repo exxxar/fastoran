@@ -54,6 +54,9 @@ class ResendOrdersInQueue extends Command
             $rest = $order->restoran;
             $user = $order->user;
 
+            if (!$rest->is_work)
+                continue;
+
             $order->status = OrderStatusEnum::InProcessing;
             $order->save();
 

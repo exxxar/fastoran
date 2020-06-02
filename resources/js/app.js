@@ -148,6 +148,9 @@ import Tabs from 'vue-tabs-component';
 
 Vue.use(Tabs);
 
+import VTooltip from 'v-tooltip'
+
+Vue.use(VTooltip)
 
 Vue.use(VueCurrencyFilter,
     {

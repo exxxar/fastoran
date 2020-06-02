@@ -203,7 +203,6 @@ class OrderController extends Controller
 
         }
 
-
         $order = Order::create($request->all());
 
         $tmp_custom_details = "";
@@ -729,7 +728,7 @@ class OrderController extends Controller
         if ($validator->fails())
             return response()
                 ->json(
-                    $validator->errors()->toArray(), 500
+                    $validator->errors()->toArray(), 400
                 );
 
 
@@ -756,7 +755,7 @@ class OrderController extends Controller
 
     public function declineOrderAdmin(Request $request, $orderId)
     {
-        $comment = $request->get("comment") ?? "Позиция отсутствует";
+        $comment = $request->get("comment") ?? "Отклонен администратором";
 
         $order = Order::with(["restoran", "user"])
             ->where("id", $orderId)
@@ -781,7 +780,7 @@ class OrderController extends Controller
         if ($validator->fails())
             return response()
                 ->json(
-                    $validator->errors()->toArray(), 500
+                    $validator->errors()->toArray(), 400
                 );
 
         $order->deliveryman_id = null;
@@ -794,9 +793,9 @@ class OrderController extends Controller
             $order->user->phone ?? "Не найден номер телефона"
         );
 
-        event(new SendSmsEvent($order->user->phone, $message));
-
         $this->sendToTelegram($order->restoran->telegram_channel, $message);
+
+        event(new SendSmsEvent($order->user->phone, $message));
 
         return response()
             ->json([

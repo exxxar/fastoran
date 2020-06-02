@@ -12,6 +12,10 @@
 
 
 .food__btn {
+
+    &[disabled]{
+        background: lightgray !important;
+    }
 	&.white--btn{
 		background: #fff none repeat scroll 0 0;
     	color: #444444;

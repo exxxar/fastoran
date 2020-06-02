@@ -5,19 +5,25 @@
             <mark>Выбираем основу пиццы...</mark>
         </h2>
         <div class="row mt-4 mb-4">
-            <div class="col-6">
-                <label class="container">Пицца Челентано<span
-                    class="badge badge-weight">350 гр.</span><span class="badge">95 ₽</span>
-                    <input type="radio" name="base" checked>
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="col-6">
-                <label class="container">Пицца Челентано с белым соусом<span
-                    class="badge badge-weight">350 гр.</span><span class="badge">95 ₽</span>
-                    <input type="radio" name="base">
-                    <span class="checkmark"></span>
-                </label>
+            <div class="col-6" v-for="fill in getFilling(8)">
+                <div class="container-wrapper">
+                    <label class="container">{{fill.title}}<span
+                        class="badge badge-weight">{{fill.weight}} гр.</span><span
+                        class="badge">{{fill.price | currency}}</span>
+
+
+                        <input v-if="fill.checked" checked="checked" type="radio" name="pizza_base"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="pizza_base"  :value="fill.id">
+                        <input v-else type="radio" name="pizza_base"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="pizza_base"  :value="fill.id">
+                        <span class="checkmark"></span>
+
+
+                    </label>
+
+                </div>
+
             </div>
         </div>
         <hr>
@@ -34,15 +40,21 @@
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
                         class="badge">{{fill.price | currency}}</span>
-                        <input type="checkbox" name="filling">
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
+                        <input v-else type="checkbox" name="filling" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings">
                         <span class="checkmark"></span>
                     </label>
 
-                    <div class="counter-wrapper">
-                        <div class="counter">
-                            <button class="btn btn-counter">-</button>
-                            <p>1</p>
-                            <button class="btn btn-counter">+</button>
+                    <div v-if="!fill.disabled">
+                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
+                            <div class="counter">
+                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
+                                <p>{{hasManyItems(fill.id)}}</p>
+                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -57,15 +69,21 @@
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
                         class="badge">{{fill.price | currency}}</span>
-                        <input type="checkbox" name="filling">
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
+                        <input v-else type="checkbox" name="filling" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings">
                         <span class="checkmark"></span>
                     </label>
 
-                    <div class="counter-wrapper">
-                        <div class="counter">
-                            <button class="btn btn-counter">-</button>
-                            <p>1</p>
-                            <button class="btn btn-counter">+</button>
+                    <div v-if="!fill.disabled">
+                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
+                            <div class="counter">
+                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
+                                <p>{{hasManyItems(fill.id)}}</p>
+                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,15 +95,21 @@
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
                         class="badge">{{fill.price | currency}}</span>
-                        <input type="checkbox" name="filling">
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
+                        <input v-else type="checkbox" name="filling" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings">
                         <span class="checkmark"></span>
                     </label>
 
-                    <div class="counter-wrapper">
-                        <div class="counter">
-                            <button class="btn btn-counter">-</button>
-                            <p>1</p>
-                            <button class="btn btn-counter">+</button>
+                    <div v-if="!fill.disabled">
+                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
+                            <div class="counter">
+                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
+                                <p>{{hasManyItems(fill.id)}}</p>
+                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,15 +124,21 @@
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
                         class="badge">{{fill.price | currency}}</span>
-                        <input type="checkbox" name="filling">
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
+                        <input v-else type="checkbox" name="filling" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings">
                         <span class="checkmark"></span>
                     </label>
 
-                    <div class="counter-wrapper">
-                        <div class="counter">
-                            <button class="btn btn-counter">-</button>
-                            <p>1</p>
-                            <button class="btn btn-counter">+</button>
+                    <div v-if="!fill.disabled">
+                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
+                            <div class="counter">
+                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
+                                <p>{{hasManyItems(fill.id)}}</p>
+                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,22 +148,24 @@
         <hr>
         <div class="row d-flex justify-content-center result">
             <div class="col-4">
-                <h3 class="text-center">Сколько таких пицц сделать?</h3>
+                <h3 class="text-center">Сколько таких пицц сделать сделать?</h3>
                 <div class="summary">
-                    <div class="btn-counter">-</div>
-                    <p>1</p>
-                    <div class="btn-counter">+</div>
+                    <div class="btn-counter" @click="decrementSummary">-</div>
+                    <p>{{summary_count}}</p>
+                    <div class="btn-counter" @click="incrementSummary">+</div>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-center">
                     <ul>
-                        <li>Вес: <strong>2000 грамм</strong></li>
-                        <li>Цена: <strong>7000 руб</strong></li>
+                        <li>Вес: <strong>{{summary_weight}} грамм</strong></li>
+                        <li>Цена: <strong>{{summary_price}} руб</strong></li>
                     </ul>
                 </div>
 
+                <p class="text-center  mt-4" v-if="message.length>0"><mark class="text-white">{{message}}</mark></p>
                 <div class="d-flex justify-content-center mt-4">
-                    <button class="food__btn">
+
+                    <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
                         Добавить в корзину
                     </button>
                 </div>
@@ -148,52 +180,94 @@
     export default {
         data() {
             return {
-
-                filling_categories: [
-                    {id: 1, title: "Овощные начинки"},
-                    {id: 2, title: "Мясные начинки"},
-                    {id: 3, title: "Морские начинки"},
-                    {id: 4, title: "Сырные начинки"},
-                ],
-                filling: [
-                    {id: 1, title: "Грибы жаренные", weight: 50, price: 45, category: 1},
-                    {id: 2, title: "Грибы стерилизованные", weight: 40, price: 45, category: 1},
-                    {id: 3, title: "Грибы свежие", weight: 40, price: 45, category: 1},
-                    {id: 4, title: "Ананасы", weight: 40, price: 35, category: 1},
-                    {id: 5, title: "Помидоры свежие", weight: 50, price: 30, category: 1},
-                    {id: 6, title: "Перец болгарский", weight: 40, price: 30, category: 1},
-                    {id: 7, title: "Кукуруза", weight: 40, price: 30, category: 1},
-                    {id: 8, title: "Маслины", weight: 30, price: 55, category: 1},
-                    {id: 9, title: "Фасоль спаржевая", weight: 50, price: 30, category: 1},
-                    {id: 10, title: "Пепперони", weight: 30, price: 26, category: 1},
-                    {id: 11, title: "Маринованный лук", weight: 50, price: 12, category: 1},
-                    {id: 12, title: "Огурец маринованный", weight: 50, price: 30, category: 1},
-                    {id: 13, title: "Зелень петрушки к пицце", weight: 3, price: 12, category: 1},
-                    {id: 14, title: "Зелень укропа к пицце", weight: 3, price: 12, category: 1},
-                    {id: 15, title: "Балык мясной", weight: 40, price: 50, category: 2},
-                    {id: 16, title: "Курица", weight: 50, price: 55, category: 2},
-                    {id: 17, title: "Охотничьи колбаски", weight: 50, price: 55, category: 2},
-                    {id: 18, title: "Салями", weight: 40, price: 50, category: 2},
-                    {id: 19, title: "Бекон", weight: 40, price: 50, category: 2},
-                    {id: 20, title: "Салями острая пепперони", weight: 25, price: 55, category: 2},
-                    {id: 21, title: "Кальмары", weight: 50, price: 85, category: 3},
-                    {id: 22, title: "Крабовые палочки", weight: 50, price: 40, category: 3},
-                    {id: 23, title: "Семга", weight: 40, price: 135, category: 3},
-                    {id: 24, title: "Ди Маре", weight: 150, price: 135, category: 3},
-                    {id: 25, title: "Твердый сыр", weight: 70, price: 55, category: 4},
-                    {id: 26, title: "Фета", weight: 50, price: 60, category: 4},
-                    {id: 27, title: "Пармезан", weight: 15, price: 40, category: 4},
-                    {id: 28, title: "Моцарелла", weight: 60, price: 60, category: 4},
-                ]
+                message:'',
+                pizza_base: 59,
+                summary_count: 0,
+                summary_weight: 0,
+                summary_price: 0,
+                price: 0,
+                weight: 0,
+                fillings: []
             }
         },
+        watch: {
+            pizza_base: function (newVal, oldVal) {
+                if (oldVal)
+                    this.removeItem(oldVal)
+                if (newVal)
+                    this.addItem(newVal)
+            },
+            summary_count: function (val) {
+                this.summary_price = this.price * this.summary_count
+                this.summary_weight = this.weight * this.summary_count
+            },
+            fillings: function (val) {
+                console.log(val)
+                window
+                    .api
+                    .watchForFillings(this, val)
+
+
+            }
+        },
+        mounted() {
+            window
+                .api
+                .prepareCheckedItems(this, [1, 2, 3, 4, 8])
+
+        },
         methods: {
+            comingSoon(){
+                this.message = "Данный сервис будет доступен в ближайшее время!"
+                this.sendMessage(
+                    "Сервис еще недоступен!"
+                )
+            },
+            decrementSummary() {
+                window
+                    .api
+                    .decrementSummary(this)
+            },
+            incrementSummary() {
+                window
+                    .api
+                    .incrementSummary(this)
+            },
+            hasManyItems(id) {
+                return window
+                    .api
+                    .hasManyItems(this, id)
+            },
+            removeItem(id) {
+                window
+                    .api
+                    .removeItem(this, id)
+            },
+            addItem(id) {
+                window
+                    .api
+                    .addItem(this, id)
+            },
             getCategory(id) {
-                return this.filling_categories.filter(item => item.id === id)[0]
+                return window
+                    .api
+                    .getCategory(this, id)
             },
             getFilling(type) {
-                return this.filling.filter(item => item.category === type)
-            }
+                return window
+                    .api
+                    .getFilling(this, type)
+
+            },
+            sendMessage(message) {
+                this.$notify({
+                    group: 'info',
+                    type: 'success',
+                    title: 'Калькулятор вкусняшек Fastoran',
+                    text: message
+                });
+            },
+
         }
     }
 </script>

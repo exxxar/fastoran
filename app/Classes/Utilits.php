@@ -179,12 +179,6 @@ trait Utilits
                 'device_id' => 'active'
             ]);
 
-        } catch (SmsNotSentException $e) {
-            Log::error(sprintf("%s:%s %s",
-                $e->getLine(),
-                $e->getFile(),
-                $e->getMessage()
-            ));
         } catch (\Exception $e) {
             Log::error(sprintf("%s:%s %s",
                 $e->getLine(),
