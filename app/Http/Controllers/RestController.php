@@ -35,7 +35,7 @@ class RestController extends Controller
 
         $random_menus = $products
             ->shuffle()
-            ->take(12);
+            ->take(16);
 
         return view("mobile.pages.index", compact("random_menus"));
 
