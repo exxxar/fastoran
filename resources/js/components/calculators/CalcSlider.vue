@@ -10,12 +10,14 @@
                         <li><img @click="changeCalc(1)"
                                  src="https://sun9-70.userapi.com/c857036/v857036007/13eea3/5ttvuSSqtOo.jpg"
                                  class="slide-item" alt=""></li>
-                        <!--
-                                                <li><img @click="changeCalc(2)" src="https://sun9-25.userapi.com/c853628/v853628795/20a6b5/TsC0AOrG9B4.jpg" class="slide-item" alt=""></li>
-                                                <li><img @click="changeCalc(3)" src="https://sun9-8.userapi.com/c853628/v853628795/20a69a/a-NFYnkkcFQ.jpg" class="slide-item" alt=""></li>
-                                                <li><img @click="changeCalc(4)" src="https://sun9-57.userapi.com/c853628/v853628795/20a6ac/9evk9dyjNRg.jpg" class="slide-item" alt=""></li>
 
-                        -->
+                        <li><img @click="changeCalc(2)"
+                                 src="https://sun9-25.userapi.com/c853628/v853628795/20a6b5/TsC0AOrG9B4.jpg"
+                                 class="slide-item" alt=""></li>
+                        <!--                     <li><img @click="changeCalc(3)" src="https://sun9-8.userapi.com/c853628/v853628795/20a69a/a-NFYnkkcFQ.jpg" class="slide-item" alt=""></li>
+                                             <li><img @click="changeCalc(4)" src="https://sun9-57.userapi.com/c853628/v853628795/20a6ac/9evk9dyjNRg.jpg" class="slide-item" alt=""></li>
+
+                     -->
 
                     </ul>
 
@@ -61,7 +63,7 @@
         background-position: center center;
 
         & > .container {
-            padding:20px;
+            padding: 20px;
         }
 
     }
