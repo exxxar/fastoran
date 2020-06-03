@@ -22,9 +22,7 @@
                     </ul>
 
                     <h2 class="text-center text-white mb-5">
-                        <mark><countdown :time="5 * 24 * 60 * 60 * 1000">
-                            <template slot-scope="props">Запуск услуги через: {{ props.days }} дней, {{ props.hours }} часов, {{ props.minutes }} минут</template>
-                        </countdown></mark>
+                        <mark>Услуга будет доступна в ближайшее время</mark>
                     </h2>
                     <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
 
@@ -43,7 +41,6 @@
        // optional style for arrows & dots
        import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'*/
     import ChelentanoCalc from "./ChelentanoCalc";
-    import Countdown from '@chenfengyuan/vue-countdown';
 
     export default {
 
@@ -58,7 +55,7 @@
             }
         },
         components: {
-            ChelentanoCalc,Countdown
+            ChelentanoCalc
         }
     }
 </script>
