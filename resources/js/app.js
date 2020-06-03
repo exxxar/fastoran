@@ -74,6 +74,8 @@ Vue.component('promo-block', require('./components/PromoBlock.vue').default);
 Vue.component('chelentano-calc', require('./components/calculators/ChelentanoCalc.vue').default);
 Vue.component('calc-slider', require('./components/calculators/CalcSlider.vue').default);
 Vue.component('roll-calc', require('./components/calculators/RollCalc.vue').default);
+Vue.component('isushi-calc', require('./components/calculators/IsushiCalc.vue').default);
+
 //Vue.component('simple-order', require('./components/SimpleOrder.vue').default);
 
 //Admin

@@ -11,6 +11,20 @@ export default {
 
         return this
     },
+    clearCalck(self){
+        self.message = "Настройки сброшены в исходные!"
+        clearTimeout(self.timer)
+        self.timer = setTimeout(() => {
+            self.message = ''
+        }, 5000)
+
+        self.summary_count = 0
+        self.fillings = []
+
+        self.sendMessage(
+            "Настройки сброшены в исходные!"
+        )
+    },
     decrementSummary(self) {
         self.summary_count -= self.summary_count >= 1 ? 1 : 0;
     },

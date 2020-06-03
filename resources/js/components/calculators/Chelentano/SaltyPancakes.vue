@@ -53,9 +53,17 @@
                 <p class="text-center  mt-4" v-if="message.length>0"><mark class="text-white">{{message}}</mark></p>
                 <div class="d-flex justify-content-center mt-4">
 
-                    <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
-                        Добавить в корзину
-                    </button>
+                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                        <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
+                            В корзину
+                        </button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                        <button class="food__btn" @click="clearCalc">
+                            Очистить
+                        </button>
+                    </div>
+
                 </div>
 
 
@@ -67,6 +75,7 @@
     export default {
         data() {
             return {
+                timer: null,
                 message:'',
                 summary_count: 0,
                 summary_weight: 0,
@@ -95,6 +104,15 @@
                 .prepareCheckedItems(this, [7])
         },
         methods: {
+            clearCalc() {
+                window
+                    .api
+                    .clearCalck(this)
+
+                window
+                    .api
+                    .prepareCheckedItems(this, [7])
+            },
             comingSoon(){
                 this.message = "Данный сервис будет доступен в ближайшее время!"
                 this.sendMessage(

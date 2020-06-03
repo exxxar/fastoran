@@ -23,7 +23,7 @@
 
                     <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
 
-                    <roll-calc v-if="slideIndex===2"></roll-calc>
+                    <isushi-calc v-if="slideIndex===2"></isushi-calc>
 
 
                 </div>

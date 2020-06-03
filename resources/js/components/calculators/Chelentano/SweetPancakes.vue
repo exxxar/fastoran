@@ -84,12 +84,22 @@
                     </ul>
                 </div>
 
-                <p class="text-center mt-4" v-if="message.length>0"><mark class="text-white">{{message}}</mark></p>
+                <p class="text-center mt-4" v-if="message.length>0">
+                    <mark class="text-white">{{message}}</mark>
+                </p>
                 <div class="d-flex justify-content-center mt-4">
 
-                    <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
-                        Добавить в корзину
-                    </button>
+                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                        <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
+                           В корзину
+                        </button>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                        <button class="food__btn" @click="clearCalc">
+                            Очистить
+                        </button>
+                    </div>
+
                 </div>
 
 
@@ -102,8 +112,9 @@
     export default {
         data() {
             return {
-                message:'',
-                restInfo:null,
+                timer: null,
+                message: '',
+                restInfo: null,
                 summary_count: 0,
                 summary_weight: 0,
                 summary_price: 0,
@@ -129,13 +140,21 @@
             window
                 .api
                 .prepareCheckedItems(this, [5, 6])
-                .loadRestInfo(this,"chelentano_dn")
-
+                .loadRestInfo(this, "chelentano_dn")
 
 
         },
         methods: {
-            comingSoon(){
+            clearCalc() {
+                window
+                    .api
+                    .clearCalck(this)
+
+                window
+                    .api
+                    .prepareCheckedItems(this, [5,6])
+            },
+            comingSoon() {
                 this.message = "Данный сервис будет доступен в ближайшее время!"
                 this.sendMessage(
                     "Сервис еще недоступен!"
