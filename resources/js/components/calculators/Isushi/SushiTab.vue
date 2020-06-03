@@ -87,6 +87,10 @@
 
 
         <hr>
+        <p class="text-center mb-4"><em> <strong>Цена указана за 1 порцию роллов (вы заказали
+           <mark> {{summary_count}}</mark>
+            порций). Порция включает в себя 8 штук роллов общей массой <mark>{{weight}}</mark>
+            грамм.</strong></em></p>
         <div class="row d-flex justify-content-center result">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                 <h3 class="text-center">Сколько таких роллов сделать сделать?</h3>
@@ -96,6 +100,7 @@
                     <div class="btn-counter" @click="incrementSummary">+</div>
                 </div>
                 <hr>
+
                 <div class="d-flex justify-content-center">
                     <ul>
                         <li>Вес: <strong>{{summary_weight}} грамм</strong></li>
