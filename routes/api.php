@@ -111,6 +111,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('login_phone', 'AuthController@loginPhone');
         Route::post('signup_telegram', 'AuthController@signupTelegram');
+        Route::post('modify_telegram', 'AuthController@modifyTelegram');
         Route::post('signup_phone', 'AuthController@signupPhone')->name("api.signup.phone");
         Route::post('signup', 'AuthController@signup');
 

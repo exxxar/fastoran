@@ -53,6 +53,29 @@ class AuthController extends Controller
         ]);
     }
 
+    public function modifyTelegram(Request $request){
+
+        $request->validate([
+            'phone' => 'required',
+            'name' => 'nullable|string',
+            'telegram_chat_id' => 'required|string'
+        ]);
+
+        $user = User::where("phone", $request->phone)->withTrashed()->first();//$this->getUser();
+
+        $user->phone = $request->get("phone");
+        $user->name = $request->get("name")??"";
+        $user->telegram_chat_id = $request->get("telegram_chat_id");
+
+        $user->save();
+
+
+        return response()->json([
+            'message' => 'Пользователь успешно модифицирован!'
+        ], 200);
+
+    }
+
     public function signup(Request $request)
     {
         $request->validate([
