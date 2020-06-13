@@ -148,7 +148,7 @@
         <hr>
         <div class="row d-flex justify-content-center result">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <h3 class="text-center">Сколько таких пицц сделать сделать?</h3>
+                <h3 class="text-center">Сколько таких пицц сделать?</h3>
                 <div class="summary">
                     <div class="btn-counter" @click="decrementSummary">-</div>
                     <p>{{summary_count}}</p>
