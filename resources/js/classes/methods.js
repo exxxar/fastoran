@@ -86,7 +86,7 @@ export default {
     addToCart(self,title) {
 
         if (!this.checkFirstRestoran(self,self.restInfo.id)) {
-            this.message = "У вас в корзине лежит товар от другого заведения:(";
+            self.message = "У вас в корзине лежит товар от другого заведения:(";
             self.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
             return;
         }
