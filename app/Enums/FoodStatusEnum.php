@@ -16,4 +16,5 @@ final class FoodStatusEnum extends Enum
     const InTheTop =   2;
     const BestSeller = 3;
     const NewFood = 4;
+    const CustomFood = 5;
 }

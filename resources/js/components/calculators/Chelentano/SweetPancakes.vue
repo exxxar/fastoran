@@ -87,11 +87,11 @@
                 <p class="text-center mt-4" v-if="message.length>0">
                     <mark class="text-white">{{message}}</mark>
                 </p>
-                <div class="d-flex justify-content-center mt-4">
+                <div class="d-flex justify-content-center mt-4 flex-wrap-wrap">
 
                     <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                        <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
-                           В корзину
+                        <button class="food__btn" :disabled="summary_count===0" @click="addToCart">
+                            В корзину
                         </button>
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
@@ -148,30 +148,23 @@
             clearCalc() {
                 window
                     .api
-                    .clearCalck(this)
+                    .clearCalc(this)
 
                 window
                     .api
-                    .prepareCheckedItems(this, [5,6])
+                    .prepareCheckedItems(this, [5, 6])
             },
             comingSoon() {
+
                 this.message = "Данный сервис будет доступен в ближайшее время!"
                 this.sendMessage(
                     "Сервис еще недоступен!"
                 )
             },
             addToCart() {
-                let product = {
-                    food_ext: this.weight,
-                    food_img: this.restInfo.logo,
-                    food_name: "Собранный сладкий блинчик",
-                    food_price: this.price,
-                    food_remark: "Состав: картофель\n\nВес: 200 грамм.\n\nЦена: 100 рублей.\n\n#мангал",
-                    rest_id: this.restInfo.id,
-                    restoran: this.restInfo,
-                };
-
-                this.$store.dispatch('addProductToCart', product)
+              window
+                .api
+                .addToCart(this,`Собранный сладкий блинчик`)
             },
             decrementSummary() {
                 window
@@ -238,7 +231,9 @@
     h2,
     h3 {
         mark {
-            color: white;
+            background: transparent;
+            border-bottom:2px #d50c0d solid;
+            //color: white;
         }
     }
 

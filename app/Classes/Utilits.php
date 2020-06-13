@@ -234,7 +234,7 @@ trait Utilits
             $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
 
             $data = $data->getResponse();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error(sprintf("%s:%s %s",
                 $e->getLine(),
                 $e->getFile(),
@@ -264,8 +264,7 @@ trait Utilits
                     'inline_keyboard' => $keyboard
                 ])
             ]);
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             Log::error(sprintf("%s:%s %s",
                 $e->getLine(),
                 $e->getFile(),
@@ -347,11 +346,13 @@ trait Utilits
     {
         $delivery_order_tmp = "";
 
+
         foreach ($order_details as $od) {
 
             $emptyProductId = true;
             if (isset($od["product_id"])) {
                 $emptyProductId = false;
+
 
                 $product = RestMenu::find($od["product_id"]);
                 $product_price = $this->getPriceWithDiscountByCode($code, $product->id, $user->id);
@@ -373,13 +374,22 @@ trait Utilits
 
             }
 
-            $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
-                $detail->product_details["id"],
-                $detail->product_details["food_name"],
-                $detail->more_info ?? '-',
-                $detail->count,
-                $detail->product_details["food_price"]
-            );
+            if ($detail->product_details["food_status"] !== 5)
+                $local_tmp = sprintf("#%s %s (%s) %s шт. %s руб.\n",
+                    $detail->product_details["id"],
+                    $detail->product_details["food_name"],
+                    $detail->more_info ?? '-',
+                    $detail->count,
+                    $detail->product_details["food_price"]
+                );
+            else
+                $local_tmp = sprintf("%s %s (%s) %s шт. %s руб.\n",
+                    $detail->product_details["food_name"],
+                    $detail->product_details["food_remark"],
+                    $detail->more_info ?? '-',
+                    $detail->count,
+                    $detail->product_details["food_price"]
+                );
 
             $delivery_order_tmp .= $local_tmp;
         }

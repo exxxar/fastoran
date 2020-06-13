@@ -21,9 +21,6 @@
 
                     </ul>
 
-                    <h2 class="text-center text-white mb-5">
-                        <mark>Услуга будет доступна в ближайшее время</mark>
-                    </h2>
                     <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
 
                     <isushi-calc v-if="slideIndex===2"></isushi-calc>

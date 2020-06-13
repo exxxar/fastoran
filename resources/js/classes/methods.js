@@ -1,8 +1,9 @@
 export default {
 
     loadRestInfo(self, domain) {
+
         window
-        axios
+            .axios
             .get(`/api/v1/rest/${domain}`)
             .then(resp => {
                 self.restInfo = resp.data.restoran
@@ -11,8 +12,8 @@ export default {
 
         return this
     },
-    clearCalck(self){
-        self.message = "Настройки сброшены в исходные!"
+    clearCalc(self) {
+        self.message = "Пространство для творчество обновлено!"
         clearTimeout(self.timer)
         self.timer = setTimeout(() => {
             self.message = ''
@@ -73,6 +74,59 @@ export default {
     },
     getFilling(self, type) {
         return self.$store.getters.getIngredientsFilling(type)
+    },
+    getFillingById(self, id) {
+        return self.$store.getters.getIngredientById(id)
+    },
+    addToCart(self,title) {
+        let tmp_info = '';
+
+        let map_fill = new Map();
+
+        self.fillings.forEach((item, index) => {
+            let ingr = this.getFillingById(self, item)
+            let title = `${ingr.title} (${ingr.weight} гр.)`
+            if (map_fill.has(title)) {
+                let count = map_fill.get(title)
+                count++
+                map_fill.set(title, count)
+
+            } else
+                map_fill.set(title, 1);
+
+        })
+
+        map_fill.forEach(function (value, key) {
+            tmp_info += `${key} x${value}\n`
+
+        });
+
+
+        var uniqid = require('uniqid');
+
+        let product = {
+            id:uniqid(),
+            food_ext: self.weight,
+            food_img: self.restInfo.logo,
+            food_name: title,
+            food_price: self.price,
+            food_remark: `\nСостав: ${tmp_info} `,
+            food_status: 5,
+            rest_id: self.restInfo.id,
+            restoran: self.restInfo,
+
+        };
+
+        for (let i = 0; i < self.summary_count; i++)
+            self.$store.dispatch('addProductToCart', product)
+
+        self.sendMessage(
+            "Ваш кулинарный шедевр добавлен в корзину!"
+        )
+        self.message = "Ваш кулинарный шедевр добавлен в корзину!"
+
+        setTimeout(()=>self.clearCalc(),2000)
+
     },
 }
 

@@ -26,7 +26,7 @@
 
             </div>
         </div>
-        <hr>
+
         <h2 class="text-center">
             <mark>А теперь выбираем начинку пиццы...</mark>
         </h2>
@@ -166,7 +166,7 @@
                 <div class="d-flex justify-content-center mt-4">
 
                     <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                        <button class="food__btn" :disabled="summary_count===0" @click="comingSoon">
+                        <button class="food__btn" :disabled="summary_count===0" @click="addToCart">
                             В корзину
                         </button>
                     </div>
@@ -223,17 +223,23 @@
             window
                 .api
                 .prepareCheckedItems(this, [1, 2, 3, 4, 8])
+                .loadRestInfo(this, "chelentano_dn")
 
         },
         methods: {
             clearCalc() {
                 window
                     .api
-                    .clearCalck(this)
+                    .clearCalc(this)
 
                 window
                     .api
                     .prepareCheckedItems(this, [1, 2, 3, 4, 8])
+            },
+            addToCart() {
+                window
+                    .api
+                    .addToCart(this,"Собранная пицца")
             },
             comingSoon(){
                 this.message = "Данный сервис будет доступен в ближайшее время!"
@@ -305,7 +311,9 @@
     h2,
     h3 {
         mark {
-            color: white;
+            background: transparent;
+            border-bottom:2px #d50c0d solid;
+            //color: white;
         }
     }
 
