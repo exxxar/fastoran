@@ -284,7 +284,7 @@
 
                     <div class="single-accordion">
                         <a class="accordion-head" data-toggle="collapse" data-parent="#checkout-accordion"
-                           href="#promocode" aria-expanded="true">4. Акционный прмокод</a>
+                           href="#promocode" aria-expanded="true">4. Акционный промокод</a>
 
                         <div id="promocode" class="collapse show" style="">
                             <div class="promocode accordion-body fix">
