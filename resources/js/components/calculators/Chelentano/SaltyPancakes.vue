@@ -96,6 +96,14 @@
                     .watchForFillings(this, val)
 
 
+            },
+            products: function (newVal, oldVal) {
+                return newVal
+            },
+        },
+        computed: {
+            products() {
+                return this.$store.getters.cartProducts;
             }
         },
         mounted() {

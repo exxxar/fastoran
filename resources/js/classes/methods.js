@@ -67,6 +67,8 @@ export default {
             })
         });
 
+
+
         return this;
     },
     getCategory(self, id) {
@@ -78,7 +80,17 @@ export default {
     getFillingById(self, id) {
         return self.$store.getters.getIngredientById(id)
     },
+    checkFirstRestoran(self,restId) {
+        return self.products.filter(item => item.product.rest_id !== restId).length === 0 || self.products.length === 0;
+    },
     addToCart(self,title) {
+
+        if (!this.checkFirstRestoran(self,self.restInfo.id)) {
+            this.message = "У вас в корзине лежит товар от другого заведения:(";
+            self.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
+            return;
+        }
+
         let tmp_info = '';
 
         let map_fill = new Map();

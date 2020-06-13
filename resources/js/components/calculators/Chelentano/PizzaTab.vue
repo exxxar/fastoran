@@ -200,6 +200,8 @@
             }
         },
         watch: {
+
+
             pizza_base: function (newVal, oldVal) {
                 if (oldVal)
                     this.removeItem(oldVal)
@@ -217,13 +219,29 @@
                     .watchForFillings(this, val)
 
 
+            },
+
+            products: function (newVal, oldVal) {
+                return newVal
+            },
+        },
+        computed: {
+            products() {
+                return this.$store.getters.cartProducts;
             }
         },
         mounted() {
+
             window
                 .api
                 .prepareCheckedItems(this, [1, 2, 3, 4, 8])
                 .loadRestInfo(this, "chelentano_dn")
+
+            let callback = (val, oldVal, uri) => {
+                this.$store.dispatch("getProductList")
+            }
+
+            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
 
         },
         methods: {

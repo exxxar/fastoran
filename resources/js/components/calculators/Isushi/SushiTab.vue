@@ -166,6 +166,15 @@
 
 
             }
+            ,
+            products: function (newVal, oldVal) {
+                return newVal
+            },
+        },
+        computed: {
+            products() {
+                return this.$store.getters.cartProducts;
+            }
         },
         mounted() {
             window
@@ -173,6 +182,11 @@
                 .prepareCheckedItems(this, [9, 10, 11])
                 .loadRestInfo(this, "isushi")
 
+            let callback = (val, oldVal, uri) => {
+                this.$store.dispatch("getProductList")
+            }
+
+            Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
             addToCart() {
