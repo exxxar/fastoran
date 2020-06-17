@@ -203,12 +203,22 @@ Route::get("/test_geo", function () {
     dd($data);
 
 });
-Route::get("/test_deliveryman", function () {
-    $orders = Order::with(["details", "restoran", "details.product", "user"])
-        ->where("deliveryman_id", 5)
-        ->get();
+Route::get("/test_description", function () {
 
-    dd($orders);
+  $description = "Состав:
+
+Тонкий армянский лаваш, жареная на углях свиная мякоть,свежая капуста, морковь маринованная по- корейски, маринованный огурчик, фирменные соусы – томатный и сливочный, свежий укроп и петрушка.
+
+Цена за 1 кг. - 672 рубля
+
+
+";
+    $weight = 0;//count($matches[0])>=2?($matches[0][0] ?? 0):0;
+
+    preg_match_all('/([0-9]+).грамм|([0-9]+).кг/i', $description, $media);
+
+   dd($media);
+
 });
 
 Route::get("/test_sms", function () {

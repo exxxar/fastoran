@@ -13,8 +13,9 @@
                     <h5><a href="https://d29u17ylf1ylz9.cloudfront.net/aahar/product-details.html"
                            class="product-name">{{item.product.food_name}}</a></h5>
                     <div class="product-counter">
-                        <p>Количество: {{item.quantity}}</p>
-                        <div class="buttons-group">
+                        <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
+                        <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
+                        <div class="buttons-group" v-if="item.product.food_status!==6">
                             <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
                                     @click="decrement(item.product)">-
                             </button>
@@ -23,7 +24,8 @@
                             </button>
                         </div>
                     </div>
-                    <span class="price">{{item.product.food_price| currency}} / {{item.product.food_price*item.quantity | currency }}</span>
+                    <span class="price" v-if="item.product.food_status!==6">{{item.product.food_price| currency}} / {{item.product.food_price*item.quantity | currency }}</span>
+                    <span class="price" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)/ {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}</span>
 
                 </div>
                 <button class="cartbox__item__remove" @click="remove(item.product.id)">
@@ -44,9 +46,7 @@
 
     export default {
         data() {
-            return {
-
-            }
+            return {}
         },
 
         mounted() {

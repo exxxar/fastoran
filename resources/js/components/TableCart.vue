@@ -41,10 +41,12 @@
                                         v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span></a>
                                     </td>
                                     <td class="product-price"><span
-                                        class="amount">{{item.product.food_price| currency}} </span></td>
+                                        class="amount" v-if="item.product.food_status!==6">{{item.product.food_price| currency}} </span>
+                                       <span class="amount" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)</span></td>
                                     <td class="product-quantity">
-                                        <p>Количество: {{item.quantity}}</p>
-                                        <div class="buttons-group">
+                                        <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
+                                        <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
+                                        <div class="buttons-group" v-if="item.product.food_status!==6">
                                             <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
                                                     @click="decrement(item.product)">-
                                             </button>
@@ -53,7 +55,11 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td class="product-subtotal">{{item.quantity*item.product.food_price| currency}}
+                                    <td class="product-subtotal" v-if="item.product.food_status!==6">
+                                        {{item.quantity*item.product.food_price| currency}}
+                                    </td>
+                                    <td class="product-subtotal" v-if="item.product.food_status===6">
+                                        {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}
                                     </td>
                                     <td class="product-remove"><a href="#">
                                         <button class="cartbox__item__remove" @click="remove(item.product.id)">
@@ -323,9 +329,11 @@
                                         <p class="strong">Всего</p></li>
 
 
-                                    <li v-for="item in  cartProducts"><p>{{item.product.food_name}}
-                                        x{{item.quantity}} </p>
-                                        <p>{{item.quantity*item.product.food_price| currency}}</p></li>
+                                    <li v-for="item in  cartProducts">
+                                        <p v-if="item.product.food_status!==6">{{item.product.food_name}} x{{item.quantity}} </p>
+                                        <p v-if="item.product.food_status===6">{{item.product.food_name}} массой {{item.weight}} грамм</p>
+                                        <p v-if="item.product.food_status!==6">{{item.quantity*item.product.food_price| currency}}</p>
+                                        <p v-if="item.product.food_status===6"> {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}</p></li>
 
                                     <li><p class="strong">Цена основного заказа</p>
                                         <p class="strong">{{cartTotalPrice| currency}}</p></li>

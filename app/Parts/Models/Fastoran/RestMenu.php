@@ -37,7 +37,7 @@ class RestMenu extends Model
 
 
     protected $appends = [
-        'rating', 'food_ext', 'rest_info'
+        'rating', 'rest_info'
     ];
 
     public function getRestInfoAttribute(){
@@ -59,10 +59,10 @@ class RestMenu extends Model
         return $this->hasOne(MenuCategory::class, 'id', 'food_category_id')->orderBy('LENGTH(name)', 'ASC');
     }
 
-    public function getFoodExtAttribute()
+  /*  public function getFoodExtAttribute()
     {
-        return ">=100 грамм";
-    }
+        return $this->food_ext;//">=100 грамм";
+    }*/
 
     public function getRatingAttribute()
     {

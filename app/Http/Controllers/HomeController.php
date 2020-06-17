@@ -95,7 +95,7 @@ class HomeController extends Controller
                             "name" => $cat
                         ]);
                     }
-                    $weight = 0;//count($matches[0])>=2?($matches[0][0] ?? 0):0;
+
 
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
@@ -106,13 +106,20 @@ class HomeController extends Controller
                     if (is_null($rest))
                         continue;
 
+
+
                     $description = $item2["description"];
+
+                    preg_match_all('/([0-9]+).грамм/i', $description, $media);
+
+                    $weight = count($matches)>=2?($media[1][0] ?? 0):0;
 
                     $food_status = [
                         "Акция!" => FoodStatusEnum::Promotion,
                         "Топ!" => FoodStatusEnum::InTheTop,
                         "Хит продаж!" => FoodStatusEnum::BestSeller,
                         "Новинка!" => FoodStatusEnum::NewFood,
+                        "На вес!" => FoodStatusEnum::WeightFood,
                     ];
 
                     $food_status_index = null;

@@ -1,57 +1,87 @@
 <template>
-    <div class="product-btn-box" >
-        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&!hasSub()"
-           @click="addToCart()"><i class="fas fa-cart-plus"></i></a>
+    <div class="product-btn-box">
+        <div style="width:100%;" v-if="product_data.food_status!==6">
+            <a class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&!hasSub()"
+               @click="addToCart()"><i class="fas fa-cart-plus"></i></a>
 
-        <a href="#add_to_cart" class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&hasSub()"
-           @click="openSubMenu()"><i class="fas fa-cart-plus"></i></a>
-
-
-        <a href="#info" v-b-tooltip.hover :title="product_data.food_remark"
-           class="btn_a btn_link btn-show-info"
-           v-if="inCart()===0"
-           :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
+            <a class="btn_a btn_link btn-add-to-cart" v-if="inCart()===0&&hasSub()"
+               @click="openSubMenu()"><i class="fas fa-cart-plus"></i></a>
 
 
-        <div v-if="product_id!=null">
-            <b-modal :id="'modal-submenu-'+product_id" hide-footer no-stacking>
+            <a v-b-tooltip.hover :title="product_data.food_remark"
+               class="btn_a btn_link btn-show-info"
+               v-if="inCart()===0"
+               :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
+
+
+            <div v-if="product_id!=null">
+                <b-modal :id="'modal-submenu-'+product_id" hide-footer no-stacking>
+
+                    <template v-slot:modal-title>
+                        <h3>Выбор подкатегории</h3>
+                    </template>
+                    <div class="d-block text-center">
+
+
+                        <b-form-checkbox-group :id="'modal-submenu-check-'+product_id" v-model="selected"
+                                               name="flavour-2">
+
+                            <li class="sub-item" v-for="sub in getFoodSub()">
+
+                                <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
+                                </b-form-checkbox>
+
+                            </li>
+                        </b-form-checkbox-group>
+
+
+                    </div>
+                    <b-button class="mt-3 btn-food" :disabled="selected==null||selected.length===0" block
+                              @click="addToCartWithSub">Добавить
+                    </b-button>
+
+
+                </b-modal>
+            </div>
+
+
+            <div class="cnt-container" v-if="inCart()>0">
+                <button class="btn btn-coutner" @click="decProduct()">
+                    -
+                </button>
+                <p v-html="inCart()"></p>
+                <button class="btn btn-coutner" @click="incProduct()">
+                    <span>+</span>
+                </button>
+            </div>
+        </div>
+
+        <div v-else style="width:100%;" class="d-flex justify-content-flex-end">
+
+            <p class="text-left" v-if="inCart()!==0">Выбрано: {{inCartWeight()}} грамм</p>
+            <p class="text-left" v-if="inCart()===0">Товар на вес! {{product_data.food_price}}₽ за {{product_data.food_ext}} грамм</p>
+            <a class="btn_a btn_link btn-add-to-cart"
+               @click="openWeightModal()"><i class="fas fa-cart-plus"></i></a>
+
+
+            <a v-b-tooltip.hover :title="product_data.food_remark"
+               class="btn_a btn_link btn-show-info"
+               :id="'menu'+product_id" :data-target="'menu'+product_id"><i class="fas fa-info-circle"></i></a>
+
+            <b-modal :id="'modal-weight-'+product_id" hide-footer no-stacking>
 
                 <template v-slot:modal-title>
-                    <h3>Выбор подкатегории</h3>
+                    <h3>Укажие вес продукта</h3>
                 </template>
                 <div class="d-block text-center">
-
-
-                    <b-form-checkbox-group :id="'modal-submenu-check-'+product_id" v-model="selected" name="flavour-2">
-
-                        <li class="sub-item" v-for="sub in getFoodSub()">
-
-                            <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
-                            </b-form-checkbox>
-
-                        </li>
-                    </b-form-checkbox-group>
-
-
+                    <input type="number" min="100" max="10000" class="form-control" v-model="weight">
                 </div>
-                <b-button class="mt-3 btn-food" :disabled="selected==null||selected.length===0" block @click="addToCartWithSub">Добавить
+                <b-button class="mt-3 btn-food"  block @click="addToCartWithWeight">Добавить
                 </b-button>
 
 
             </b-modal>
         </div>
-
-
-        <div class="cnt-container" v-if="inCart()>0">
-            <button class="btn btn-coutner" @click="decProduct()">
-                -
-            </button>
-            <p v-html="inCart()"></p>
-            <button class="btn btn-coutner" @click="incProduct()">
-                <span>+</span>
-            </button>
-        </div>
-
 
     </div>
 </template>
@@ -60,7 +90,8 @@
         props: ["product_id", "product_data"],
         data() {
             return {
-                selected: null
+                selected: null,
+                weight:100,
             }
         },
         watch: {
@@ -82,7 +113,19 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
-
+            openWeightModal(){
+                this.$bvModal.show("modal-weight-" + this.product_id)
+              console.log("Test");
+            },
+            addToCartWithWeight(){
+                if (!this.checkFirstRestoran(this.product_data.rest_id)) {
+                    this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
+                    return;
+                }
+                this.$store.dispatch("addProductToCartWithWeight", {product: this.product_data, weight: this.weight})
+                this.$bvModal.hide("modal-weight-" + this.product_id)
+                this.sendMessage("Весовой товар добавлен в корзину!")
+            },
             addToCartWithSub() {
                 this.addToCart()
 
@@ -106,6 +149,10 @@
             },
             checkFirstRestoran(restId) {
                 return this.products.filter(item => item.product.rest_id !== this.product_data.rest_id).length === 0 || this.products.length === 0;
+            },
+            inCartWeight(){
+                let tmp = this.products.filter(item => item.product.id === this.product_id);
+                return tmp.length === 0 ? 0 : tmp[0].weight
             },
             inCart() {
                 let tmp = this.products.filter(item => item.product.id === this.product_id);
@@ -159,6 +206,7 @@
         width: 100%;
         margin-bottom: 5px;
     }
+
     .btn-food {
         background: #e3342f;
         border: none;
