@@ -81,7 +81,8 @@ Auth::routes(['register' => false]);
 Route::get('/profile', 'Fastoran\\OrderController@getOrderHistory')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/vkontakte', "HomeController@uploadVk");
+
+Route::get('/vkontakte', "HomeController@uploadVk")->middleware('auth');
 
 
 Route::prefix('admin')->group(function () {

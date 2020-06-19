@@ -1,23 +1,39 @@
 <template>
     <div>
-        <h1 class="text-center mt-4 mb-4">Собираем вкусную пиццу</h1>
+        <h1 class="text-center mt-4 mb-4">Собираем вкусный хот-дог</h1>
+
+        <em>
+            <ol class="mb-2">
+                <li>Есть хот-дог в булочке только руками, использование столовых приборов недопустимо</li>
+                <li>Приправу, оставшуюся на пальцах, нельзя смывать, нужно облизать пальцы</li>
+                <li>"Горячую собаку" можно есть когда угодно: хоть на завтрак, хоть на обед, хоть на праздник и в любое
+                    время года
+                </li>
+            </ol>
+        </em>
 
         <h2 class="text-center">
-            <mark>Выбираем основу пиццы...</mark>
+            <mark>Выбираем основу</mark>
         </h2>
-        <div class="row mt-4 mb-4">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(8)">
-                <div class="container-wrapper">
-                    <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
+        <div class="row mt-4 mb-4 hot-dog-calc">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(12)">
+                <div class="container-wrapper mb-2 pt-5">
+                    <label class="container text-center">
+
+                        <h4>{{fill.title}}</h4>
+                        <em>{{fill.description}}</em>
+                        <br>
+                        <span
+                            class="badge badge-weight">{{fill.weight}} гр.</span><span
                         class="badge">{{fill.price | currency}}</span>
 
 
-                        <input v-if="fill.checked" checked="checked" type="radio" name="pizza_base"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="pizza_base"  :value="fill.id">
-                        <input v-else type="radio" name="pizza_base"
+                        <input v-if="fill.checked" checked="checked" type="radio" name="roll_coating"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="roll_coating"
+                               :value="fill.id">
+                        <input v-else type="radio" name="roll_coating"
                                :disabled="fill.disabled||hasManyItems(fill.id)>1"
-                               v-model="pizza_base"  :value="fill.id">
+                               v-model="roll_coating" :value="fill.id">
                         <span class="checkmark"></span>
 
 
@@ -29,98 +45,12 @@
         </div>
 
         <h2 class="text-center">
-            <mark>А теперь выбираем начинку пиццы...</mark>
+            <mark>Можешь добавить это</mark>
         </h2>
 
         <div class="row mt-4">
-            <div class="col-12 col-sm-12 col-md-6">
-                <h3 class="text-left mb-4">
-                    <mark>{{getCategory(1).title}}</mark>
-                </h3>
-                <div class="container-wrapper" v-for="fill in getFilling(1)">
-                    <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
-                        class="badge">{{fill.price | currency}}</span>
-                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
-                        <input v-else type="checkbox" name="filling" :value="fill.id"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
-                               v-model="fillings">
-                        <span class="checkmark"></span>
-                    </label>
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(13)">
 
-                    <div v-if="!fill.disabled">
-                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
-                            <div class="counter">
-                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
-                                <p>{{hasManyItems(fill.id)}}</p>
-                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="col-12 col-sm-12 col-md-6">
-                <h3 class="text-left mb-4">
-                    <mark>{{getCategory(2).title}}</mark>
-                </h3>
-                <div class="container-wrapper" v-for="fill in getFilling(2)">
-                    <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
-                        class="badge">{{fill.price | currency}}</span>
-                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
-                        <input v-else type="checkbox" name="filling" :value="fill.id"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
-                               v-model="fillings">
-                        <span class="checkmark"></span>
-                    </label>
-
-                    <div v-if="!fill.disabled">
-                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
-                            <div class="counter">
-                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
-                                <p>{{hasManyItems(fill.id)}}</p>
-                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h3 class="text-left mb-4 mt-4">
-                    <mark>{{getCategory(3).title}}</mark>
-                </h3>
-                <div class="container-wrapper" v-for="fill in getFilling(3)">
-                    <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
-                        class="badge">{{fill.price | currency}}</span>
-                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
-                        <input v-else type="checkbox" name="filling" :value="fill.id"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
-                               v-model="fillings">
-                        <span class="checkmark"></span>
-                    </label>
-
-                    <div v-if="!fill.disabled">
-                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
-                            <div class="counter">
-                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
-                                <p>{{hasManyItems(fill.id)}}</p>
-                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h3 class="text-left mb-4 mt-4">
-            <mark>{{getCategory(4).title}}</mark>
-        </h3>
-        <div class="row mt-4">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(4)">
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
                         class="badge badge-weight">{{fill.weight}} гр.</span><span
@@ -144,18 +74,59 @@
                     </div>
                 </div>
 
+
             </div>
+
         </div>
+
+
+        <h2 class="text-center">
+            <mark>С этим точно вкуснее будет</mark>
+        </h2>
+
+        <div class="row mt-4">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(14)">
+
+                <div class="container-wrapper">
+                    <label class="container">{{fill.title}}<span
+                        class="badge badge-weight">{{fill.weight}} гр.</span><span
+                        class="badge">{{fill.price | currency}}</span>
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
+                        <input v-else type="checkbox" name="filling" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings">
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <div v-if="!fill.disabled">
+                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
+                            <div class="counter">
+                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
+                                <p>{{hasManyItems(fill.id)}}</p>
+                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
         <hr>
         <div class="row d-flex justify-content-center result">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <h3 class="text-center">Сколько таких пицц сделать?</h3>
+                <h3 class="text-center">Сколько таких хот-догов сделать?</h3>
                 <div class="summary">
                     <div class="btn-counter" @click="decrementSummary">-</div>
                     <p>{{summary_count}}</p>
                     <div class="btn-counter" @click="incrementSummary">+</div>
                 </div>
                 <hr>
+
                 <div class="d-flex justify-content-center">
                     <ul>
                         <li>Вес: <strong>{{summary_weight}} грамм</strong></li>
@@ -163,7 +134,9 @@
                     </ul>
                 </div>
 
-                <p class="text-center  mt-4" v-if="message.length>0"><mark class="text-white">{{message}}</mark></p>
+                <p class="text-center  mt-4" v-if="message.length>0">
+                    <mark class="text-white">{{message}}</mark>
+                </p>
                 <div class="d-flex justify-content-center flex-wrap mt-4">
 
                     <div class="col-12 col-sm-6 col-md-6 d-flex justify-content-center">
@@ -190,9 +163,10 @@
     export default {
         data() {
             return {
+                cat: [12, 13, 14],
                 timer: null,
-                message:'',
-                pizza_base: 59,
+                message: '',
+                roll_coating: 77,
                 summary_count: 0,
                 summary_weight: 0,
                 summary_price: 0,
@@ -202,9 +176,7 @@
             }
         },
         watch: {
-
-
-            pizza_base: function (newVal, oldVal) {
+            roll_coating: function (newVal, oldVal) {
                 if (oldVal)
                     this.removeItem(oldVal)
                 if (newVal)
@@ -215,14 +187,14 @@
                 this.summary_weight = this.weight * this.summary_count
             },
             fillings: function (val) {
-                console.log(val)
+                console.log(this.fillings.length)
                 window
                     .api
                     .watchForFillings(this, val)
 
 
-            },
-
+            }
+            ,
             products: function (newVal, oldVal) {
                 return newVal
             },
@@ -233,20 +205,23 @@
             }
         },
         mounted() {
-
             window
                 .api
-                .prepareCheckedItems(this, [1, 2, 3, 4, 8])
-                .loadRestInfo(this, "chelentano_dn")
+                .prepareCheckedItems(this, this.cat)
+                .loadRestInfo(this, "isushi")
 
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("getProductList")
             }
 
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
-
         },
         methods: {
+            addToCart() {
+                window
+                    .api
+                    .addToCart(this, "Собранный хот-дог")
+            },
             clearCalc() {
                 window
                     .api
@@ -254,14 +229,9 @@
 
                 window
                     .api
-                    .prepareCheckedItems(this, [1, 2, 3, 4, 8])
+                    .prepareCheckedItems(this, this.cat)
             },
-            addToCart() {
-                window
-                    .api
-                    .addToCart(this,"Собранная пицца")
-            },
-            comingSoon(){
+            comingSoon() {
                 this.message = "Данный сервис будет доступен в ближайшее время!"
                 this.sendMessage(
                     "Сервис еще недоступен!"
@@ -312,6 +282,7 @@
                 });
             },
 
+
         }
     }
 </script>
@@ -328,11 +299,21 @@
     }
 
 
+    .hot-dog-calc .checkmark {
+        position: absolute;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        position: absolute;
+        left: 50%;
+        top: -30px;
+    }
+
     h2,
     h3 {
         mark {
             background: transparent;
-            border-bottom:2px #d50c0d solid;
+            border-bottom: 2px #d50c0d solid;
             //color: white;
         }
     }

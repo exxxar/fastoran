@@ -111,15 +111,16 @@
                 <p class="text-center  mt-4" v-if="message.length>0">
                     <mark class="text-white">{{message}}</mark>
                 </p>
-                <div class="d-flex justify-content-center mt-4">
+                <div class="d-flex justify-content-center flex-wrap mt-4">
 
-                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                        <button class="food__btn" :disabled="summary_count===0" @click="addToCart">
+                    <div class="col-12 col-sm-6 col-md-6 d-flex justify-content-center">
+                        <button class="food__btn w-100 mt-2" :disabled="summary_count===0" @click="addToCart">
                             В корзину
                         </button>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                        <button class="food__btn" @click="clearCalc">
+
+                    <div class="col-12 col-sm-6 col-md-6 d-flex justify-content-center">
+                        <button class="food__btn w-100 mt-2" @click="clearCalc">
                             Очистить
                         </button>
                     </div>

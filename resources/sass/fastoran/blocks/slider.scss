@@ -40,6 +40,11 @@
 				@include flexbox();
 				@include justify-content(center);
 				margin-top: 46px;
+
+                input[type='number'] {
+                    -moz-appearance: textfield;
+                }
+
 				input{
 					background: #d50c0d none repeat scroll 0 0;
 				    border: 1px solid #d50c0d;
@@ -55,7 +60,15 @@
 				    outline: none;
 					&.res__search{
 						width: 400px;
+                        background: #040404 none repeat scroll 0 0;
+                        border: 3px solid #d50c0d;
+
 					}
+
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                    }
 				}
 				.src__btn{
 					margin-left: 3px;

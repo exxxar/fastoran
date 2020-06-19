@@ -19,13 +19,17 @@
 
                      -->
 
+                        <li><img @click="changeCalc(3)"
+                                 src="https://sun9-65.userapi.com/c854024/v854024983/244a31/AFKYPzAim-s.jpg"
+                                 class="slide-item" alt=""></li>
                     </ul>
 
                     <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
 
-                    <!--<isushi-calc v-if="slideIndex===2"></isushi-calc>-->
+                    <isushi-calc v-if="slideIndex===2"></isushi-calc>
 
 
+                    <burger-bar-calc v-if="slideIndex===3"></burger-bar-calc>
                 </div>
             </div>
         </div>

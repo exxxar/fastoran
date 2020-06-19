@@ -11,6 +11,9 @@ const state = {
         {id: 9, title: "Верхнее покрытие ролла"},
         {id: 10, title: "Начинка ролла"},
         {id: 11, title: "Основа ролла"},
+        {id: 12, title: "Хот-дог"},
+        {id: 13, title: "Добавки к хот-догу"},
+        {id: 14, title: "Вместе с хот-догом"},
     ],
     filling: [
         {id: 1, title: "Грибы жаренные", weight: 50, price: 45, category: 1, checked:false, disabled:false},
@@ -119,7 +122,38 @@ const state = {
         {id: 98, title: "Айсберг", weight: 30, price:15, category: 10, checked:false, disabled:false},
         {id: 99, title: "Лук зелёный", weight: 30, price:10, category: 10, checked:false, disabled:false},
         {id: 100, title: "Соус спайси", weight: 30, price:15, category: 10, checked:false, disabled:false},
-        {id: 101, title: "Майонез", weight: 30, price:10, category: 10, checked:false, disabled:false}
+        {id: 101, title: "Майонез", weight: 30, price:10, category: 10, checked:false, disabled:false},
+
+        {id: 102, title: 'Классический',description:'пшеничная булочка, сосиска фирменная, огурец соленый, морковь по-корейски, кетчуп, майонез, горчица',weight: 260, price:95, category: 12, checked:false, disabled:false },
+        {id: 103, title: 'Цезарь',description:'пшеничная булочка, сосиска куриная в беконе, томаты, сыр Пармезан, айсберг, соус "Цезарь", горчица',weight: 280, price:279, category: 12, checked:false, disabled:false },
+        {id: 104, title: 'Black Angus',description:'пшенично-солодовая булочка, колбаски из говядины "Black Angus", томаты, лук-конфи, айсберг, соус "BBQ", горчица, кунжут',weight: 280, price:219, category: 12, checked:false, disabled:false },
+        {id: 105, title: 'Blue shrimp with cheese',description:'пшенично-солодовая булочка, хвосты креветок фри, айсберг, сыр Дор блю, огурец свежий, соус "Цезарь", соус "Терияки", горчица, кунжут',weight: 280, price:219, category: 12, checked:false, disabled:false },
+        {id: 106, title: 'Баварский',description:'пшеничная булочка, колбаски Баварские, огурец соленый, лук-фри, соус "BBQ", горчица',weight: 280, price:199, category: 12, checked:false, disabled:false },
+        {id: 107, title: 'Чили',description:'пшеничная булочка, колбаски охотничьи, маринованый лук, огурец соленый, бекон, перец "Халапенью" , чили, соус "BBQ", горчица',weight: 320, price:289, category: 12, checked:false, disabled:false },
+        {id: 108, title: 'Texas',description:'пшеничная булочка, сосиска фирменная в панировке, томаты, айсберг, морковь по-корейски, соус "BBQ", майонез, горчица',weight: 280, price:169, category: 12, checked:false, disabled:false },
+        {id: 109, title: 'Roll dog',description:'лаваш, сосиски фирменные, томаты, маринованный лук, сыр Моцарелла, соус "BBQ", горчица',weight: 320, price:219, category: 12, checked:false, disabled:false },
+
+        {id: 110, title: "Бекон", weight: 50, price:43, category: 13, checked:false, disabled:false},
+        {id: 111, title: "Креветки фри", weight: 50, price:220, category: 13, checked:false, disabled:false},
+        {id: 112, title: "Сыр 'Дор блю'", weight: 10, price:25, category: 13, checked:false, disabled:false},
+        {id: 113, title: "Сыр 'Пармезан'", weight: 10, price:20, category: 13, checked:false, disabled:false},
+        {id: 114, title: "Сыр 'Моцарелла'", weight: 10, price:15, category: 13, checked:false, disabled:false},
+        {id: 115, title: "Колбаска 'Black angus'", weight: 60, price:95, category: 13, checked:false, disabled:false},
+        {id: 116, title: "Колбаска 'Баварская'", weight: 40, price:75, category: 13, checked:false, disabled:false},
+        {id: 117, title: "Колбаска куриная в беконе", weight: 60, price:79, category: 13, checked:false, disabled:false},
+        {id: 118, title: "Сосиска фирменная", weight: 70, price:49, category: 13, checked:false, disabled:false},
+        {id: 119, title: "Морковь по корейски", weight: 10, price:10, category: 13, checked:false, disabled:false},
+        {id: 120, title: "Перец чили", weight: 10, price:10, category: 13, checked:false, disabled:false},
+        {id: 121, title: "Томаты", weight: 10, price:10, category: 13, checked:false, disabled:false},
+        {id: 122, title: "Огурец соленый", weight: 10, price:10, category: 13, checked:false, disabled:false},
+        {id: 123, title: "Огурец свежий", weight: 10, price:8, category: 13, checked:false, disabled:false},
+        {id: 124, title: "Соус 'BBQ'", weight: 20, price:15, category: 13, checked:false, disabled:false},
+        {id: 125, title: "Соус 'Цезарь'", weight: 20, price:15, category: 13, checked:false, disabled:false},
+        {id: 126, title: "Горчица", weight: 20, price:10, category: 13, checked:false, disabled:false},
+        {id: 127, title: "Соус 'Французский'", weight: 20, price:10, category: 13, checked:false, disabled:false},
+
+        {id: 128, title: "Картофель фри", weight: 100, price:80, category: 14, checked:false, disabled:false},
+        {id: 129, title: "Лук фри", weight: 100, price:95, category: 14, checked:false, disabled:false},
     ]
 }
 

@@ -38,7 +38,7 @@ nav.main__menu__nav{
 					    border-radius: 0;
 					    display: block;
 					    left: 0;
-					    min-width: 232px;
+                        min-width: 300px;
 					    opacity: 0;
 					    padding: 0;
 					    position: absolute;
@@ -47,6 +47,10 @@ nav.main__menu__nav{
 					    transform: translateY(10%);
 					    transition: 0.3s;
 					    visibility: hidden;
+
+                        max-height: 200px;
+                        height: 200px;
+                        overflow-y: scroll;
 						li{
 							border-bottom: 1px solid #f2f2f2;
 							display: block;
@@ -91,7 +95,7 @@ nav.main__menu__nav{
 
 @media #{$lg-layout}{
 
-	
+
 }
 
 @media #{$md-layout}{
