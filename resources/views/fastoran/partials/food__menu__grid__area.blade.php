@@ -34,9 +34,9 @@
                             </div>--}}
                             <!-- End Single tab -->
 
-                        @foreach($restoran->categories->all() as $cat)
+                        @foreach($restoran->categories->all() as $key=>$cat)
                             <!-- Start Single tab -->
-                                <div class="single__tab__panel tab-pane fade" id="{{$cat->alias}}" role="tabpanel">
+                                <div class="single__tab__panel tab-pane fade {{$key==0?"active show":""}}" id="{{$cat->alias}}" role="tabpanel">
                                     <div class="row">
                                         <a name="{{$cat->alias}}"></a>
                                     @foreach($cat->getFilteredMenu($restoran->id) as $product)
