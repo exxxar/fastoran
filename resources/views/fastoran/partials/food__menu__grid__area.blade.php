@@ -7,8 +7,8 @@
                         <div class="food__nav nav nav-tabs" role="tablist">
                       {{--      <a class="active mt-2" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab"
                                aria-selected="true">Все товары</a>--}}
-                            @foreach($restoran->categories->all() as $cat)
-                                <a class="mt-2" id="nav-{{$cat->alias}}-tab" data-toggle="tab"
+                            @foreach($restoran->categories->all() as $key=>$cat)
+                                <a class="mt-2 {{$key==0?"active":""}}" id="nav-{{$cat->alias}}-tab" data-toggle="tab"
                                    href="#{{$cat->alias}}" role="tab" aria-selected="false">{{$cat->name}}</a>
                             @endforeach
 
