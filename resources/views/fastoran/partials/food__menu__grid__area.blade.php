@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="food__nav nav nav-tabs" role="tablist">
-                            <a class="active mt-2" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab"
-                               aria-selected="true">Все товары</a>
+                      {{--      <a class="active mt-2" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab"
+                               aria-selected="true">Все товары</a>--}}
                             @foreach($restoran->categories->all() as $cat)
                                 <a class="mt-2" id="nav-{{$cat->alias}}-tab" data-toggle="tab"
                                    href="#{{$cat->alias}}" role="tab" aria-selected="false">{{$cat->name}}</a>
@@ -15,7 +15,7 @@
                         </div>
                         <div class="fd__tab__content tab-content" id="nav-tabContent">
                             <!-- Start Single tab -->
-                            <div class="single__tab__panel tab-pane fade active show" id="nav-all" role="tabpanel">
+                        {{--    <div class="single__tab__panel tab-pane fade active show" id="nav-all" role="tabpanel">
                                 <div class="tab__content__wrap">
                                     <!-- Start Single Tab Content -->
                                     <div class=" fd__tab__content">
@@ -31,7 +31,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div>--}}
                             <!-- End Single tab -->
 
                         @foreach($restoran->categories->all() as $cat)

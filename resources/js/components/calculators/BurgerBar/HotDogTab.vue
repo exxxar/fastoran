@@ -208,7 +208,7 @@
             window
                 .api
                 .prepareCheckedItems(this, this.cat)
-                .loadRestInfo(this, "isushi")
+                .loadRestInfo(this, "burger_bar_dn")
 
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("getProductList")

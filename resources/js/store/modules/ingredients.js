@@ -124,7 +124,7 @@ const state = {
         {id: 100, title: "Соус спайси", weight: 30, price:15, category: 10, checked:false, disabled:false},
         {id: 101, title: "Майонез", weight: 30, price:10, category: 10, checked:false, disabled:false},
 
-        {id: 102, title: 'Классический',description:'пшеничная булочка, сосиска фирменная, огурец соленый, морковь по-корейски, кетчуп, майонез, горчица',weight: 260, price:95, category: 12, checked:false, disabled:false },
+        {id: 102, title: 'Классический',description:'пшеничная булочка, сосиска фирменная, огурец соленый, морковь по-корейски, кетчуп, майонез, горчица',weight: 260, price:95, category: 12, checked:true, disabled:false },
         {id: 103, title: 'Цезарь',description:'пшеничная булочка, сосиска куриная в беконе, томаты, сыр Пармезан, айсберг, соус "Цезарь", горчица',weight: 280, price:279, category: 12, checked:false, disabled:false },
         {id: 104, title: 'Black Angus',description:'пшенично-солодовая булочка, колбаски из говядины "Black Angus", томаты, лук-конфи, айсберг, соус "BBQ", горчица, кунжут',weight: 280, price:219, category: 12, checked:false, disabled:false },
         {id: 105, title: 'Blue shrimp with cheese',description:'пшенично-солодовая булочка, хвосты креветок фри, айсберг, сыр Дор блю, огурец свежий, соус "Цезарь", соус "Терияки", горчица, кунжут',weight: 280, price:219, category: 12, checked:false, disabled:false },
