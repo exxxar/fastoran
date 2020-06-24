@@ -1,22 +1,12 @@
 <template>
     <div>
-        <h1 class="text-center mt-4 mb-4">Собираем вкусный хот-дог</h1>
-
-        <em>
-            <ol class="mb-2">
-                <li>Есть хот-дог в булочке только руками, использование столовых приборов недопустимо</li>
-                <li>Приправу, оставшуюся на пальцах, нельзя смывать, нужно облизать пальцы</li>
-                <li>"Горячую собаку" можно есть когда угодно: хоть на завтрак, хоть на обед, хоть на праздник и в любое
-                    время года
-                </li>
-            </ol>
-        </em>
+        <h1 class="text-center mt-4 mb-4">Собираем вкусные гонконгские вафли</h1>
 
         <h2 class="text-center">
             <mark>Выбираем основу</mark>
         </h2>
         <div class="row mt-4 mb-4 hot-dog-calc">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(12)">
+            <div class="col-6 col-sm-6 col-md-4" v-for="fill in getFilling(15)">
                 <div class="container-wrapper mb-2 pt-5">
                     <label class="container text-center">
 
@@ -28,10 +18,10 @@
                         class="badge">{{fill.price | currency}}</span>
 
 
-                        <input v-if="fill.checked" checked="checked" type="radio" name="hot_dog_base_coating"
+                        <input v-if="fill.checked" checked="checked" type="radio" name="hong_kong_base_coating"
                                :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="base_coating"
                                :value="fill.id">
-                        <input v-else type="radio" name="hot_dog_base_coating"
+                        <input v-else type="radio" name="hong_kong_base_coating"
                                :disabled="fill.disabled||hasManyItems(fill.id)>1"
                                v-model="base_coating" :value="fill.id">
                         <span class="checkmark"></span>
@@ -45,11 +35,11 @@
         </div>
 
         <h2 class="text-center">
-            <mark>Можешь добавить это</mark>
+            <mark>Выбираем начинку</mark>
         </h2>
 
         <div class="row mt-4">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(13)">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(16)">
 
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
@@ -81,11 +71,11 @@
 
 
         <h2 class="text-center">
-            <mark>С этим точно вкуснее будет</mark>
+            <mark>Добавь фрукты</mark>
         </h2>
 
         <div class="row mt-4">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(14)">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(17)">
 
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
@@ -116,10 +106,45 @@
         </div>
 
 
+        <h2 class="text-center">
+            <mark>Полей топпингом или соусом</mark>
+        </h2>
+
+        <div class="row mt-4">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(18)">
+
+                <div class="container-wrapper">
+                    <label class="container">{{fill.title}}<span
+                        class="badge badge-weight">{{fill.weight}} гр.</span><span
+                        class="badge">{{fill.price | currency}}</span>
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
+                        <input v-else type="checkbox" name="filling" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings">
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <div v-if="!fill.disabled">
+                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
+                            <div class="counter">
+                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
+                                <p>{{hasManyItems(fill.id)}}</p>
+                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
         <hr>
         <div class="row d-flex justify-content-center result">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <h3 class="text-center">Сколько таких хот-догов сделать?</h3>
+                <h3 class="text-center">Сколько таких вафель сделать?</h3>
                 <div class="summary">
                     <div class="btn-counter" @click="decrementSummary">-</div>
                     <p>{{summary_count}}</p>
@@ -163,10 +188,10 @@
     export default {
         data() {
             return {
-                cat: [12, 13, 14],
+                cat: [15, 16, 17, 18],
                 timer: null,
                 message: '',
-                base_coating: 102,
+                base_coating: 130,
                 summary_count: 0,
                 summary_weight: 0,
                 summary_price: 0,
@@ -220,7 +245,7 @@
             addToCart() {
                 window
                     .api
-                    .addToCart(this, "Собранный хот-дог")
+                    .addToCart(this, "Собранная гонконгская вафля")
             },
             clearCalc() {
                 window

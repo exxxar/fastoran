@@ -14,6 +14,10 @@ const state = {
         {id: 12, title: "Хот-дог"},
         {id: 13, title: "Добавки к хот-догу"},
         {id: 14, title: "Вместе с хот-догом"},
+        {id: 15, title: "Основа гонконгских вафель"},
+        {id: 16, title: "Начинка гонконгских вафель"},
+        {id: 17, title: "Фруктовые добавки для гонконгских вафель"},
+        {id: 18, title: "Добавки топпинга или соуса для гонконгских вафель"},
     ],
     filling: [
         {id: 1, title: "Грибы жаренные", weight: 50, price: 45, category: 1, checked:false, disabled:false},
@@ -154,6 +158,31 @@ const state = {
 
         {id: 128, title: "Картофель фри", weight: 100, price:80, category: 14, checked:false, disabled:false},
         {id: 129, title: "Лук фри", weight: 100, price:95, category: 14, checked:false, disabled:false},
+
+        {id: 130, title: "Ванильная", weight: 100, price:50, category: 15, checked:true, disabled:false},
+        {id: 131, title: "Шоколадная", weight: 100, price:55, category: 15, checked:false, disabled:false},
+        {id: 132, title: "Соленая", weight: 100, price:50, category: 15, checked:false, disabled:false},
+
+        {id: 133, title: "Взбитые сливки", weight: 50, price:45, category: 16, checked:false, disabled:false},
+        {id: 134, title: "Бельгийский шоколад", weight: 30, price:29, category: 16, checked:false, disabled:false},
+        {id: 135, title: "M&M's", weight: 30, price:35, category: 16, checked:false, disabled:false},
+        {id: 136, title: "Сыр", weight: 50, price:48, category: 16, checked:false, disabled:false},
+        {id: 137, title: "Ветчина", weight: 50, price:52, category: 16, checked:false, disabled:false},
+        {id: 138, title: "Бекон", weight: 30, price:69, category: 16, checked:false, disabled:false},
+        {id: 139, title: "Куриная грудка", weight: 30, price:51, category: 16, checked:false, disabled:false},
+
+        {id: 140, title: "Банан", weight: 50, price:25, category: 17, checked:false, disabled:false},
+        {id: 141, title: "Яблоко", weight: 50, price:15, category: 17, checked:false, disabled:false},
+        {id: 142, title: "Киви", weight: 50, price:22, category: 17, checked:false, disabled:false},
+        {id: 143, title: "Клубника", weight: 50, price:55, category: 17, checked:false, disabled:false},
+
+        {id: 144, title: "Карамель", weight: 30, price:15, category: 18, checked:false, disabled:false},
+        {id: 145, title: "Соленая карамель", weight: 30, price:15, category: 18, checked:false, disabled:false},
+        {id: 146, title: "Ягодный соус", weight: 30, price:15, category: 18, checked:false, disabled:false},
+        {id: 147, title: "Соус 'Цезарь'", weight: 30, price:20, category: 18, checked:false, disabled:false},
+        {id: 148, title: "Сырный соус", weight: 30, price:30, category: 18, checked:false, disabled:false},
+        {id: 149, title: "Остро-сладкий соус", weight: 30, price:25, category: 18, checked:false, disabled:false},
+        {id: 150, title: "Соус барбекю", weight: 30, price:20, category: 18, checked:false, disabled:false},
     ]
 }
 

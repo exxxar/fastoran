@@ -4,6 +4,9 @@
             <tab name="Хот-дог">
                 <hot-dog-tab></hot-dog-tab>
             </tab>
+            <tab name="Гонконгские вафли">
+              <hong-kong-waffles-tab></hong-kong-waffles-tab>
+            </tab>
         </tabs>
     </div>
 
@@ -11,10 +14,11 @@
 </template>
 <script>
     import HotDogTab from "./BurgerBar/HotDogTab";
+    import HongKongWafflesTab from "./BurgerBar/HongKongWafflesTab";
 
     export default {
         components: {
-            HotDogTab
+            HotDogTab,HongKongWafflesTab
         }
     }
 </script>
