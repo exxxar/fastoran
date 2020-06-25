@@ -80,12 +80,12 @@ trait Utilits
         } catch (\Exception $e) {
             $content = json_encode([
                 "properties" => [
-                    "distance" => 0
+                    "distance" => floatval($this->mathDist($fA, $lA, $fB, $lB))
                 ]
             ]);
         }
 
-        return floatval(json_decode($content)->properties->distance ?? 0);
+        return floatval(json_decode($content)->properties->distance ?? $this->mathDist($fA, $lA, $fB, $lB));
 
     }
 
