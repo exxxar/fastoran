@@ -238,6 +238,12 @@ class RestController extends Controller
             'text' => sprintf("*Заявка на обратный звонок*\n_%s_\n_%s_\n%s", $name, $phone, $message),
             'disable_notification' => 'false'
         ]);
+
+        return response()
+            ->json([
+                "message" => "success",
+                "status" => 200
+            ]);
     }
 
 
