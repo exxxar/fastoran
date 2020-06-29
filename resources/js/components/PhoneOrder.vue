@@ -19,9 +19,9 @@
             <div class="col-sm-12">
                 <button type="submit" class="btn food__btn" style="width:100%"><span>Заказать звонок</span></button>
             </div>
-
         </div>
-        <hr>
+        <h4 class="text-center">или</h4>
+        <voice-callback-form :phone="phone"></voice-callback-form>
         <div class="row">
             <div class="col-sm-12">
                 <a href="../terms" target="_blank">Перед началом работы советуем ознакомиться с соглашением на обработку

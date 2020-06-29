@@ -37,6 +37,10 @@ Vue.use(require('vue-moment'), {
     moment
 })
 
+import VueRecord from '@codekraft-studio/vue-record'
+
+Vue.use(VueRecord)
+
 
 Vue.component(
     'passport-clients',
@@ -76,6 +80,7 @@ Vue.component('calc-slider', require('./components/calculators/CalcSlider.vue').
 Vue.component('roll-calc', require('./components/calculators/RollCalc.vue').default);
 Vue.component('isushi-calc', require('./components/calculators/IsushiCalc.vue').default);
 Vue.component('burger-bar-calc', require('./components/calculators/BurgerBarCalc.vue').default);
+Vue.component('voice-callback-form', require('./components/VoiceCallbackForm.vue').default);
 
 //Vue.component('simple-order', require('./components/SimpleOrder.vue').default);
 

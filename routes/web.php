@@ -76,6 +76,33 @@ Route::view("/agreement", "fastoran.agreement")->name("agreement");
 Route::view("/terms-of-user", "fastoran.terms-of-use")->name("terms");
 Route::view("/simple", "fastoran.simple-order")->name("simple");
 
+Route::post("/fileupload", function (Request $request) {
+    $phone = $request->phone ?? "+380710000000";
+
+    $files = $request->file('files');
+
+    array_map('unlink', glob(storage_path("app\\public\\uploads\\*")));
+
+    if ($request->hasFile('files')) {
+        foreach ($files as $file) {
+            $name = "record-" . time() . ".mp3";
+            $file->storeAs("\\uploads", $name);
+            Telegram::sendAudio([
+                'chat_id' => env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
+                "caption" => "*Голосовая заявка от пользователя*\nНомер телефона:_ $phone _",
+                'parse_mode' => 'Markdown',
+                'audio' => \Telegram\Bot\FileUpload\InputFile::create(storage_path("app\\public\\uploads\\$name")),
+            ]);
+
+            unlink(storage_path("app\\public\\uploads\\$name"));
+
+        }
+    }
+
+
+    return "success";
+});
+
 Auth::routes(['register' => false]);
 
 Route::get('/profile', 'Fastoran\\OrderController@getOrderHistory')->middleware('auth');
@@ -206,7 +233,7 @@ Route::get("/test_geo", function () {
 });
 Route::get("/test_description", function () {
 
-  $description = "Состав:
+    $description = "Состав:
 
 Тонкий армянский лаваш, жареная на углях свиная мякоть,свежая капуста, морковь маринованная по- корейски, маринованный огурчик, фирменные соусы – томатный и сливочный, свежий укроп и петрушка.
 
@@ -218,7 +245,7 @@ Route::get("/test_description", function () {
 
     preg_match_all('/([0-9]+).грамм|([0-9]+).кг/i', $description, $media);
 
-   dd($media);
+    dd($media);
 
 });
 

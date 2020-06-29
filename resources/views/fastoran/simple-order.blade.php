@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <simple-order></simple-order>
+                <voice-callback-form></voice-callback-form>
             </div>
         </div>
 
