@@ -59,6 +59,7 @@
                         },
                     }
                 ).then(function () {
+                    this.recordings = []
                 })
                     .catch(function () {
                     });

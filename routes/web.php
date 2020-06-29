@@ -86,21 +86,21 @@ Route::post("/fileupload", function (Request $request) {
     if ($request->hasFile('files')) {
         foreach ($files as $file) {
             $name = "record-" . time() . ".mp3";
-            $file->storeAs("/uploads", $name);
+            $file->storeAs("/uploads/", $name);
             Telegram::sendAudio([
                 'chat_id' => env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
                 "caption" => "*Голосовая заявка от пользователя*\nНомер телефона:_ $phone _",
                 'parse_mode' => 'Markdown',
-                'audio' => \Telegram\Bot\FileUpload\InputFile::create(storage_path("app/public/uploads/$name")),
+                'audio' => \Telegram\Bot\FileUpload\InputFile::create(storage_path('app/public')."/uploads/$name"),
             ]);
 
-            unlink(storage_path("app/public/uploads/$name"));
-
+            Storage::delete("/uploads/$name");
         }
     }
 
 
     return "success";
+
 });
 
 Auth::routes(['register' => false]);
