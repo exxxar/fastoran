@@ -32,8 +32,11 @@
             </div>
 
             <div class="divider mb-2"></div>
+            <div class="form-group mb-2">
+                <mobile-voice-callback-form></mobile-voice-callback-form>
+            </div>
 
-            <div class="form-group">
+            <div class="form-group mb-2">
 
                 <button type="button" class="btn btn-link mr-1 mb-1">
                     <i class="icon ion-ios-filing"></i>
@@ -47,6 +50,7 @@
 </template>
 <script>
     import {mask} from 'vue-the-mask'
+
 
     export default {
         data() {

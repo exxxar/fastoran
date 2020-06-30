@@ -109,7 +109,7 @@ Vue.component('mobile-restoran-info', require('./mobile/components/RestoranInfo'
 Vue.component('mobile-cart-counter', require('./mobile/components/CartCounter').default);
 Vue.component('mobile-cart', require('./mobile/components/Cart').default);
 Vue.component('mobile-order-status', require('./mobile/components/OrderStatus').default);
-
+Vue.component('mobile-voice-callback-form', require('./mobile/components/VoiceCallbackForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

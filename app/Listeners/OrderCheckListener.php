@@ -56,7 +56,7 @@ class OrderCheckListener
 
             if ($lastOrderId === $orderId)
                 continue;
-            $message .= sprintf("*#%s*(%s)\n", $order->id, $order->created_at);
+            $message .= sprintf("*#%s* %s (%s)\n", $order->id, $order->receiver_phone, $order->created_at);
 
             if ($counter===0)
                 break;
