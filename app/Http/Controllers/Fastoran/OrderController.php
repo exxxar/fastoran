@@ -305,8 +305,9 @@ class OrderController extends Controller
             $order->status = OrderStatusEnum::InQueue;
             $order->save();
 
-            $message_admin = sprintf("Заказ #%s (%s) не может быть выполнен в данное время суток и был добавлен в очередь!",
+            $message_admin = sprintf("Заказ #%s %s (%s) не может быть выполнен в данное время суток и был добавлен в очередь!",
                 $order->id,
+                $order->receiver_phone,
                 $rest->name
             );
             $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
