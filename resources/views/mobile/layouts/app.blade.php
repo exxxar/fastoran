@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <!-- Stylesheets -->
     @laravelPWA
-    <link rel="stylesheet" href="{{url('../css/mobile/app.min.css')}}?ver={{ config('app.version')}}">
+    <link rel="stylesheet" href="{{url(env("APP_DEBUG")?'css/mobile/app.css':'css/mobile/app.min.css' )}}?ver={{ config('app.version')}}">
 </head>
 
 <body>
@@ -43,7 +43,7 @@
 
 <!-- ///////////// Js Files ////////////////////  -->
 
-<script src="{{url('js/app.min.js')}}?ver={{ config('app.version')}}"></script>
+<script src="{{url(env("APP_DEBUG")?'js/app.js':'js/app.min.js')}}?ver={{ config('app.version')}}"></script>
 <script src="{{url('js/owl.carousel.min.js')}}?ver={{ config('app.version')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" async></script>
 <script>

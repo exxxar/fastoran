@@ -45,6 +45,9 @@ Route::prefix('m')->group(function () {
     Route::view("/promotions", "mobile.pages.restorans")->name("mobile.promotions");
     Route::view("/cart", "mobile.pages.cart")->name("mobile.cart");
     Route::view("/status", "mobile.pages.status")->name("mobile.status");
+    Route::view("/phone-order", "mobile.pages.phone-order")->name("mobile.phone-order");
+    Route::view("/product-order", "mobile.pages.product-order")->name("mobile.product-order");
+    Route::view("/flowers-order", "mobile.pages.flowers-order")->name("mobile.flowers-order");
     Route::get("/category/{id}", 'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 });
 

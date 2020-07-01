@@ -2,24 +2,66 @@
 <div class="cardOverlayCarousel owl-carousel mt-2 mb-4">
     <!-- item -->
     <div class="item">
-        <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="assets/img/sample/photo8.jpg" class="card-img img-fluid" alt="image">
+        <a href="{{route('mobile.phone-order')}}" class="card card-overlay text-white">
+            <img src="{{asset('images/fastoran/phone-order.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">
                 <div class="header row">
-                    <div class="col-8">TRAVEL</div>
+                    <div class="col-8">Заказать по телефону</div>
                     <div class="col-4 text-right">
-                        <i class="icon ion-ios-heart"></i> 523
+                        от 50 <i class="fas fa-ruble-sign"></i>
                     </div>
                 </div>
                 <div class="content">
-                    <h1>Top 10 Travel Bloggers You Should Already Be Following</h1>
+                    <h1>Быстрое оформление заказа по телефону! </h1>
                     <footer>
-                        <div class="author">
-                            <img src="assets/img/sample/avatar3.jpg" alt="avatar">
-                            Marti Valencia
-                        </div>
                         <div class="date">
-                            5 hours ago
+                            Доставка от 30 минут до 1 часа
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- * item -->
+    <!-- item -->
+    <div class="item">
+        <a href="{{route('mobile.product-order')}}" class="card card-overlay text-white">
+            <img src="{{asset('images/fastoran/product-order.jpg')}}" class="card-img img-fluid" alt="image">
+            <div class="card-img-overlay">
+                <div class="header row">
+                    <div class="col-8">Продукты</div>
+                    <div class="col-4 text-right">
+                        от 50 <i class="fas fa-ruble-sign"></i>
+                    </div>
+                </div>
+                <div class="content">
+                    <h1>Любые продукты из магазинов!</h1>
+                    <footer>
+                        <div class="date">
+                            Доставка от 30 минут до 1 часа
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- * item -->
+    <!-- item -->
+    <div class="item">
+        <a href="{{route('mobile.flowers-order')}}" class="card card-overlay text-white">
+            <img src="{{asset('images/fastoran/flowers-order.jpg')}}" class="card-img img-fluid" alt="image">
+            <div class="card-img-overlay">
+                <div class="header row">
+                    <div class="col-8">Цветы</div>
+                    <div class="col-4 text-right">
+                        от 50 <i class="fas fa-ruble-sign"></i>
+                    </div>
+                </div>
+                <div class="content">
+                    <h1>Авторские букеты на заказ</h1>
+                    <footer>
+                        <div class="date">
+                            Доставка от 30 минут до 1 часа
                         </div>
                     </footer>
                 </div>
@@ -30,23 +72,19 @@
     <!-- item -->
     <div class="item">
         <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="assets/img/sample/photo5.jpg" class="card-img img-fluid" alt="image">
+            <img src="{{asset('images/fastoran/chelentano-calc.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">
                 <div class="header row">
-                    <div class="col-8">EVENTS</div>
+                    <div class="col-8">Собери свою вкусняшку</div>
                     <div class="col-4 text-right">
-                        <i class="icon ion-ios-heart"></i> 12K
+                        от 50 <i class="fas fa-ruble-sign"></i>
                     </div>
                 </div>
                 <div class="content">
-                    <h1>The World's Largest Pillow Fight is Also a Festival</h1>
+                    <h1>Пицца, сладкие и соленые блинчики</h1>
                     <footer>
-                        <div class="author">
-                            <img src="assets/img/sample/avatar.jpg" alt="avatar">
-                            Sofie Fulloway
-                        </div>
                         <div class="date">
-                            2 hours ago
+                            Доставка от 30 минут до 1 часа
                         </div>
                     </footer>
                 </div>
@@ -54,26 +92,23 @@
         </a>
     </div>
     <!-- * item -->
+
     <!-- item -->
     <div class="item">
         <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="assets/img/sample/photo11.jpg" class="card-img img-fluid" alt="image">
+            <img src="{{asset('images/fastoran/burger-bar-calc.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">
                 <div class="header row">
-                    <div class="col-8">SPORTS</div>
+                    <div class="col-8">Собери свою вкусняшку</div>
                     <div class="col-4 text-right">
-                        <i class="icon ion-ios-heart"></i> 12K
+                        от 50 <i class="fas fa-ruble-sign"></i>
                     </div>
                 </div>
                 <div class="content">
-                    <h1>Juxon Julio praises Peri’s resilience after testing week</h1>
+                    <h1>Хот-доги, гонконгские вафли</h1>
                     <footer>
-                        <div class="author">
-                            <img src="assets/img/sample/avatar5.jpg" alt="avatar">
-                            Jackie Pearson
-                        </div>
                         <div class="date">
-                            2 hours ago
+                            Доставка от 30 минут до 1 часа
                         </div>
                     </footer>
                 </div>
@@ -81,26 +116,23 @@
         </a>
     </div>
     <!-- * item -->
+
     <!-- item -->
     <div class="item">
         <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="assets/img/sample/photo10.jpg" class="card-img img-fluid" alt="image">
+            <img src="{{asset('images/fastoran/isushi-calc.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">
                 <div class="header row">
-                    <div class="col-8">WORLD</div>
+                    <div class="col-8">Собери свою вкусняшку</div>
                     <div class="col-4 text-right">
-                        <i class="icon ion-ios-heart"></i> 12K
+                        от 50 <i class="fas fa-ruble-sign"></i>
                     </div>
                 </div>
                 <div class="content">
-                    <h1>Best of Skyscrapers in the World</h1>
+                    <h1>Роллы</h1>
                     <footer>
-                        <div class="author">
-                            <img src="assets/img/sample/avatar6.jpg" alt="avatar">
-                            Vincent Hunt
-                        </div>
                         <div class="date">
-                            2 hours ago
+                            Доставка от 30 минут до 1 часа
                         </div>
                     </footer>
                 </div>

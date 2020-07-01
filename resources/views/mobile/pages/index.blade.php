@@ -24,21 +24,25 @@
 
     <div class="divider mt-4 mb-4"></div>
 
-    @include("mobile.partials.main.section_title",["title"=>"Blogs", "muted"=>"Lastest", "link"=>"/" ])
+    @include("mobile.partials.main.section_title",["title"=>"Партнеры", "muted"=>"Телеграм-боты" ])
 
 
     @include("mobile.partials.main.post_list")
 
-    <div class="divider mt-2 mb-4"></div>
+    {{--<div class="divider mt-2 mb-4"></div>
 
     @include("mobile.partials.main.iconed_box")
 
     <div class="divider mt-2 mb-4"></div>
 
-    @include("mobile.partials.main.section_title",["title"=>"Profiles", "muted"=>"Most Popular", "link"=>"/" ])
 
 
-    @include("mobile.partials.main.listview")
+
+    @include("mobile.partials.main.listview")--}}
+
+    @include("mobile.partials.main.section_title",["title"=>"Недавние заказы", "muted"=>"Что заказывают"])
+
+    <mobile-latest-order></mobile-latest-order>
 
     @include("mobile.partials.bottom_menu",["active"=>0])
 @endsection

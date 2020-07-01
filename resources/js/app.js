@@ -90,7 +90,7 @@ Vue.component('statistics', require('./components/admin/Statistics.vue').default
 Vue.component('kitchens', require('./components/admin/Kitchens.vue').default);
 Vue.component('orders', require('./components/admin/Orders.vue').default);
 Vue.component('new-order', require('./components/admin/NewOrder.vue').default);
-Vue.component('order_details', require('./components/admin/OrderDetails.vue').default);
+Vue.component('order-details', require('./components/admin/OrderDetails.vue').default);
 Vue.component('menus', require('./components/admin/Menus.vue').default);
 Vue.component('menu-categories-list', require('./components/admin/MenuCategories.vue').default);
 Vue.component('restorans-list', require('./components/admin/Restorans.vue').default);
@@ -110,6 +110,8 @@ Vue.component('mobile-cart-counter', require('./mobile/components/CartCounter').
 Vue.component('mobile-cart', require('./mobile/components/Cart').default);
 Vue.component('mobile-order-status', require('./mobile/components/OrderStatus').default);
 Vue.component('mobile-voice-callback-form', require('./mobile/components/VoiceCallbackForm.vue').default);
+Vue.component('mobile-phone-order', require('./mobile/components/PhoneOrder.vue').default);
+Vue.component('mobile-latest-order', require('./mobile/components/LatestOrders.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

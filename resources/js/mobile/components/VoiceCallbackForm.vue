@@ -12,7 +12,7 @@
                             <audio :src="record.src" controls/>
                         </div>
                         <div>
-                            <button @click="removeRecord(index)" class="button is-dark">delete</button>
+                            <a @click="removeRecord(index)" class="button is-dark"><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
 
         <div class="row d-flex justify-content-center mt-2">
             <div class="col-12 col-sm-12 col-md-12">
-                <button @click="send" class="w-100 food__btn ">Отправить голосовое сообщение</button>
+                <button @click="send" class="w-100 btn btn-primary ">Отправить голосовое сообщение</button>
             </div>
         </div>
 
@@ -93,7 +93,7 @@
 
 
     .vue-audio-recorder, .vue-video-recorder {
-        margin-right: 16px;
+        margin-right: 0px;
     }
 
     .record-settings {
@@ -107,21 +107,28 @@
         height: 200px;
         overflow: auto;
         border: thin solid #eee;
-        background-color: #e0e0e0;
+        background-color: #fffcfc;
         padding: 10px 5px;
-        box-shadow: 1px 1px 1px 1px inset;
+        border-radius: 5px;
+        box-shadow: 1px 1px 1px 0px inset;
 
         .recorded-item {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 16px;
+            padding: 0px 22px;
         }
 
         .audio-container {
             display: flex;
             height: 54px;
             margin-right: 16px;
+
+            width: 100%;
+            padding: 0px;
+            box-sizing: border-box;
+            align-items: center;
         }
     }
 
@@ -131,6 +138,7 @@
             max-height: 400px;
         }
     }
+
 
 
 </style>

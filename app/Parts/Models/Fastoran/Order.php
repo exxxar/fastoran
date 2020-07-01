@@ -90,7 +90,7 @@ class Order extends Model
     public function getDeliveredTimeAttribute()
     {
 
-        $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note))*2;
+        $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note)) * 2;
 
         $time = max($this->delivery_range, 10) + $delivery_time;
 
@@ -102,7 +102,7 @@ class Order extends Model
 
     public function getStatusTextAttribute()
     {
-        $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note))*2;
+        $delivery_time = (is_null($this->delivery_note) ? 0 : intval($this->delivery_note)) * 2;
 
         $time = "Не установлено";
         if (!is_null($this->delivery_note))
@@ -141,5 +141,23 @@ class Order extends Model
             $tmp_sum += $d->count * $d->price;
         }
         return $tmp_sum;
+    }
+
+    public static function getLatestOrders()
+    {
+        $object = Order::with(["details", "restoran"])
+            ->orderBy('id', 'DESC')
+            ->take(10)
+            ->skip(0)
+            ->get();
+
+        $object->makeHidden(['receiver_phone', "receiver_address", "latitude",
+            "longitude", "receiver_delivery_time", "receiver_domophone", "receiver_order_note",
+            "deliveryman_latitude", "deliveryman_longitude", "delivery_note", "custom_details",
+            "take_by_self", "user_id", "id","client","delivered_time","deliveryman_id",
+            "order_type","rest_id","status_text","created_at","updated_at","deleted_at","status","summary_count"]);
+
+        return $object;
+
     }
 }

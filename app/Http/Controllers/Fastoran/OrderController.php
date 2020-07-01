@@ -345,6 +345,10 @@ class OrderController extends Controller
             ]);
     }
 
+    public function getLatestOrders(Request $request){
+        return response()->json(Order::getLatestOrders());
+    }
+
     public function sendDeliverymanQuest(Request $request)
     {
         $request->validate([

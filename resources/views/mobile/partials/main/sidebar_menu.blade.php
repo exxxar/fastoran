@@ -3,11 +3,11 @@
     <div class="overlay toggleSidebar"></div>
     <nav class="sidebar">
         <div class="profilebox">
-            <img src="assets/img/sample/avatar.jpg" alt="avatar" class="avatar">
-            <h2 class="title">Jane Antunes</h2>
+            <img src="https://sun9-55.userapi.com/c638621/v638621489/19a5a/oPJ6fWyDhmk.jpg" alt="avatar" class="avatar">
+            <h2 class="title">Fastoran</h2>
             <h5 class="lead">
                 <i class="icon ion-ios-pin mr-1"></i>
-                Chicago
+                Донецк
             </h5>
             <div class="button">
                 <a href="#">
@@ -15,78 +15,65 @@
                 </a>
             </div>
         </div>
-        <div class="sidebarGroup">
-            <ul class="sidebarMenu">
+        <div class="sidebarGroup ">
+            <ul class="sidebarMenu upperSidebar">
                 <li>
                     <a href="social-home.html">
-                        <i class="icon ion-ios-people"></i>
-                        Social
+                        <i class="fas fa-phone-volume"></i>
+                        Заказать по телефону
                     </a>
                 </li>
                 <li>
                     <a href="social-chat.html">
-                        <i class="icon ion-ios-chatboxes"></i>
-                        Chat
+                        <i class="fab fa-shopify"></i>
+                        Продукты из магазина
                     </a>
                 </li>
                 <li>
                     <a href="pages.html">
-                        <i class="icon ion-ios-apps"></i>
-                        Pages
+                        <i class="fas fa-spa"></i>
+                        Цветы и букеты
                     </a>
                 </li>
                 <li>
                     <a href="components.html">
-                        <i class="icon ion-ios-analytics"></i>
-                        Components
+                        <i class="fas fa-utensils"></i>
+                        Рестораны
                     </a>
                 </li>
                 <li>
                     <a href="blog-home.html">
-                        <i class="icon ion-ios-book"></i>
-                        Magazine - Blog
+                        <i class="fas fa-info-circle"></i>
+                        Статус заказ
                     </a>
                 </li>
                 <li>
-                    <a href="page-login.html">
-                        <i class="icon ion-ios-lock"></i>
-                        Login
+                    <a href="blog-home.html">
+                        <i class="far fa-question-circle"></i>
+                        Обратная связь
                     </a>
                 </li>
             </ul>
         </div>
         <div class="sidebarGroup">
             <ul class="sidebarMenu">
-                <li class="title">Online</li>
+                <li class="title">Собери вкусняшки</li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/sample/avatar2.jpg" alt="avatar" class="avatar">
-                        Guiying K.
+                        <img src="{{asset('images/fastoran/chelentano-calc.jpg')}}" alt="avatar" class="avatar">
+                        Пицца \ Блинчики
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/sample/avatar3.jpg" alt="avatar" class="avatar">
-                        Kita Chihoko
-                        <span class="badge badge-primary">2</span>
+                        <img src="{{asset('images/fastoran/isushi-calc.jpg')}}" alt="avatar" class="avatar">
+                        Роллы
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img src="assets/img/sample/avatar4.jpg" alt="avatar" class="avatar">
-                        Leonetta Lloyd
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="assets/img/sample/avatar5.jpg" alt="avatar" class="avatar">
-                        Lizzie Rose
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="assets/img/sample/avatar6.jpg" alt="avatar" class="avatar">
-                        Kari Granleese
+                        <img src="{{asset('images/fastoran/burger-bar-calc.jpg')}}" alt="avatar" class="avatar">
+                        Хот-доги \ Гонконгские вафли
                     </a>
                 </li>
             </ul>
