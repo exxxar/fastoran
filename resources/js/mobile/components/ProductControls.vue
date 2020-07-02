@@ -188,7 +188,7 @@
     .product-item__controls {
         width: 100%;
         display: flex;
-        padding: 10px;
+        padding: 5px;
         justify-content: space-between;
         position: relative;
         flex-direction: row-reverse;
@@ -201,8 +201,9 @@
         }
 
         .product-item__btn {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
+            padding: 5px;
         }
 
         p {
