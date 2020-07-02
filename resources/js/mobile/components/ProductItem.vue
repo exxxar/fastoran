@@ -1,7 +1,7 @@
 <template>
     <div class="product-item">
         <div class="product-item__thumb">
-            <a href="#"><img
+            <a @click="showInfoModal"><img
                 class="lazyload" :data-src="product.food_img"
                 alt="banner images"></a>
         </div>
@@ -26,12 +26,33 @@
 
             </div>
         </div>
+
+        <b-modal :id="'modal-info-'+product.id" hide-footer centered hide-backdrop no-stacking
+                 dialog-class="modal-class" content-class="content-class">
+
+            <template v-slot:modal-title>
+                <h5>Информация о товаре</h5>
+            </template>
+            <div class="d-block text-center">
+                <p>{{product.food_name}}</p>
+                <p>{{product.food_remark}}</p>
+            </div>
+            <b-button class="mt-3 btn btn-primary">Добавить
+            </b-button>
+
+
+        </b-modal>
     </div>
 </template>
 
 <script>
     export default {
-        props: ["product"]
+        props: ["product"],
+        methods: {
+            showInfoModal() {
+                this.$bvModal.show("modal-info-" + this.product.id)
+            },
+        }
     }
 </script>
 <style lang="scss" scoped>
@@ -68,7 +89,6 @@
 
 
         }
-
 
 
         .product-item__thumb {

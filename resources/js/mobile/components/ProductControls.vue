@@ -7,11 +7,11 @@
 
             <button type="button"  @click="openSubMenu()"  class="btn btn-outline-success product-item__btn"
                     v-if="inCart()===0&&hasSub()"><i class="fas fa-cart-plus"></i></button>
-
+<!--
             <button type="button"
                     class="btn btn-outline-info product-item__btn" @click="showInfoModal"
                     v-if="inCart()===0" :id="'menu'+product.id" ><i
-                class="fas fa-info-circle"></i></button>
+                class="fas fa-info-circle"></i></button>-->
 
 
             <div v-if="inCart()>0">
@@ -34,24 +34,7 @@
             </p>
         </div>
 
-        <b-modal :id="'modal-info-'+product.id" hide-footer centered hide-backdrop no-stacking dialog-class="modal-class" content-class="content-class">
 
-            <template v-slot:modal-title>
-                <h5>Информация о товаре</h5>
-            </template>
-            <div class="d-block text-center">
-
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus accusantium aspernatur, consequatur dicta doloremque fuga ipsa iusto maxime minus molestiae nulla officiis pariatur perspiciatis quisquam recusandae sit veniam vero.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus accusantium aspernatur, consequatur dicta doloremque fuga ipsa iusto maxime minus molestiae nulla officiis pariatur perspiciatis quisquam recusandae sit veniam vero.</p>
-
-
-            </div>
-            <b-button class="mt-3 btn btn-primary" >Добавить
-            </b-button>
-
-
-        </b-modal>
 
         <div v-if="product.id!=null">
             <b-modal :id="'modal-submenu-'+product.id" hide-footer no-stacking >
