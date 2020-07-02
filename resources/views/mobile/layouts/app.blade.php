@@ -29,7 +29,7 @@
 <div id="appCapsule">
     <div class="appContent" >
 
-        <notifications :position="'top left'" :width="'100%'" :group="'info'" :classes="'custom-style'"></notifications>
+        <notifications :position="'top left'" :width="'100%'" :group="'info'" :classes="'my-notify-style'"></notifications>
         @yield("content")
 
         @include("mobile.partials.footer")

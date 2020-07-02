@@ -25,7 +25,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary mr-1 mb-1">
+                <button type="submit" class="btn btn-primary mr-1 mb-1 w-100">
                     <i class="icon ion-md-mail"></i>
                     Отправить
                 </button>

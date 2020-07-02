@@ -8,9 +8,9 @@
             <button type="button"  @click="openSubMenu()"  class="btn btn-outline-success product-item__btn"
                     v-if="inCart()===0&&hasSub()"><i class="fas fa-cart-plus"></i></button>
 
-            <button type="button" v-b-tooltip.hover :title="product.food_remark"
-                    class="btn btn-outline-info product-item__btn"
-                    v-if="inCart()===0" :id="'menu'+product.id" :data-target="'menu'+product.id"><i
+            <button type="button"
+                    class="btn btn-outline-info product-item__btn" @click="showInfoModal"
+                    v-if="inCart()===0" :id="'menu'+product.id" ><i
                 class="fas fa-info-circle"></i></button>
 
 
@@ -34,9 +34,27 @@
             </p>
         </div>
 
+        <b-modal :id="'modal-info-'+product.id" hide-footer centered hide-backdrop no-stacking dialog-class="modal-class" content-class="content-class">
+
+            <template v-slot:modal-title>
+                <h5>Информация о товаре</h5>
+            </template>
+            <div class="d-block text-center">
+
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus accusantium aspernatur, consequatur dicta doloremque fuga ipsa iusto maxime minus molestiae nulla officiis pariatur perspiciatis quisquam recusandae sit veniam vero.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus accusantium aspernatur, consequatur dicta doloremque fuga ipsa iusto maxime minus molestiae nulla officiis pariatur perspiciatis quisquam recusandae sit veniam vero.</p>
+
+
+            </div>
+            <b-button class="mt-3 btn btn-primary" >Добавить
+            </b-button>
+
+
+        </b-modal>
 
         <div v-if="product.id!=null">
-            <b-modal :id="'modal-submenu-'+product.id" hide-footer no-stacking>
+            <b-modal :id="'modal-submenu-'+product.id" hide-footer no-stacking >
 
                 <template v-slot:modal-title>
                     <h3>Выбор подкатегории</h3>
@@ -93,7 +111,9 @@
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
         },
         methods: {
-
+            showInfoModal(){
+                this.$bvModal.show("modal-info-" + this.product.id)
+            },
             addToCartWithSub() {
                 this.addToCart()
 
@@ -162,15 +182,16 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 
     .product-item__controls {
         width: 100%;
         display: flex;
         padding: 10px;
-        justify-content: flex-end;
+        justify-content: space-between;
         position: relative;
+        flex-direction: row-reverse;
         z-index: 100;
 
         & > div {
@@ -182,7 +203,6 @@
         .product-item__btn {
             width: 50px;
             height: 50px;
-            margin-left: 10px;
         }
 
         p {
@@ -224,5 +244,24 @@
             color: white;
             background: #e3342f;
         }
+
+    }
+
+    .modal-content {
+        margin-bottom: 60px;
+    }
+
+    .modal-class {
+        display: flex;
+        align-items: flex-end;
+        padding: 0px;
+        margin: 0;
+    }
+
+    .content-class {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 0;
+        margin-bottom: 40px;
     }
 </style>

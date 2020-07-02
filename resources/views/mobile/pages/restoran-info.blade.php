@@ -5,14 +5,14 @@
     <div class="divider mt-2 mb-3"></div>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
+       {{-- <li class="nav-item">
             <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-selected="true">
                 Все товары
             </a>
-        </li>
-        @foreach($menu_categories as $category)
+        </li>--}}
+        @foreach($menu_categories as $key=>$category)
             <li class="nav-item">
-                <a class="nav-link" id="{{$category->alias}}-tab" data-toggle="tab" href="#{{$category->alias}}"
+                <a class="nav-link {{$key==0?"active":""}}" id="{{$category->alias}}-tab" data-toggle="tab" href="#{{$category->alias}}"
                    role="tab" aria-selected="false">
                     {{$category->name}}
                 </a>
@@ -23,7 +23,7 @@
 
 
     <div class="tab-content mt-3" id="myTabContent">
-        <div class="tab-pane fade active show" id="all" role="tabpanel">
+       {{-- <div class="tab-pane fade active show" id="all" role="tabpanel">
             <div class="row">
             @foreach($products as $product)
                 <!-- Start Single Banner -->
@@ -34,11 +34,11 @@
                 @endforeach
             </div>
         </div>
+--}}
+        @foreach($restoran->categories->all() as $key=>$cat)
 
-        @foreach($restoran->categories->all() as $cat)
 
-
-            <div class="tab-pane fade" id="{{$cat->alias}}" role="tabpanel">
+            <div class="tab-pane fade {{$key==0?"active show":""}}" id="{{$cat->alias}}" role="tabpanel">
                 <div class="row">
                 @foreach($cat->getFilteredMenu($restoran->id) as $product)
                     <!-- Start Single Banner -->

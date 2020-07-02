@@ -18,6 +18,9 @@
                             Цена доставки {{order.delivery_price| currency}} ({{order.delivery_range}} км)
 
                         </div>
+                        <div class="text-muted">
+                            Дата заказа {{order.created_at}} <i class="far fa-clock"></i>
+                        </div>
                     </div>
 
                 </div>
@@ -63,9 +66,10 @@
 
     .listItemContainer ~ ul {
         list-style: decimal;
-        padding: 10px;
+        padding: 10px 0px 10px 20px;
         color: black;
-
+        width: 100%;
+        word-break: break-all;
     }
 
     a.listItem {

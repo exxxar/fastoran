@@ -85,7 +85,7 @@ trait Utilits
             ]);
         }
 
-        return floatval(json_decode($content)->properties->distance ?? 5);
+        return floatval(min(json_decode($content)->properties->distance,20) ?? 5);
 
     }
 
