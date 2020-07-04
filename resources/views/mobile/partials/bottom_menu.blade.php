@@ -3,7 +3,7 @@
     <div class="item {{$active==0?"active":""}}">
         <a href="{{route("mobile.index")}}">
             <p>
-                <i class="icon ion-md-restaurant"></i>
+                <i class="icon ion-md-apps"></i>
                 <span>Главная</span>
             </p>
         </a>
@@ -29,7 +29,7 @@
     <div class="item {{$active==3?"active":""}}">
         <a href="{{route("mobile.restorans")}}">
             <p>
-                <i class="fas fa-utensils"></i>
+                <i class="icon ion-md-beer"></i>
                 <span>Рестораны</span>
             </p>
         </a>
