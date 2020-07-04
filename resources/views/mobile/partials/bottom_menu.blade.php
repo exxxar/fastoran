@@ -27,10 +27,10 @@
         </a>
     </div>
     <div class="item {{$active==3?"active":""}}">
-        <a href="{{route("mobile.promotions")}}">
+        <a href="{{route("mobile.restorans")}}">
             <p>
-                <i class="icon ion-ios-star"></i>
-                <span>Акции</span>
+                <i class="fas fa-utensils"></i>
+                <span>Рестораны</span>
             </p>
         </a>
     </div>
