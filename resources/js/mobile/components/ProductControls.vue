@@ -37,10 +37,11 @@
 
 
         <div v-if="product.id!=null">
-            <b-modal :id="'modal-submenu-'+product.id" hide-footer no-stacking >
+            <b-modal :id="'modal-submenu-'+product.id" hide-footer scrollable  centered hide-backdrop no-stacking
+                     dialog-class="modal-class" content-class="content-class">
 
                 <template v-slot:modal-title>
-                    <h3>Выбор подкатегории</h3>
+                    <h6>Выбор подкатегории</h6>
                 </template>
                 <div class="d-block text-center">
 

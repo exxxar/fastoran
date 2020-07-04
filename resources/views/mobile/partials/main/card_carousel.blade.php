@@ -31,7 +31,7 @@
                 <div class="header row">
                     <div class="col-8">Продукты</div>
                     <div class="col-4 text-right">
-                        от 50 <i class="fas fa-ruble-sign"></i>
+                        100 <i class="fas fa-ruble-sign"></i>
                     </div>
                 </div>
                 <div class="content">
@@ -71,8 +71,8 @@
     <!-- * item -->
     <!-- item -->
     <div class="item">
-        <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="{{asset('images/fastoran/chelentano-calc.jpg')}}" class="card-img img-fluid" alt="image">
+        <a href="{{route("calcs")}}" class="card card-overlay text-white">
+            <img src="{{asset('images/fastoran/calcs.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">
                 <div class="header row">
                     <div class="col-8">Собери свою вкусняшку</div>
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="content">
-                    <h1>Пицца, сладкие и соленые блинчики</h1>
+                    <h1>Пицца, сладкие и соленые блинчики, хот-доги, роллы, вафли</h1>
                     <footer>
                         <div class="date">
                             Доставка от 30 минут до 1 часа
@@ -93,52 +93,6 @@
     </div>
     <!-- * item -->
 
-    <!-- item -->
-    <div class="item">
-        <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="{{asset('images/fastoran/burger-bar-calc.jpg')}}" class="card-img img-fluid" alt="image">
-            <div class="card-img-overlay">
-                <div class="header row">
-                    <div class="col-8">Собери свою вкусняшку</div>
-                    <div class="col-4 text-right">
-                        от 50 <i class="fas fa-ruble-sign"></i>
-                    </div>
-                </div>
-                <div class="content">
-                    <h1>Хот-доги, гонконгские вафли</h1>
-                    <footer>
-                        <div class="date">
-                            Доставка от 30 минут до 1 часа
-                        </div>
-                    </footer>
-                </div>
-            </div>
-        </a>
-    </div>
-    <!-- * item -->
 
-    <!-- item -->
-    <div class="item">
-        <a href="blog-post.html" class="card card-overlay text-white">
-            <img src="{{asset('images/fastoran/isushi-calc.jpg')}}" class="card-img img-fluid" alt="image">
-            <div class="card-img-overlay">
-                <div class="header row">
-                    <div class="col-8">Собери свою вкусняшку</div>
-                    <div class="col-4 text-right">
-                        от 50 <i class="fas fa-ruble-sign"></i>
-                    </div>
-                </div>
-                <div class="content">
-                    <h1>Роллы</h1>
-                    <footer>
-                        <div class="date">
-                            Доставка от 30 минут до 1 часа
-                        </div>
-                    </footer>
-                </div>
-            </div>
-        </a>
-    </div>
-    <!-- * item -->
 </div>
 <!-- * Card Overlay Carousel -->

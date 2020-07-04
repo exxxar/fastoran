@@ -2918,3 +2918,107 @@ figure figcaption {
 .listView.detailed .listItem .image {
     width: 140px;
 }
+
+.mobile-calc input[type="checkbox"],
+.mobile-calc input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.mobile-calc .container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: black;
+    text-align: left;
+    font-weight: 600;
+}
+
+.mobile-calc .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+.mobile-calc .container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.mobile-calc .container:hover input:disabled:not(:checked) ~ .checkmark {
+    background-color: #580808;
+}
+
+.mobile-calc .container input:checked ~ .checkmark {
+    background-color: #d50c0d;
+}
+
+.mobile-calc .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.mobile-calc input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.mobile-calc .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.mobile-calc [type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.mobile-calc [type=radio] + img {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border: 5px solid transparent;
+}
+
+.mobile-calc [type=radio]:checked + img {
+    border: 5px solid #d50c0d;
+}
+
+.mobile-calc span.badge {
+    font-size: 10px;
+    background: #d50c0d;
+    padding: 5px;
+    position: relative;
+    margin-left: 10px;
+    color: white;
+    border-radius: 0px;
+    border: 0;
+
+    &.badge-weight {
+        background: darkorange;
+    }
+}
+
+
+

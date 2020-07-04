@@ -1,7 +1,7 @@
 <template>
-    <div class="product-item">
-        <div class="product-item__thumb">
-            <a @click="showInfoModal"><img
+    <div class="product-item" >
+        <div class="product-item__thumb" >
+            <a><img
                 class="lazyload" :data-src="product.food_img"
                 alt="banner images"></a>
         </div>
@@ -17,7 +17,7 @@
                 <img class="lazyload" :data-src="product.rest_info.logo" alt="">
             </a>
         </div>
-        <div class="product-item__hover__action product-item__left__bottom">
+        <div class="product-item__hover__action product-item__left__bottom" @click="showInfoModal">
             <div class="product-item__hover__inner">
 
                 <h2 class="pink-text">
@@ -31,16 +31,12 @@
                  dialog-class="modal-class" content-class="content-class">
 
             <template v-slot:modal-title>
-                <h5>Информация о товаре</h5>
+                <h6>Информация о товаре</h6>
             </template>
             <div class="d-block text-center">
-                <p>{{product.food_name}}</p>
+                <h6>{{product.food_name}}</h6>
                 <p>{{product.food_remark}}</p>
             </div>
-            <b-button class="mt-3 btn btn-primary">Добавить
-            </b-button>
-
-
         </b-modal>
     </div>
 </template>
@@ -49,6 +45,7 @@
     export default {
         props: ["product"],
         methods: {
+
             showInfoModal() {
                 this.$bvModal.show("modal-info-" + this.product.id)
             },
@@ -251,6 +248,24 @@
                 height: 50px;
             }
         }
+    }
+
+    .modal-content {
+        margin-bottom: 60px;
+    }
+
+    .modal-class {
+        display: flex;
+        align-items: flex-end;
+        padding: 0px;
+        margin: 0;
+    }
+
+    .content-class {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 0;
+        margin-bottom: 40px;
     }
 
 </style>

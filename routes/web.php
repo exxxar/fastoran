@@ -39,12 +39,19 @@ Route::get("/desktop", "RestController@desktop")->name("mobile.desktop");
 
 Route::prefix('m')->group(function () {
     Route::get("/", "RestController@mobile")->name("mobile.index");
-    Route::view("/restorans", "mobile.pages.restorans")->name("mobile.restorans");
+    Route::get("/restorans", function () {
+        $restorans = Restoran::where("moderation", true)->get()->shuffle();
+        return view("mobile.pages.restorans", compact("restorans"));
+    })->name("mobile.restorans");
     Route::get("/restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
+    Route::view("/tags-cloud", "mobile.pages.tags-cloud")->name("mobile.tags-cloud");
     Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");
     Route::view("/promotions", "mobile.pages.restorans")->name("mobile.promotions");
     Route::view("/cart", "mobile.pages.cart")->name("mobile.cart");
     Route::view("/status", "mobile.pages.status")->name("mobile.status");
+    Route::get("/calcs/{id?}", function ($id = 1) {
+        return view("mobile.pages.calcs", compact("id"));
+    })->name("calcs");
     Route::view("/phone-order", "mobile.pages.phone-order")->name("mobile.phone-order");
     Route::view("/product-order", "mobile.pages.product-order")->name("mobile.product-order");
     Route::view("/flowers-order", "mobile.pages.flowers-order")->name("mobile.flowers-order");
@@ -79,6 +86,7 @@ Route::view("/agreement", "fastoran.agreement")->name("agreement");
 Route::view("/terms-of-user", "fastoran.terms-of-use")->name("terms");
 Route::view("/simple", "fastoran.simple-order")->name("simple");
 
+
 Route::post("/fileupload", function (Request $request) {
     $phone = $request->phone ?? "+380710000000";
 
@@ -94,7 +102,7 @@ Route::post("/fileupload", function (Request $request) {
                 'chat_id' => env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
                 "caption" => "*Голосовая заявка от пользователя*\nНомер телефона:_ $phone _",
                 'parse_mode' => 'Markdown',
-                'audio' => \Telegram\Bot\FileUpload\InputFile::create(storage_path('app/public')."/uploads/$name"),
+                'audio' => \Telegram\Bot\FileUpload\InputFile::create(storage_path('app/public') . "/uploads/$name"),
             ]);
 
             Storage::delete("/uploads/$name");

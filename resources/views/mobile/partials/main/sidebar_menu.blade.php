@@ -18,31 +18,37 @@
         <div class="sidebarGroup ">
             <ul class="sidebarMenu upperSidebar">
                 <li>
-                    <a href="social-home.html">
+                    <a href="{{route("mobile.phone-order")}}">
                         <i class="fas fa-phone-volume"></i>
                         Заказать по телефону
                     </a>
                 </li>
                 <li>
-                    <a href="social-chat.html">
+                    <a href="{{route("mobile.product-order")}}">
                         <i class="fab fa-shopify"></i>
                         Продукты из магазина
                     </a>
                 </li>
                 <li>
-                    <a href="pages.html">
+                    <a href="{{route("mobile.flowers-order")}}">
                         <i class="fas fa-spa"></i>
                         Цветы и букеты
                     </a>
                 </li>
                 <li>
-                    <a href="components.html">
+                    <a href="{{route("mobile.restorans")}}">
                         <i class="fas fa-utensils"></i>
                         Рестораны
                     </a>
                 </li>
                 <li>
-                    <a href="blog-home.html">
+                    <a href="{{route("mobile.tags-cloud")}}">
+                        <i class="fas fa-pizza-slice"></i>
+                        Категории продуктов
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('mobile.status')}}">
                         <i class="fas fa-info-circle"></i>
                         Статус заказ
                     </a>
@@ -59,19 +65,19 @@
             <ul class="sidebarMenu">
                 <li class="title">Собери вкусняшки</li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('calcs',1)}}">
                         <img src="{{asset('images/fastoran/chelentano-calc.jpg')}}" alt="avatar" class="avatar">
                         Пицца \ Блинчики
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('calcs',2)}}">
                         <img src="{{asset('images/fastoran/isushi-calc.jpg')}}" alt="avatar" class="avatar">
                         Роллы
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('calcs',3)}}">
                         <img src="{{asset('images/fastoran/burger-bar-calc.jpg')}}" alt="avatar" class="avatar">
                         Хот-доги \ Гонконгские вафли
                     </a>
@@ -79,6 +85,29 @@
             </ul>
         </div>
 
+        <div class="sidebarGroup">
+            <ul class="sidebarMenu">
+                <li class="title">Мы в соц. сетях</li>
+                <li>
+                    <a href="{{route('calcs',1)}}">
+                        <img src="{{asset('images/fastoran/chelentano-calc.jpg')}}" alt="avatar" class="avatar">
+                        Пицца \ Блинчики
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('calcs',2)}}">
+                        <img src="{{asset('images/fastoran/isushi-calc.jpg')}}" alt="avatar" class="avatar">
+                        Роллы
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('calcs',3)}}">
+                        <img src="{{asset('images/fastoran/burger-bar-calc.jpg')}}" alt="avatar" class="avatar">
+                        Хот-доги \ Гонконгские вафли
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
 <!-- * Sidebar Menu -->

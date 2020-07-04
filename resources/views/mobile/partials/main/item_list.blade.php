@@ -1,8 +1,12 @@
 <!-- item list -->
 <div class="itemList">
-
+    <div class="row">
     @foreach($random_menus as $product)
-        <mobile-product-item-v2 :product="{{$product}}"></mobile-product-item-v2>
+        <div class="col-6">
+            <mobile-product-item :product="{{$product}}"></mobile-product-item>
+        </div>
+
     @endforeach
+    </div>
 </div>
 <!-- * item list -->

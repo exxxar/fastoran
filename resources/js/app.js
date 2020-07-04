@@ -77,7 +77,6 @@ Vue.component('order-status', require('./components/OrderStatus.vue').default);
 Vue.component('promo-block', require('./components/PromoBlock.vue').default);
 Vue.component('chelentano-calc', require('./components/calculators/ChelentanoCalc.vue').default);
 Vue.component('calc-slider', require('./components/calculators/CalcSlider.vue').default);
-Vue.component('roll-calc', require('./components/calculators/RollCalc.vue').default);
 Vue.component('isushi-calc', require('./components/calculators/IsushiCalc.vue').default);
 Vue.component('burger-bar-calc', require('./components/calculators/BurgerBarCalc.vue').default);
 Vue.component('voice-callback-form', require('./components/VoiceCallbackForm.vue').default);
@@ -112,6 +111,11 @@ Vue.component('mobile-order-status', require('./mobile/components/OrderStatus').
 Vue.component('mobile-voice-callback-form', require('./mobile/components/VoiceCallbackForm.vue').default);
 Vue.component('mobile-phone-order', require('./mobile/components/PhoneOrder.vue').default);
 Vue.component('mobile-latest-order', require('./mobile/components/LatestOrders.vue').default);
+Vue.component('mobile-calc-slider', require('./mobile/components/calculators/CalcSlider.vue').default);
+Vue.component('mobile-custom-order', require('./mobile/components/CustomOrder.vue').default);
+Vue.component('mobile-restorans', require('./mobile/components/Restorans.vue').default);
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
