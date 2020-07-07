@@ -29,6 +29,10 @@ exportingInit(Highcharts)
 import exportDataInit from 'highcharts/modules/export-data'
 exportDataInit(Highcharts)
 
+import VueTouch from 'vue-touch';
+
+Vue.use(VueTouch);
+
 const moment = require('moment')
 require('moment/locale/ru')
 
@@ -114,6 +118,7 @@ Vue.component('mobile-latest-order', require('./mobile/components/LatestOrders.v
 Vue.component('mobile-calc-slider', require('./mobile/components/calculators/CalcSlider.vue').default);
 Vue.component('mobile-custom-order', require('./mobile/components/CustomOrder.vue').default);
 Vue.component('mobile-restorans', require('./mobile/components/Restorans.vue').default);
+Vue.component('mobile-sidebar-menu', require('./mobile/components/SideBarMenu.vue').default);
 
 
 
