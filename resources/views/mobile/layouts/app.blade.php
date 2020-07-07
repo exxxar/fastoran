@@ -81,6 +81,7 @@
         })
 
         $('.owl-dots').attr('aria-hidden', 'true');
+        $('button.btn.btn-outline-success.product-item__btn').attr('aria-hidden', 'true');
 
     })
 </script>
