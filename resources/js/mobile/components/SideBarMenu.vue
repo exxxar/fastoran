@@ -84,13 +84,13 @@
                 <ul class="sidebarMenu">
                     <li class="title">Мы в соц. сетях</li>
                     <li>
-                        <a href="https://vk.com/fastorancom">
+                        <a href="https://vk.com/fastorancom" rel="noreferrer" target="_blank">
                             <i class="icon ion-logo-vk"></i>
                             Мы Вконтакте
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.instagram.com/fastoran_dn/">
+                        <a href="https://www.instagram.com/fastoran_dn/" rel="noreferrer" target="_blank">
                             <i class="icon ion-logo-instagram"></i>
                             Instagram
                         </a>
@@ -102,38 +102,38 @@
                 <ul class="sidebarMenu">
                     <li class="title">Telegram боты партнеров</li>
                     <li>
-                        <a href="https://t.me/diner_dn_bot" target="_blank">
+                        <a href="https://t.me/diner_dn_bot" target="_blank" rel="noreferrer">
                             <img src="/images/fastoran/diner-bot.jpg" alt="diner_dn_bot" class="avatar">
                             Ресторан "Diner"
                         </a>
                     </li>
                     <li>
-                        <a href="https://t.me/isushibot" target="_blank">
+                        <a href="https://t.me/isushibot" target="_blank" rel="noreferrer">
                             <img src="/images/fastoran/isushi-bot.jpg" alt="isushibot" class="avatar">
                             Ресторан "Isushi"
                         </a>
                     </li>
                     <li>
-                        <a href="https://t.me/svinya_dn_bot" target="_blank">
+                        <a href="https://t.me/svinya_dn_bot" target="_blank" rel="noreferrer">
                             <img src="/images/fastoran/svinya-bot.jpg" alt="svinya_dn_bot" class="avatar">
                             Гастропаб "Свинья"
                         </a>
                     </li>
                     <li>
-                        <a href="https://t.me/arkadia_donetsk_bot" target="_blank">
+                        <a href="https://t.me/arkadia_donetsk_bot" target="_blank" rel="noreferrer">
                             <img src="/images/fastoran/arcadia-bot.jpg" alt="arkadia_donetsk_bot" class="avatar">
                             Ресторан "Аркадия"
                         </a>
                     </li>
                     <li>
-                        <a href="https://t.me/pirogi_dn_bot" target="_blank">
+                        <a href="https://t.me/pirogi_dn_bot" target="_blank" rel="noreferrer">
                             <img src="/images/fastoran/pirogi-bot.jpg" alt="pirogi_dn_bot" class="avatar">
                             Осетинские пироги
                         </a>
                     </li>
 
                     <li>
-                        <a href="https://t.me/it_rest_service_bot" target="_blank">
+                        <a href="https://t.me/it_rest_service_bot" target="_blank" rel="noreferrer">
                             <img src="/images/fastoran/it-rest-bot.png" alt="it_rest_service_bot" class="avatar">
                             It Rest Service
                         </a>

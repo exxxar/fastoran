@@ -80,6 +80,7 @@
             autoWidth: true
         })
 
+        $('.owl-dots').attr('aria-hidden', 'true');
 
     })
 </script>
