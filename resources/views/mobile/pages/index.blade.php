@@ -27,7 +27,9 @@
     @include("mobile.partials.main.section_title",["title"=>"Партнеры", "muted"=>"Телеграм-боты" ])
 
 
-    @include("mobile.partials.main.post_list")
+    @include("mobile.partials.main.partners_carousel")
+
+{{--    @include("mobile.partials.main.post_list")--}}
 
     {{--<div class="divider mt-2 mb-4"></div>
 

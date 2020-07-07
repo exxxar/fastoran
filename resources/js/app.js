@@ -29,9 +29,9 @@ exportingInit(Highcharts)
 import exportDataInit from 'highcharts/modules/export-data'
 exportDataInit(Highcharts)
 
-import VueTouch from 'vue-touch';
+import Vue2TouchEvents from 'vue2-touch-events'
 
-Vue.use(VueTouch);
+Vue.use(Vue2TouchEvents)
 
 const moment = require('moment')
 require('moment/locale/ru')

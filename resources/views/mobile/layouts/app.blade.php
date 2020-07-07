@@ -62,9 +62,9 @@
         })
 
         $(".cardOverlayCarousel").owlCarousel({
-            margin: 40,
-            items: 1,
-            loop: true
+            margin: 20,
+            items: 2,
+            loop: true,
         })
 
         $(".postCarousel").owlCarousel({

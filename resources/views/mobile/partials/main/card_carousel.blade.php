@@ -1,5 +1,5 @@
 <!-- Card Overlay Carousel -->
-<div class="cardOverlayCarousel owl-carousel mt-2 mb-4">
+<div class="cardOverlayCarousel owl-carousel mt-2">
     <!-- item -->
     <div class="item">
         <a href="{{route('mobile.phone-order')}}" class="card card-overlay text-white">
