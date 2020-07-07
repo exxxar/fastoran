@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3 class="text-center">Запиши голосовое сообщение</h3>
+        <h6 class="text-center">Запиши голосовое сообщение</h6>
         <div class="d-flex justify-content-center mt-2">
             <vue-record-audio :mode="'hold'" @stream="onStream" @result="onResult"/>
         </div>
@@ -19,12 +19,6 @@
             </div>
         </div>
 
-        <div class="row d-flex justify-content-center mt-2">
-            <div class="col-12 col-sm-12 col-md-12">
-                <button @click="send" class="w-100 btn btn-primary ">Отправить голосовое сообщение</button>
-            </div>
-        </div>
-
     </div>
 
 
@@ -33,16 +27,20 @@
 <script>
     export default {
         name: 'app',
-        props: ["phone"],
+        props: ["phone","cansend"],
         data() {
             return {
                 recordings: []
             }
         },
+        watch:{
+          cansend:function (newVal) {
+                if (newVal)
+                    this.send();
+          }
+        },
         methods: {
             send() {
-                if (this.phone == null)
-                    return;
 
                 let formData = new FormData();
 
@@ -64,7 +62,7 @@
                 })
                     .catch(function () {
                     });
-
+                this.recordings = []
             },
             removeRecord(index) {
                 this.recordings.splice(index, 1)

@@ -12,10 +12,10 @@
 
     @include("mobile.partials.main.button_carousel")
 
-    <div class="divider mb-4"></div>
+    <div class="divider mb-2"></div>
 
 
-    @include("mobile.partials.main.section_title",["title"=>"Меню", "muted"=>"Случайные товары", "link"=>"/",
+    @include("mobile.partials.main.section_title",["title"=>"Меню", "muted"=>"Случайные товары", "link"=>route("mobile.restorans"),
      "lead"=>"Возможно, именно это ты и искал сегодня! Попробуй что-то новое."
     ])
 

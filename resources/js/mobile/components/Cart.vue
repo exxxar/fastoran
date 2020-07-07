@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <form v-on:submit.prevent="sendRequest">
 
         <div class="card mt-3 mb-3">
             <div class="card-body">
@@ -34,20 +34,25 @@
                                 v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span>
                             </td>
                             <td class="product-price"><span
-                                class="amount">{{item.product.food_price| currency}} </span></td>
+                                class="amount" v-if="item.product.food_status!==6">{{item.product.food_price| currency}} </span>
+                                <span class="amount" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)</span></td>
                             <td class="product-quantity">
-                                <p>Количество: {{item.quantity}}</p>
-                                <div class="buttons-group">
-                                    <button type="button" class="btn btn-outline-success mr-1 mb-1"
-                                            :disabled="item.quantity===1"
-                                            @click="decrement(item.product)">-
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success mr-1 mb-1"
-                                            @click="increment(item.product)">+
-                                    </button>
-                                </div>
+                            <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
+                            <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
+                            <div class="buttons-group" v-if="item.product.food_status!==6">
+                                <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
+                                        @click="decrement(item.product)">-
+                                </button>
+                                <button type="button" class="btn btn-coutner"
+                                        @click="increment(item.product)">+
+                                </button>
+                            </div>
                             </td>
-                            <td class="product-subtotal">{{item.quantity*item.product.food_price| currency}}
+                            <td class="product-subtotal" v-if="item.product.food_status!==6">
+                                {{item.quantity*item.product.food_price| currency}}
+                            </td>
+                            <td class="product-subtotal" v-if="item.product.food_status===6">
+                                {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}
                             </td>
                             <td class="product-remove"><a href="#">
                                 <button class="btn btn-outline-success mr-1 mb-1" @click="remove(item.product.id)">
@@ -80,7 +85,7 @@
                             </h2>
                         </div>
 
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
                              data-parent="#accordionExample">
                             <div class="card-body">
                                 <form action="">
@@ -307,7 +312,62 @@
 
             </div>
         </div>
-    </div>
+
+        <div class="order-details-wrapper">
+            <h6>Ваш заказ (чек)</h6>
+            <div class="order-details">
+
+                    <ul>
+                        <li><p class="strong">Продукт</p>
+                            <p class="strong">Всего</p></li>
+
+
+                        <li v-for="item in  cartProducts">
+                            <p v-if="item.product.food_status!==6">{{item.product.food_name}} x{{item.quantity}} </p>
+                            <p v-if="item.product.food_status===6">{{item.product.food_name}} массой {{item.weight}} грамм</p>
+                            <p v-if="item.product.food_status!==6">{{item.quantity*item.product.food_price| currency}}</p>
+                            <p v-if="item.product.food_status===6"> {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}</p></li>
+
+                        <li><p class="strong">Цена основного заказа</p>
+                            <p class="strong">{{cartTotalPrice| currency}}</p></li>
+
+                        <li v-if="getCustomProductsSum()>0"><h4>Дополнительные товары</h4></li>
+                        <li v-for="item in  custom_products" v-if="item.name!=null"><p>
+                            {{item.name}}</p>
+                            <p>{{item.price| currency}}</p></li>
+                        <li v-if="getCustomProductsSum()>0"><p class="strong">Цена дополнительного
+                            заказа</p>
+                            <p class="strong">{{getCustomProductsSum()| currency}}</p></li>
+
+
+                        <li><p class="strong">Полная цена доставки</p>
+                            <p>
+                                {{deliveryPrice+custom_delivery_price|currency}}
+                            </p></li>
+                        <li><p class="strong">Всего</p>
+                            <p class="strong">
+                                {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum()
+                                | currency}}</p></li>
+                        <li v-if="this.message.length>0" class="status-order">
+                            {{this.message}}
+                        </li>
+                        <li>
+                            <button class="btn btn-outline-danger w-100 mt-1" @click="clearCart" v-if="cartProducts.length>0">
+                                Очистить корзину
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-outline-info w-100 mt-1" type="submit"
+                                   :disabled="canMakeOrder()===false"
+                                    >Оформить
+                                заказ
+                            </button>
+                        </li>
+                    </ul>
+
+            </div>
+        </div>
+    </form>
 </template>
 <script>
     import {mask} from 'vue-the-mask'
@@ -480,7 +540,7 @@
                 let acceptMinCount = this.cartTotalCount > 0;
                 let sending = this.sending
 
-                //console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
+                console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
 
                 return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
             },
@@ -585,16 +645,20 @@
                         this.clearCart()
                         this.sendMessage("Ваш заказ успешно отправлен! Номер заказа #" + response.data.order_id);
 
-                        ym(61797661, 'reachGoal', 'zakaz');
 
                         this.deliveryPrice = 0;
                         this.delivery_range = null;
                         this.sending = false;
 
+                        this.delivery_range_message = "";
+
                         localStorage.setItem("last_order_id", response.data.order_id)
                         localStorage.setItem("status_counter", null)
 
                         this.message = "Ваш заказ успешно отправлен! Номер заказа #" + response.data.order_id
+
+                        ym(61797661, 'reachGoal', 'zakaz');
+
                         //window.location.href = "/success";
                     });
             },
@@ -640,6 +704,23 @@
     }
 </script>
 <style lang="scss">
+    .order-details {
+        ul {
+            padding:0px;
+            li {
+                list-style: none;
+                display: flex;
+                justify-content: space-between;
+                padding: 0px 5px 5px 0px;
+
+                p.strong {
+                    font-weight:800;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
     .cart-table {
         thead {
             th {
@@ -662,6 +743,14 @@
     .map-section {
         min-height: 350px;
         height: 400px;
+
+    }
+
+
+    .status-order {
+        background: red;
+        color: white;
+        padding: 10px !important;
 
     }
 </style>

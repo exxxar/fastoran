@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-3">
+    <div class="card mb-1">
         <div class="card-body">
             <h5 class="card-title">{{restoran.name}}</h5>
 

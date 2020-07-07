@@ -1,19 +1,19 @@
 <template>
     <div class="product-item" >
-        <div class="product-item__thumb" >
+        <div class="product-item__thumb" @click="showInfoModal">
             <a><img
                 class="lazyload" :data-src="product.food_img"
                 alt="banner images"></a>
         </div>
 
-        <mobile-product-controls :product="product"></mobile-product-controls>
+
 
 
         <h4 class="product-item__h4">
             {{product.food_price}}₽
         </h4>
         <div class="product-item__rest-img">
-            <a :href="'../mobile-restoran/'+product.rest_info.url">
+            <a :href="'/m/restoran/'+product.rest_info.url">
                 <img class="lazyload" :data-src="product.rest_info.logo" alt="">
             </a>
         </div>
@@ -26,6 +26,7 @@
 
             </div>
         </div>
+        <mobile-product-controls :product="product"></mobile-product-controls>
 
         <b-modal :id="'modal-info-'+product.id" hide-footer centered hide-backdrop no-stacking
                  dialog-class="modal-class" content-class="content-class">
@@ -110,7 +111,7 @@
         }
 
         .product-item__hover__action {
-            position: absolute;
+            position: relative;
             text-align: center;
             top: 50%;
             transform: translateY(-50%);
@@ -118,7 +119,7 @@
             z-index: 9;
 
             &.product-item__left__bottom {
-                position: absolute;
+                position: relative;
                 width: 100%;
                 height: 100%;
                 display: flex;
@@ -129,7 +130,7 @@
                 align-items: flex-end;
                 top: 0;
                 left: 0;
-                padding: 0px 10px 57px 10px;
+                padding: 0px 10px 0px 10px;
 
             }
 

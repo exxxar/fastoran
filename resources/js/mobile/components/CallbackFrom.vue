@@ -24,18 +24,16 @@
                               placeholder="Текст сообщения" required></textarea>
             </div>
 
+
+            <div class="form-group mb-2">
+                <mobile-voice-callback-form :phone="phone" :cansend="cansend"></mobile-voice-callback-form>
+            </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary mr-1 mb-1 w-100">
                     <i class="icon ion-md-mail"></i>
                     Отправить
                 </button>
             </div>
-
-            <div class="divider mb-2"></div>
-            <div class="form-group mb-2">
-                <mobile-voice-callback-form></mobile-voice-callback-form>
-            </div>
-
             <div class="form-group mb-2">
 
                 <button type="button" class="btn btn-link mr-1 mb-1">
@@ -44,6 +42,7 @@
                 </button>
 
             </div>
+
 
         </form>
     </div>
@@ -59,6 +58,7 @@
                 phone: '',
                 type: 0,
                 message: '',
+                cansend:false,
                 question_types: [
                     "Вопросы по заказу",
                     "Стать партнером",
@@ -72,6 +72,7 @@
 
             sendRequest: function (e) {
                 e.preventDefault();
+                this.cansend = true;
                 axios
                     .post('../api/v1/wish', {
                         from: this.name,
@@ -84,6 +85,7 @@
                         this.name = "";
                         this.phone = "";
                         this.message = "";
+                        this.cansend = false;
                     })
 
 

@@ -43,6 +43,7 @@ Route::prefix('m')->group(function () {
         $restorans = Restoran::where("moderation", true)->get()->shuffle();
         return view("mobile.pages.restorans", compact("restorans"));
     })->name("mobile.restorans");
+
     Route::get("/restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
     Route::view("/tags-cloud", "mobile.pages.tags-cloud")->name("mobile.tags-cloud");
     Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");

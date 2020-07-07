@@ -719,7 +719,9 @@
         components: {yandexMap, ymapMarker}
     }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+
+
 
     .more-product {
         h5 {

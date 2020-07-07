@@ -5,13 +5,13 @@
             <i class="icon ion-ios-menu"></i>
         </a>
     </div>
-    <div class="pageTitle">
+    <a href="{{route('mobile.index')}}" class="pageTitle">
         <img src="{{asset("img/logo-control.png")}}" alt="Fastoran" class="image">
-    </div>
+    </a>
     <div class="right">
-        <label for="searchInput" class="mb-0 icon toggleSearchbox">
+       {{-- <label for="searchInput" class="mb-0 icon toggleSearchbox">
             <i class="icon ion-ios-search"></i>
-        </label>
+        </label>--}}
     </div>
 </div>
 <!-- * App Header -->

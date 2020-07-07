@@ -2,7 +2,7 @@
 
 @section('content')
     @include("mobile.partials.restorans.restoran-info")
-    <div class="divider mt-2 mb-3"></div>
+    <div class="divider mt-1 mb-1"></div>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
        {{-- <li class="nav-item">
@@ -22,19 +22,8 @@
     </ul>
 
 
-    <div class="tab-content mt-3" id="myTabContent">
-       {{-- <div class="tab-pane fade active show" id="all" role="tabpanel">
-            <div class="row">
-            @foreach($products as $product)
-                <!-- Start Single Banner -->
-                    <div class="col-6">
-                        <mobile-product-item :product="{{$product}}"></mobile-product-item>
-                    </div>
+    <div class="tab-content" id="myTabContent">
 
-                @endforeach
-            </div>
-        </div>
---}}
         @foreach($restoran->categories->all() as $key=>$cat)
 
 
@@ -59,9 +48,9 @@
 
     @include("mobile.partials.main.button_carousel")
 
-    <div class="divider mb-3"></div>
+    <div class="divider mb-3 "></div>
 
-    @include("mobile.partials.main.section_title",[ "title"=>"Рестораны", "muted"=>"Еще больше еды", "link"=>route('mobile.restorans')])
+    @include("mobile.partials.main.section_title",[ "title"=>"Рестораны", "muted"=>"Еще больше еды", "link"=>route('mobile.tags-cloud')])
 
     @include("mobile.partials.main.post_carousel")
 
