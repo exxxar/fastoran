@@ -10,7 +10,7 @@
             {{product.food_price}}₽
         </h4>
         <div class="product-item__rest-img">
-            <a :href="'/m/restoran/'+product.rest_info.url">
+            <a :href="'/m/restoran/'+product.rest_info.url" :title="product.rest_info.name" :aria-label="product.rest_info.name">
                 <img class="lazyload" :data-src="product.rest_info.logo" alt="">
             </a>
         </div>

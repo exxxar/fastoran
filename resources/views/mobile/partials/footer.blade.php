@@ -7,11 +7,11 @@
         Сервис быстрой доставки еды из ресторанов и завдений общественного питания города Донецк.
     </p>
     <!-- instagram -->
-    <a href="https://www.instagram.com/fastoran_dn/" rel="noreferrer" target="_blank" class="btn btn-instagram btn-icon mr-1">
+    <a href="https://www.instagram.com/fastoran_dn/" rel="noreferrer" target="_blank" class="btn btn-instagram btn-icon mr-1" title="Fastoran in Instagram" aria-label="Fastoran in Instagram">
         <i class="icon ion-logo-instagram"></i>
     </a>
     <!-- vkontakte -->
-    <a href="https://vk.com/fastorancom" rel="noreferrer" target="_blank" class="btn btn-facebook btn-icon mr-1">
+    <a href="https://vk.com/fastorancom" rel="noreferrer" target="_blank" class="btn btn-facebook btn-icon mr-1" title="Fastoran in Vkontakte" aria-label="Fastoran in Vkontakte">
         <i class="icon ion-logo-vk"></i>
     </a>
 

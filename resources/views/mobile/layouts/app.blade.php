@@ -8,7 +8,7 @@
     <meta name="description"
           content="Доставка самой вкусной еды из ресторанов и заведений общественного питания города Донецк и города Макеевка. Доставка продуктов, цветов, медикаментов, а также вызов курьера!">
     <title>Fastoran - служба твоей доставки!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0">
     <meta name="keywords" content="донецк, рестораны, еда, донмак, аркадия, дайнер, джон, пицца"/>
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">

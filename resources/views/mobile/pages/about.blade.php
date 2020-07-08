@@ -87,9 +87,9 @@
                 </div>
             </div>
         </a>
-       
+
     </div>
     <!-- * listview -->
 
-
+    @include("mobile.partials.bottom_menu",["active"=>-1])
 @endsection
