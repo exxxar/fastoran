@@ -9,7 +9,7 @@
     </a>
     <h6 class="text-center mb-2">Либо, закажите звонок и наши флористы подберут букет под ваши пожелания!</h6>
     <mobile-flowers-order></mobile-flowers-order>
-    @include("mobile.partials.bottom_menu",["active"=>1])
+    @include("mobile.partials.bottom_menu",["active"=>-1])
 
 
 
