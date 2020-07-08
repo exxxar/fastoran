@@ -12,7 +12,7 @@
 
         <div class="container mb-5">
             <div class="row">
-                <div class="col-md-6 col-lg-3 col-sm-6 col-6 banner-item" v-for="product in products">
+                <div class="col-6 banner-item" v-for="product in products">
                     <mobile-product-item :product="product"></mobile-product-item>
                 </div>
 
@@ -64,6 +64,10 @@
 <style lang="scss" scoped>
     .product-list {
         position: relative;
+
+        .banner-item {
+            padding: 0px 3px;
+        }
 
         .food-categories {
             width: 100%;
