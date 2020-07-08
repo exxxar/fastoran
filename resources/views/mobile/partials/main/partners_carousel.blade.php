@@ -17,7 +17,7 @@
 
     </a>
 
-    <a href="https://t.me/isushibot" target="_blank" class="postItem">
+    <a href="https://t.me/isushibot" target="_blank" class="postItem" rel="noreferrer" class="postItem">
         <div class="imageWrapper">
             <img src="{{asset('images/fastoran/isushi-bot.jpg')}}" rel="noreferrer" alt="isushibot" class="image">
 
