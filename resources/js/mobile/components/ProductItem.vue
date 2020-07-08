@@ -27,7 +27,7 @@
         <mobile-product-controls :product="product"></mobile-product-controls>
 
         <b-modal :id="'modal-info-'+product.id" hide-footer centered hide-backdrop no-stacking
-                 dialog-class="modal-class" content-class="content-class">
+                 dialog-class="mobile-modal-class" content-class="mobile-content-class">
 
             <template v-slot:modal-title>
                 <h6>Информация о товаре</h6>
@@ -249,25 +249,29 @@
         }
     }
 
-    .product-item {
-        .modal-content {
-            margin-bottom: 60px;
+
+        .mobile-modal-content {
+            bottom: 60px;
+            position: fixed;
         }
 
-        .modal-class {
+        .mobile-modal-class {
             display: flex;
             align-items: flex-end;
             padding: 0px;
             margin: 0;
         }
 
-        .content-class {
+        .mobile-content-class {
             border: none;
             border-top: 1px solid rgba(0, 0, 0, .2);
             border-radius: 0;
             margin-bottom: 40px;
+            bottom: 15px;
+            position: fixed;
         }
 
-    }
+
 
 </style>
+
