@@ -72,7 +72,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/m//calcs/3" title="Хот-доги \ Гонконгские вафли" aria-label="Хот-доги \ Гонконгские вафли">
+                        <a href="/m/calcs/3" title="Хот-доги \ Гонконгские вафли" aria-label="Хот-доги \ Гонконгские вафли">
                             <img v-lazy="'/images/fastoran/burger-bar-calc.jpg'" alt="avatar" class="avatar">
                             Хот-доги \ Гонконгские вафли
                         </a>

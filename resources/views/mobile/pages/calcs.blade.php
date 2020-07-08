@@ -16,5 +16,5 @@
 
     @include("mobile.partials.main.post_carousel")
 
-    @include("mobile.partials.bottom_menu",["active"=>0])
+    @include("mobile.partials.bottom_menu",["active"=>-1])
 @endsection

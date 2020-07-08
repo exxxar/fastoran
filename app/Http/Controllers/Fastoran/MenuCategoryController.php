@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Parts\Models\Fastoran\MenuCategory;
 
+use App\Parts\Models\Fastoran\RestMenu;
+use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Http\Request;
 
 class MenuCategoryController extends Controller
@@ -30,6 +32,12 @@ class MenuCategoryController extends Controller
             ->with('i', ($request->get('page', 1) - 1) * 15);
     }
 
+    public function menuCategoriesInRest(Request $request,$rest_id){
+        return response()
+            ->json([
+                'menu_categories' => (Restoran::with(["categories"])->where("id",$rest_id)->first())->categories->all(),
+            ]);
+    }
     /**
      * Show the form for creating a new resource.
      *

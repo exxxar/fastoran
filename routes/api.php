@@ -70,6 +70,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::any('kitchens', 'KitchenController@index');
         Route::any('menu_categories', 'MenuCategoryController@index');
+        Route::any('menu_categories_in_rest/{rest_id}', 'MenuCategoryController@menuCategoriesInRest');
         Route::any('restorans', 'RestoransController@index');
         Route::any('menus', 'MenuController@index');
 

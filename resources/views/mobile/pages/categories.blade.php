@@ -12,5 +12,5 @@
     @include("mobile.partials.main.post_carousel")
     <!-- * Post Carousel -->
 
-    @include("mobile.partials.bottom_menu",["active"=>0])
+    @include("mobile.partials.bottom_menu",["active"=>-1])
 @endsection
