@@ -155,7 +155,7 @@
         },
         mounted() {
             document.addEventListener('touchstart', (e) => {
-                e.preventDefault();
+
             }, {passive: true});
         },
         methods: {

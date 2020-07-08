@@ -36,10 +36,10 @@
             </div>
             <div class="form-group mb-2">
 
-                <button type="button" class="btn btn-link mr-1 mb-1">
+                <a href="/m/rules" class="btn btn-link mr-1 mb-1" title="Пользовательское соглашение" aria-label="Пользовательское соглашение">
                     <i class="icon ion-ios-filing"></i>
                     Пользовательское соглашение!
-                </button>
+                </a>
 
             </div>
 

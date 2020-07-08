@@ -47,3 +47,10 @@
         }
     }
 </script>
+<style lang="scss">
+    .itemList {
+        a {
+            display: block;
+        }
+    }
+</style>

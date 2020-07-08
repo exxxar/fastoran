@@ -211,7 +211,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
     .custom-control {
         margin-bottom: 0px;

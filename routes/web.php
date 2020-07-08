@@ -47,6 +47,12 @@ Route::prefix('m')->group(function () {
     Route::get("/restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
     Route::view("/tags-cloud", "mobile.pages.tags-cloud")->name("mobile.tags-cloud");
     Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");
+
+    Route::view("/rules", "mobile.pages.rules")->name("mobile.rules");
+    Route::view("/contacts", "mobile.pages.contacts")->name("mobile.contacts");
+    Route::view("/about", "mobile.pages.about")->name("mobile.about");
+
+
     Route::view("/promotions", "mobile.pages.restorans")->name("mobile.promotions");
     Route::view("/cart", "mobile.pages.cart")->name("mobile.cart");
     Route::view("/status", "mobile.pages.status")->name("mobile.status");
