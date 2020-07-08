@@ -1,5 +1,5 @@
 <template>
-    <div class="product-item" >
+    <div class="product-item">
         <div class="product-item__thumb" @click="showInfoModal">
             <a :title="product.food_name" :aria-label="product.food_name"><img
                 class="lazyload" :data-src="product.food_img"
@@ -10,7 +10,8 @@
             {{product.food_price}}₽
         </h4>
         <div class="product-item__rest-img">
-            <a :href="'/m/restoran/'+product.rest_info.url" :title="product.rest_info.name" :aria-label="product.rest_info.name">
+            <a :href="'/m/restoran/'+product.rest_info.url" :title="product.rest_info.name"
+               :aria-label="product.rest_info.name">
                 <img class="lazyload" :data-src="product.rest_info.logo" alt="">
             </a>
         </div>
@@ -50,7 +51,7 @@
         }
     }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
     .product-item {
         margin-top: 10px;
         position: relative;
@@ -248,22 +249,25 @@
         }
     }
 
-    .modal-content {
-        margin-bottom: 60px;
-    }
+    .product-item {
+        .modal-content {
+            margin-bottom: 60px;
+        }
 
-    .modal-class {
-        display: flex;
-        align-items: flex-end;
-        padding: 0px;
-        margin: 0;
-    }
+        .modal-class {
+            display: flex;
+            align-items: flex-end;
+            padding: 0px;
+            margin: 0;
+        }
 
-    .content-class {
-        border: none;
-        border-top: 1px solid rgba(0, 0, 0, .2);
-        border-radius: 0;
-        margin-bottom: 40px;
+        .content-class {
+            border: none;
+            border-top: 1px solid rgba(0, 0, 0, .2);
+            border-radius: 0;
+            margin-bottom: 40px;
+        }
+
     }
 
 </style>
