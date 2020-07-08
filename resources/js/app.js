@@ -133,6 +133,10 @@ import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import 'lazysizes';
 
+import VueLazyload from 'vue-lazyload'
+
+Vue.use(VueLazyload)
+
 /*import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 // For more options see below

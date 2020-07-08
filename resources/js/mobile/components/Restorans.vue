@@ -9,7 +9,7 @@
         <div class="itemList">
             <a :href="'/m/restoran/'+rest.url" class="item" v-for="rest in tmp_restorans">
                 <div class="image">
-                    <img :src="rest.logo" alt="image">
+                    <img v-lazy="rest.logo" alt="image">
                 </div>
                 <div class="text">
                     <h4 class="title">{{rest.name}}</h4>

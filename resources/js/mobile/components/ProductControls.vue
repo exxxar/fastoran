@@ -167,6 +167,11 @@
                 return tmp.length === 0 ? 0 : tmp[0].quantity
             },
             openSubMenu() {
+                if (!this.checkFirstRestoran(this.product.rest_id)) {
+                    this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
+                    return;
+                }
+
                 this.$bvModal.show("modal-submenu-" + this.product.id)
             },
             addToCart() {
