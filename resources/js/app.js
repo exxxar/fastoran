@@ -114,6 +114,7 @@ Vue.component('mobile-cart', require('./mobile/components/Cart').default);
 Vue.component('mobile-order-status', require('./mobile/components/OrderStatus').default);
 Vue.component('mobile-voice-callback-form', require('./mobile/components/VoiceCallbackForm.vue').default);
 Vue.component('mobile-phone-order', require('./mobile/components/PhoneOrder.vue').default);
+Vue.component('mobile-flowers-order', require('./mobile/components/FlowersOrder.vue').default);
 Vue.component('mobile-latest-order', require('./mobile/components/LatestOrders.vue').default);
 Vue.component('mobile-calc-slider', require('./mobile/components/calculators/CalcSlider.vue').default);
 Vue.component('mobile-custom-order', require('./mobile/components/CustomOrder.vue').default);

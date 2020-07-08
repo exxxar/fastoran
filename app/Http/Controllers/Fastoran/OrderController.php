@@ -474,6 +474,36 @@ class OrderController extends Controller
 
     }
 
+    public function sendFlowersOrder(Request $request)
+    {
+        $phone = $this->preparePhone($request->get("phone"));
+        $name = $request->get("name") ?? '';
+
+        $user = $this->getUser();
+
+        if (is_null($user))
+            $this->doHttpRequest(env('APP_URL') . 'api/v1/auth/signup_phone', [
+                'phone' => $phone,
+                'name' => $name
+
+            ]);
+
+        $message = sprintf("*Заявка на оформление заказа на цветы по телефону*\nФ.И.О.:%s\nТелефон:%s\n",
+            $name,
+            $phone
+        );
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_FLOWERS_CHANNEL"), $message);
+
+        return response()
+            ->json([
+                "message" => $message,
+                "status" => 200
+            ]);
+    }
+
+
     public function sendPhoneOrder(Request $request)
     {
         $phone = $this->preparePhone($request->get("phone"));

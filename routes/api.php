@@ -49,6 +49,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('order/resend', 'OrderController@resendSmsVerify');
         Route::post('order/custom', 'OrderController@sendCustomOrder');
         Route::post('order/phone', 'OrderController@sendPhoneOrder');
+        Route::post('order/flowers', 'OrderController@sendFlowersOrder');
         Route::post('order/quest', 'OrderController@sendDeliverymanQuest');
         Route::post('order/price_by_code', 'PromocodeController@getPriceByCode');
         Route::get('order/latest', 'OrderController@getLatestOrders');
