@@ -7,7 +7,7 @@
     <a href="/m/restoran/ona_hochet_dn" class="mb-2" style="display: block" title="Цветочная лавка" aria-label="Цветочная лавка">
         <img src="/images/fastoran/restorans/flowers.jpg" alt="Цветы Fastoran" class="img-fluid">
     </a>
-    <h6 class="text-center">Либо, закажите звонок и наши флористы подберут букет под ваши пожелания!</h6>
+    <h6 class="text-center mb-2">Либо, закажите звонок и наши флористы подберут букет под ваши пожелания!</h6>
     <mobile-flowers-order></mobile-flowers-order>
     @include("mobile.partials.bottom_menu",["active"=>1])
 
