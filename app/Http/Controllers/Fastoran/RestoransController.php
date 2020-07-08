@@ -29,7 +29,6 @@ class RestoransController extends Controller
                 ]);
 
 
-
         return view('admin.restorans.index', compact('restorans'))
             ->with('i', ($request->get('page', 1) - 1) * 50);
     }
@@ -47,7 +46,7 @@ class RestoransController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -58,25 +57,19 @@ class RestoransController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Restoran  $restorans
+     * @param \App\Restoran $restorans
      * @return \Illuminate\Http\RedirectResponse
      */
     public function show(Request $request, $domain)
     {
-        $restoran = Restoran::with(["kitchens", "categories", "categories.menus"])->where("url", $domain)
+        $restoran = Restoran::where("url", $domain)
             ->first();
 
         if (is_null($restoran))
             return redirect()->route("mobile.index");
 
-        $products = RestMenu::where("rest_id", $restoran->id)->paginate(50);
 
-
-        $menu_categories = $restoran->categories->all();
-
-
-        return view("mobile.pages.restoran-info", compact("restoran", "products","menu_categories"))
-            ->with('i', ($request->get('page', 1) - 1) * 50);
+        return view("mobile.pages.restoran-info", compact("restoran"));
     }
 
     /**
@@ -93,7 +86,7 @@ class RestoransController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -113,48 +106,51 @@ class RestoransController extends Controller
         //
     }
 
-    public function like(Request $request,$id){
+    public function like(Request $request, $id)
+    {
 
-     /*   $restLike = RestLike::where("rest_id",$id)->first();
+        /*   $restLike = RestLike::where("rest_id",$id)->first();
 
-        if (is_null($restLike)) {
-            RestLike::create([
-                'ip' => $request->ip(),
-                'likes' => 1,
-                'antilikes' => 0,
-                'rest_id' => $id,
-                'dat' => Carbon::now("+3:00"),
-            ]);
-        }
-        else {
-            $restLike->likes
-        }
+           if (is_null($restLike)) {
+               RestLike::create([
+                   'ip' => $request->ip(),
+                   'likes' => 1,
+                   'antilikes' => 0,
+                   'rest_id' => $id,
+                   'dat' => Carbon::now("+3:00"),
+               ]);
+           }
+           else {
+               $restLike->likes
+           }
+           $rest = Restoran::find($id);
+           $rest->rest_like+=$rest->rest_like>0?1:0;
+           $rest->save();
+
+           return response()
+               ->json([
+                   "message"=>"Success",
+                   "status"=>200
+               ]);*/
+    }
+
+    public function dislike($id)
+    {
         $rest = Restoran::find($id);
-        $rest->rest_like+=$rest->rest_like>0?1:0;
+        $rest->rest_antilike += $rest->rest_like > 0 ? 1 : 0;
         $rest->save();
 
         return response()
             ->json([
-                "message"=>"Success",
-                "status"=>200
-            ]);*/
-    }
-
-    public function dislike($id){
-        $rest = Restoran::find($id);
-        $rest->rest_antilike+=$rest->rest_like>0?1:0;
-        $rest->save();
-
-        return response()
-            ->json([
-                "message"=>"Success",
-                "status"=>200
+                "message" => "Success",
+                "status" => 200
             ]);
     }
 
-    public function getRestoransByKitchenId($kitchenId){
-        $restorans  = Kitchen::with(["restorans"])
-            ->where("id",$kitchenId)
+    public function getRestoransByKitchenId($kitchenId)
+    {
+        $restorans = Kitchen::with(["restorans"])
+            ->where("id", $kitchenId)
             ->first();
 
         return response()
