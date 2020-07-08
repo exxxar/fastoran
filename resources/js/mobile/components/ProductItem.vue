@@ -1,13 +1,10 @@
 <template>
     <div class="product-item" >
         <div class="product-item__thumb" @click="showInfoModal">
-            <a><img
+            <a :title="product.food_name" :aria-label="product.food_name"><img
                 class="lazyload" :data-src="product.food_img"
                 alt="banner images"></a>
         </div>
-
-
-
 
         <h4 class="product-item__h4">
             {{product.food_price}}₽
