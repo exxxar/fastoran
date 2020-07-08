@@ -51,7 +51,7 @@
                 this.preloader = true;
                 this.products = [];
                 axios
-                    .get("/api/v1/fastoran/menu_categories/" + id)
+                    .get("/api/v1/fastoran/products_by_rest_and_category/" + id+"/"+this.restoran_id)
                     .then(resp => {
                         this.products = resp.data.products
                         this.preloader = false;
@@ -64,6 +64,11 @@
 <style lang="scss" scoped>
     .product-list {
         position: relative;
+
+        .container {
+            padding-right: 5px;
+            padding-left: 5px;
+        }
 
         .banner-item {
             padding: 0px 3px;

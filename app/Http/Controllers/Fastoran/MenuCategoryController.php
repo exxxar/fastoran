@@ -78,6 +78,16 @@ class MenuCategoryController extends Controller
         return view("mobile.pages.categories", compact("products","category"));
     }
 
+    public function showByRestAndCategory(Request $request,$cat_id,$rest_id){
+        $category = MenuCategory::with(["menus", "menus.restoran"])->where("id", $cat_id)->first();
+        $products = $category->getFilteredMenu($rest_id);
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    "products" => $products
+                ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
