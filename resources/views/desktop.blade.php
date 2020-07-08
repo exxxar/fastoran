@@ -73,7 +73,7 @@
 
 
             <div class="buttonWrapper">
-                <a href="#partnerModal" data-toggle="modal" data-target="#partnerModal"
+                <a href="https://fastoran.com/contacts"
                    class="btn btn-success mr-4" target="_blank">
                     <ion-icon name="cart-outline" role="img" class="md hydrated" aria-label="cart outline"></ion-icon>
                     Стать партнером

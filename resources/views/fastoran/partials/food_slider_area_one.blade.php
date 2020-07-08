@@ -41,6 +41,8 @@
 
                                     </div>
                                 </div>
+                                <h3git class="text-center mb-5"><a href="/desktop"><mark class=" text-white ">Fastoran 2.0 (для телефонов) Попробовать!</mark></a>
+                                </h3git>
                                 <h1>Доставка еды &amp; сервис</h1>
                                 <div class="slider__input custom__slider__input">
                                     <order-status></order-status>
