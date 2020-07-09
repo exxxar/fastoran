@@ -33,7 +33,7 @@
                 <h6>Информация о товаре</h6>
             </template>
             <div class="d-block text-center">
-                <img class="lazyload img-fluid" :data-src="product.food_img" :alt="product.food_name">
+                <img class="lazyload img-thumbnail" :data-src="product.food_img" :alt="product.food_name" @click="closeInfoModal">
 
                 <h6>{{product.food_name}}</h6>
                 <p>{{product.food_remark}}</p>
@@ -46,7 +46,9 @@
     export default {
         props: ["product"],
         methods: {
-
+            closeInfoModal(){
+                this.$bvModal.hide("modal-info-" + this.product.id)
+            },
             showInfoModal() {
                 this.$bvModal.show("modal-info-" + this.product.id)
             },
