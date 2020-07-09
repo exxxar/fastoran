@@ -40,10 +40,10 @@
                             <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
                             <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
                             <div class="buttons-group" v-if="item.product.food_status!==6">
-                                <button type="button" class="btn btn-coutner" :disabled="item.quantity===1"
+                                <button type="button" class="btn btn-outline-info" :disabled="item.quantity===1"
                                         @click="decrement(item.product)">-
                                 </button>
-                                <button type="button" class="btn btn-coutner"
+                                <button type="button" class="btn btn-outline-info"
                                         @click="increment(item.product)">+
                                 </button>
                             </div>
@@ -637,7 +637,8 @@
                         receiver_domophone: '',
                         take_by_self: this.take_by_self,
                         order_details: products,
-                        custom_details: this.custom_products
+                        custom_details: this.custom_products,
+                        client:'PWA'
 
 
                     })
