@@ -33,6 +33,8 @@
                 <h6>Информация о товаре</h6>
             </template>
             <div class="d-block text-center">
+                <img class="lazyload img-fluid" :data-src="product.food_img" :alt="product.food_name">
+
                 <h6>{{product.food_name}}</h6>
                 <p>{{product.food_remark}}</p>
             </div>
@@ -250,27 +252,26 @@
     }
 
 
-        .mobile-modal-content {
-            bottom: 60px;
-            position: fixed;
-        }
+    .mobile-modal-content {
+        bottom: 60px;
+        position: fixed;
+    }
 
-        .mobile-modal-class {
-            display: flex;
-            align-items: flex-end;
-            padding: 0px;
-            margin: 0;
-        }
+    .mobile-modal-class {
+        display: flex;
+        align-items: flex-end;
+        padding: 0px;
+        margin: 0;
+    }
 
-        .mobile-content-class {
-            border: none;
-            border-top: 1px solid rgba(0, 0, 0, .2);
-            border-radius: 0;
-            margin-bottom: 40px;
-            bottom: 15px;
-            position: fixed;
-        }
-
+    .mobile-content-class {
+        border: none;
+        border-top: 1px solid rgba(0, 0, 0, .2);
+        border-radius: 0;
+        margin-bottom: 40px;
+        bottom: 15px;
+        position: fixed;
+    }
 
 
 </style>

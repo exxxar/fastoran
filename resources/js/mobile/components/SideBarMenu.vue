@@ -51,7 +51,7 @@
                     <li>
                         <a href="/m/tags-cloud"  title="Категории продуктов" aria-label="Категории продуктов">
                             <i class="fas fa-pizza-slice"></i>
-                            Категории продуктов
+                            Категории
                         </a>
                     </li>
                     <li>
