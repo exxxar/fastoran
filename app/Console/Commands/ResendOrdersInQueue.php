@@ -78,7 +78,7 @@ class ResendOrdersInQueue extends Command
             $price2 = $order->delivery_price;
 
             $message_channel = sprintf(
-                "*Заявка #%s* (из %s)\n" .
+                "*!ОТЛОЖЕННАЯ ЗАЯВКА! #%s* (из %s)\n" .
                 "Ресторан:_%s_\n" .
                 "Ф.И.О.:_%s_\n" .
                 "Телефон:_%s_\n" .
@@ -109,18 +109,23 @@ class ResendOrdersInQueue extends Command
 
             $orderId = $this->prepareNumber($order->id);
 
-            event(new CheckOldOrdersEvent($orderId, $rest->telegram_channel, $rest->id));
+           /* event(new CheckOldOrdersEvent($orderId, $rest->telegram_channel, $rest->id));*/
 
-            event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
+            event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обрабатывается! Вам перезвонят."));
 
-            $this->sendMessageToTelegramChannel($rest->telegram_channel, $message_channel, [
+           /* $this->sendMessageToTelegramChannel($rest->telegram_channel, $message_channel, [
                 [
                     ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
                     ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
                 ]
-            ]);
+            ]);*/
 
-            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
+            $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin,[
+                [
+                    ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=008$orderId"],
+                    ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=009$orderId"]
+                ]
+            ]);
 
         }
 
