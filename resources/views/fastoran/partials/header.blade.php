@@ -21,14 +21,14 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                               {{-- <li class="drop"><a href="#kitchens" aria-label="Переход к разделу кухонь">Кухни</a>
-                                    <ul class="dropdown__menu">
-                                        @foreach($header_kitchen_list as $hkitchen)
-                                            <li><a aria-label="Кухня:{{$hkitchen->name}}" href="{{route("kitchen",$hkitchen->id)}}">{{$hkitchen->name}}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>--}}
+                                {{-- <li class="drop"><a href="#kitchens" aria-label="Переход к разделу кухонь">Кухни</a>
+                                     <ul class="dropdown__menu">
+                                         @foreach($header_kitchen_list as $hkitchen)
+                                             <li><a aria-label="Кухня:{{$hkitchen->name}}" href="{{route("kitchen",$hkitchen->id)}}">{{$hkitchen->name}}</a>
+                                             </li>
+                                         @endforeach
+                                     </ul>
+                                 </li>--}}
                                 {{--<li class="drop"><a href="{{route("faq")}}">F.A.Q.</a>
                                     <ul class="dropdown__menu">
                                         <li><a href="{{route("cart")}}">Корзина</a></li>
@@ -40,15 +40,19 @@
                                     </ul>
                                 </li>--}}
                                 <li>
+
+                                    <a aria-label="Раздел цветов" href="https://fastoran.com/rest/ona_hochet_dn">Цветы</a>
+
+                                </li>
+                                <li>
                                     <div class="d-sm-none">
                                         <a aria-label="Раздел контакты" href="{{route('contacts')}}">Партнерам</a>
                                     </div>
 
                                     <div class="d-none d-sm-block">
-                                        <a  aria-label="Раздел контакты" href="#contacts" data-toggle="modal"
-                                            data-target="#contactModalBox">Партнерам</a>
+                                        <a aria-label="Раздел контакты" href="#contacts" data-toggle="modal"
+                                           data-target="#contactModalBox">Партнерам</a>
                                     </div>
-
                                 </li>
 
                                 <li>
@@ -96,7 +100,8 @@
                             @endauth--}}
 
                         <div class="shopping__cart">
-                            <a class="minicart-trigger" aria-label="Корзина товаров" href="#"><i class="zmdi zmdi-shopping-basket"></i></a>
+                            <a class="minicart-trigger" aria-label="Корзина товаров" href="#"><i
+                                    class="zmdi zmdi-shopping-basket"></i></a>
                             <div class="shop__qun">
                                 <span> <cart-count-index></cart-count-index> </span>
                             </div>
