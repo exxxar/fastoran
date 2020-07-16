@@ -351,6 +351,9 @@
                         <li v-if="this.message.length>0" class="status-order">
                             {{this.message}}
                         </li>
+                        <li v-if="delivery_range===null">
+                            Расчитайте цену доставки!
+                        </li>
                         <li>
                             <button class="btn btn-outline-danger w-100 mt-1" @click="clearCart" v-if="cartProducts.length>0">
                                 Очистить корзину
