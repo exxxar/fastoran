@@ -335,7 +335,11 @@ class OrderController extends Controller
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
 
 
-        event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) в обработке!"));
+        event(new SendSmsEvent($user->phone, sprintf("Заказ #%s цена %s₽ доставка %s₽! Fastoran: 0715071752",
+            $order->id,
+            $order->summary_price,
+            $order->delivery_price
+        )));
 
         return response()
             ->json([
