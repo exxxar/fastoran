@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="orderHistory">
         <p v-if="counter">Историю заказов можно проверить через: {{counter}} секунд.</p>
 
         <form v-on:submit.prevent="refresh">
@@ -40,10 +40,10 @@
                                 Цена доставки {{order.delivery_price| currency}} ({{order.delivery_range}} км)
                             </div>
                             <div class="text-muted">
-                                Заказано: {{order.created_at}} <i class="far fa-clock"></i>
+                                Заказано:<br> {{order.created_at}} <i class="far fa-clock"></i>
                             </div>
                             <div class="text-muted">
-                                Доставлено: {{order.updated_at}} <i class="far fa-clock"></i>
+                                Доставлено:<br> {{order.updated_at}} <i class="far fa-clock"></i>
                             </div>
                         </div>
 
@@ -60,13 +60,15 @@
 
         <div class="row" v-if="this.orders.length>0">
             <div class="col-12">
-                <button v-if="this.prev_page_url!=null" class="btn btn-outline-success w-100" @click="prev()" :disabled="searching">
+                <button v-if="this.prev_page_url!=null" class="btn btn-outline-success w-100" @click="prev()"
+                        :disabled="searching">
                     {{counter?"Назад через "+counter+" сек.":"Предидушая страница"}}
 
                 </button>
             </div>
             <div class="col-12">
-                <button v-if="this.next_page_url!=null" class="btn btn-outline-success w-100" @click="next()" :disabled="searching">
+                <button v-if="this.next_page_url!=null" class="btn btn-outline-success w-100" @click="next()"
+                        :disabled="searching">
                     {{counter?"Далее через "+counter+" сек.":"Следующая страница"}}
                 </button>
             </div>
@@ -119,8 +121,8 @@
                     }, 1000
                 )
             },
-            refresh(){
-              this.current_page_url = '/api/v1/fastoran/order/history';
+            refresh() {
+                this.current_page_url = '/api/v1/fastoran/order/history';
                 this.findOrders();
             },
             prev() {
@@ -139,7 +141,7 @@
                 axios.post(this.current_page_url, {
                     phone: this.phone
                 }).then(resp => {
-                     this.startTimer();
+                    this.startTimer();
                     localStorage.setItem("phone", this.phone == null ? '' : this.phone);
                     this.orders = resp.data.data
 
@@ -207,8 +209,11 @@
         word-break: break-all;
     }
 
-    a.listItem {
-        display: flex;
-        flex-wrap: wrap;
+    .orderHistory {
+        a.listItem {
+            display: flex;
+            flex-wrap: wrap;
+            background-image: none;
+        }
     }
 </style>
