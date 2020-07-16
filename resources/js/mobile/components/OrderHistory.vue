@@ -40,8 +40,12 @@
                                 Цена доставки {{order.delivery_price| currency}} ({{order.delivery_range}} км)
                             </div>
                             <div class="text-muted">
-                                Заказано:<br> {{order.created_at}} <i class="far fa-clock"></i>
+                                Статус заказа: {{order.status_text}} <i class="fa fa-hourglass-start" aria-hidden="true"></i>
                             </div>
+                            <div class="text-muted">
+                                Заказано в:<br> {{order.created_at}} <i class="far fa-clock"></i>
+                            </div>
+
                             <div class="text-muted">
                                 Последнее обновление статуса заказа:<br> {{order.updated_at}} <i class="far fa-clock"></i>
                             </div>
