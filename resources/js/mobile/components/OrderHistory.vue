@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <ul>
-                    <li v-for="product in order.details">{{product.product_details.food_name}}
+                    <li v-for="product in order.details" v-if="product.product_details!=null">{{product.product_details.food_name}}
                         {{product.product_details.food_price | currency}} x{{product.count}}
                     </li>
                 </ul>
