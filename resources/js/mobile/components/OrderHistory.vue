@@ -43,7 +43,7 @@
                                 Заказано:<br> {{order.created_at}} <i class="far fa-clock"></i>
                             </div>
                             <div class="text-muted">
-                                Доставлено:<br> {{order.updated_at}} <i class="far fa-clock"></i>
+                                Последнее обновление статуса заказа:<br> {{order.updated_at}} <i class="far fa-clock"></i>
                             </div>
                         </div>
 
