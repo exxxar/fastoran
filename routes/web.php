@@ -56,6 +56,7 @@ Route::prefix('m')->group(function () {
     Route::view("/promotions", "mobile.pages.restorans")->name("mobile.promotions");
     Route::view("/cart", "mobile.pages.cart")->name("mobile.cart");
     Route::view("/status", "mobile.pages.status")->name("mobile.status");
+    Route::view("/history", "mobile.pages.history")->name("mobile.history");
     Route::get("/calcs/{id?}", function ($id = 1) {
         return view("mobile.pages.calcs", compact("id"));
     })->name("calcs");

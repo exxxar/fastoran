@@ -26,37 +26,43 @@
                 <ul class="sidebarMenu upperSidebar">
                     <li>
                         <a href="/m/phone-order" title="Заказать по телефону" aria-label="Заказать по телефону">
-                            <i class="fas fa-phone-volume"></i>
+                            <i class="fas fa-phone-volume mr-1"></i>
                             Заказать по телефону
                         </a>
                     </li>
                     <li>
                         <a href="/m/product-order" title="Продукты из магазина" aria-label="Продукты из магазина">
-                            <i class="fab fa-shopify"></i>
+                            <i class="fab fa-shopify mr-1"></i>
                             Продукты из магазина
                         </a>
                     </li>
                     <li>
                         <a href="/m/flowers-order" title="Цветы и букеты" aria-label="Цветы и букеты">
-                            <i class="fas fa-spa"></i>
+                            <i class="fas fa-spa mr-1"></i>
                             Цветы и букеты
                         </a>
                     </li>
                     <li>
                         <a href="/m/restorans" title="Рестораны" aria-label="Рестораны">
-                            <i class="fas fa-utensils"></i>
+                            <i class="fas fa-utensils mr-1"></i>
                             Рестораны
                         </a>
                     </li>
                     <li>
                         <a href="/m/tags-cloud"  title="Категории продуктов" aria-label="Категории продуктов">
-                            <i class="fas fa-pizza-slice"></i>
+                            <i class="fas fa-pizza-slice mr-1"></i>
                             Категории
                         </a>
                     </li>
                     <li>
+                        <a href="/m/history" title="Статус заказ" aria-label="Статус заказ">
+                            <i class="fa fa-history mr-1" aria-hidden="true"></i>
+                            История заказов
+                        </a>
+                    </li>
+                    <li>
                         <a href="/m/status" title="Статус заказ" aria-label="Статус заказ">
-                            <i class="fas fa-info-circle"></i>
+                            <i class="fas fa-info-circle mr-1"></i>
                             Статус заказ
                         </a>
                     </li>

@@ -1,7 +1,6 @@
 <template>
     <div>
         <p v-if="counter">Статус заказа можно проверить через: {{counter}} секунд.</p>
-
         <form v-on:submit.prevent="findOrder">
 
                 <div class="form-group">

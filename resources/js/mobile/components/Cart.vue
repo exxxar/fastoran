@@ -540,7 +540,7 @@
                 let acceptMinCount = this.cartTotalCount > 0;
                 let sending = this.sending
 
-                console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
+                //console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
 
                 return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
             },

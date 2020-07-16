@@ -349,6 +349,12 @@ class OrderController extends Controller
             ]);
     }
 
+    public function getOrdersHistory(Request $request){
+
+        Log::info($request->get("phone"));
+        return response()->json(Order::getOrdersHistory($request->get("phone")));
+    }
+
     public function getLatestOrders(Request $request){
         return response()->json(Order::getLatestOrders());
     }

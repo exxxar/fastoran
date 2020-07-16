@@ -143,6 +143,22 @@ class Order extends Model
         return $tmp_sum;
     }
 
+    public static function getOrdersHistory($phone){
+        $object = Order::with(["details", "restoran"])
+            ->where("receiver_phone",$phone)
+            ->orderBy('id', 'DESC')
+            ->simplePaginate(10);
+
+        $object->makeHidden(['receiver_phone', "receiver_address", "latitude",
+            "longitude", "receiver_delivery_time", "receiver_domophone", "receiver_order_note",
+            "deliveryman_latitude", "deliveryman_longitude", "delivery_note", "custom_details",
+            "take_by_self", "user_id", "id","client","delivered_time","deliveryman_id",
+            "order_type","rest_id","status_text","deleted_at","status","summary_count"]);
+
+        return $object;
+
+    }
+
     public static function getLatestOrders()
     {
         $object = Order::with(["details", "restoran"])

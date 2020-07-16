@@ -53,6 +53,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('order/quest', 'OrderController@sendDeliverymanQuest');
         Route::post('order/price_by_code', 'PromocodeController@getPriceByCode');
         Route::get('order/latest', 'OrderController@getLatestOrders');
+        Route::post('order/history', 'OrderController@getOrdersHistory');
 
         Route::post("check_valid_code", "OrderController@checkValidCode");
 

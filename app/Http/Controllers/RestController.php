@@ -76,6 +76,9 @@ class RestController extends Controller
     public function getMainPage(Request $request)
     {
 
+        if (Agent::isMobile())
+            return redirect()->route("mobile.index");
+
         $sliderIndex = random_int(1, 3);
 
         $products = RestMenu::with(["restoran"])->get();
@@ -84,22 +87,12 @@ class RestController extends Controller
             ->shuffle()
             ->take(12);
 
-        $kitchens_count = 10;//Kitchen::all()->count();
-        $restorans_count = 10;//Restoran::all()->count();
-        $menus_count = 400;//RestMenu::all()->count();
-        $user_count = 30;//User::all()->count();
 
         $categories = MenuCategory::with(["menus"])->get();
 
-
         return view("main", compact("random_menu", "categories"))
             ->with("sliderIndex", $sliderIndex)
-            ->with("kitchens_count", $kitchens_count)
-            ->with("restorans_count", $restorans_count)
-            ->with("menus_count", $menus_count)
-            ->with("user_count", $user_count)
             ->with("products", $products);
-
 
     }
 
