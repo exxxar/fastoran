@@ -231,6 +231,7 @@ trait Utilits
     {
         $data = null;
         try {
+            $address = mb_strpos(mb_strtolower($address),"украина")!==false?$address:"Украина, $address";
             $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
 
             $data = $data->getResponse();
