@@ -31,7 +31,9 @@ class RestController extends Controller
     {
 
 
-        $products = RestMenu::with(["restoran"])->get();
+        $products = (Restoran::with(["menus"])
+            ->where("moderation",true)
+            ->get()->random(1)->first())->menus;
 
         $random_menus = $products
             ->shuffle()
