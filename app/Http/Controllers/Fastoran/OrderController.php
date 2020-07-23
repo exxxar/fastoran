@@ -351,7 +351,6 @@ class OrderController extends Controller
 
     public function getOrdersHistory(Request $request){
 
-        Log::info($request->get("phone"));
         return response()->json(Order::getOrdersHistory($request->get("phone")));
     }
 

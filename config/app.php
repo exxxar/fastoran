@@ -162,7 +162,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
+
 
         /*
          * Package Service Providers...
@@ -184,6 +184,7 @@ return [
         ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
         Yandex\Geocode\YandexGeocodeServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
     ],
 
     /*
