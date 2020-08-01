@@ -42,7 +42,8 @@
                                     </td>
                                     <td class="product-price"><span
                                         class="amount" v-if="item.product.food_status!==6">{{item.product.food_price| currency}} </span>
-                                       <span class="amount" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)</span></td>
+                                        <span class="amount" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)</span>
+                                    </td>
                                     <td class="product-quantity">
                                         <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
                                         <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
@@ -232,6 +233,25 @@
                                                     Рассчитать цену доставки
                                                 </button>
                                             </div>
+                                            <div class="col-12 mb--20 " v-if="delivery_path!=null">
+                                                <div class="map-section">
+                                                    <yandex-map
+                                                        :coords="delivery_path[Math.round(delivery_path.length/2)-1]"
+                                                        zoom="15"
+
+                                                    >
+
+                                                        <ymap-marker
+                                                            marker-id="1"
+                                                            marker-type="Polyline"
+                                                            :coords="delivery_path"
+                                                            :marker-stroke="delivery_path_stroke"
+                                                        ></ymap-marker>
+
+
+                                                    </yandex-map>
+                                                </div>
+                                            </div>
                                         </div>
                                     </form>
 
@@ -330,10 +350,15 @@
 
 
                                     <li v-for="item in  cartProducts">
-                                        <p v-if="item.product.food_status!==6">{{item.product.food_name}} x{{item.quantity}} </p>
-                                        <p v-if="item.product.food_status===6">{{item.product.food_name}} массой {{item.weight}} грамм</p>
-                                        <p v-if="item.product.food_status!==6">{{item.quantity*item.product.food_price| currency}}</p>
-                                        <p v-if="item.product.food_status===6"> {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}</p></li>
+                                        <p v-if="item.product.food_status!==6">{{item.product.food_name}}
+                                            x{{item.quantity}} </p>
+                                        <p v-if="item.product.food_status===6">{{item.product.food_name}} массой
+                                            {{item.weight}} грамм</p>
+                                        <p v-if="item.product.food_status!==6">{{item.quantity*item.product.food_price|
+                                            currency}}</p>
+                                        <p v-if="item.product.food_status===6">
+                                            {{item.product.food_price*(item.weight/item.product.food_ext) | currency
+                                            }}</p></li>
 
                                     <li><p class="strong">Цена основного заказа</p>
                                         <p class="strong">{{cartTotalPrice| currency}}</p></li>
@@ -388,6 +413,13 @@
     export default {
         data() {
             return {
+
+                delivery_path: null,
+                delivery_path_stroke: {
+                    color: '#ff0000',
+                    width: 4,
+                    style: '2 0'
+                },
                 preparedToSend: false,
                 is_valid: false,
                 phone: localStorage.getItem("phone", null),
@@ -561,7 +593,7 @@
 
                 console.log(`${acceptMinPrice} ${acceptCoords} ${acceptPhoneNumber} ${acceptMinCount} ${sending} `)
 
-               // console.log(acceptMinPrice , acceptCoords , acceptPhoneNumber , acceptMinCount , !sending)
+                // console.log(acceptMinPrice , acceptCoords , acceptPhoneNumber , acceptMinCount , !sending)
                 return acceptMinPrice && acceptCoords && acceptPhoneNumber && acceptMinCount && !sending;
             },
             addCustomProduct() {
@@ -595,7 +627,7 @@
 
                 let address = `Украина, г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
-                    .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
+                    .post("../api/v1/range_with_route/" + this.cartProducts[0].product.rest_id, {
                         "address": address
                     }).then(resp => {
 
@@ -605,8 +637,14 @@
                     this.coords.latitude = resp.data.latitude
                     this.coords.longitude = resp.data.longitude
                     this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
+                    this.delivery_path = resp.data.coordinates
 
-                    this.delivery_range_message = `Цена доставки составляет ${resp.data.price + this.custom_delivery_price} руб. `;
+                    if (this.delivery_range > 0)
+                        this.delivery_range_message = `Цена доставки составляет ${resp.data.price + this.custom_delivery_price} руб. `;
+                    else {
+                        this.delivery_range = null;
+                        this.delivery_range_message = `Произошел сбой! Попробуйте еще раз!`;
+                    }
 
 
                 });
@@ -720,7 +758,6 @@
     }
 </script>
 <style lang="scss" scoped>
-
 
 
     .more-product {

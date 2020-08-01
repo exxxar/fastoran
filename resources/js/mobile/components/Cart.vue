@@ -31,22 +31,24 @@
                             <td class="product-name">{{item.product.food_name}}
                                 <h6>{{item.product.restoran.name}}</h6>
                                 <span
-                                v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span>
+                                    v-if="item.product.selected_sub">(<em>{{item.product.selected_sub}}</em>)</span>
                             </td>
                             <td class="product-price"><span
-                                class="amount" v-if="item.product.food_status!==6">{{item.product.food_price| currency}} </span>
-                                <span class="amount" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)</span></td>
+                                class="amount"
+                                v-if="item.product.food_status!==6">{{item.product.food_price| currency}} </span>
+                                <span class="amount" v-if="item.product.food_status===6">{{item.product.food_price| currency}} (за  {{item.product.food_ext}}грамм)</span>
+                            </td>
                             <td class="product-quantity">
-                            <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
-                            <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
-                            <div class="buttons-group" v-if="item.product.food_status!==6">
-                                <button type="button" class="btn btn-outline-info" :disabled="item.quantity===1"
-                                        @click="decrement(item.product)">-
-                                </button>
-                                <button type="button" class="btn btn-outline-info"
-                                        @click="increment(item.product)">+
-                                </button>
-                            </div>
+                                <p v-if="item.product.food_status!==6">Количество: {{item.quantity}}</p>
+                                <p v-if="item.product.food_status===6">Вес: {{item.weight}} грамм</p>
+                                <div class="buttons-group" v-if="item.product.food_status!==6">
+                                    <button type="button" class="btn btn-outline-info" :disabled="item.quantity===1"
+                                            @click="decrement(item.product)">-
+                                    </button>
+                                    <button type="button" class="btn btn-outline-info"
+                                            @click="increment(item.product)">+
+                                    </button>
+                                </div>
                             </td>
                             <td class="product-subtotal" v-if="item.product.food_status!==6">
                                 {{item.quantity*item.product.food_price| currency}}
@@ -206,12 +208,34 @@
                                     <div class="form-group">
                                         <p>{{delivery_range_message}}</p>
                                     </div>
+
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-outline-success mr-1 mb-1 w-100">
                                             Рассчитать цену доставки
                                         </button>
                                     </div>
 
+                                    <div class="form-group" v-if="delivery_path!=null">
+                                        <h6 class="mt-2">Маршрут доставки</h6>
+                                        <div class="map-section">
+                                            <yandex-map
+                                                :coords="delivery_path[Math.round(delivery_path.length/2)-1]"
+                                                zoom="15"
+
+                                            >
+
+                                                <ymap-marker
+                                                    marker-id="1"
+                                                    marker-type="Polyline"
+                                                    :coords="delivery_path"
+                                                    :marker-stroke="delivery_path_stroke"
+                                                ></ymap-marker>
+
+
+                                            </yandex-map>
+                                        </div>
+
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -317,56 +341,60 @@
             <h6>Ваш заказ (чек)</h6>
             <div class="order-details">
 
-                    <ul>
-                        <li><p class="strong">Продукт</p>
-                            <p class="strong">Всего</p></li>
+                <ul>
+                    <li><p class="strong">Продукт</p>
+                        <p class="strong">Всего</p></li>
 
 
-                        <li v-for="item in  cartProducts">
-                            <p v-if="item.product.food_status!==6">{{item.product.food_name}} x{{item.quantity}} </p>
-                            <p v-if="item.product.food_status===6">{{item.product.food_name}} массой {{item.weight}} грамм</p>
-                            <p v-if="item.product.food_status!==6">{{item.quantity*item.product.food_price| currency}}</p>
-                            <p v-if="item.product.food_status===6"> {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}</p></li>
+                    <li v-for="item in  cartProducts">
+                        <p v-if="item.product.food_status!==6">{{item.product.food_name}} x{{item.quantity}} </p>
+                        <p v-if="item.product.food_status===6">{{item.product.food_name}} массой {{item.weight}}
+                            грамм</p>
+                        <p v-if="item.product.food_status!==6">{{item.quantity*item.product.food_price| currency}}</p>
+                        <p v-if="item.product.food_status===6">
+                            {{item.product.food_price*(item.weight/item.product.food_ext) | currency }}</p></li>
 
-                        <li><p class="strong">Цена основного заказа</p>
-                            <p class="strong">{{cartTotalPrice| currency}}</p></li>
+                    <li><p class="strong">Цена основного заказа</p>
+                        <p class="strong">{{cartTotalPrice| currency}}</p></li>
 
-                        <li v-if="getCustomProductsSum()>0"><h4>Дополнительные товары</h4></li>
-                        <li v-for="item in  custom_products" v-if="item.name!=null"><p>
-                            {{item.name}}</p>
-                            <p>{{item.price| currency}}</p></li>
-                        <li v-if="getCustomProductsSum()>0"><p class="strong">Цена дополнительного
-                            заказа</p>
-                            <p class="strong">{{getCustomProductsSum()| currency}}</p></li>
+                    <li v-if="getCustomProductsSum()>0"><h4>Дополнительные товары</h4></li>
+                    <li v-for="item in  custom_products" v-if="item.name!=null"><p>
+                        {{item.name}}</p>
+                        <p>{{item.price| currency}}</p></li>
+                    <li v-if="getCustomProductsSum()>0"><p class="strong">Цена дополнительного
+                        заказа</p>
+                        <p class="strong">{{getCustomProductsSum()| currency}}</p></li>
 
 
-                        <li><p class="strong">Полная цена доставки</p>
-                            <p>
-                                {{deliveryPrice+custom_delivery_price|currency}}
-                            </p></li>
-                        <li><p class="strong">Всего</p>
-                            <p class="strong">
-                                {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum()
-                                | currency}}</p></li>
-                        <li v-if="this.message.length>0" class="status-order">
-                            {{this.message}}
-                        </li>
-                        <li v-if="delivery_range===null">
-                            Расчитайте цену доставки!
-                        </li>
-                        <li>
-                            <button class="btn btn-outline-danger w-100 mt-1" @click="clearCart" v-if="cartProducts.length>0">
-                                Очистить корзину
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-outline-info w-100 mt-1" type="submit"
-                                   :disabled="canMakeOrder()===false"
-                                    >Оформить
-                                заказ
-                            </button>
-                        </li>
-                    </ul>
+                    <li><p class="strong">Полная цена доставки</p>
+                        <p>
+                            {{deliveryPrice+custom_delivery_price|currency}}
+                        </p></li>
+                    <li><p class="strong">Всего</p>
+                        <p class="strong">
+                            {{cartTotalPrice+deliveryPrice+custom_delivery_price+getCustomProductsSum()
+                            | currency}}</p></li>
+                    <li v-if="this.message.length>0" class="status-order">
+                        {{this.message}}
+                    </li>
+
+                    <li v-if="delivery_range===null">
+                        Расчитайте цену доставки!
+                    </li>
+                    <li>
+                        <button class="btn btn-outline-danger w-100 mt-1" @click="clearCart"
+                                v-if="cartProducts.length>0">
+                            Очистить корзину
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-outline-info w-100 mt-1" type="submit"
+                                :disabled="canMakeOrder()===false"
+                        >Оформить
+                            заказ
+                        </button>
+                    </li>
+                </ul>
 
             </div>
         </div>
@@ -379,6 +407,12 @@
     export default {
         data() {
             return {
+                delivery_path: null,
+                delivery_path_stroke: {
+                    color: '#ff0000',
+                    width: 4,
+                    style: '2 0'
+                },
                 preparedToSend: false,
                 is_valid: false,
                 phone: localStorage.getItem("phone", null) ?? null,
@@ -578,7 +612,7 @@
 
                 let address = `Украина, г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
-                    .post("../api/v1/range/" + this.cartProducts[0].product.rest_id, {
+                    .post("../api/v1/range_with_route/" + this.cartProducts[0].product.rest_id, {
                         "address": address
                     }).then(resp => {
 
@@ -588,8 +622,14 @@
                     this.coords.latitude = resp.data.latitude
                     this.coords.longitude = resp.data.longitude
                     this.custom_delivery_price = this.getCustomProductsSum() === 0 ? 0 : 50;
+                    this.delivery_path = resp.data.coordinates
 
-                    this.delivery_range_message = `Цена доставки составляет ${resp.data.price + this.custom_delivery_price} руб. `;
+                    if (this.delivery_range > 0)
+                        this.delivery_range_message = `Цена доставки составляет ${resp.data.price + this.custom_delivery_price} руб. `;
+                    else {
+                        this.delivery_range = null;
+                        this.delivery_range_message = `Произошел сбой! Попробуйте еще раз!`;
+                    }
 
 
                 });
@@ -641,7 +681,7 @@
                         take_by_self: this.take_by_self,
                         order_details: products,
                         custom_details: this.custom_products,
-                        client:'PWA'
+                        client: 'PWA'
 
 
                     })
@@ -710,7 +750,8 @@
 <style lang="scss" scoped>
     .order-details {
         ul {
-            padding:0px;
+            padding: 0px;
+
             li {
                 list-style: none;
                 display: flex;
@@ -718,7 +759,7 @@
                 padding: 0px 5px 5px 0px;
 
                 p.strong {
-                    font-weight:800;
+                    font-weight: 800;
                     margin: 0;
                 }
             }
@@ -735,6 +776,7 @@
                 min-width: 60px !important;
                 width: 60px;
             }
+
             th.product-thumbnail {
                 min-width: 60px !important;
                 width: 60px;

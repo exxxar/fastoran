@@ -85,9 +85,40 @@ trait Utilits
             ]);
         }
 
-        return floatval(min(json_decode($content)->properties->distance,20) ?? 5);
+        return floatval(min(json_decode($content)->properties->distance, 20) ?? 0);
 
     }
+
+    /**
+     * @param $fA
+     * @param $lA
+     * @param $fB
+     * @param $lB
+     * @return float
+     */
+    public function calculateTheDistanceWithRoute($fA, $lA, $fB, $lB)
+    {
+        try {
+            $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
+        } catch (\Exception $e) {
+            $content = json_encode([
+                "properties" => [
+                    "distance" => 5
+                ]
+            ]);
+        }
+
+        $tmp_coords = [];
+        foreach (json_decode($content)->coordinates as $coords){
+            array_push($tmp_coords,[$coords[1],$coords[0]]);
+        }
+        return [
+            "distance" => floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
+            "coordinates" => $tmp_coords,
+        ];
+
+    }
+
 
     /**
      * @param $phone
@@ -231,7 +262,7 @@ trait Utilits
     {
         $data = null;
         try {
-            $address = mb_strpos(mb_strtolower($address),"украина")!==false?$address:"Украина, $address";
+            $address = mb_strpos(mb_strtolower($address), "украина") !== false ? $address : "Украина, $address";
             $data = YandexGeocodeFacade::setQuery($address ?? '')->load();
 
             $data = $data->getResponse();

@@ -898,6 +898,39 @@ class OrderController extends Controller
             ]);
     }
 
+    public function getRangeWithRoute(Request $request, $restId){
+        $request->validate([
+            'address' => 'required'
+        ]);
+
+        $rest = Restoran::find($restId);
+
+        if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
+            $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
+            $rest->latitude = $coords->latitude;
+            $rest->longitude = $coords->longitude;
+            $rest->save();
+        }
+
+        $coords = (object)$this->getCoordsByAddress($request->get("address"));
+
+        $rangeObject = (object)($this->calculateTheDistanceWithRoute(
+            $coords->latitude,
+            $coords->longitude,
+            $rest->latitude,
+            $rest->longitude));
+
+        $price = $rangeObject->distance <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($rangeObject->distance + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+
+        return response()
+            ->json([
+                "range" => floatval(sprintf("%.2f", ($rangeObject->distance <= 2 ? $rangeObject->distance : ($rangeObject->distance + 2)))),
+                "price" => $price,
+                "coordinates"=>$rangeObject->coordinates,
+                "latitude" => $coords->latitude,
+                "longitude" => $coords->longitude
+            ]);
+    }
     public function getRange(Request $request, $restId)
     {
         $request->validate([

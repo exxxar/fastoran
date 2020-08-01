@@ -28,6 +28,8 @@ Route::group(['prefix' => 'v1'], function () {
        ]);
     });
     Route::post("/range/{restId}","Fastoran\OrderController@getRange");
+    Route::post("/range_with_route/{restId}","Fastoran\OrderController@getRangeWithRoute");
+
     Route::post("/custom_range","Fastoran\OrderController@getCustomRange");
 
     Route::post('/wish', 'RestController@sendWish')->name("wish");
