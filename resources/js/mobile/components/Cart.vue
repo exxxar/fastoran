@@ -675,7 +675,7 @@
                         rest_id: this.cartProducts[0].product.rest_id,
                         status: 0,
                         receiver_delivery_time: receiver_delivery_time,
-                        receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`,
+                        receiver_address: `г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}, ${this.delivery.flat_number}`,
                         receiver_order_note: this.delivery.more_info + "\nКупюра:" + this.delivery.money_type + " руб.",
                         receiver_domophone: '',
                         take_by_self: this.take_by_self,
