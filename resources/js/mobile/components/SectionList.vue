@@ -8,7 +8,7 @@
         <div class="container mb-5">
             <div class="row">
                 <div class="col-6 section-wrapper" v-for="section in sections">
-                    <a class="section-item" :href="'/m/sections/'+section.id">
+                    <a class="section-item" :href="'https://fastoran.com/m/sections/'+section.id">
                         <img v-lazy="section.img" :alt="section.name" class="img-fluid image lazyload">
                         <h6>{{section.name}}</h6>
                     </a>
@@ -36,7 +36,7 @@
             loadSections() {
                 this.preloader = true;
                 axios
-                    .get("/api/v1/fastoran/sections/")
+                    .post("/api/v1/fastoran/sections/")
                     .then(resp => {
                         this.sections = resp.data
                         this.preloader = false;
