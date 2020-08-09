@@ -146,7 +146,7 @@ class RestController extends Controller
     public function getRestByDomain(Request $request, $domain)
     {
 
-        $restoran = Restoran::with(["kitchens", "categories", "categories.menus"])->where("url", $domain)
+        $restoran = Restoran::with(["sections", "categories", "categories.menus"])->where("url", $domain)
             ->first();
 
         if (is_null($restoran))

@@ -125,9 +125,9 @@ class Restoran extends Model
 
     public function getSectionSpeicalizationAttribute()
     {
-        $kitchens = $this->sections()->get();
+        $sections = $this->sections()->get();
         $tmp = "";
-        foreach ($kitchens as $key => $k)
+        foreach ($sections as $key => $k)
             $tmp .= "#" . $k->name . ", ";
 
         return $tmp;
