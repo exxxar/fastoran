@@ -1,7 +1,7 @@
 <?php
 
-use App\Parts\Models\Fastoran\Kitchen;
-use App\Parts\Models\Fastoran\KitchenInRestoran;
+use App\Parts\Models\Fastoran\Section;
+use App\Parts\Models\Fastoran\RestoranInSection;
 use App\Rating;
 use Illuminate\Database\Seeder;
 
@@ -15,15 +15,15 @@ class KitchenTableSeeder extends Seeder
     public function run()
     {
         /*//
-        foreach (Kitchen::all() as $kitchen)
+        foreach (Section::all() as $kitchen)
             $kitchen->delete();*/
 
-        KitchenInRestoran::truncate();
-        Kitchen::truncate();
+        RestoranInSection::truncate();
+        Section::truncate();
 
         $tmp = [];
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Вегетарианская кухня",
             'img' => "https://fastoran.com/img/kit_pizza.jpg",
             'is_active' => true,
@@ -31,56 +31,56 @@ class KitchenTableSeeder extends Seeder
         ]))->id);
 
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Домашняя кухня",
             'img' => "https://fastoran.com/img/kit_burger.jpg",
             'is_active' => true,
             'alt_description' => 'Домашняя кухня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Высокая кухня",
             'img' => "https://fastoran.com/img/kit_dessert.jpg",
             'is_active' => true,
             'alt_description' => 'Высокая кухня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Блюда живого огня",
             'img' => "https://fastoran.com/img/kit_live.jpg",
             'is_active' => true,
             'alt_description' => 'Блюда живого огня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Европейская кухня",
             'img' => "https://fastoran.com/img/kit_europe.jpg",
             'is_active' => true,
             'alt_description' => 'Европейская кухня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Японская кухня",
             'img' => "https://fastoran.com/img/kit_japan.jpg",
             'is_active' => true,
             'alt_description' => 'Японская кухня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Русская кухня",
             'img' => "https://fastoran.com/img/kit_russian.jpg",
             'is_active' => true,
             'alt_description' => 'Русская кухня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Американская кухня",
             'img' => "https://fastoran.com/img/kit_caucas.jpg",
             'is_active' => true,
             'alt_description' => 'Американская кухня'
         ]))->id);
 
-        array_push($tmp, (Kitchen::create([
+        array_push($tmp, (Section::create([
             'name' => "Постная кухня",
             'img' => "https://fastoran.com/img/kit_autor.jpg",
             'is_active' => true,
@@ -93,7 +93,7 @@ class KitchenTableSeeder extends Seeder
                 'content_id' => $kitchenId,
             ]);
 
-            $kitchen = Kitchen::find($kitchenId);
+            $kitchen = Section::find($kitchenId);
             $kitchen->rating_id = $rate->id;
             $kitchen->save();
         }

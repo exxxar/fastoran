@@ -6,8 +6,12 @@
                 alt="banner images"></a>
         </div>
 
-        <h4 class="product-item__h4">
-            {{product.food_price}}₽
+        <h4 class="product-item__h4" v-if="product.food_discount_price===0">
+            {{product.food_price}}₽<br>
+        </h4>
+        <h4 class="product-item__h4" v-if="product.food_discount_price>0">
+            <strike> <small>{{product.food_price}}₽</small></strike><br>
+            {{product.food_discount_price}}₽
         </h4>
         <div class="product-item__rest-img">
             <a :href="'/m/restoran/'+product.rest_info.url" :title="product.rest_info.name"
@@ -25,6 +29,12 @@
             </div>
         </div>
         <mobile-product-controls :product="product"></mobile-product-controls>
+
+        <div class="row" v-if="like">
+            <div class="col-12 p-2 pb-1 pt-0">
+                <button class="btn btn-outline-warning w-100 p-2" @click="removeFromLikes">Не нравится</button>
+            </div>
+        </div>
 
         <b-modal :id="'modal-info-'+product.id" hide-footer centered hide-backdrop no-stacking
                  dialog-class="mobile-modal-class" content-class="mobile-content-class">
@@ -44,8 +54,18 @@
 
 <script>
     export default {
-        props: ["product"],
+        props: {
+                product: Object,
+                like: {
+                    type: Boolean,
+                    required: false
+                },
+
+        },
         methods: {
+            removeFromLikes(){
+                this.$store.dispatch('removeProductFromLikes', this.product.id)
+            },
             closeInfoModal(){
                 this.$bvModal.hide("modal-info-" + this.product.id)
             },

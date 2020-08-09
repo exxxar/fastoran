@@ -89,7 +89,7 @@
         data() {
             return {
                 current_page_url: null,
-                phone: localStorage.getItem("phone", null) ?? null,
+                phone: localStorage.getItem("fastoran_phone", null) ?? null,
                 orders: [],
                 searching: false,
                 counter: null,

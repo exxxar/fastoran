@@ -1,6 +1,6 @@
 <?php
 
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use Illuminate\Http\Request;
 
 /*
@@ -81,13 +81,16 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('kitchens', 'KitchenController@index');
         Route::any('menu_categories', 'MenuCategoryController@index');
         Route::any('menu_categories_in_rest/{rest_id}', 'MenuCategoryController@menuCategoriesInRest');
+        Route::any('sales', 'RestoransController@sales');
         Route::any('products_by_rest_and_category/{cat_id}/{rest_id}', 'MenuCategoryController@showByRestAndCategory');
         Route::any('restorans', 'RestoransController@index');
+        Route::any('sections', 'RestoransController@sections');
+        Route::any('sections/{id}', 'RestoransController@showSection');
         Route::any('menus', 'MenuController@index');
 
 
         Route::any('/restorans/menu/{restId}', 'MenuController@getMenuByRestId');
-        Route::any('/restorans/kitchen/{kitchenId}', 'RestoransController@getRestoransByKitchenId');
+        Route::any('/restorans/section/{sectionId}', 'RestoransController@getRestoransBySectionId');
 
         Route::any('/kitchens/menu/{kitchenId}', 'KitchenController@getMenuByKitchenId');
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use Carbon\Carbon;

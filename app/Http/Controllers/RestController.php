@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Classes\Utilits;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
@@ -109,7 +109,7 @@ class RestController extends Controller
 
     public function getRestList(Request $request)
     {
-        $restorans = Restoran::with(["kitchens", "menus"])
+        $restorans = Restoran::with(["sections", "menus"])
             ->where("moderation", true)
             ->get();
 
@@ -117,7 +117,7 @@ class RestController extends Controller
             return response()
                 ->json([
                     'restorans' => $restorans,
-                    'kitchens' => Kitchen::where("is_active", 1)->get()
+                    'kitchens' => Section::where("is_active", 1)->get()
                 ]);
 
         return view("rest-list", compact("restorans"));
@@ -125,7 +125,7 @@ class RestController extends Controller
 
     public function getRestListByKitchen(Request $request, $kitchenId)
     {
-        $kitchen = Kitchen::with(["restorans"])
+        $kitchen = Section::with(["restorans"])
             ->where("id", $kitchenId)
             ->first();
 

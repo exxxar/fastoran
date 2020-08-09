@@ -8,7 +8,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Kitchen extends Model
+class Section extends Model
 {
     use CastsEnums, SoftDeletes;
     protected $fillable = [
@@ -22,7 +22,7 @@ class Kitchen extends Model
         "created_at","updated_at"
     ];
 
-    protected $appends = ["rest_count","rating"];
+    protected $appends = ["rest_count"];
 
     public function getRestCountAttribute(){
         return $this->restorans()->count();
@@ -30,15 +30,8 @@ class Kitchen extends Model
 
     public function restorans()
     {
-        return $this->belongsToMany(Restoran::class, 'kitchen_in_restorans', 'kitchen_id', 'restoran_id')
+        return $this->belongsToMany(Restoran::class, 'restorans_in_section', 'section_id', 'restoran_id')
             ->withTimestamps();
     }
 
-    public function getRatingAttribute()
-    {
-        return Rating::where("content_type", ContentTypeEnum::Kitchen)
-            ->select(["dislike_count","like_count"])
-            ->where('content_id', $this->id)
-            ->first();
-    }
 }

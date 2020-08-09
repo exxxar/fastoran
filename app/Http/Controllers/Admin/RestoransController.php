@@ -6,7 +6,7 @@ use App\Parts\Models\Fastoran\RestMenu;
 use Illuminate\Http\Request;
 use App\ExcelImport;
 use App\Http\Controllers\Controller;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\Restoran;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -153,7 +153,7 @@ class RestoransController extends Controller
     }
 
     public function getRestoransByKitchenId($kitchenId){
-        $restorans  = Kitchen::with(["restorans"])
+        $restorans  = Section::with(["restorans"])
             ->where("id",$kitchenId)
             ->first();
 

@@ -13,6 +13,20 @@
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">
     <link rel="apple-touch-icon" href="{{asset('img/icons/icon-72x72.png')}}">
+
+    <link rel="apple-touch-icon" sizes="152x152" href="{{asset('img/icons/icon-152x152.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('img/icons/icon-192x192.png')}}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{asset('img/icons/icon-152x152.png')}}">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link href="{{asset('img/icons/splash-2048x2732.png')}}" sizes="2048x2732" rel="apple-touch-startup-image" />
+    <link href="{{asset('img/icons/splash-1668x2224.png')}}" sizes="1668x2224" rel="apple-touch-startup-image" />
+    <link href="{{asset('img/icons/splash-1536x2048.png')}}" sizes="1536x2048" rel="apple-touch-startup-image" />
+    <link href="{{asset('img/icons/splash-1125x2436.png')}}" sizes="1125x2436" rel="apple-touch-startup-image" />
+    <link href="{{asset('img/icons/splash-1242x2208.png')}}" sizes="1242x2208" rel="apple-touch-startup-image" />
+    <link href="{{asset('img/icons/splash-750x1334.png')}}" sizes="750x1334" rel="apple-touch-startup-image" />
+    <link href="{{asset('img/icons/splash-640x1136.png')}}" sizes="640x1136" rel="apple-touch-startup-image" />
+
     <!-- Stylesheets -->
     @laravelPWA
     <link rel="stylesheet" href="{{url(env("APP_DEBUG")?'css/mobile/app.css':'css/mobile/app.min.css' )}}?ver={{ config('app.version')}}">

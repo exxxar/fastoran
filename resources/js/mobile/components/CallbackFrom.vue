@@ -54,8 +54,8 @@
     export default {
         data() {
             return {
-                name: '',
-                phone: '',
+                name: localStorage.getItem("food_first_name", ''),
+                phone: localStorage.getItem("fastoran_phone", ''),
                 type: 0,
                 message: '',
                 cansend:false,

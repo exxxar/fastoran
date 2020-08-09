@@ -63,6 +63,9 @@ Route::prefix('m')->group(function () {
     Route::view("/phone-order", "mobile.pages.phone-order")->name("mobile.phone-order");
     Route::view("/product-order", "mobile.pages.product-order")->name("mobile.product-order");
     Route::view("/flowers-order", "mobile.pages.flowers-order")->name("mobile.flowers-order");
+    Route::view("/sales", "mobile.pages.sales")->name("mobile.sales");
+    Route::view("/likes", "mobile.pages.likes")->name("mobile.likes");
+    Route::get("/sections/{id}", 'Fastoran\\SectionController@show')->name("mobile.section");
     Route::get("/category/{id}", 'Fastoran\\MenuCategoryController@show')->name("mobile.category");
 });
 

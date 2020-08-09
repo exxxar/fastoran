@@ -7,7 +7,7 @@ use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Enums\DeliveryTypeEnum;
 use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
@@ -43,7 +43,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $kitchen_count = Kitchen::where('is_active', 1)->count();
+        $kitchen_count = Section::where('is_active', 1)->count();
         $menu_count = RestMenu::all()->count();
         $menu_category_count = MenuCategory::all()->count();
         $restoran_count = Restoran::all()->count();
@@ -241,7 +241,7 @@ class AdminController extends Controller
     }
     public function statistics()
     {
-        $kitchen_count = Kitchen::where('is_active', 1)->count();
+        $kitchen_count = Section::where('is_active', 1)->count();
         $menu_count = RestMenu::all()->count();
         $menu_category_count = MenuCategory::all()->count();
         $restoran_count = Restoran::all()->count();

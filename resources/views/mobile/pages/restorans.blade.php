@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="mt-2"></div>
-    @include("mobile.partials.main.section_title",[ "title"=>"Доступные рестораны", "muted"=>"Партнеры"])
+    @include("mobile.partials.main.section_title",[ "title"=>"Товары", "muted"=>"Наши направления"])
+    <mobile-sections></mobile-sections>
+    @include("mobile.partials.main.section_title",[ "title"=>"Доступные заведения", "muted"=>"Партнеры"])
     <mobile-restorans :restorans="{{$restorans}}"></mobile-restorans>
     @include("mobile.partials.bottom_menu",["active"=>3])
 @endsection

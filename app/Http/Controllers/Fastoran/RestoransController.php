@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Fastoran;
 
+use App\Enums\FoodStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
@@ -147,15 +148,34 @@ class RestoransController extends Controller
             ]);
     }
 
-    public function getRestoransByKitchenId($kitchenId)
+    public function getRestoransBySectionId($sectionId)
     {
-        $restorans = Kitchen::with(["restorans"])
-            ->where("id", $kitchenId)
+        $restorans = Section::with(["restorans"])
+            ->where("id", $sectionId)
             ->first();
 
         return response()
             ->json([
                 'restorans' => $restorans->restorans()->paginate(100),
             ]);
+    }
+
+    public function sales(){
+        $products = RestMenu::where("food_status",FoodStatusEnum::Promotion)->paginate(20);
+
+        return response()
+            ->json($products);
+    }
+
+    public function sections(){
+        $sections = Section::all();
+
+        return response()->json($sections);
+    }
+
+    public function showSection($id){
+        $section = Section::with(["restorans"])->where("id",$id)->first();
+
+        return response()->json($section);
     }
 }

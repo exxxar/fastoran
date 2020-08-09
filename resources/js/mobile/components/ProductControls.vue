@@ -2,11 +2,11 @@
     <div>
         <div style="width:100%;" v-if="product.food_status!==6">
             <div class="product-item__controls">
-                <button type="button" @click="addToCart()" class="btn btn-outline-success product-item__btn"
+                <button type="button" @click="addToCart()" class="btn btn-outline-warning product-item__btn"
                         v-if="inCart()===0&&!hasSub()"><i
                     class="fas fa-cart-plus"></i></button>
 
-                <button type="button" @click="openSubMenu()" class="btn btn-outline-success product-item__btn"
+                <button type="button" @click="openSubMenu()" class="btn btn-outline-warning product-item__btn"
                         v-if="inCart()===0&&hasSub()"><i class="fas fa-cart-plus"></i></button>
                 <!--
                             <button type="button"
@@ -16,11 +16,11 @@
 
 
                 <div v-if="inCart()>0">
-                    <button type="button" class="btn btn-outline-success product-item__btn" @click="decProduct()">
+                    <button type="button" class="btn btn-outline-warning product-item__btn" @click="decProduct()">
                         -
                     </button>
                     <p v-html="inCart()"></p>
-                    <button type="button" class="btn btn-outline-success product-item__btn" @click="incProduct()">
+                    <button type="button" class="btn btn-outline-warning product-item__btn" @click="incProduct()">
                         <span>+</span>
                     </button>
                 </div>
@@ -31,7 +31,7 @@
             <p class="text-center line-height pr-1 pl-1" v-if="inCart()!==0">Выбрано: {{inCartWeight()}} грамм</p>
             <p class="text-center line-height pr-1 pl-1" v-if="inCart()===0">Товар на вес! {{product.food_price}}₽ за {{product.food_ext}}
                 грамм</p>
-            <button type="button" class="btn btn-outline-success product-item__btn mb-1"
+            <button type="button" class="btn btn-outline-warning product-item__btn mb-1"
                @click="openWeightModal()"><i class="fas fa-cart-plus"></i></button>
         </div>
 
@@ -181,6 +181,7 @@
                 }
                 this.sendMessage("Товар добавлен в корзину!")
                 this.$store.dispatch('addProductToCart', this.product)
+                this.$store.dispatch('addProductToLikes', this.product)
             },
             incProduct() {
 

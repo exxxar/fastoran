@@ -1,6 +1,6 @@
 <?php
 
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\Rating;
 use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Database\Seeder;
@@ -46,9 +46,9 @@ class RestoransTableSeeder extends Seeder
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Американская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
-            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
+            Section::where("name", "Американская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Вегетарианская кухня")->first()->id,
         ]);
 
 
@@ -77,8 +77,8 @@ class RestoransTableSeeder extends Seeder
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Японская кухня")->first()->id,
-            Kitchen::where("name", "Постная кухня")->first()->id,
+            Section::where("name", "Японская кухня")->first()->id,
+            Section::where("name", "Постная кухня")->first()->id,
         ]);
 
         array_push($tmp, $rest->id);
@@ -127,8 +127,8 @@ class RestoransTableSeeder extends Seeder
 
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Американская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Американская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
         ]);
 
 
@@ -155,8 +155,8 @@ class RestoransTableSeeder extends Seeder
 
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Американская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Американская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
         ]);
 
 
@@ -181,12 +181,12 @@ class RestoransTableSeeder extends Seeder
 
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Блюда живого огня")->first()->id,
-            Kitchen::where("name", "Американская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
-            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
-            Kitchen::where("name", "Домашняя кухня")->first()->id,
-            Kitchen::where("name", "Японская кухня")->first()->id,
+            Section::where("name", "Блюда живого огня")->first()->id,
+            Section::where("name", "Американская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Вегетарианская кухня")->first()->id,
+            Section::where("name", "Домашняя кухня")->first()->id,
+            Section::where("name", "Японская кухня")->first()->id,
         ]);
 
 
@@ -211,11 +211,11 @@ class RestoransTableSeeder extends Seeder
 
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Блюда живого огня")->first()->id,
-            Kitchen::where("name", "Американская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
-            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
-            Kitchen::where("name", "Домашняя кухня")->first()->id,
+            Section::where("name", "Блюда живого огня")->first()->id,
+            Section::where("name", "Американская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Вегетарианская кухня")->first()->id,
+            Section::where("name", "Домашняя кухня")->first()->id,
         ]);
 
 
@@ -241,9 +241,9 @@ class RestoransTableSeeder extends Seeder
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Русская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
-            Kitchen::where("name", "Вегетарианская кухня")->first()->id,
+            Section::where("name", "Русская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Вегетарианская кухня")->first()->id,
         ]);
 
         array_push($tmp, $rest->id);
@@ -266,9 +266,9 @@ class RestoransTableSeeder extends Seeder
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Русская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
-            Kitchen::where("name", "Японская кухня")->first()->id,
+            Section::where("name", "Русская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Японская кухня")->first()->id,
         ]);*/
 
 /*
@@ -298,8 +298,8 @@ class RestoransTableSeeder extends Seeder
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Русская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Русская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
         ]);
 
 
@@ -323,8 +323,8 @@ class RestoransTableSeeder extends Seeder
         ]);
 
         $rest->kitchens()->attach([
-            Kitchen::where("name", "Русская кухня")->first()->id,
-            Kitchen::where("name", "Европейская кухня")->first()->id,
+            Section::where("name", "Русская кухня")->first()->id,
+            Section::where("name", "Европейская кухня")->first()->id,
         ]);
 
 

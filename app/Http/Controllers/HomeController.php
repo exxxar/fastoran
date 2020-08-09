@@ -100,6 +100,8 @@ class HomeController extends Controller
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
                     $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
+                    $tmp_old_price = intval($item2["price"]["old_amount"] ?? 0);
+                    $old_price = $tmp_old_price == 0 ? 0 : $tmp_old_price / 100;//$matches[0][0] ?? 0;
 
                     $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
 
@@ -107,15 +109,15 @@ class HomeController extends Controller
                         continue;
 
 
-
                     $description = $item2["description"];
 
                     preg_match_all('/([0-9]+).грамм/i', $description, $media);
 
-                    $weight = count($matches)>=2?($media[1][0] ?? 0):0;
+                    $weight = count($matches) >= 2 ? ($media[1][0] ?? 0) : 0;
 
                     $food_status = [
                         "Акция!" => FoodStatusEnum::Promotion,
+                        "Скидка!" => FoodStatusEnum::Promotion,
                         "Топ!" => FoodStatusEnum::InTheTop,
                         "Хит продаж!" => FoodStatusEnum::BestSeller,
                         "Новинка!" => FoodStatusEnum::NewFood,
@@ -134,7 +136,8 @@ class HomeController extends Controller
                         'food_remark' => $description,
                         'food_ext' => $weight ?? 0,
                         'food_sub' => $this->prepareSub($description),
-                        'food_price' => $price,
+                        'food_price' => $old_price === 0 ? $price : $old_price,
+                        'food_discount_price' => $old_price !== 0 ? $price : 0,
                         'food_status' => is_null($food_status_index) ? FoodStatusEnum::Unset : $food_status[$food_status_index],
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,

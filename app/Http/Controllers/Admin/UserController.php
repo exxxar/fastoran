@@ -8,7 +8,7 @@ use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Enums\DeliveryTypeEnum;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
-//use App\Parts\Models\Fastoran\Kitchen;
+//use App\Parts\Models\Fastoran\Section;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Classes\Utilits;

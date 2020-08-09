@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKitchenInRestoransTable extends Migration
+class CreateRestoransInSectionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,14 @@ class CreateKitchenInRestoransTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('kitchen_in_restorans', function (Blueprint $table) {
+        Schema::create('restorans_in_section', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('kitchen_id');
+            $table->unsignedInteger('section_id');
             $table->unsignedInteger('restoran_id');
 
             if (env("DB_CONNECTION") == 'mysql') {
-                $table->foreign('kitchen_id')->references('id')->on('kitchens');
+                $table->foreign('section_id')->references('id')->on('sections');
                 $table->foreign('restoran_id')->references('id')->on('restorans');
             }
             $table->timestamps();
@@ -36,6 +36,6 @@ class CreateKitchenInRestoransTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kitchen_in_restorans');
+        Schema::dropIfExists('restorans_in_section');
     }
 }

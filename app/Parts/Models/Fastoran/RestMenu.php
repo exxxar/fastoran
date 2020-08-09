@@ -25,6 +25,7 @@ class RestMenu extends Model
         'food_remark',
         'food_ext',
         'food_price',
+        'food_discount_price',
         'food_sub',
         'food_status',
         'rest_id',

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\Http\Controllers\Controller;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\RestMenu;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class KitchenController extends Controller
+class SectionController extends Controller
 {
     public function __construct()
     {
@@ -22,7 +22,7 @@ class KitchenController extends Controller
      */
     public function index(Request $request)
     {
-        $kitchens = Kitchen::where("is_active", 1)
+        $kitchens = Section::where("is_active", 1)
             ->paginate(15);
 
         if ($request->ajax())
@@ -58,7 +58,7 @@ class KitchenController extends Controller
             'img' => 'required',
         ]);
 
-        Kitchen::create([
+        Section::create([
             'name' => $request->get('name') ?? '',
             'img' => $request->get('img') ?? '',
             'created_at' => Carbon::now(),
@@ -85,7 +85,9 @@ class KitchenController extends Controller
      */
     public function show($id)
     {
-        //
+        $section = Section::with(["restorans"])->where("id",$id)->first();
+
+        return view("mobile.pages.section-products",compact("section"));
     }
 
     /**
@@ -112,7 +114,7 @@ class KitchenController extends Controller
         $param = $request->get("param");
         $value = $request->get("value");
 
-        $kitchen = Kitchen::find($id);
+        $kitchen = Section::find($id);
         $kitchen[$param] = $value;
         $kitchen->save();
 
@@ -131,7 +133,7 @@ class KitchenController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $kitchen = Kitchen::find($id);
+        $kitchen = Section::find($id);
         $kitchen->delete();
 
         if ($request->ajax())
@@ -150,7 +152,7 @@ class KitchenController extends Controller
     {
         return response()
             ->json([
-                "menus" => Kitchen::with(["restorans", "restorans.menus"])
+                "menus" => Section::with(["restorans", "restorans.menus"])
                     ->where("id", $kitchenId)
                     ->get()
 

@@ -4,13 +4,13 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKitchenTable extends Migration
+    class CreateSectionTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'kitchens';
+    public $tableName = 'sections';
 
     /**
      * Run the migrations.
@@ -28,8 +28,6 @@ class CreateKitchenTable extends Migration
             $table->string('img', 1000)->default('');
             $table->boolean('is_active')->default(true);
             $table->text('alt_description');
-
-            $table->unsignedInteger('rating_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

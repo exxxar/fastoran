@@ -422,7 +422,7 @@
                 },
                 preparedToSend: false,
                 is_valid: false,
-                phone: localStorage.getItem("phone", null),
+                phone: localStorage.getItem("fastoran_phone", null),
                 name: '',
                 message: '',
                 delivery_range_message: '',
@@ -653,7 +653,7 @@
                 // e.preventDefault();
                 this.sending = true;
 
-                localStorage.setItem("phone", this.phone == null ? '' : this.phone);
+                localStorage.setItem("fastoran_phone", this.phone == null ? '' : this.phone);
                 localStorage.setItem("food_city", this.delivery.city == null ? '' : this.delivery.city);
                 localStorage.setItem("food_street", this.delivery.street == null ? '' : this.delivery.street);
                 localStorage.setItem("food_first_name", this.delivery.first_name == null ? '' : this.delivery.first_name);

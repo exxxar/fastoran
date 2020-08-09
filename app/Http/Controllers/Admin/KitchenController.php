@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Parts\Models\Fastoran\Kitchen;
+use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\RestMenu;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class KitchenController extends Controller
      */
     public function index(Request $request)
     {
-//        $kitchens = Kitchen::orderBy('id', 'DESC')
+//        $kitchens = Section::orderBy('id', 'DESC')
 //            ->paginate(15);
 
 //        return view('admin.kitchens.index', compact('kitchens'))
@@ -53,7 +53,7 @@ class KitchenController extends Controller
             'img' => 'required',
         ]);
 
-        $kitchen = Kitchen::create([
+        $kitchen = Section::create([
             'name' => $request->get('name') ?? '',
             'img' => $request->get('img') ?? '',
             'alt_description' => $request->get('alt_description') ?? '',
@@ -103,7 +103,7 @@ class KitchenController extends Controller
         $param = $request->get("param");
         $value = $request->get("value");
 
-        $kitchen = Kitchen::find($id);
+        $kitchen = Section::find($id);
         $kitchen[$param] = $value;
         $kitchen->save();
 
@@ -122,7 +122,7 @@ class KitchenController extends Controller
      */
     public function destroy($id)
     {
-        $kitchen = Kitchen::find($id);
+        $kitchen = Section::find($id);
         $kitchen->is_active = 0;
         $kitchen->save();
         $kitchen->delete();
@@ -138,7 +138,7 @@ class KitchenController extends Controller
     {
         return response()
             ->json([
-                "menus" => Kitchen::with(["restorans", "restorans.menus"])
+                "menus" => Section::with(["restorans", "restorans.menus"])
                     ->where("id", $kitchenId)
                     ->get()
 
@@ -147,8 +147,8 @@ class KitchenController extends Controller
 
     public function get()
     {
-        $kitchens = Kitchen::all();
-        $deleted_kitchens = Kitchen::onlyTrashed()->get();
+        $kitchens = Section::all();
+        $deleted_kitchens = Section::onlyTrashed()->get();
         return response()
             ->json([
                 "kitchens" => $kitchens,
@@ -157,7 +157,7 @@ class KitchenController extends Controller
     }
     public function restore($id)
     {
-        $kitchen = Kitchen::onlyTrashed()->where('id', $id)->restore();
+        $kitchen = Section::onlyTrashed()->where('id', $id)->restore();
 
         return response()
             ->json([

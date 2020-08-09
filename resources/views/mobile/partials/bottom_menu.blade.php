@@ -30,7 +30,7 @@
         <a href="{{route("mobile.restorans")}}">
             <p>
                 <i class="icon ion-md-beer"></i>
-                <span>Рестораны</span>
+                <span>Заведения</span>
             </p>
         </a>
     </div>

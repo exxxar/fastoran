@@ -68,7 +68,6 @@ const actions = {
     },
     setQuantity({state, commit}, prod) {
         commit('setItemQuantity', prod);
-        console.log("q1")
         localStorage.setItem('vuejs__store', JSON.stringify(state.items));
     },
     incQuantity({state, commit}, id) {

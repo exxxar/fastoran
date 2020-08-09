@@ -110,7 +110,10 @@ Vue.component('mobile-tags-cloud', require('./mobile/components/TagsCloud').defa
 Vue.component('mobile-callback-from', require('./mobile/components/CallbackFrom').default);
 Vue.component('mobile-restoran-info', require('./mobile/components/RestoranInfo').default);
 Vue.component('mobile-product-list', require('./mobile/components/ProductList').default);
+Vue.component('mobile-discount-product-list', require('./mobile/components/DiscountProductList').default);
+Vue.component('mobile-likes-product-list', require('./mobile/components/LikesProductList').default);
 Vue.component('mobile-cart-counter', require('./mobile/components/CartCounter').default);
+Vue.component('mobile-likes-counter', require('./mobile/components/LikesCounter').default);
 Vue.component('mobile-cart', require('./mobile/components/Cart').default);
 Vue.component('mobile-order-status', require('./mobile/components/OrderStatus').default);
 Vue.component('mobile-order-history', require('./mobile/components/OrderHistory').default);
@@ -121,6 +124,7 @@ Vue.component('mobile-latest-order', require('./mobile/components/LatestOrders.v
 Vue.component('mobile-calc-slider', require('./mobile/components/calculators/CalcSlider.vue').default);
 Vue.component('mobile-custom-order', require('./mobile/components/CustomOrder.vue').default);
 Vue.component('mobile-restorans', require('./mobile/components/Restorans.vue').default);
+Vue.component('mobile-sections', require('./mobile/components/SectionList.vue').default);
 Vue.component('mobile-sidebar-menu', require('./mobile/components/SideBarMenu.vue').default);
 
 

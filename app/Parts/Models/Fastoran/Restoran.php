@@ -70,7 +70,7 @@ class Restoran extends Model
 
     ];
 
-    protected $appends = ["comments_count", "rating", "kitchen_speicalization", "categories_speicalization", "is_work", "simple_name"];
+    protected $appends = ["comments_count", "rating", "section_speicalization", "categories_speicalization", "is_work", "simple_name"];
 
 
     public function getCommentsCountAttribute()
@@ -102,9 +102,9 @@ class Restoran extends Model
             ->withTimestamps();
     }
 
-    public function kitchens()
+    public function sections()
     {
-        return $this->belongsToMany(Kitchen::class, 'kitchen_in_restorans', 'restoran_id', 'kitchen_id')
+        return $this->belongsToMany(Section::class, 'restorans_in_section', 'restoran_id', 'section_id')
             ->withTimestamps();
     }
 
@@ -123,9 +123,9 @@ class Restoran extends Model
         return $tmp;
     }
 
-    public function getKitchenSpeicalizationAttribute()
+    public function getSectionSpeicalizationAttribute()
     {
-        $kitchens = $this->kitchens()->get();
+        $kitchens = $this->sections()->get();
         $tmp = "";
         foreach ($kitchens as $key => $k)
             $tmp .= "#" . $k->name . ", ";

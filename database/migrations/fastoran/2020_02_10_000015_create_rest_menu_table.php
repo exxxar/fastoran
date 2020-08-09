@@ -29,6 +29,7 @@ class CreateRestMenuTable extends Migration
             $table->json('food_sub')->nullable();
             $table->integer('food_ext')->default(0);
             $table->integer('food_price')->default(0);
+            $table->integer('food_discount_price')->default(0);
             $table->integer('time_to_prepare')->default(0);
             $table->integer('food_rating')->default(0);
             $table->integer('food_status')->default(\App\Enums\FoodStatusEnum::Unset);
