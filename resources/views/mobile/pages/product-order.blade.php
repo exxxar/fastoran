@@ -6,7 +6,7 @@
     <a href="/m/sections/2"  style="display: block" title="Цветочная лавка" >
         <img src="/images/fastoran/sections/products.jpg" alt="Продукты Fastoran" class="img-fluid">
     </a>
-    <a href="/m/sections/2"  class="mb-2 btn btn-outline-success w-100" title="Продуктове лавки" >
+    <a href="/m/sections/2"  class="mb-1 mt-1 btn btn-outline-success w-100" title="Продуктове лавки" >
         Продуктовые лавки
     </a>
     <h6 class="text-center mb-2">Либо, закажите продукты из любых магазинов города!</h6>

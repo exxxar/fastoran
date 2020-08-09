@@ -7,7 +7,7 @@
     <a href="/m/sections/3"  style="display: block" title="Цветочная лавка" >
         <img src="/images/fastoran/sections/flowers.jpg" alt="Цветы Fastoran" class="img-fluid">
     </a>
-    <a href="/m/restoran/ona_hochet_dn"  class="mb-2 btn btn-outline-success w-100" title="Цветочная лавка" >
+    <a href="/m/sections/3"  class="mb-1 mt-1 btn btn-outline-success w-100" title="Цветочная лавка" >
        Цветочная лавка
     </a>
     <h6 class="text-center mb-2">Либо, закажите звонок и наши флористы подберут букет под ваши пожелания!</h6>
