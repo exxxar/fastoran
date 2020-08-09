@@ -36,7 +36,7 @@
             loadSections() {
                 this.preloader = true;
                 axios
-                    .get("/api/v1/fastoran/sections/")
+                    .get("https://fastoran.com/api/v1/fastoran/sections/")
                     .then(resp => {
                         this.sections = resp.data
                         this.preloader = false;
