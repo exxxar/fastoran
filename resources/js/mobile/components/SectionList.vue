@@ -35,13 +35,15 @@
         methods: {
             loadSections() {
                 this.preloader = true;
+
                 axios
-                    .get("/api/v1/fastoran/sections/")
+                    .get("/api/v1/fastoran/sections")
                     .then(resp => {
                         this.sections = resp.data
                         this.preloader = false;
-
-                    })
+                    }).catch(()=>{
+                        this.sections = [];
+                })
             },
 
         }

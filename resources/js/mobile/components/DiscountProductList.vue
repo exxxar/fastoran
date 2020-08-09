@@ -68,7 +68,7 @@
             },
 
             refresh() {
-                this.current_page_url = '/api/v1/fastoran/sales/';
+                this.current_page_url = '/api/v1/fastoran/sales';
                 this.loadDiscountProducts();
             },
             prev() {
