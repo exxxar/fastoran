@@ -4,8 +4,8 @@
     <div class="mt-2"></div>
     @include("mobile.partials.main.section_title",[ "title"=>"Цветочная лавка", "muted"=>"Цветы на выбор"])
     <h6 class="text-center">Теперь каждый пользователь сможет посетить нашу цветочную лавку!</h6>
-    <a href="/m/restoran/ona_hochet_dn"  style="display: block" title="Цветочная лавка" >
-        <img src="/images/fastoran/restorans/flowers.jpg" alt="Цветы Fastoran" class="img-fluid">
+    <a href="/m/sections/3"  style="display: block" title="Цветочная лавка" >
+        <img src="/images/fastoran/sections/flowers.jpg" alt="Цветы Fastoran" class="img-fluid">
     </a>
     <a href="/m/restoran/ona_hochet_dn"  class="mb-2 btn btn-outline-success w-100" title="Цветочная лавка" >
        Цветочная лавка
