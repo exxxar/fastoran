@@ -3,8 +3,8 @@
 @section('content')
     @include("mobile.partials.main.card_carousel")
 
-    @include("mobile.partials.main.section_title",[ "title"=>"Товары", "muted"=>"Наши направления"])
-    <mobile-sections></mobile-sections>
+ {{--   @include("mobile.partials.main.section_title",[ "title"=>"Товары", "muted"=>"Наши направления"])
+    <mobile-sections></mobile-sections>--}}
     <!-- Post Carousel -->
     @include("mobile.partials.main.section_title",[ "title"=>"Рестораны", "muted"=>"Доставка еды", "link"=>route('mobile.restorans')])
 
