@@ -7,7 +7,6 @@ export default {
             .get(`/api/v1/rest/${domain}`)
             .then(resp => {
                 self.restInfo = resp.data.restoran
-                console.log(resp.data.restoran)
             })
 
         return this

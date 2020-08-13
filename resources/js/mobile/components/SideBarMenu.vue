@@ -90,6 +90,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/m/calcs/4" title="Бизнес-ланчи"
+                           aria-label="Бизнес-ланчи">
+                            <img v-lazy="'/images/fastoran/svinya-calc.jpg'" alt="avatar" class="avatar">
+                           Бизнес-ланчи
+                        </a>
+                    </li>
+                    <li>
                         <a href="/m/calcs/3" title="Хот-доги \ Гонконгские вафли"
                            aria-label="Хот-доги \ Гонконгские вафли">
                             <img v-lazy="'/images/fastoran/burger-bar-calc.jpg'" alt="avatar" class="avatar">

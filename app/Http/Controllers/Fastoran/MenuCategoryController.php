@@ -35,7 +35,7 @@ class MenuCategoryController extends Controller
     public function menuCategoriesInRest(Request $request,$rest_id){
         return response()
             ->json([
-                'menu_categories' => (Restoran::with(["categories"])->where("id",$rest_id)->first())->categories->all(),
+                'menu_categories' => (Restoran::with(["categories"])->where("id",$rest_id)->first())->categories->shuffle()->all(),
             ]);
     }
     /**

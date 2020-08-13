@@ -68,7 +68,7 @@ Route::group(['prefix' => 'v1'], function () {
 
 
         Route::resource('restorans', 'RestoransController');
-        Route::resource('kitchens', 'KitchenController');
+        Route::resource('kitchens', 'SectionController');
         Route::resource('menu_categories', 'MenuCategoryController');
         Route::resource('menus', 'MenuController');
         Route::resource('orders', 'OrderController');
@@ -78,7 +78,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get("restorans/like/{id}", 'RestoransController@like');
         Route::get("restorans/dislike/{id}", 'RestoransController@dislike');
 
-        Route::any('kitchens', 'KitchenController@index');
+        Route::any('kitchens', 'SectionController@index');
         Route::any('menu_categories', 'MenuCategoryController@index');
         Route::any('menu_categories_in_rest/{rest_id}', 'MenuCategoryController@menuCategoriesInRest');
         Route::any('sales', 'RestoransController@sales');
@@ -92,7 +92,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any('/restorans/menu/{restId}', 'MenuController@getMenuByRestId');
         Route::any('/restorans/section/{sectionId}', 'RestoransController@getRestoransBySectionId');
 
-        Route::any('/kitchens/menu/{kitchenId}', 'KitchenController@getMenuByKitchenId');
+        Route::any('/kitchens/menu/{kitchenId}', 'SectionController@getMenuByKitchenId');
 
 
         Route::group([

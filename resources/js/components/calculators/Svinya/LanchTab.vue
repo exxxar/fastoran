@@ -1,46 +1,25 @@
 <template>
     <div>
-        <h4 class="text-center mt-2">Собираем вкусный ролл</h4>
-        <h6 class="text-left mt-2 mb-2">
-            <mark>Выбираем покрытие ролла</mark>
+        <h4 class="text-center mt-2">Собираем вкусный<br>Бизнес-Ланч</h4>
+
+        <h6 class="text-center mb-5">
+            <mark>Цена ланча фиксирована - 150 руб!</mark>
         </h6>
-        <div class="row mt-2 mb-2">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(11)">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-4" v-for="fill in getFilling(23)">
                 <div class="container-wrapper">
-                    <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
-                        class="badge">{{fill.price | currency}}</span>
+                    <label class="container text-left">
+                        <label>{{fill.title}}
+                            <span
+                                class="badge">{{fill.price | currency}}</span>
 
-
-                        <input v-if="fill.checked" checked="checked" type="checkbox"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings" :value="fill.id">
-                        <input v-else type="checkbox"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
-                               v-model="fillings" :value="fill.id">
-                        <span class="checkmark"></span>
-
-
-                    </label>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row mt-2 mb-2">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(9)">
-                <div class="container-wrapper">
-                    <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
-                        class="badge">{{fill.price | currency}}</span>
-
-
-                        <input v-if="fill.checked" checked="checked" type="radio" name="roll_coating"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="roll_coating"
+                        </label>
+                        <input v-if="fill.checked" checked="checked" type="checkbox" name="hot_dog_base_coating"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="base_lanch"
                                :value="fill.id">
-                        <input v-else type="radio" name="roll_coating"
+                        <input v-else type="checkbox" name="hot_dog_base_coating"
                                :disabled="fill.disabled||hasManyItems(fill.id)>1"
-                               v-model="roll_coating" :value="fill.id">
+                               v-model="base_lanch" :value="fill.id">
                         <span class="checkmark"></span>
 
 
@@ -50,34 +29,25 @@
 
             </div>
         </div>
-        <h6 class="text-center">
-            <mark>А теперь выбираем начинку ролла...</mark>
-        </h6>
 
-        <div class="row mt-2 mb-2">
-            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(10)">
+        <h3 class="text-left mt-2 mb-4">
+            <mark>Выбираем салат</mark>
+        </h3>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(19)">
 
                 <div class="container-wrapper">
                     <label class="container">{{fill.title}}<span
-                        class="badge badge-weight">{{fill.weight}} гр.</span><span
-                        class="badge">{{fill.price | currency}}</span>
-                        <input v-if="fill.checked" checked="checked" type="checkbox" name="filling"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1||(fillings.length >= 6&&fillings.indexOf(fill.id) === -1)" v-model="fillings" :value="fill.id">
-                        <input v-else type="checkbox" name="filling" :value="fill.id"
-                               :disabled="fill.disabled||hasManyItems(fill.id)>1||(fillings.length >= 6&&fillings.indexOf(fill.id) === -1)"
-                               v-model="fillings">
+                        class="badge badge-weight">{{fill.weight}} гр.</span>
+                        <input v-if="fill.checked" checked="checked" type="radio" name="fillings_1"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings_1" :value="fill.id">
+                        <input v-else type="radio" name="fillings_1" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings_1">
                         <span class="checkmark"></span>
                     </label>
 
-                  <!--  <div v-if="!fill.disabled">
-                        <div class="counter-wrapper" v-if="hasManyItems(fill.id)>0">
-                            <div class="counter">
-                                <button class="btn btn-counter" @click="removeItem(fill.id)">-</button>
-                                <p>{{hasManyItems(fill.id)}}</p>
-                                <button class="btn btn-counter" @click="addItem(fill.id)">+</button>
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
 
 
@@ -85,15 +55,84 @@
 
         </div>
 
+
+        <h3 class="text-left mt-2 mb-4">
+            <mark>Первое блюдо</mark>
+        </h3>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(20)">
+
+                <div class="container-wrapper">
+                    <label class="container justify-between">{{fill.title}}<span
+                        class="badge badge-weight">{{fill.weight}} гр.</span>
+                        <input v-if="fill.checked" checked="checked" type="radio" name="fillings_2"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings_2" :value="fill.id">
+                        <input v-else type="radio" name="fillings_2" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings_2">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <h3 class="text-left mt-2 mb-4">
+            <mark>Выбираем гарнир</mark>
+        </h3>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(21)">
+
+                <div class="container-wrapper">
+                    <label class="container justify-between">{{fill.title}}<span
+                        class="badge badge-weight">{{fill.weight}} гр.</span>
+                        <input v-if="fill.checked" checked="checked" type="radio" name="fillings_3"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings_3" :value="fill.id">
+                        <input v-else type="radio" name="fillings_3" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings_3">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <h3 class="text-left mt-2 mb-4">
+            <mark>Выбираем напиток</mark>
+        </h3>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6" v-for="fill in getFilling(22)">
+
+                <div class="container-wrapper">
+                    <label class="container justify-between">{{fill.title}}<span
+                        class="badge badge-weight">{{fill.weight}} гр.</span>
+                        <input v-if="fill.checked" checked="checked" type="radio" name="fillings_4"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1" v-model="fillings_4" :value="fill.id">
+                        <input v-else type="radio" name="fillings_4" :value="fill.id"
+                               :disabled="fill.disabled||hasManyItems(fill.id)>1"
+                               v-model="fillings_4">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+
+            </div>
+
+        </div>
 
         <hr>
-        <p class="text-center"><em> <strong>Цена указана за 1 порцию роллов (вы заказали
-           <mark> {{summary_count}}</mark>
-            порций). Порция включает в себя 8 штук роллов общей массой <mark>{{weight}}</mark>
-            грамм.</strong></em></p>
         <div class="row d-flex justify-content-center result">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <h6 class="text-center">Сколько таких роллов сделать?</h6>
+                <h6 class="text-center">Сколько таких ланчей сделать?</h6>
                 <div class="summary">
                     <div class="btn-counter" @click="decrementSummary">-</div>
                     <p>{{summary_count}}</p>
@@ -113,14 +152,14 @@
                 </p>
                 <div class="d-flex justify-content-center flex-wrap">
 
-                    <div class="col-12 col-sm-6 col-md-6 d-flex justify-content-center">
-                        <button class="btn btn-primary w-100 mt-2" :disabled="summary_count===0" @click="addToCart">
+                    <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
+                        <button class="food__btn w-100 mt-2" :disabled="summary_count===0" @click="addToCart">
                             В корзину
                         </button>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-md-6 d-flex justify-content-center">
-                        <button class="btn  btn-danger w-100 mt-2" @click="clearCalc">
+                    <div class="col-12 col-sm-12 col-md-12 d-flex justify-content-center">
+                        <button class="food__btn w-100 mt-2" @click="clearCalc">
                             Очистить
                         </button>
                     </div>
@@ -137,19 +176,49 @@
     export default {
         data() {
             return {
+                cat: [19, 20, 21, 22, 23],
                 timer: null,
                 message: '',
-                roll_coating: 77,
+                base_lanch: 150,
                 summary_count: 0,
                 summary_weight: 0,
                 summary_price: 0,
                 price: 0,
                 weight: 0,
-                fillings: []
+                fillings_1: 152,
+                fillings_2: 155,
+                fillings_3: 158,
+                fillings_4: 161,
+                fillings:[]
             }
         },
         watch: {
-            roll_coating: function (newVal, oldVal) {
+            fillings_1: function (newVal, oldVal) {
+                if (oldVal)
+                    this.removeItem(oldVal)
+                if (newVal)
+                    this.addItem(newVal)
+            },
+            fillings_2: function (newVal, oldVal) {
+                if (oldVal)
+                    this.removeItem(oldVal)
+                if (newVal)
+                    this.addItem(newVal)
+            },
+            fillings_3: function (newVal, oldVal) {
+                if (oldVal)
+                    this.removeItem(oldVal)
+                if (newVal)
+                    this.addItem(newVal)
+            },
+            fillings_4: function (newVal, oldVal) {
+                if (oldVal)
+                    this.removeItem(oldVal)
+                if (newVal)
+                    this.addItem(newVal)
+            },
+
+            base_lanch: function (newVal, oldVal) {
                 if (oldVal)
                     this.removeItem(oldVal)
                 if (newVal)
@@ -160,7 +229,6 @@
                 this.summary_weight = this.weight * this.summary_count
             },
             fillings: function (val) {
-                console.log(this.fillings.length)
                 window
                     .api
                     .watchForFillings(this, val)
@@ -180,20 +248,25 @@
         mounted() {
             window
                 .api
-                .prepareCheckedItems(this, [9, 10, 11])
-                .loadRestInfo(this, "isushi")
+                .prepareCheckedItems(this, this.cat)
+                .loadRestInfo(this, "svinya_pub_dn")
 
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("getProductList")
             }
 
             Vue.ls.on('store', callback) //watch change foo key and triggered callbac
+
+            this.addItem(this.fillings_1)
+            this.addItem(this.fillings_2)
+            this.addItem(this.fillings_3)
+            this.addItem(this.fillings_4)
         },
         methods: {
             addToCart() {
                 window
                     .api
-                    .addToCart(this,"Собранный ролл")
+                    .addToCart(this, "Собранный бизнес-ланч")
             },
             clearCalc() {
                 window
@@ -202,7 +275,7 @@
 
                 window
                     .api
-                    .prepareCheckedItems(this, [9, 10, 11])
+                    .prepareCheckedItems(this, this.cat)
             },
             comingSoon() {
                 this.message = "Данный сервис будет доступен в ближайшее время!"
@@ -256,11 +329,23 @@
             },
 
 
-
         }
     }
 </script>
 <style lang="scss" scoped>
+
+
+
+    .hot-dog-calc .checkmark {
+        position: absolute;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        position: absolute;
+        left: 50%;
+        top: -30px;
+    }
+
     hr {
         width: 100%;
         height: 1px;

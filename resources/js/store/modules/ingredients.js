@@ -18,6 +18,11 @@ const state = {
         {id: 16, title: "Начинка гонконгских вафель"},
         {id: 17, title: "Фруктовые добавки для гонконгских вафель"},
         {id: 18, title: "Добавки топпинга или соуса для гонконгских вафель"},
+        {id: 19, title: "Ланч салат"},
+        {id: 20, title: "Ланч первые блюда"},
+        {id: 21, title: "Ланч гарнир"},
+        {id: 22, title: "Ланч напиток"},
+        {id: 23, title: "Бизнес-ланч"},
     ],
     filling: [
         {id: 1, title: "Грибы жаренные", weight: 50, price: 45, category: 1, checked:false, disabled:false},
@@ -183,6 +188,23 @@ const state = {
         {id: 148, title: "Сырный соус", weight: 30, price:30, category: 18, checked:false, disabled:false},
         {id: 149, title: "Остро-сладкий соус", weight: 30, price:25, category: 18, checked:false, disabled:false},
         {id: 150, title: "Соус барбекю", weight: 30, price:20, category: 18, checked:false, disabled:false},
+
+        {id: 151, title: "Бизнес-ланч", weight: 0, price:150, category: 23, checked:true, disabled:true},
+        {id: 152, title: "Салат из свеклы", weight: 100, price:0, category: 19, checked:false, disabled:false},
+        {id: 153, title: "Салат с овощами и моцареллой", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 154, title: "Салат 'Весенний'", weight: 100, price:0, category: 19, checked:false, disabled:false},
+
+        {id: 155, title: "Борщ красный", weight: 250, price:0, category: 20, checked:false, disabled:false},
+        {id: 156, title: "Суп с фрикадельками", weight: 250, price:0, category: 20, checked:false, disabled:false},
+        {id: 157, title: "Окрошка", weight: 250, price:0, category: 20, checked:false, disabled:false},
+
+        {id: 158, title: "Тефтели с картофельным пюре", weight: 160, price:0, category: 21, checked:false, disabled:false},
+        {id: 159, title: "Плов", weight: 150, price:0, category: 21, checked:false, disabled:false},
+        {id: 160, title: "Куриное филе со спагетти", weight: 150, price:0, category: 21, checked:false, disabled:false},
+
+        {id: 161, title: "Каркаде", weight: 250, price:0, category: 22, checked:false, disabled:false},
+        {id: 162, title: "Компот", weight: 250, price:0, category: 22, checked:false, disabled:false},
+        {id: 163, title: "Пиво", weight: 330, price:0, category: 22, checked:false, disabled:false},
     ]
 }
 

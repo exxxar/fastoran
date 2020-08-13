@@ -22,6 +22,10 @@
                         <li><img @click="changeCalc(3)" :style="prepareStyle(3)"
                                  src="https://sun9-65.userapi.com/c854024/v854024983/244a31/AFKYPzAim-s.jpg"
                                  class="slide-item" alt=""></li>
+
+                        <li><img @click="changeCalc(4)" :style="prepareStyle(4)"
+                                 src="https://sun9-60.userapi.com/VQUteM8umQoJlf-iFwhB9pyglhTAvWdV8_t2UA/b2zse5uYzfk.jpg"
+                                 class="slide-item" alt=""></li>
                     </ul>
 
                     <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
@@ -30,6 +34,8 @@
 
 
                     <m-burger-bar-calc v-if="slideIndex===3"></m-burger-bar-calc>
+
+                    <svinya-calc v-if="slideIndex===4"></svinya-calc>
                 </div>
             </div>
         </div>
@@ -44,6 +50,7 @@
     import ChelentanoCalc from "./ChelentanoCalc";
     import IsushiCalc from "./IsushiCalc";
     import MBurgerBarCalc from "./BurgerBarCalc";
+    import SvinyaCalc from "./SvinyaCalc";
 
     export default {
         props: {
@@ -58,7 +65,7 @@
             }
         },
         mounted() {
-            this.slideIndex = Math.max(Math.min(this.active, 3), 1);
+            this.slideIndex = Math.max(Math.min(this.active, 4), 1);
         },
         methods: {
             changeCalc(number) {
@@ -69,7 +76,7 @@
             }
         },
         components: {
-            ChelentanoCalc, IsushiCalc, MBurgerBarCalc
+            ChelentanoCalc, IsushiCalc, MBurgerBarCalc, SvinyaCalc
         }
     }
 </script>

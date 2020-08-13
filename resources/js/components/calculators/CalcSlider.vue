@@ -22,6 +22,12 @@
                         <li><img @click="changeCalc(3)"
                                  src="https://sun9-65.userapi.com/c854024/v854024983/244a31/AFKYPzAim-s.jpg"
                                  class="slide-item" alt=""></li>
+
+                        <li><img @click="changeCalc(4)"
+                                 src="https://sun9-60.userapi.com/VQUteM8umQoJlf-iFwhB9pyglhTAvWdV8_t2UA/b2zse5uYzfk.jpg"
+                                 class="slide-item" alt=""></li>
+
+
                     </ul>
 
                     <chelentano-calc v-if="slideIndex===1"></chelentano-calc>
@@ -30,6 +36,8 @@
 -->
 
                     <burger-bar-calc v-if="slideIndex===3"></burger-bar-calc>
+
+                    <svinya-calc v-if="slideIndex===4"></svinya-calc>
                 </div>
             </div>
         </div>
@@ -42,6 +50,8 @@
        // optional style for arrows & dots
        import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'*/
     import ChelentanoCalc from "./ChelentanoCalc";
+    import SvinyaCalc from "./SvinyaCalc";
+
 
     export default {
 
@@ -56,7 +66,7 @@
             }
         },
         components: {
-            ChelentanoCalc
+            ChelentanoCalc, SvinyaCalc
         }
     }
 </script>
