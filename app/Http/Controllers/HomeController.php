@@ -100,15 +100,8 @@ class HomeController extends Controller
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
                     $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
-                    $tmp_old_price = 0;
-                    if (isset($item2["price"]["old_amount"]))
-                        Log::info("OLD=".$item2["price"]["old_amount"]);
-                       // $tmp_old_price = intval($item2["price"]["old_amount"] / 100);
+                    $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"])/100 : 0;
 
-                    if ($tmp_old_price > 0)
-                        Log::info("PRICE=$price OLD_PRICE=$tmp_old_price");
-
-                    $old_price = $tmp_old_price == 0 ? 0 : $tmp_old_price / 100;//$matches[0][0] ?? 0;
 
                     $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
 
@@ -143,8 +136,8 @@ class HomeController extends Controller
                         'food_remark' => $description,
                         'food_ext' => $weight ?? 0,
                         'food_sub' => $this->prepareSub($description),
-                        'food_price' => $old_price === 0 ? $price : $old_price,
-                        'food_discount_price' => $old_price !== 0 ? $price : 0,
+                        'food_price' => $tmp_old_price === 0 ? $price : $tmp_old_price,
+                        'food_discount_price' => $tmp_old_price !== 0 ? $price : 0,
                         'food_status' => is_null($food_status_index) ? FoodStatusEnum::Unset : $food_status[$food_status_index],
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,
