@@ -131,10 +131,10 @@ class HomeController extends Controller
                         if (mb_strpos(mb_strtolower($description), mb_strtolower($key)))
                             $food_status_index = $key;
 
-                    if (!is_null($food_status_index))
+                  /*  if (!is_null($food_status_index))
                         if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
                             Log::info("OLD PRICE=$tmp_old_price   " . print_r($item2, true));
-                        }
+                        }*/
 
                     $product = RestMenu::create([
                         'food_name' => $item2["title"],
