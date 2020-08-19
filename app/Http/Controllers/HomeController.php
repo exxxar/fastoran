@@ -72,7 +72,7 @@ class HomeController extends Controller
                     'owner_id' => -136275935,
                     'album_id' => $item["id"],
                     'count' => 200,
-                    'v'=>5.122
+                    'v'=>"5.131"
                 ]);
 
 
