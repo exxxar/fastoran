@@ -45,6 +45,7 @@ class HomeController extends Controller
     {
         $auth = new Auth('7384241', 'eNYSaEk3l2FuZzAePCnH', 'https://fastoran.com/vkontakte', 'market');
 
+
         Schema::disableForeignKeyConstraints();
         MenuCategory::truncate();
         RestoranInCategory::truncate();
@@ -72,7 +73,6 @@ class HomeController extends Controller
                     'owner_id' => -136275935,
                     'album_id' => $item["id"],
                     'count' => 200,
-                    'v'=>"5.131"
                 ]);
 
 
