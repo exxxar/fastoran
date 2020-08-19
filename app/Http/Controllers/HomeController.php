@@ -56,7 +56,7 @@ class HomeController extends Controller
         if ($request->has("code")) {
             $token = $auth->getToken($request->get('code'));
 
-            $api = new Client;
+            $api = new Client('5.131');
             $api->setDefaultToken($token);
 
             $response = $api->request('market.getAlbums', [
