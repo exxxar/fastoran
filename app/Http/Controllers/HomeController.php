@@ -100,10 +100,12 @@ class HomeController extends Controller
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
                     $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
-                    $tmp_old_price = intval($item2["price"]["old_amount"] / 100)??0;
+                    $tmp_old_price = 0;
+                    if ($item2["price"]["old_amount"])
+                        $tmp_old_price = intval($item2["price"]["old_amount"] / 100);
 
-                    if ($tmp_old_price>0)
-                    Log::info("PRICE=$price OLD_PRICE=$tmp_old_price");
+                    if ($tmp_old_price > 0)
+                        Log::info("PRICE=$price OLD_PRICE=$tmp_old_price");
 
                     $old_price = $tmp_old_price == 0 ? 0 : $tmp_old_price / 100;//$matches[0][0] ?? 0;
 
