@@ -101,7 +101,7 @@ class HomeController extends Controller
 
                     $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
                     $tmp_old_price = 0;
-                    if ($item2["price"]["old_amount"])
+                    if (isset($item2["price"]["old_amount"]))
                         $tmp_old_price = intval($item2["price"]["old_amount"] / 100);
 
                     if ($tmp_old_price > 0)
