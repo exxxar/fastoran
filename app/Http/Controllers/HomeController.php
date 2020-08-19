@@ -100,7 +100,7 @@ class HomeController extends Controller
                     //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
 
                     $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
-                    $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"])/100 : 0;
+                    $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"]) / 100 : 0;
 
 
                     $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
@@ -130,8 +130,9 @@ class HomeController extends Controller
                         if (mb_strpos(mb_strtolower($description), mb_strtolower($key)))
                             $food_status_index = $key;
 
-                        if ($food_status[$food_status_index]===1){
-                            Log::info("OLD PRICE=$tmp_old_price   ".print_r($item2["price"],true));
+                    if (!is_null($food_status_index))
+                        if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
+                            Log::info("OLD PRICE=$tmp_old_price   " . print_r($item2["price"], true));
                         }
 
                     $product = RestMenu::create([
