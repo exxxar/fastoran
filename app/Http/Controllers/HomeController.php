@@ -130,7 +130,7 @@ class HomeController extends Controller
                         if (mb_strpos(mb_strtolower($description), mb_strtolower($key)))
                             $food_status_index = $key;
 
-                        if ($food_status_index===1){
+                        if ($food_status[$food_status_index]===1){
                             Log::info("OLD PRICE=$tmp_old_price   ".print_r($item2["price"],true));
                         }
 
