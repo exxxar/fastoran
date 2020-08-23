@@ -197,11 +197,8 @@ class OrderController extends Controller
                 ]);
         }
 
-        if (is_null($user)) {
-            Log::info("Пользователь не найден!");
+        if (is_null($user))
             throw new HttpException(404, "Пользователь не найден!");
-
-        }
 
         $order = Order::create($request->all());
 
@@ -687,7 +684,6 @@ class OrderController extends Controller
                 'order.required' => 'Заказ не найден',
             ]);
 
-        Log::info(print_r($validator->errors()->toArray(), true));
 
         if ($validator->fails())
             return response()
@@ -976,8 +972,6 @@ class OrderController extends Controller
 
         $user = $this->getUser();
 
-        Log::info("setDeliveredStatus");
-
         $validator = Validator::make(
             [
                 "user" => $user,
@@ -999,7 +993,7 @@ class OrderController extends Controller
                             $fail("Ошибка валидации пользователя");
                             return;
                         }
-                        Log::info($user->user_type);
+
                         if ($user->user_type === UserTypeEnum::Admin)
                             return;
 
@@ -1096,14 +1090,6 @@ class OrderController extends Controller
         foreach ($orders as $order) {
             $order->deliveryman_latitude = $request->deliveryman_latitude;
             $order->deliveryman_longitude = $request->deliveryman_longitude;
-            /*
-                        Log::info(sprintf("#%s %s км.",
-                            $order->id,
-                            $this->calculateTheDistance(
-                                $order->latitude,
-                                $order->longitude,
-                                $request->deliveryman_latitude,
-                                $request->deliveryman_longitude)));*/
             $order->save();
         }
 

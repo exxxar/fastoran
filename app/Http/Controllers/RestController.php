@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Classes\Utilits;
 use App\Parts\Models\Fastoran\Section;
 use App\Parts\Models\Fastoran\MenuCategory;
-use App\Parts\Models\Fastoran\Order;
-use App\Parts\Models\Fastoran\OrderDetail;
-
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\View;
 use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
