@@ -191,21 +191,21 @@
                                             </div>
 
                                             <div class="col-12 mb--20">
-                                                <input placeholder="Улица" type="text" v-model="delivery.street"
+                                                <input placeholder="Улица" maxlength="100" type="text" v-model="delivery.street"
                                                        required>
                                             </div>
                                             <div class="col-md-6  col-12 mb--20">
-                                                <input placeholder="Номер дома" type="text" required
+                                                <input placeholder="Номер дома" maxlength="100" type="text" required
                                                        v-model="delivery.home_number">
                                             </div>
 
                                             <div class="col-md-6  col-12 mb--20">
-                                                <input placeholder="Номер квартиры" type="text"
+                                                <input placeholder="Номер квартиры" maxlength="100" type="text"
                                                        v-model="delivery.flat_number">
                                             </div>
 
                                             <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" v-model="delivery.first_name" placeholder="Ваше имя"
+                                                <input type="text" maxlength="100" v-model="delivery.first_name" placeholder="Ваше имя"
                                                        required>
                                             </div>
 
@@ -221,7 +221,7 @@
                                             </div>
 
                                             <div class="col-12 mb--20">
-                                                <textarea v-model="delivery.more_info"
+                                                <textarea v-model="delivery.more_info" maxlength="1000"
                                                           placeholder="Дополнительная информация"></textarea>
                                             </div>
 

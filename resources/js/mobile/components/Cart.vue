@@ -176,17 +176,17 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Улица" type="text"
+                                        <input class="form-control" placeholder="Улица" type="text" maxlength="100"
                                                v-model="delivery.street"
                                                required>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Номер дома" type="text" required
+                                        <input class="form-control" placeholder="Номер дома" type="text" maxlength="100" required
                                                v-model="delivery.home_number">
                                     </div>
 
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Номер квартиры" type="text"
+                                        <input class="form-control" placeholder="Номер квартиры" maxlength="100" type="text"
                                                v-model="delivery.flat_number">
                                     </div>
 
@@ -201,7 +201,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                                <textarea class="form-control" v-model="delivery.more_info"
+                                                <textarea class="form-control" maxlength="1000" v-model="delivery.more_info"
                                                           placeholder="Дополнительная информация"></textarea>
                                     </div>
 

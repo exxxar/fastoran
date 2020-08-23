@@ -32,12 +32,14 @@ class MenuCategoryController extends Controller
             ->with('i', ($request->get('page', 1) - 1) * 15);
     }
 
-    public function menuCategoriesInRest(Request $request,$rest_id){
+    public function menuCategoriesInRest(Request $request, $rest_id)
+    {
         return response()
             ->json([
-                'menu_categories' => (Restoran::with(["categories"])->where("id",$rest_id)->first())->categories->shuffle()->all(),
+                'menu_categories' => (Restoran::with(["categories"])->where("id", $rest_id)->first())->categories->shuffle()->all(),
             ]);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -68,17 +70,19 @@ class MenuCategoryController extends Controller
     public function show(Request $request, $id)
     {
         $category = MenuCategory::with(["menus", "menus.restoran"])->where("id", $id)->first();
-        $products = $category->menus()->get();
+        $products = is_null($category) ? [] : $category->menus()->get();
+
         if ($request->ajax())
             return response()
                 ->json([
                     "products" => $products
                 ]);
 
-        return view("mobile.pages.categories", compact("products","category"));
+        return view("mobile.pages.categories", compact("products", "category"));
     }
 
-    public function showByRestAndCategory(Request $request,$cat_id,$rest_id){
+    public function showByRestAndCategory(Request $request, $cat_id, $rest_id)
+    {
         $category = MenuCategory::with(["menus", "menus.restoran"])->where("id", $cat_id)->first();
         $products = $category->getFilteredMenu($rest_id);
 
@@ -88,6 +92,7 @@ class MenuCategoryController extends Controller
                     "products" => $products
                 ]);
     }
+
     /**
      * Show the form for editing the specified resource.
      *

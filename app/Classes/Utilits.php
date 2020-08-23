@@ -108,6 +108,11 @@ trait Utilits
             ]);
         }
 
+        if (empty($content)||is_null($content)){
+            $this->calculateTheDistanceWithRoute($fA,$lA,$fB,$lB);
+            return;
+        }
+
         $tmp_coords = [];
         foreach (json_decode($content)->coordinates as $coords){
             array_push($tmp_coords,[$coords[1],$coords[0]]);
