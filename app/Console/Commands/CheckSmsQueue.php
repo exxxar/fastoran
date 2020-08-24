@@ -47,7 +47,7 @@ class CheckSmsQueue extends Command
 
         $smsList = SmsQueue::where("status", false)->get();
 
-        if (empty($smsList))
+        if (count($smsList)===0)
             return;
 
         Log::info("start sms queue event");
