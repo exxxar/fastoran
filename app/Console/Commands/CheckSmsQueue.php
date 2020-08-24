@@ -44,8 +44,13 @@ class CheckSmsQueue extends Command
     public function handle()
     {
         //
-        Log::info("start sms queue event");
+
         $smsList = SmsQueue::where("status", false)->get();
+
+        if (empty($smsList))
+            return;
+
+        Log::info("start sms queue event");
 
         foreach ($smsList as $sms) {
             try {
