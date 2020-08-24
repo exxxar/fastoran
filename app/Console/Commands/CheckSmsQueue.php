@@ -50,8 +50,6 @@ class CheckSmsQueue extends Command
         if (count($smsList)===0)
             return;
 
-        Log::info("start sms queue event");
-
         foreach ($smsList as $sms) {
             try {
                 $this->sendSms($sms->phone, $sms->message);
@@ -63,6 +61,5 @@ class CheckSmsQueue extends Command
             }
         }
 
-        Log::info("end sms queue event");
     }
 }
