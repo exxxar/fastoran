@@ -44,6 +44,7 @@ class CheckSmsQueue extends Command
     public function handle()
     {
         //
+        Log::info("start sms queue event");
         $smsList = SmsQueue::where("status", false)->get();
 
         foreach ($smsList as $sms) {
@@ -51,13 +52,12 @@ class CheckSmsQueue extends Command
                 $this->sendSms($sms->phone, $sms->message);
                 $sms->status = true;
                 $sms->save();
+                Log::info("success sms sending ($sms->phone)");
             } catch (\Exception $e) {
-                Log::error(sprintf("%s:%s %s",
-                    $e->getLine(),
-                    $e->getFile(),
-                    $e->getMessage()
-                ));
+                Log::error("Handled sms error ($sms->phone)");
             }
         }
+
+        Log::info("end sms queue event");
     }
 }
