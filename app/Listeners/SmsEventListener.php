@@ -4,12 +4,13 @@ namespace App\Listeners;
 
 use App\Classes\Utilits;
 use App\Events\SendSmsEvent;
+use App\SmsQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class SmsEventListener
 {
-    use Utilits;
+   // use Utilits;
     /**
      * Create the event listener.
      *
@@ -31,6 +32,11 @@ class SmsEventListener
         if (is_null($event))
             return;
 
-        $this->sendSms($event->phone,$event->text);
+        SmsQueue::created([
+            "phone"=>$event->phone,
+            "message"=>$event->text,
+            "status"=>false
+        ]);
+       // $this->sendSms($event->phone,$event->text);
     }
 }

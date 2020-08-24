@@ -208,20 +208,13 @@ trait Utilits
      */
     public function sendSms($phone, $message)
     {
-        try {
+
             SemySMS::sendOne([
                 'to' => $phone,
                 'text' => $message,
                 'device_id' => 'active'
             ]);
 
-        } catch (\Exception $e) {
-            Log::error(sprintf("%s:%s %s",
-                $e->getLine(),
-                $e->getFile(),
-                $e->getMessage()
-            ));
-        }
 
     }
 
