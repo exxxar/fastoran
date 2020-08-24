@@ -48,7 +48,7 @@ class CheckSmsQueue extends Command
 
         foreach ($smsList as $sms) {
             try {
-                $this->sendSms($sms->phone, $sms->text);
+                $this->sendSms($sms->phone, $sms->message);
                 $sms->status = true;
                 $sms->save();
             } catch (\Exception $e) {
