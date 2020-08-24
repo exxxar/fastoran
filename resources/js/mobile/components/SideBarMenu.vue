@@ -27,7 +27,7 @@
                     <li>
                         <a href="/m/sales" title="Скидкомания" aria-label="Скидкомания">
                             <i class="fas fa-percent mr-1"></i>
-                            <strong>СкидкоМания</strong>
+                            <strong>СкидкаМания</strong>
                         </a>
                     </li>
                     <li>

@@ -101,7 +101,7 @@
                                                pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
                                                class="form-control"
                                                maxlength="19"
-                                               v-mask="['+38 (###) ###-##-##']">
+                                               v-mask="['+38 (071) ###-##-##']">
                                     </div>
                                     <div class="form-group">
                                         <label>Укажие ваше имя</label>

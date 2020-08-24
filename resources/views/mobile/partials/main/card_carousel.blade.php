@@ -6,13 +6,13 @@
             <img src="{{asset('images/fastoran/sections/skidki.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">
                 <div class="header row">
-                    <div class="col-8">СкидкоМания</div>
+                    <div class="col-8">СкидкаМания</div>
                     <div class="col-4 text-right">
                         до 30 %
                     </div>
                 </div>
                 <div class="content">
-                    <h1>Неверноятные скидки!</h1>
+                    <h1>Невероятные скидки!</h1>
                     <footer>
                         <div class="date">
                             Только на этой неделе!
