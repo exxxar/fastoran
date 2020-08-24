@@ -32,7 +32,7 @@ class SmsEventListener
         if (is_null($event))
             return;
 
-        SmsQueue::created([
+        SmsQueue::create([
             "phone"=>$event->phone,
             "message"=>$event->text,
             "status"=>false
