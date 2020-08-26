@@ -101,22 +101,20 @@ trait Utilits
         try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
         } catch (\Exception $e) {
-            $content = json_encode([
-                "properties" => [
-                    "distance" => 5
-                ]
-            ]);
-        }
-
-        if (empty($content)||is_null($content)){
-            $this->calculateTheDistanceWithRoute($fA,$lA,$fB,$lB);
+            $this->calculateTheDistanceWithRoute($fA, $lA, $fB, $lB);
             return;
         }
 
-        $tmp_coords = [];
-        foreach (json_decode($content)->coordinates as $coords){
-            array_push($tmp_coords,[$coords[1],$coords[0]]);
+        try {
+            $tmp_coords = [];
+            foreach (json_decode($content)->coordinates as $coords) {
+                array_push($tmp_coords, [$coords[1], $coords[0]]);
+            }
+        } catch (\Exception $e) {
+            $this->calculateTheDistanceWithRoute($fA, $lA, $fB, $lB);
+            return;
         }
+
         return [
             "distance" => floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
             "coordinates" => $tmp_coords,
@@ -209,11 +207,11 @@ trait Utilits
     public function sendSms($phone, $message)
     {
 
-            SemySMS::sendOne([
-                'to' => $phone,
-                'text' => $message,
-                'device_id' => 'active'
-            ]);
+        SemySMS::sendOne([
+            'to' => $phone,
+            'text' => $message,
+            'device_id' => 'active'
+        ]);
 
 
     }
