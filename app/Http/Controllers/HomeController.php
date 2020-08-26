@@ -142,7 +142,7 @@ class HomeController extends Controller
                         'food_ext' => $weight ?? 0,
                         'food_sub' => $this->prepareSub($description),
                         'food_price' => $tmp_old_price === 0 ? $price   : $tmp_old_price  ,
-                        'food_discount_price' => $tmp_old_price !== 0 ? $tmp_old_price : 0 ,
+                        'food_discount_price' => $tmp_old_price  ,
                         'food_status' => is_null($food_status_index) ? FoodStatusEnum::Unset : $food_status[$food_status_index],
                         'rest_id' => $rest->id,
                         'food_category_id' => $category->id,
