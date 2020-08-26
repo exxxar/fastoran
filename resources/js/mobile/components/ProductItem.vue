@@ -10,8 +10,8 @@
             {{product.food_price}}₽<br>
         </h4>
         <h4 class="product-item__h4" v-if="product.food_discount_price>0">
-            <strike> <small>{{product.food_price}}₽</small></strike><br>
-            {{product.food_discount_price}}₽
+            <strike> <small>{{product.food_discount_price}}₽</small></strike><br>
+            {{product.food_price}}₽
         </h4>
         <div class="product-item__rest-img">
             <a :href="'/m/restoran/'+product.rest_info.url" :title="product.rest_info.name"
