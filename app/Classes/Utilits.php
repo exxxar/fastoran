@@ -101,8 +101,8 @@ trait Utilits
         try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
         } catch (\Exception $e) {
-            $this->calculateTheDistanceWithRoute($fA, $lA, $fB, $lB);
-            return;
+            return $this->calculateTheDistanceWithRoute($fA, $lA, $fB, $lB);
+
         }
 
         try {
@@ -111,8 +111,7 @@ trait Utilits
                 array_push($tmp_coords, [$coords[1], $coords[0]]);
             }
         } catch (\Exception $e) {
-            $this->calculateTheDistanceWithRoute($fA, $lA, $fB, $lB);
-            return;
+            return $this->calculateTheDistanceWithRoute($fA, $lA, $fB, $lB);
         }
 
         return [
