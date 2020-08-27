@@ -55,9 +55,7 @@ class CheckSmsQueue extends Command
                 $this->sendSms($sms->phone, $sms->message);
                 $sms->status = true;
                 $sms->save();
-                Log::info("success sms sending ($sms->phone)");
             } catch (\Exception $e) {
-                Log::error("Handled sms error ($sms->phone)");
             }
         }
 
