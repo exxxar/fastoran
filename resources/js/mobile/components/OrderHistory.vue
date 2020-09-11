@@ -26,7 +26,7 @@
 
 
         <div class="listView detailed" v-if="this.orders.length>0">
-            <a href="#" class="listItem" v-for="order in orders">
+            <a href="#" class="listItem" v-for="order in orders" v-if="order.restoran!==null">
                 <div class="listItemContainer">
                     <div class="image">
                         <img :src="order.restoran.logo" alt="avatar">
