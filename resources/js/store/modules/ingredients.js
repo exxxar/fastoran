@@ -190,16 +190,16 @@ const state = {
         {id: 150, title: "Соус барбекю", weight: 30, price:20, category: 18, checked:false, disabled:false},
 
         {id: 151, title: "Бизнес-ланч", weight: 0, price:150, category: 23, checked:true, disabled:true},
-        {id: 152, title: "С куриной колбасой и помидорами", weight: 150, price:0, category: 19, checked:false, disabled:false},
-        {id: 153, title: "Салат из капусты", weight: 100, price:0, category: 19, checked:false, disabled:false},
-        {id: 154, title: "С огурцом, брокколи и корейской морковью", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 152, title: "Винегрет", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 153, title: "Овощной", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 154, title: "С морковью по-корейски и курицей", weight: 150, price:0, category: 19, checked:false, disabled:false},
 
-        {id: 155, title: "Борщ красный", weight: 250, price:0, category: 20, checked:false, disabled:false},
+        {id: 155, title: "Борщ", weight: 250, price:0, category: 20, checked:false, disabled:false},
         {id: 156, title: "Суп гороховый", weight: 250, price:0, category: 20, checked:false, disabled:false},
         {id: 157, title: "Окрошка", weight: 250, price:0, category: 20, checked:false, disabled:false},
 
-        {id: 158, title: "Фаршированный перец с пюре", weight: 170, price:0, category: 21, checked:false, disabled:false},
-        {id: 159, title: "Куриная печень с рисом", weight: 200, price:0, category: 21, checked:false, disabled:false},
+        {id: 158, title: "Тефтели", weight: 170, price:0, category: 21, checked:false, disabled:false},
+        {id: 159, title: "Плов из свинины", weight: 200, price:0, category: 21, checked:false, disabled:false},
         {id: 160, title: "Бефстроганов с гречневой кашей", weight: 200, price:0, category: 21, checked:false, disabled:false},
 
         {id: 161, title: "Каркаде", weight: 250, price:0, category: 22, checked:false, disabled:false},
