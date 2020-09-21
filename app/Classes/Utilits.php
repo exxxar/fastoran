@@ -78,11 +78,7 @@ trait Utilits
         try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
         } catch (\Exception $e) {
-            $content = json_encode([
-                "properties" => [
-                    "distance" => 5
-                ]
-            ]);
+            return $this->calculateTheDistance($fA, $lA, $fB, $lB);
         }
 
         return floatval(min(json_decode($content)->properties->distance, 20) ?? 0);

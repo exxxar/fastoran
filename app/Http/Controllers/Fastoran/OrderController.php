@@ -601,12 +601,17 @@ class OrderController extends Controller
             $sum
         );
 
-        $orderId = $this->prepareNumber($order->id);
+        $orderId = $order->id;
 
-        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message, [
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_DELIVERY_CHANNEL"), $message, [
             [
-                ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
-                ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
+                ["text" => "Подтвердить ПОЛЬЗОВАТЕЛЬСКИЙ заказ!", "url" => "/adminaccept $orderId"],
+
+            ],
+            [
+                ["text" => "Отменить ПОЛЬЗОВАТЕЛЬСКИЙ заказ!", "url" => "/admindecline $orderId"]
             ]
         ]);
 
