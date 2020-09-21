@@ -16,7 +16,7 @@
 
         </div>
         <hr>
-        <h4><em>Цена доставки <strong>300
+        <h4><em>Цена доставки <strong>159
                 руб.</strong></em></h4>
         <hr>
         <div class="row mb-2">

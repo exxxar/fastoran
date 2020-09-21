@@ -23,7 +23,7 @@ class SectionController extends Controller
     public function index(Request $request)
     {
         $kitchens = Section::where("is_active", 1)
-            ->paginate(15);
+            ->get();
 
         if ($request->ajax())
             return response()
