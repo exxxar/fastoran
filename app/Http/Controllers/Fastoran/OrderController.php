@@ -592,7 +592,8 @@ class OrderController extends Controller
             $delivery_order_tmp .= $local_tmp;
         }
 
-        $message = sprintf("*Заявка на пользовательский заказ*\nФ.И.О.:%s\nАдрес:%s\nТелефон:%s\nДополнительная информация:%s\nЗаказ:\n%s\nПриблизительаня цена заказа: *%s руб.*",
+        $message = sprintf("*#%s Заявка на пользовательский заказ*\nФ.И.О.:%s\nАдрес:%s\nТелефон:%s\nДополнительная информация:%s\nЗаказ:\n%s\nПриблизительаня цена заказа: *%s руб.*",
+            $order->id,
             $name,
             $address,
             $phone,
