@@ -613,7 +613,7 @@ class OrderController extends Controller
             ],
 
         ]);
-
+        event(new SendSmsEvent($phone, "Ваш заказ #$order->id (fastoran.com) в обработке! "));
         return response()
             ->json([
                 "message" => $message,
