@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="mt-2"></div>
-    @include("mobile.partials.main.section_title",[ "title"=>$category->name, "muted"=>"Продукты в категории"])
+    @include("mobile.partials.main.section_title",[ "title"=>is_null($category)?"Случайная категория":$category->name, "muted"=>"Продукты в категории"])
     @include("mobile.partials.categories.product-list")
     <div class="divider mt-2 mb-2"></div>
     @include("mobile.partials.main.button_carousel")

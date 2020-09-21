@@ -25,7 +25,7 @@ class RestController extends Controller
 
 
         $products = (Restoran::with(["menus"])
-            ->where("moderation",true)
+            ->where("moderation", true)
             ->get()->random(1)->first())->menus;
 
         $random_menus = $products
@@ -96,8 +96,12 @@ class RestController extends Controller
     {
         $products = RestMenu::paginate(20);
 
-        return view('product-list', compact('products'))
-            ->with('i', ($request->get('page', 1) - 1) * 20);
+        try {
+            return view('product-list', compact('products'))
+                ->with('i', ((intval($request->get('page', 1) - 1)) ?? 0) * 20);
+        } catch (\Exception $e) {
+            return view('product-list', compact('products'));
+        }
     }
 
     public function getRestList(Request $request)
