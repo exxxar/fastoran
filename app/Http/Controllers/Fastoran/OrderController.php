@@ -607,11 +607,11 @@ class OrderController extends Controller
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_DELIVERY_CHANNEL"), $message, [
             [
-                ["text" => "Подтвердить ПОЛЬЗОВАТЕЛЬСКИЙ заказ!", "url" => "/adminaccept $orderId"],
+                ["text" => "Подтвердить ПОЛЬЗОВАТЕЛЬСКИЙ заказ!", "callback_data" => "/adminaccept $orderId"],
 
             ],
             [
-                ["text" => "Отменить ПОЛЬЗОВАТЕЛЬСКИЙ заказ!", "url" => "/admindecline $orderId"]
+                ["text" => "Отменить ПОЛЬЗОВАТЕЛЬСКИЙ заказ!", "callback_data" => "/admindecline $orderId"]
             ]
         ]);
 
