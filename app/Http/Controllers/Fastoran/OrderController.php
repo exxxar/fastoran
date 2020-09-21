@@ -255,7 +255,7 @@ class OrderController extends Controller
             $rest->longitude ?? 0));
 
 
-        $price2 = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price2 = $range <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         if (!is_null($order->custom_details))
@@ -887,7 +887,7 @@ class OrderController extends Controller
             $coords2->latitude,
             $coords2->longitude));
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
 
         return response()
@@ -919,7 +919,7 @@ class OrderController extends Controller
             $rest->latitude,
             $rest->longitude));
 
-        $price = $rangeObject->distance <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($rangeObject->distance + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $rangeObject->distance <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($rangeObject->distance + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
         return response()
             ->json([
@@ -953,7 +953,7 @@ class OrderController extends Controller
             $rest->latitude,
             $rest->longitude));
 
-        $price = $range <= 2 ? 50 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        $price = $range <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
 
         return response()
             ->json([
