@@ -67,6 +67,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
 
+
         Route::resource('restorans', 'RestoransController');
         Route::resource('kitchens', 'SectionController');
         Route::resource('menu_categories', 'MenuCategoryController');
@@ -74,6 +75,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::resource('orders', 'OrderController');
         Route::resource('order_details', 'OrderDetailController');
 
+        Route::any("orders/{id}", "OrderController@show");
 
         Route::get("restorans/like/{id}", 'RestoransController@like');
         Route::get("restorans/dislike/{id}", 'RestoransController@dislike');
