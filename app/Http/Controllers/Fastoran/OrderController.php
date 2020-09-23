@@ -717,7 +717,7 @@ class OrderController extends Controller
         else
             $this->sendToTelegram(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
 
-        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
+        event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
 
         return response()
             ->json([
