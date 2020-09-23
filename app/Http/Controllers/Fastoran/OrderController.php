@@ -794,8 +794,10 @@ class OrderController extends Controller
             $order->id
         );
 
-
-        $this->sendToTelegram($order->restoran->telegram_channel, $message);
+        if (!is_null($order->restoran))
+            $this->sendToTelegram($order->restoran->telegram_channel, $message);
+        else
+            $this->sendToTelegram(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
 
         return response()
             ->json([
