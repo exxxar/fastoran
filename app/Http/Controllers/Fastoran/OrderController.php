@@ -227,8 +227,8 @@ class OrderController extends Controller
         $order_details = $request->get("order_details");
 
         $code = $request->get("code") ?? null;
-        if (!is_null($code)){
-            $tmp_code = Promocode::where("code",$code)->first();
+        if (!is_null($code)) {
+            $tmp_code = Promocode::where("code", $code)->first();
             $tmp_code->user_id = $user->id;
             $tmp_code->save();
         }
@@ -238,7 +238,7 @@ class OrderController extends Controller
             $order,
             $user,
             $code
-            );
+        );
 
         $rest = Restoran::find($order->rest_id);
 
@@ -322,7 +322,7 @@ class OrderController extends Controller
 
         event(new CheckOldOrdersEvent($orderId, $rest->telegram_channel, $rest->id));
 
-       $this->sendMessageToTelegramChannel($rest->telegram_channel, $message_channel, [
+        $this->sendMessageToTelegramChannel($rest->telegram_channel, $message_channel, [
             [
                 ["text" => "Подтвердить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=001$orderId"],
                 ["text" => "Отменить заказ!", "url" => "https://t.me/delivery_service_dn_bot?start=002$orderId"]
@@ -346,12 +346,14 @@ class OrderController extends Controller
             ]);
     }
 
-    public function getOrdersHistory(Request $request){
+    public function getOrdersHistory(Request $request)
+    {
 
         return response()->json(Order::getOrdersHistory($request->get("phone")));
     }
 
-    public function getLatestOrders(Request $request){
+    public function getLatestOrders(Request $request)
+    {
         return response()->json(Order::getLatestOrders());
     }
 
@@ -710,8 +712,12 @@ class OrderController extends Controller
         );
 
 
-        //event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
-        $this->sendToTelegram($order->restoran->telegram_channel, $message);
+        if (!is_null($order->restoran))
+            $this->sendToTelegram($order->restoran->telegram_channel, $message);
+        else
+            $this->sendToTelegram(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+        event(new SendSmsEvent($user->phone, "Ваш #$order->id заказ готовится!"));
 
         return response()
             ->json([
@@ -898,7 +904,8 @@ class OrderController extends Controller
             ]);
     }
 
-    public function getRangeWithRoute(Request $request, $restId){
+    public function getRangeWithRoute(Request $request, $restId)
+    {
         $request->validate([
             'address' => 'required'
         ]);
@@ -926,11 +933,12 @@ class OrderController extends Controller
             ->json([
                 "range" => floatval(sprintf("%.2f", ($rangeObject->distance <= 2 ? $rangeObject->distance : ($rangeObject->distance + 2)))),
                 "price" => $price,
-                "coordinates"=>$rangeObject->coordinates,
+                "coordinates" => $rangeObject->coordinates,
                 "latitude" => $coords->latitude,
                 "longitude" => $coords->longitude
             ]);
     }
+
     public function getRange(Request $request, $restId)
     {
         $request->validate([
@@ -1036,7 +1044,11 @@ class OrderController extends Controller
 
         if (!is_null($order->user->phone)) {
             event(new SendSmsEvent($order->user->phone, "Ваш заказ доставлен! https://fastoran.com"));
-            $this->sendToTelegram($order->restoran->telegram_channel, $message);
+
+            if (!is_null($order->restoran))
+                $this->sendToTelegram($order->restoran->telegram_channel, $message);
+            else
+                $this->sendToTelegram(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
         }
 
         return response()
