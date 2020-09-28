@@ -190,17 +190,17 @@ const state = {
         {id: 150, title: "Соус барбекю", weight: 30, price:20, category: 18, checked:false, disabled:false},
 
         {id: 151, title: "Бизнес-ланч", weight: 0, price:150, category: 23, checked:true, disabled:true},
-        {id: 152, title: "Винегрет", weight: 150, price:0, category: 19, checked:false, disabled:false},
-        {id: 153, title: "Овощной", weight: 150, price:0, category: 19, checked:false, disabled:false},
-        {id: 154, title: "С морковью по-корейски и курицей", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 152, title: "Салат с крабовыми палочками", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 153, title: "Салат из пекинской капусты", weight: 150, price:0, category: 19, checked:false, disabled:false},
+        {id: 154, title: "Салат с кукурузой и курицей", weight: 150, price:0, category: 19, checked:false, disabled:false},
 
         {id: 155, title: "Борщ", weight: 250, price:0, category: 20, checked:false, disabled:false},
-        {id: 156, title: "Суп гороховый", weight: 250, price:0, category: 20, checked:false, disabled:false},
-        {id: 157, title: "Окрошка", weight: 250, price:0, category: 20, checked:false, disabled:false},
+        {id: 156, title: "Сырный суп с беконом", weight: 250, price:0, category: 20, checked:false, disabled:false},
+        {id: 157, title: "Бульон куриный с яйцом", weight: 250, price:0, category: 20, checked:false, disabled:false},
 
-        {id: 158, title: "Тефтели", weight: 170, price:0, category: 21, checked:false, disabled:false},
-        {id: 159, title: "Плов из свинины", weight: 200, price:0, category: 21, checked:false, disabled:false},
-        {id: 160, title: "Бефстроганов с гречневой кашей", weight: 200, price:0, category: 21, checked:false, disabled:false},
+        {id: 158, title: "Куриное филе в кляре с пюре", weight: 220, price:0, category: 21, checked:false, disabled:false},
+        {id: 159, title: "Рагу из овощей со свининой", weight: 220, price:0, category: 21, checked:false, disabled:false},
+        {id: 160, title: "Куриная печень в соусе с рисом карри", weight: 200, price:0, category: 21, checked:false, disabled:false},
 
         {id: 161, title: "Каркаде", weight: 250, price:0, category: 22, checked:false, disabled:false},
         {id: 162, title: "Компот", weight: 250, price:0, category: 22, checked:false, disabled:false},
