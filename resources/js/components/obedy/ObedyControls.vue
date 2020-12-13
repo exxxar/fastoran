@@ -30,11 +30,13 @@
         </div>
 
         <button class="btn btn-danger w-100 text-uppercase mt-2 p-3" @click="addToCart()"
+                :disabled="!hasMainProductInCart()"
                 v-if="!(current_day_index<product.day_index)&&inCart()===0">Заказать на
             <span>{{orderDay(product.day_index)}}</span>
         </button>
         <button class="btn btn-success w-100 text-uppercase mt-2 p-3 custom-btn-color-success"
                 @click="addToCart()"
+                :disabled="!hasMainProductInCart()"
                 v-if="(current_day_index<product.day_index)&&inCart()===0">
             Заказать <span v-if="product.is_week" class="badge badge-info">15% скидка</span>
         </button>

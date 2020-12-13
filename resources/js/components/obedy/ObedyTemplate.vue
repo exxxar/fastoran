@@ -14,6 +14,7 @@
 
         </div>
         <h3 class="mt-4 mb-2 text-uppercase" style="color: #c31200;">А также можно добавить к заказу....</h3>
+
         <div class="row mt-2 ingredients pb-2">
             <div class="col-sm-12 d-flex justify-content-start">
                 <p :class="(current_category_id===item.id?'active':'')" v-for="item in categories"

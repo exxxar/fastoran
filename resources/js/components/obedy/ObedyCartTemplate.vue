@@ -24,7 +24,8 @@
                         :disabled="!hasMainProductInCart()"
                         @click="ready_to_order = true">Оформить
                 </button>
-                <button class="btn btn-outline-danger mt-2 w-100 p-3 text-uppercase font-weight-bold" v-if="!ready_to_order"
+                <button class="btn btn-outline-danger mt-2 w-100 p-3 text-uppercase font-weight-bold"
+                        v-if="!ready_to_order"
                         @click="clearCart">Очистить
                 </button>
 
@@ -38,6 +39,14 @@
                            required>
                     <input type="text" placeholder="Адрес доставки" v-model="form.address" required>
                     <textarea placeholder="Текстовое сообщение" v-model="form.message"></textarea>
+                    <ul class="summary">
+                        <li>
+                            <p>Цена заказа: <span>{{goCartTotalPrice}} руб</span></p>
+                        </li>
+                        <li>
+                            <p>Масса заказа: <span>{{goCartTotalWeight}} гр</span></p>
+                        </li>
+                    </ul>
                     <button class="btn btn-success w-100 p-3 text-uppercase font-weight-bold">Отправить заявку
                     </button>
                 </form>
@@ -61,11 +70,11 @@
         data() {
             return {
                 ready_to_order: false,
-                form:{
-                  name:'',
-                  address:'',
-                  phone:'',
-                  message:''
+                form: {
+                    name: '',
+                    address: '',
+                    phone: '',
+                    message: ''
                 },
                 settings: {
                     suppressScrollX: true,
@@ -74,6 +83,12 @@
             }
         },
         computed: {
+            goCartTotalPrice(){
+              return this.$store.getters.goCartTotalPrice;
+            },
+            goCartTotalWeight(){
+                return this.$store.getters.goCartTotalWeight;
+            },
             countInCart() {
                 return this.$store.getters.goCartTotalCount;
             },
@@ -89,14 +104,14 @@
 
                     return tmp.length > 0
                 },
-                clearCart(){
+                clearCart() {
                     this.$store.dispatch("clearGoCart");
                 },
                 closeCart() {
                     this.$emit("close")
                 },
                 sendOrder() {
-                    this.$store.dispatch("sendGoOrder",this.form)
+                    this.$store.dispatch("sendGoOrder", this.form)
                     this.sendMessage("Ваш заказ успешно отправлен! Ожидайте звонка оператора!")
                     this.$emit("close")
                 },
@@ -112,7 +127,7 @@
             }
         ,
         components: {
-            vueCustomScrollbar, ObedyProduct,ObedyControls
+            vueCustomScrollbar, ObedyProduct, ObedyControls
         }
 
     }
@@ -120,6 +135,21 @@
 
 <style lang="scss">
 
+    .summary {
+        width: 100%;
+        padding: 10px;
+        border: 1px #e8e8e8 solid;
+        margin: 5px 0px;
+        border-radius: 5px;
+        color: black;
+        li {
+            p {
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
     .cart-shadow {
         position: absolute;
         z-index: 1001;
@@ -127,7 +157,7 @@
         left: inherit;
         width: inherit;
         height: inherit;
-        background: rgba(0,0,0,0.3);
+        background: rgba(0, 0, 0, 0.3);
     }
 
     .cart-modal {
@@ -155,7 +185,6 @@
             /* box-shadow: 0px 0px 3px 1px #3c3c3c; */
             border: 1px #e9e9e9 solid;
         }
-
 
 
         .custom-modal-header {

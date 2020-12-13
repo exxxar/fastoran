@@ -8,7 +8,7 @@ const getters = {
 
         return state.go_items;
     },
-    getGoProductById:(state)=>(id)=>{
+    getGoProductById: (state) => (id) => {
         let tmp = state.go_items.find(item => item.product.id === id)
         return tmp
     },
@@ -35,11 +35,36 @@ const getters = {
 
         let summ = 0;
         state.go_items.forEach((item) => {
-            if (item.weight) {
-                summ += item.product.food_price * (item.weight / item.product.food_ext)
-            } else
-                summ += item.product.food_price * item.quantity
+            summ += item.product.price * item.quantity * (item.days.length > 0 ? item.days.length : 1)
+
+
         });
+        return summ
+    },
+    goCartTotalWeight: (state, getters) => {
+        if (state.go_items == null)
+            return 0;
+
+        if (state.go_items.length === 0)
+            return 0;
+
+        let summ = 0;
+        state.go_items.forEach((item) => {
+
+                if (item.product.weight > 0)
+                    summ += item.product.weight * item.quantity * (item.days.length > 0 ? item.days.length : 1)
+
+                if (item.product.weight === 0) {
+                    if (item.product.positions.length > 0)
+                        item.product.positions.forEach((j_item) => {
+                            summ += j_item.weight
+                        })
+                }
+
+
+            }
+        )
+        ;
         return summ
     }
 }
