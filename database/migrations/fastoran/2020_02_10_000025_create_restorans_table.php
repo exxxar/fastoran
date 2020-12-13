@@ -25,6 +25,7 @@ class CreateRestoransTable extends Migration
             $table->increments('id');
             $table->string('name', 150)->comment('Название заведения');
             $table->string('description',2000)->comment('Описание');
+            $table->string('vk_group_id',20)->nullable();
 
             $table->string('adress', 200)->default('')->comment('адрес');
             $table->string('orientir', 100)->default('')->comment('ориентир');

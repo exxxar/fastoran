@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         //   $this->call(MenuCategoryTableSeeder::class);
 
 
-        $this->call(SectionTableSeeder::class);
+        //$this->call(SectionTableSeeder::class);
+        $this->call(ObedyGoSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }

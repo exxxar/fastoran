@@ -15,6 +15,7 @@ class Restoran extends Model
     protected $fillable = [
         'name',
         'description',
+        'vk_group_id',
 
         'latitude',
         'longitude',

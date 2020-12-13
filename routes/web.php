@@ -37,6 +37,8 @@ Route::view("/banned", "banned")->name("banned");
 
 Route::get("/desktop", "RestController@desktop")->name("mobile.desktop");
 
+Route::view("/obedygo", "fastoran.obedygo")->name("obedygo");
+
 Route::prefix('m')->group(function () {
     Route::get("/", "RestController@mobile")->name("mobile.index");
     Route::get("/restorans", function () {

@@ -18,6 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });;
 
+Route::group(['prefix'=>'v2'],function (){
+
+    Route::group([
+        'namespace' => 'ObedyGo',
+        'prefix' => 'obedy'
+    ], function () {
+        Route::get('products', 'ObedyGoController@getProductList');
+        Route::get('categories', 'ObedyGoController@getCategoryList');
+        Route::post('order', 'ObedyGoController@order');
+    });
+});
 
 Route::group(['prefix' => 'v1'], function () {
 

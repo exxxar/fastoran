@@ -21,6 +21,11 @@ window.Vue = require('vue');
 import HighchartsVue from 'highcharts-vue'
 Vue.use(HighchartsVue);
 
+import VueGlide from 'vue-glide-js'
+import 'vue-glide-js/dist/vue-glide.css'
+
+Vue.use(VueGlide)
+
 import Highcharts from 'highcharts'
 import drilldownInit from 'highcharts/modules/drilldown'
 drilldownInit(Highcharts)
@@ -63,6 +68,8 @@ Vue.component(
 
 
 Vue.component('rest-menu', require('./components/RestMenu.vue').default);
+Vue.component('obedy-go', require('./components/ObedyGo.vue').default);
+
 Vue.component('tags-cloud-list', require('./components/TagsCloud.vue').default);
 
 Vue.component('custom-order', require('./components/CustomOrder.vue').default);
@@ -129,6 +136,8 @@ Vue.component('mobile-sidebar-menu', require('./mobile/components/SideBarMenu.vu
 
 
 
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -142,7 +151,12 @@ import 'lazysizes';
 
 import VueLazyload from 'vue-lazyload'
 
-Vue.use(VueLazyload)
+Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    error: '/img/logo_obed_go.jpg',
+    loading: '/img/logo_obed_go.jpg',
+    attempt: 1
+})
 
 /*import { VueReCaptcha } from 'vue-recaptcha-v3'
 

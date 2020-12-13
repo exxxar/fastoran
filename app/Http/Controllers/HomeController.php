@@ -49,6 +49,7 @@ class HomeController extends Controller
         Schema::disableForeignKeyConstraints();
         MenuCategory::truncate();
         RestoranInCategory::truncate();
+        RestMenu::truncate();
         Schema::enableForeignKeyConstraints();
 
         $token = null;
@@ -59,131 +60,142 @@ class HomeController extends Controller
             $api = new Client('5.131');
             $api->setDefaultToken($token);
 
-            $response = $api->request('market.getAlbums', [
-                'owner_id' => -136275935,
-                'count' => 50
-            ]);
+            $tmp_ids = [["id" => "-136275935", "base" => true]];
+            $restorans = Restoran::select(["vk_group_id"])->whereNotNull("vk_group_id")->get();
 
-            RestMenu::truncate();
-            //работает
-            foreach ($response["response"]["items"] as $item) {
-                //echo $item["id"].$item["title"]." ".$item["photo"]["photo_807"]."<br>";
+            if (count($restorans) > 0)
+                foreach ($restorans as $rest)
+                    array_push($tmp_ids, ["id" => $rest->vk_group_id, "base" => false]
+                    );
 
-                $response2 = $api->request('market.get', [
-                    'owner_id' => -136275935,
-                    'album_id' => $item["id"],
-                    'count' => 200,
+            foreach ($tmp_ids as $tmp_id) {
+                $response = $api->request('market.getAlbums', [
+                    'owner_id' => $tmp_id->id,
+                    'count' => 50
                 ]);
 
 
-                foreach ($response2["response"]["items"] as $item2) {
-                    //echo $item2["description"]." ".$item2["price"]["text"]." ".$item2["thumb_photo"]." ".$item2["title"]."<br>";
+                //работает
+                foreach ($response["response"]["items"] as $item) {
+                    //echo $item["id"].$item["title"]." ".$item["photo"]["photo_807"]."<br>";
 
-
-                    //preg_match_all('|\d+|', $item2["description"], $matches);
-                    preg_match_all('/(#\w+)/u', $item2["description"], $matches);
-
-                    // $count = $matches[0][0] ?? 0;
-                    //dd($matches);
-
-
-                    $cat = count($matches[0]) > 0 ? $matches[0][0] : "#безкатегории";
-
-
-                    $category = MenuCategory::where("name", $cat)->first();
-                    if (is_null($category)) {
-                        $category = MenuCategory::create([
-                            "name" => $cat
-                        ]);
-                    }
-
-
-                    //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
-
-                    $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
-                    $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"]) / 100 : 0;
-
-
-                    $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
-
-                    if (is_null($rest))
-                        continue;
-
-
-                    $description = $item2["description"];
-
-                    preg_match_all('/([0-9]+).грамм/i', $description, $media);
-
-                    $weight = count($matches) >= 2 ? ($media[1][0] ?? 0) : 0;
-
-                    $food_status = [
-                        "Акция!" => FoodStatusEnum::Promotion,
-                        "Скидка!" => FoodStatusEnum::Promotion,
-                        "Топ!" => FoodStatusEnum::InTheTop,
-                        "Хит продаж!" => FoodStatusEnum::BestSeller,
-                        "Новинка!" => FoodStatusEnum::NewFood,
-                        "На вес!" => FoodStatusEnum::WeightFood,
-                    ];
-
-                    $food_status_index = null;
-
-                    foreach ($food_status as $key => $status)
-                        if (mb_strpos(mb_strtolower($description), mb_strtolower($key)))
-                            $food_status_index = $key;
-
-                  /*  if (!is_null($food_status_index))
-                        if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
-                            Log::info("OLD PRICE=$tmp_old_price   " . print_r($item2, true));
-                        }*/
-
-                    $product = RestMenu::create([
-                        'food_name' => $item2["title"],
-                        'food_remark' => $description,
-                        'food_ext' => $weight ?? 0,
-                        'food_sub' => $this->prepareSub($description),
-                        'food_price' => $price  ,
-                        'food_discount_price' => $tmp_old_price ,
-                        'food_status' => is_null($food_status_index) ? FoodStatusEnum::Unset : $food_status[$food_status_index],
-                        'rest_id' => $rest->id,
-                        'food_category_id' => $category->id,
-                        'food_img' => $item2["thumb_photo"],
-                        'stop_list' => false,
+                    $response2 = $api->request('market.get', [
+                        'owner_id' => $tmp_id->id,
+                        'album_id' => $item["id"],
+                        'count' => 200,
                     ]);
 
-                    if (!is_null($food_status_index))
-                        if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
-                            $promotion = Promotion::where('product->food_name', $product->food_name)
-                                ->where('product->rest_id', $product->rest_id)
-                                ->first();
 
-                            if (is_null($promotion))
-                                Promotion::create([
-                                    'product' => $product
-                                ]);
+                    foreach ($response2["response"]["items"] as $item2) {
+                        //echo $item2["description"]." ".$item2["price"]["text"]." ".$item2["thumb_photo"]." ".$item2["title"]."<br>";
+
+
+                        //preg_match_all('|\d+|', $item2["description"], $matches);
+                        preg_match_all('/(#\w+)/u', $item2["description"], $matches);
+
+                        // $count = $matches[0][0] ?? 0;
+                        //dd($matches);
+
+
+                        $cat = count($matches[0]) > 0 ? $matches[0][0] : "#безкатегории";
+
+
+                        $category = MenuCategory::where("name", $cat)->first();
+                        if (is_null($category)) {
+                            $category = MenuCategory::create([
+                                "name" => $cat
+                            ]);
                         }
 
 
-                    if (is_null($rest->categories()->find($category->id)))
-                        RestoranInCategory::create([
-                            'category_id' => $category->id,
-                            'restoran_id' => $rest->id
+                        //preg_match_all('|\d+|', $item2["price"]["text"], $matches);
+
+                        $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
+                        $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"]) / 100 : 0;
+
+
+                        $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
+
+                        if (is_null($rest))
+                            continue;
+
+
+                        $description = $item2["description"];
+
+                        preg_match_all('/([0-9]+).грамм/i', $description, $media);
+
+                        $weight = count($matches) >= 2 ? ($media[1][0] ?? 0) : 0;
+
+                        $food_status = [
+                            "Акция!" => FoodStatusEnum::Promotion,
+                            "Скидка!" => FoodStatusEnum::Promotion,
+                            "Топ!" => FoodStatusEnum::InTheTop,
+                            "Хит продаж!" => FoodStatusEnum::BestSeller,
+                            "Новинка!" => FoodStatusEnum::NewFood,
+                            "На вес!" => FoodStatusEnum::WeightFood,
+                        ];
+
+                        $food_status_index = null;
+
+                        foreach ($food_status as $key => $status)
+                            if (mb_strpos(mb_strtolower($description), mb_strtolower($key)))
+                                $food_status_index = $key;
+
+                        /*  if (!is_null($food_status_index))
+                              if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
+                                  Log::info("OLD PRICE=$tmp_old_price   " . print_r($item2, true));
+                              }*/
+
+                        $product = RestMenu::create([
+                            'food_name' => $item2["title"],
+                            'food_remark' => $description,
+                            'food_ext' => $weight ?? 0,
+                            'food_sub' => $this->prepareSub($description),
+                            'food_price' => $price,
+                            'food_discount_price' => $tmp_old_price,
+                            'food_status' => is_null($food_status_index) ? FoodStatusEnum::Unset : $food_status[$food_status_index],
+                            'rest_id' => $rest->id,
+                            'food_category_id' => $category->id,
+                            'food_img' => $item2["thumb_photo"],
+                            'stop_list' => false,
                         ]);
 
+                        if (!is_null($food_status_index))
+                            if ($food_status[$food_status_index] === FoodStatusEnum::Promotion) {
+                                $promotion = Promotion::where('product->food_name', $product->food_name)
+                                    ->where('product->rest_id', $product->rest_id)
+                                    ->first();
 
-                    $rate = Rating::create([
-                        'content_type' => \App\Enums\ContentTypeEnum::Menu,
-                        'content_id' => $product->id,
-                    ]);
+                                if (is_null($promotion))
+                                    Promotion::create([
+                                        'product' => $product
+                                    ]);
+                            }
 
-                    $product->rating_id = $rate->id;
-                    $product->save();
+
+                        if (is_null($rest->categories()->find($category->id)))
+                            RestoranInCategory::create([
+                                'category_id' => $category->id,
+                                'restoran_id' => $rest->id
+                            ]);
+
+
+                        $rate = Rating::create([
+                            'content_type' => \App\Enums\ContentTypeEnum::Menu,
+                            'content_id' => $product->id,
+                        ]);
+
+                        $product->rating_id = $rate->id;
+                        $product->save();
+                    }
+
+
+                    sleep(2);
+
                 }
-
-
-                sleep(2);
-
             }
             //dd($response["items"]);
+
 
         }
 
