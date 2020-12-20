@@ -33,6 +33,10 @@ use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
+Route::get('/eventtest',function (){
+    event(new \App\Events\LotteryEvent(1));
+});
+
 Route::view("/banned", "banned")->name("banned");
 
 Route::get("/desktop", "RestController@desktop")->name("mobile.desktop");

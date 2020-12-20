@@ -69,8 +69,6 @@
 
             </div>
         </b-modal>
-
-
     </div>
 </template>
 <script>

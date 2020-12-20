@@ -13,6 +13,15 @@ try {
 
     require('bootstrap');
 
+    let Pusher = require('pusher-js');
+
+    Pusher.logToConsole = false;
+
+    let pusher = new Pusher('37f1cfbd4bda023198c9', {
+        cluster: 'eu',
+        forceTLS: true
+    });
+    window.pusher = pusher;
 
 } catch (e) {
 }

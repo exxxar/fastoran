@@ -84,6 +84,7 @@
             </div>
             <div class="cart-icon about" v-b-modal.about>О нас</div>
             <div class="cart-icon delivery" v-b-modal.delivery>Доставка</div>
+            <div class="cart-icon lottery" @click="openLotteryModal()">Акции</div>
         </div>
 
         <ul class="footer-container d-sm-none d-flex justify-content-center flex-wrap"
@@ -97,9 +98,11 @@
                 <li @click="select(3)">Премиум</li>
                 <li @click="select(4)">Собери сам</li>
                 <li class="hr"></li>
-                <li>Корзина <span class="badge badge-danger" v-if="countInCart>0">{{countInCart}}</span></li>
+                <li @click="is_cart_open = true">Корзина <span class="badge badge-danger" v-if="countInCart>0">{{countInCart}}</span>
+                </li>
                 <li v-b-modal.about>О нас</li>
                 <li v-b-modal.delivery>Доставка</li>
+                <li @click="openLotteryModal()">Акции</li>
 
             </ul>
 
@@ -129,6 +132,13 @@
 
             </ul>
         </b-modal>
+
+        <b-modal id="lottery" size="lg" hide-footer title="Розыгрыши и призы">
+            <lottery-slider v-on:enter="selectLottery" v-if="!lottery_id"/>
+            <lottery-game :lottery_id="lottery_id" v-if="lottery_id"/>
+        </b-modal>
+
+
     </div>
 </template>
 
@@ -136,6 +146,8 @@
     import Obedy from './obedy/ObedyTemplate';
     import ObedyProduct from './obedy/ObedyProduct'
     import ObedyCartTemplate from './obedy/ObedyCartTemplate'
+    import LotterySlider from './obedy/lottery/LotterySlider'
+    import LotteryGame from './obedy/lottery/LotteryMain'
 
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import "vue-custom-scrollbar/dist/vueScrollbar.css"
@@ -143,6 +155,7 @@
     export default {
         data() {
             return {
+                lottery_id: null,
                 bottom_menu_show: false,
                 part: 0,
                 is_cart_open: false,
@@ -162,10 +175,20 @@
             select(index) {
                 this.part = index
             },
+            selectLottery(id) {
+                console.log("select=>" + id)
+
+                this.lottery_id = id
+
+            },
+            openLotteryModal() {
+                this.lottery_id = null;
+                this.$bvModal.show('lottery')
+            }
 
         },
         components: {
-            Obedy, vueCustomScrollbar, ObedyProduct, ObedyCartTemplate
+            Obedy, vueCustomScrollbar, ObedyProduct, ObedyCartTemplate, LotterySlider, LotteryGame
         }
     }
 </script>
@@ -175,10 +198,12 @@
     .about-list {
         color: black;
         justify-content: center;
+
         li {
-            margin-bottom:10px;
+            margin-bottom: 10px;
         }
     }
+
     .fixed-main-menu {
         position: fixed;
         top: 0;
@@ -365,6 +390,13 @@
                 top: -30px;
                 z-index: 98;
                 border-left: 5px #ffa819 solid;
+            }
+
+            &.lottery {
+                top: -42px;
+                z-index: 97;
+                border-left: 5px #a5cc44 solid;
+                color: #678816;
             }
 
             &:hover {

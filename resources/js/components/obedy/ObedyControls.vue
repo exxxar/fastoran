@@ -38,7 +38,8 @@
                 @click="addToCart()"
                 :disabled="!hasMainProductInCart()"
                 v-if="(current_day_index<product.day_index)&&inCart()===0">
-            Заказать <span v-if="product.is_week" class="badge badge-info">15% скидка</span>
+            Заказать <span class="badge badge-primary">{{product.price}}₽</span><span v-if="product.is_week"
+                                                                                     class="badge badge-info">15% скидка</span>
         </button>
     </div>
 
@@ -76,15 +77,6 @@
             this.uuid = uuidv4();
 
             this.current_day_index = today.getDay()
-
-            /*
-                        if (this.goProduct) {
-
-                            console.log("ctrl=", this.goProduct.days)
-                            this.selected_additional_days = this.goProduct.days
-
-                        }*/
-
 
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("goCartProducts")
@@ -130,9 +122,7 @@
             },
             hasMainProductInCart() {
                 let tmp = this.cart.filter(item => item.product.addition === 0);
-
-                console.log(tmp.length > 0||this.product.addition==false)
-                return tmp.length > 0||this.product.addition==false
+                return tmp.length > 0 || this.product.addition == false
             },
             inCart() {
                 let tmp = this.cart.filter(item => item.product.id === this.product.id);

@@ -1,15 +1,23 @@
 <template>
     <div class="tab-content container">
+
+        <div class="row mt-2 mb-2">
+            <div class="col-md-6 col-sm-12">
+                <input type="search" class="search-input w-100" v-model="filteredText"
+                       placeholder="Быстрый поиск по продуктам...">
+            </div>
+        </div>
         <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-4 col-12" v-for="product in products"
+            <div class="col-sm-6 col-md-6 col-lg-4 col-12" v-for="product in filteredProducts()"
                  v-if="food_category_selected==product.food_part_id">
 
                 <obedy-product :product="product" v-if="!product.is_week"/>
-                <obedy-product :product="product" v-if="product.is_week" style="background: #f8f9fa;border: 2px #678816 solid;padding: 15px;" :week="true" />
+                <obedy-product :product="product" v-if="product.is_week"
+                               style="border: 2px solid rgb(103, 136, 22);padding: 15px;background: repeating-linear-gradient( 45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px ), #ceff55;"
+                               :week="true"/>
 
 
             </div>
-
 
 
         </div>
@@ -29,7 +37,7 @@
                  v-for="item in getAdditions()">
 
 
-                <obedy-product :product="item"  />
+                <obedy-product :product="item"/>
 
             </div>
         </div>
@@ -46,12 +54,14 @@
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import ObedyProduct from '../obedy/ObedyProduct'
     import ObedyControls from '../obedy/ObedyControls'
+
     import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
     export default {
         props: ["food_category_selected"],
         data() {
             return {
+                filteredText: null,
                 current_category_id: 1,
                 current_day: 2,
                 settings: {
@@ -69,13 +79,27 @@
                 return this.$store.getters.getGoCategories;
             }
         },
+
         mounted() {
             this.$store.dispatch("loadProducts");
             this.$store.dispatch("loadCategories");
         },
         methods: {
+            filteredProducts() {
+                return this.filteredText == null ? this.products :
+                    this.products.filter(item => item
+                            .title
+                            .toLowerCase()
+                            .indexOf(this.filteredText.toLowerCase()) !== -1 ||
+                        (item.description ? item
+                            .description
+                            .toLowerCase()
+                            .indexOf(this.filteredText.toLowerCase()) !== -1 : false)
+                    )
+
+            },
             getAdditions() {
-                return this.products?this.products.filter(item => item.category_id != null):[]
+                return this.products ? this.products.filter(item => item.category_id != null) : []
             },
             countProductInCategory(catId) {
                 let count = 0;
@@ -104,6 +128,13 @@
 
 <style lang="scss">
 
+
+    .search-input {
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px 0px #000000;
+        border: 3px #748f26 solid;
+    }
 
     .tab-content {
 

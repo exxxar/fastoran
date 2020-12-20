@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Mpdf\Mpdf;
+use Mpdf\Output\Destination;
 
 class ObedyGoSeeder extends Seeder
 {
@@ -36,7 +40,7 @@ class ObedyGoSeeder extends Seeder
 
         $products = (object)json_decode($this->getProductsData());
 
-        Log::info(print_r($products->data,true));
+        Log::info(print_r($products->data, true));
 
         \App\ObedyGoCategory::truncate();
         \App\ObedyGoProduct::truncate();
@@ -64,5 +68,45 @@ class ObedyGoSeeder extends Seeder
                 'checked' => $product->checked ?? null,
                 'disabled' => $product->disabled ?? null
             ]);
+
+        $mpdf = new Mpdf();
+
+
+        $mpdf->WriteHTML('<h1>Список кодов</h1>');
+
+        \App\Lottery::truncate();
+        \App\LotteryPromocode::truncate();
+
+        $place_count = 40;
+        \App\Lottery::create([
+            'image' => '/img/go/lottery/lottery_1.png',
+            'title' => 'Праздничная лотерея',
+            'description' => "Пробная праздничная лотерея!",
+            'occuped_places' => \GuzzleHttp\json_encode([]),
+            'place_count' => $place_count,
+            'free_place_count' => $place_count,
+            'is_active' => true,
+            'is_complete' => false,
+            'date_end' => (new \Carbon\Carbon("+3:00"))->addMonths(5),
+        ]);
+
+
+        $tmp_codes = '';
+        for ($i = 0; $i < $place_count; $i++) {
+            $code = substr((string)Str::uuid(), 0, 16);
+            \App\LotteryPromocode::create([
+                'code' => $code,
+            ]);
+
+            $tmp_codes .= $code . ", ";
+
+        }
+
+
+        $mpdf->WriteHTML('<p>' . $tmp_codes . '</p>');
+
+        $mpdf->Output('codes.pdf', Destination::FILE);
+
+
     }
 }
