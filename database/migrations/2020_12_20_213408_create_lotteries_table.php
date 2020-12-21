@@ -20,6 +20,7 @@ class CreateLotteriesTable extends Migration
             $table->longText('description');
             $table->json('occuped_places')->nullable();
             $table->integer('place_count')->default(0);
+            $table->unsignedInteger('win_promo_id')->nullable();
             $table->integer('free_place_count')->default(0);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_complete')->default(false);

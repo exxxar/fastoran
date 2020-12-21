@@ -27,6 +27,15 @@ Route::group(['prefix'=>'v2'],function (){
         Route::get('products', 'ObedyGoController@getProductList');
         Route::get('categories', 'ObedyGoController@getCategoryList');
         Route::post('order', 'ObedyGoController@order');
+
+
+        Route::group([
+           'prefix' => 'lottery'
+        ], function () {
+            Route::get('/all', 'LotteryController@getLotteryList');
+            Route::get('/get/{id}', 'LotteryController@getLottery');
+            Route::post('/pick', 'LotteryController@pickPlace');
+        });
     });
 });
 

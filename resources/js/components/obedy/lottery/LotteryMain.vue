@@ -1,16 +1,20 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row" v-if="lottery">
             <div class="col-sm-12">
-                <h2 class="text-danger">{{title}} </h2>
-                <div v-if="is_active" class="badge badge-success">
-                    Лотерея активна (до {{date_end}})
+                <h2 class="text-danger">{{lottery.title}} </h2>
+                <div v-if="lottery.is_active" class="badge badge-success">
+                    Лотерея активна (до {{lottery.date_end}})
                 </div>
                 <div class="badge badge-danger" v-else>Лотерея не активна</div>
-                <div class="badge badge-danger" v-if="is_complete">Лотерея окончена</div>
-                <p>{{description}}</p>
+                <div class="badge badge-danger" v-if="lottery.is_complete">Лотерея окончена</div>
+                <p>{{lottery.description}}</p>
+
+                <b-progress class="w-100" :value="lottery.place_count - lottery.free_place_count" :max="lottery.place_count" variant="success" height="30px" animated>
+
+                </b-progress>
             </div>
-            <div class="col-sm-6 col-md-4 lottery-item-wrapper" v-for="n in place_count">
+            <div class="col-sm-6 col-md-4 lottery-item-wrapper" v-for="n in lottery.place_count">
                 <div class="lottery-item" @click="openAuthModal(n)">
                     <img v-lazy="'/img/logo_obed_go.jpg'" alt="" v-if="!isOccuped(n)">
                     <img v-lazy="'/img/logo_obed_go_occuped.jpg'" alt="" v-else>
@@ -18,15 +22,24 @@
                 </div>
             </div>
 
+
+        </div>
+
+        <div class="row" v-else>
+            <div class="col-sm-12 d-flex justify-content-center align-items-center">
+                <img v-lazy="'/img/logo_obed_go.jpg'" class="img-fluid" alt="">
+            </div>
+
         </div>
         <b-modal id="personal-info" hide-footer title="Участие в розыгрыше">
-            <from v-on:submit.prevent="pick" class="row d-flex justify-content-center">
+            <form v-on:submit.prevent="pick" class="row d-flex justify-content-center">
                 <div class="col-12">
                     <input type="text" class="form-control w-100 mb-2 p-4" placeholder="Промокод"
-                           pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
-                           maxlength="20"
-                           v-mask="['##-##-##-##-##-##-##']"
+                           v-model="code"
                            required>
+                </div>
+                <div class="col-12">
+                    <p v-if="message" class="alert alert-danger w-100">{{message}}</p>
                 </div>
                 <h4 class="col-12 mb-2 mt-2">Для получение <span
                     class="text-danger font-weight-bolder">оповещения</span> о выигрыше Вам необходимо сообщить нам свой
@@ -34,27 +47,28 @@
                     <span class="text-danger font-weight-bolder">телефона</span> и
                     <span class="text-danger font-weight-bolder">электронную почту</span></h4>
                 <div class="col-12">
-                    <input type="text" class="form-control w-100 mb-2 p-4" placeholder="Ваше имя">
+                    <input type="text" class="form-control w-100 mb-2 p-4" placeholder="Ваше имя" v-model="name">
                 </div>
                 <div class="col-12">
                     <input type="text" class="form-control w-100 mb-2 p-4" placeholder="Ваш номер телефона"
                            pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
                            maxlength="19"
+                           v-model="phone"
                            v-mask="['+38 (071) ###-##-##']"
                            required>
                 </div>
                 <div class="col-12">
-
-                    <input type="email" class="form-control w-100 mb-2 p-4" placeholder="Ваша почта" required>
+                    <input type="email" class="form-control w-100 mb-2 p-4" placeholder="Ваша почта" v-model="email"
+                           required>
                 </div>
 
 
                 <div class="col-12 col-sm-6">
-                    <button class="btn btn-outline-success w-100" @click="pick">Занять место</button>
+                    <button class="btn btn-outline-success w-100">Занять место</button>
                 </div>
 
 
-            </from>
+            </form>
 
         </b-modal>
     </div>
@@ -64,35 +78,55 @@
     import {mask} from "vue-the-mask";
 
     export default {
+        directives: {
+            mask
+        },
         props: ["lottery_id"],
         data() {
             return {
+                message: null,
                 selected_place: null,
-                image: '/img/go/lottery/lottery_1.png',
-                occuped_places: [1, 3, 7, 10, 15],
-                place_count: 20,
-                title: 'Праздничная лотерея',
-                is_active: true,
-                is_complete: false,
-                date_end: '25.12.2020',
-                description: 'Simple description'
+                name: '',
+                email: '',
+                phone: '',
+                code: '',
+                lottery: null
             }
         },
         mounted() {
+
+            this.loadLottery()
             //Subscribe to the channel we specified in our Adonis Application
             pusher.subscribe('lottery-chanel').bind('lottery-event', (data) => {
                 console.log("startRaffle", data)
+                this.loadLottery()
             });
         },
         methods: {
+
             isOccuped(index) {
-                return this.occuped_places.find(item => item === index) != null
+                console.log("occuped", JSON.parse(this.lottery.occuped_places))
+                console.log("occuped" + JSON.parse(this.lottery.occuped_places).length)
+                let tmp = JSON.parse(this.lottery.occuped_places)
+
+                if (tmp.length === 0)
+                    return false;
+
+                return tmp.find(item => item === index) != null
+            },
+            loadLottery() {
+                axios
+                    .get('/api/v2/obedy/lottery/get/' + this.lottery_id).then(resp => {
+                    console.log(resp)
+                    this.lottery = resp.data
+                });
             },
             openAuthModal(index) {
                 if (this.isOccuped(index)) {
                     this.sendMessage("Данный слот уже кем-то занят! Попробуйте занять другой!", "error")
                     return;
                 }
+                console.log("index!=>", index)
                 this.selected_place = index;
                 this.$bvModal.show('personal-info')
 
@@ -104,22 +138,33 @@
                     return
                 }
 
-                this.occuped_places.push(this.selected_place)
+                if (this.selected_place == null) {
+                    this.sendMessage("Слот не выбран!", "error")
+                    return
+                }
 
                 axios
                     .post('/api/v2/obedy/lottery/pick', {
                         lottery_id: this.lottery_id,
-                        place_id: this.selected_place
+                        code: this.code,
+                        name: this.name,
+                        email: this.email,
+                        phone: this.phone,
+                        index: this.selected_place
+
                     }).then(resp => {
-                    console.log(resp)
-                    this.sendMessage("Занятый слот успешно подверждено!")
+                    this.selected_place = null;
+
+                    this.sendMessage("Спасибо! Слот успешно занят вами!")
+
                     this.$bvModal.hide('personal-info')
-                }).catch(() => {
-                    this.sendMessage("Ошибка занятия слота, попробуйте еще!", "error")
-                    this.$bvModal.hide('personal-info')
+                }).catch((resp) => {
+
+                    this.message = resp.response.data.message
+
                 })
 
-                this.selected_place = null;
+
 
             },
             sendMessage(message, type = 'success') {

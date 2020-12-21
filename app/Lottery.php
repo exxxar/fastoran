@@ -16,6 +16,7 @@ class Lottery extends Model
         'occuped_places',
         'place_count',
         'free_place_count',
+        'win_promo_id',
         'is_active',
         'is_complete',
         'date_end',

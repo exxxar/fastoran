@@ -3,12 +3,14 @@
         <div class="col-md-6 col-lg-4 col-sm-6 col-12 " v-for="item in list">
             <div class="lottery-slide mb-3">
                 <img v-lazy="item.image" alt="">
-                <p class="inf">Мест: <strong>{{ item.place_count - item.free_place_count }} / {{ item.place_count }}</strong></p>
-                <b-progress :max="item.place_count" show-progress variant="success" height="30px" animated>
-                    <b-progress-bar :value="item.place_count - item.free_place_count">
+                <p class="inf">Мест: <strong>{{ item.place_count - item.free_place_count }} / {{ item.place_count
+                    }}</strong></p>
 
-                    </b-progress-bar>
+
+                <b-progress :value="item.place_count - item.free_place_count" :max="item.place_count" variant="success" height="30px" animated>
+
                 </b-progress>
+
                 <button class="btn btn-danger mt-2 w-100" @click="select(item.id)">Участвовать</button>
             </div>
         </div>
@@ -34,10 +36,20 @@
                 ]
             }
         },
+        mounted() {
+            this.loadLotteries();
+        },
         methods: {
             select(id) {
                 this.$emit("enter", id)
 
+            },
+            loadLotteries() {
+                axios
+                    .get('/api/v2/obedy/lottery/all').then(resp => {
+                    console.log(resp)
+                    this.list = resp.data
+                });
             }
         }
     }
@@ -63,6 +75,7 @@
             /* width: 100%; */
             display: block;
         }
+
         .progress {
             box-shadow: 1px 1px 2px 0px #000000 inset;
         }
