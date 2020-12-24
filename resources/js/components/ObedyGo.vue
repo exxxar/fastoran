@@ -1,7 +1,10 @@
 <template>
     <div class="container-fluid d-flex align-items-center flex-wrap w-100 m-0 obedygo "
-         style="min-height: 100vh;padding:50px 10px 10px 10px;"
-    >
+         style="min-height: 100vh;padding:50px 10px 10px 10px;">
+
+        <!--         v-touch:swipe.left="swipeHandler(0)"
+         v-touch:swipe.right="swipeHandler(1)"-->
+
         <!--   <div class="row d-flex justify-content-center w-100">
                <div class="col-4"><img src="/img/logo_obed_go.jpg" class="img-fluid" style="mix-blend-mode: multiply;"
                                        alt=""></div>
@@ -12,7 +15,20 @@
                 <div class="item" @click="select(1)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Стандарт</h3>
+                    <!--<vue-custom-scrollbar class="scroll-area-1" :settings="settings">
+                        <p>
+                            Доставка осуществляется с 12:00 до 14:00 только в будние дни.
 
+                        </p>
+                        <p>
+                            Блюда из разделов "стандарт" и "премиум" заказываются ЗА ДЕНЬ. Предзаказ на понедельник
+                            также доступен и в выходные дни.
+                        </p>
+                        <p>
+                            Блюда из раздела "экспресс" заказываются и доставляются день в день.
+                        </p>
+
+                    </vue-custom-scrollbar>-->
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
@@ -64,6 +80,13 @@
             </div>
         </div>
 
+        <div class="row w-100 d-flex justify-content-center mt-5  mb-2 ">
+            <h3 class="text-uppercase text-white text-center col-8 col-sm-8">Полное меню на неделю можно глянуть <a
+                href="#" class="text-danger font-weight-bold" v-b-modal.menu >ТУТ</a>
+            </h3>
+        </div>
+
+
 
         <div class="row w-100 m-0" v-if="part>0">
 
@@ -75,7 +98,7 @@
 
         <div class="mb-5 w-100"></div>
 
-        <obedy-cart-template v-if="is_cart_open" v-on:close="is_cart_open = false" :ready_to_order="ready_to_order"/>
+        <obedy-cart-template v-if="is_cart_open" v-on:close="is_cart_open = false" :ready="ready_to_order"/>
 
         <div class="cart-container d-sm-block d-none" v-if="!is_cart_open">
             <div class="cart-icon cart" @click="is_cart_open = true">Корзина <span
@@ -106,6 +129,8 @@
             </ul>
 
         </ul>
+
+
 
         <b-modal id="about" hide-footer title="О Нас">
             <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="О нас">
@@ -143,6 +168,27 @@
         <div class="to-right" @click="next()">
 
         </div>
+
+
+        <b-modal id="menu" hide-footer hide-header size="lg">
+            <b-carousel
+                id="carousel-fade"
+                style=""
+                :controls="true"
+                fade
+                indicators
+                img-width="1024"
+                img-height="480"
+            >
+                <b-carousel-slide
+                    img-src="/img/go/full_1.jpg"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                    img-src="/img/go/full_2.jpg"
+                ></b-carousel-slide>
+
+            </b-carousel>
+        </b-modal>
     </div>
 </template>
 
@@ -200,6 +246,12 @@
             }.bind(this));
         },
         methods: {
+            swipeHandler(direction) {
+                if (direction === 0)
+                    this.prev();
+                else
+                    this.next();
+            },
             next() {
 
                 window.scrollTo(0, 0);
@@ -329,11 +381,37 @@
         //background-color: #ddd;
     }
 
+    .scroll-area-1 {
+        position: relative;
+        width: 100%;
+        max-height: 200px;
+        height: 100%;
+        padding: 5px;
+
+        p {
+            color: black;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: justify;
+
+            span {
+                font-weight: 800;
+                color: #c31200;
+            }
+
+            &:first-letter {
+                color: #c31200;
+                margin-left: 10px;
+                font-weight: 700;
+            }
+        }
+    }
+
     .scroll-area {
         position: relative;
         width: 100%;
-        height: 100%;
-        padding-bottom: 150px;
+        height: 100%;;
+
     }
 
     .item {
@@ -347,11 +425,44 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        box-shadow: 0px 0px 5px 3px #490a04;
-        border-radius: 5px;
+        box-shadow: 0px 0px 5px 3px #000000;
+        border-radius: 20px 0px;
+        cursor: pointer;
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border-top: 5px #c92919 solid;
+            border-right: 5px #c92919 solid;
+            width: 50px;
+            height: 50px;
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            border-top: 5px #c92919 solid;
+            border-left: 5px #c92919 solid;
+            width: 50px;
+            height: 50px;
+            border-radius: 20px 0px 0px 0px;
+        }
 
         img {
             width: 200px;
+            opacity: 0.1;
+            position: absolute;
+        }
+
+        & > p {
+            color: black;
+            font-size: 12px;
+
         }
 
         h3 {

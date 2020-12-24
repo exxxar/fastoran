@@ -123,7 +123,10 @@ const mutations = {
                 address: form.address,
                 message: form.message,
                 phone: form.phone,
-                products: state.go_items
+                products: state.go_items,
+                total_weight:form.total_weight,
+                total_price:form.total_price,
+                total_count:form.total_count
             }, {responseType: 'blob'}).then(resp => {
             const FileDownload = require('js-file-download');
 

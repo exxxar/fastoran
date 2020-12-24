@@ -96,6 +96,7 @@ class ObedyGoSeeder extends Seeder
             $code = substr((string)Str::uuid(), 0, 16);
             \App\LotteryPromocode::create([
                 'code' => $code,
+
             ]);
 
             $tmp_codes .= $code . ", ";

@@ -51,7 +51,8 @@
                     </ul>
                     <button class="btn btn-success w-100 p-3 text-uppercase font-weight-bold">Отправить заявку
                     </button>
-                    <p class="end-info">После оформления заявки вам будет предложен для скачивания чек с подробным описанием заказа, его номером и
+                    <p class="end-info">После оформления заявки вам будет предложен для скачивания чек с подробным
+                        описанием заказа, его номером и
                         промокодом для лотереии</p>
                 </form>
             </div>
@@ -70,20 +71,27 @@
     import ObedyControls from '../obedy/ObedyControls'
 
     export default {
-        props:['ready_to_order'],
+        props: ['ready'],
         data() {
             return {
+                ready_to_order: false,
                 form: {
                     name: '',
                     address: '',
                     phone: '',
-                    message: ''
+                    message: '',
+                    total_weight: 0,
+                    total_price: 0,
+                    total_count: 0
                 },
                 settings: {
                     suppressScrollX: true,
                     suppressScrollY: false,
                 },
             }
+        },
+        mounted() {
+            this.ready_to_order = this.ready
         },
         computed: {
             goCartTotalPrice() {
@@ -114,6 +122,9 @@
                     this.$emit("close")
                 },
                 sendOrder() {
+                    this.form.total_weight = this.goCartTotalWeight
+                    this.form.total_price = this.goCartTotalPrice
+                    this.form.total_count = this.countInCart
                     this.$store.dispatch("sendGoOrder", this.form)
                     this.sendMessage("Ваш заказ успешно отправлен! Ожидайте звонка оператора!")
 

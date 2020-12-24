@@ -30,7 +30,7 @@
         </div>
         <h3 class="mt-4 mb-2 text-uppercase text-white" >А также можно добавить к заказу....</h3>
 
-        <div class="row mt-2 ingredients pb-2">
+        <div class="row mt-2 ingrs pb-2">
             <div class="col-sm-12 d-flex justify-content-start">
                 <p :class="(current_category_id===item.id?'active':'')" v-for="item in categories"
                    v-if="countProductInCategory(item.id)>0"
@@ -42,39 +42,9 @@
 
             <div class="col-sm-6 col-md-6 col-lg-4 col-12" v-if="current_category_id==item.category_id"
                  v-for="item in getAdditions()">
-
-
                 <obedy-product :product="item"/>
-
             </div>
         </div>
-
-        <h3 class="mt-4 mb-2 text-uppercase text-white">Полное меню на неделю можно глянуть <a
-            href="#" v-b-modal.menu>ТУТ</a>
-        </h3>
-
-
-        <b-modal id="menu" hide-footer hide-header size="lg">
-            <b-carousel
-                id="carousel-fade"
-                style=""
-                controls="true"
-                fade
-                indicators
-                img-width="1024"
-                img-height="480"
-            >
-                <b-carousel-slide
-                    img-src="/img/go/full_1.jpg"
-                ></b-carousel-slide>
-                <b-carousel-slide
-                    img-src="/img/go/full_2.jpg"
-                ></b-carousel-slide>
-
-            </b-carousel>
-        </b-modal>
-
-
 
     </div>
 </template>
@@ -165,9 +135,9 @@
 
 
     .week-product {
-        border: 2px solid rgb(156 14 0);
+        background: #c31200;
         padding: 15px;
-        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px), #c31200;
+        /* background: repeating-linear-gradient(45deg, #678816, #ad3 10px, #ad3 10px, #444444 20px), #ffffff; */
         box-shadow: 1px 1px 2px 0px #000000;
         h3 {
             color: white;
@@ -224,7 +194,7 @@
 
     }
 
-    .ingredients {
+    .ingrs {
         p {
             border-bottom: 2px transparent solid;
             padding: 10px;

@@ -28,7 +28,7 @@
 
 
             </button>
-            <div class="btn btn-outline-danger sub-btn" @click="openCart()" v-if="show_addition_btn">Оформить</div>
+            <div class="btn btn-success sub-btn" @click="openCart()" v-if="show_addition_btn">Оформить</div>
 
         </div>
 
@@ -179,7 +179,7 @@
             transition: 0.3s;
             cursor: pointer;
             text-transform: uppercase;
-            color: #c31200;
+            color: white;
             font-weight: 800;
             font-size: 10px;
 

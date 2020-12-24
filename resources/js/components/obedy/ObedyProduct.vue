@@ -161,7 +161,8 @@
         }
 
         h3 {
-            color: white;
+            color: white
+        ;
             font-size: 24px;
             /* background: #c31200; */
             /* color: white; */
