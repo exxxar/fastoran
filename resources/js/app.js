@@ -21,6 +21,8 @@ window.Vue = require('vue');
 import HighchartsVue from 'highcharts-vue'
 Vue.use(HighchartsVue);
 
+export const EventBus = new Vue();
+
 import VueGlide from 'vue-glide-js'
 import 'vue-glide-js/dist/vue-glide.css'
 

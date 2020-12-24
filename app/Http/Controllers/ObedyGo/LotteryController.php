@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\ObedyGo;
 
 use App\Events\LotteryEvent;
+use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\Lottery;
 use App\LotteryPromocode;
+use App\Mail\LotteryMail;
+use App\Mail\ReportMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class LotteryController extends Controller
 {
@@ -54,14 +58,13 @@ class LotteryController extends Controller
 
         $index = $request->get("index");
 
-        $tmp_occuped_places = count(json_decode($lottery->occuped_places)) === 0 ? []:json_decode($lottery->occuped_places);
+        $tmp_occuped_places = count(json_decode($lottery->occuped_places)) === 0 ? [] : json_decode($lottery->occuped_places);
 
 
         if (in_array($index, $tmp_occuped_places))
             return response()->json(["message" => "Данное поле уже занято"], 404);
 
         array_push($tmp_occuped_places, $index);
-
 
 
         $lottery->occuped_places = json_encode($tmp_occuped_places);
@@ -72,14 +75,26 @@ class LotteryController extends Controller
 
         $promocode->name = $request->get("name");
         $promocode->phone = $request->get("phone");
-        $promocode->email = $request->get("email");
+        $promocode->email = $request->get("email")??'';
         $promocode->is_activated = true;
         $promocode->lottery_id = $lotteryId;
         $promocode->save();
 
+        $message =  sprintf("Вы заняли #%s место в розыгрше %s",
+            $index,
+            $lottery->title
+        );
+
+        event(new SendSmsEvent($promocode->phone,
+               $message
+            )
+        );
+
+        Mail::to( $promocode->email)
+            ->send(new LotteryMail($message));
+
+
         if ($lottery->free_place_count == 0) {
-
-
             $place = LotteryPromocode::where("lottery_id", $lottery->id)
                 ->get()
                 ->random(1)
@@ -89,6 +104,21 @@ class LotteryController extends Controller
             $lottery->is_active = false;
             $lottery->is_complete = true;
             $lottery->save();
+
+
+            $message =  sprintf("Ваш #%s в розыгрыше %s оказался выигрышным! За деталями обратитесь к администратору сервиса.",
+                $index,
+                $lottery->title
+            );
+
+            event(new SendSmsEvent($promocode->phone,
+                    $message
+                )
+            );
+
+            Mail::to( $promocode->email)
+                ->send(new LotteryMail($message));
+
 
         }
 

@@ -15,6 +15,7 @@
 use Allanvb\LaravelSemysms\Facades\SemySMS;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Fastoran\MenuCategoryController;
+use App\Mail\LotteryMail;
 use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\OrderDetail;
@@ -27,14 +28,22 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 use Jenssegers\Agent\Facades\Agent;
+use Mpdf\Mpdf;
+use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::get('/eventtest',function (){
-    event(new \App\Events\LotteryEvent(1));
+   // event(new \App\Events\LotteryEvent(1));
+
+    Telegram::sendDocument([
+        'chat_id' => env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
+        'document' =>InputFile::create(storage_path('app\public')."\\codes.pdf"),
+    ]);
 });
 
 Route::view("/banned", "banned")->name("banned");

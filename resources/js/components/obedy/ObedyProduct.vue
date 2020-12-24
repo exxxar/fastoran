@@ -8,6 +8,8 @@
 
         <obedy-controls :product="product" />
 
+        <div class="week-label" v-if="product.is_week">15% скидка</div>
+
         <b-modal :id="'modal-'+uuid" size="lg" hide-footer>
             <template #modal-title>
                 <h3><span class="badge badge-danger">"{{product.title}}"</span></h3>
@@ -133,11 +135,24 @@
 </script>
 <style lang="scss">
 
+    .week-label {
+        position: absolute;
+        bottom: 100px;
+        width: 100%;
+        left: 0;
+        padding: 0px;
+        font-size: 20px;
+        font-weight: 800;
+        text-align: center;
+        font-family: 'Open Sans';
+        color: #c31200;
+    }
     .day-item {
         box-sizing: border-box;
         border-radius: 5px;
         position: relative;
         padding: 5px;
+        z-index: 2;
 
 
         img {
@@ -146,7 +161,7 @@
         }
 
         h3 {
-            color: black;
+            color: white;
             font-size: 24px;
             /* background: #c31200; */
             /* color: white; */

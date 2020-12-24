@@ -1,6 +1,7 @@
 <template>
     <div class="container-fluid d-flex align-items-center flex-wrap w-100 m-0 obedygo "
-         style="min-height: 100vh;padding:50px 10px 10px 10px;">
+         style="min-height: 100vh;padding:50px 10px 10px 10px;"
+    >
         <!--   <div class="row d-flex justify-content-center w-100">
                <div class="col-4"><img src="/img/logo_obed_go.jpg" class="img-fluid" style="mix-blend-mode: multiply;"
                                        alt=""></div>
@@ -8,56 +9,54 @@
 
         <div class="row d-flex justify-content-center flex-wrap w-100 m-0" v-if="part===0">
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item">
+                <div class="item" @click="select(1)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Стандарт</h3>
-                    <button class="btn btn-outline-danger w-100 p-3" @click="select(1)">Let's GO Обедать!</button>
+
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item">
+                <div class="item" @click="select(2)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Экспрес</h3>
-                    <button class="btn btn-outline-danger w-100 p-3" @click="select(2)">Let's GO Обедать!</button>
+
                 </div>
             </div>
             <div class="w-100"></div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item">
+                <div class="item" @click="select(3)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Премиум</h3>
-                    <button class="btn btn-outline-danger w-100 p-3" @click="select(3)">Let's GO Обедать!</button>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item">
+                <div class="item" @click="select(4)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Собери сам</h3>
-                    <button class="btn btn-outline-danger w-100 p-3" @click="select(4)">Let's GO Обедать!</button>
                 </div>
             </div>
         </div>
         <div class="row w-100 m-0 fixed-main-menu d-none d-md-block" v-else>
             <div class="container upper-menu">
                 <div class="row d-flex justify-content-between flex-wrap w-100 p-0 m-0">
-                    <div class="col-lg-3 col-6 col-md-3 col-sm-6 mb-2">
+                    <div class="col-lg-3 col-6 col-md-3 col-sm-6">
                         <div :class="'item-tab '+(part===1?'active':'')" @click="select(1)">
-                            <h3>Стандарт</h3>
+                            <h3><img src="/img/logo_obed_go.jpg" alt="">Стандарт</h3>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-6 col-md-3 col-sm-6 mb-2">
+                    <div class="col-lg-3 col-6 col-md-3 col-sm-6">
                         <div :class="'item-tab '+(part===2?'active':'')" @click="select(2)">
-                            <h3>Экспресс</h3>
+                            <h3><img src="/img/logo_obed_go.jpg" alt="">Экспресс</h3>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-6  col-md-3 col-sm-6 mb-2">
+                    <div class="col-lg-3 col-6  col-md-3 col-sm-6">
                         <div :class="'item-tab '+(part===3?'active':'')" @click="select(3)">
-                            <h3>Премиум</h3>
+                            <h3><img src="/img/logo_obed_go.jpg" alt="">Премиум</h3>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-6 col-md-3 col-sm-6 mb-2">
+                    <div class="col-lg-3 col-6 col-md-3 col-sm-6">
                         <div :class="'item-tab '+(part===4?'active':'')" @click="select(4)">
-                            <h3>Собери сам</h3>
+                            <h3><img src="/img/logo_obed_go.jpg" alt="">Собери сам</h3>
                         </div>
                     </div>
                 </div>
@@ -76,7 +75,7 @@
 
         <div class="mb-5 w-100"></div>
 
-        <obedy-cart-template v-if="is_cart_open" v-on:close="is_cart_open = false"/>
+        <obedy-cart-template v-if="is_cart_open" v-on:close="is_cart_open = false" :ready_to_order="ready_to_order"/>
 
         <div class="cart-container d-sm-block d-none" v-if="!is_cart_open">
             <div class="cart-icon cart" @click="is_cart_open = true">Корзина <span
@@ -138,7 +137,12 @@
             <lottery-game :lottery_id="lottery_id" v-if="lottery_id"/>
         </b-modal>
 
+        <div class="to-left" @click="prev()">
 
+        </div>
+        <div class="to-right" @click="next()">
+
+        </div>
     </div>
 </template>
 
@@ -148,6 +152,7 @@
     import ObedyCartTemplate from './obedy/ObedyCartTemplate'
     import LotterySlider from './obedy/lottery/LotterySlider'
     import LotteryGame from './obedy/lottery/LotteryMain'
+    import {EventBus} from '../app.js';
 
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import "vue-custom-scrollbar/dist/vueScrollbar.css"
@@ -171,7 +176,61 @@
                 return this.$store.getters.goCartTotalCount;
             },
         },
+        mounted() {
+
+            EventBus.$on('open-cart', () => {
+                this.is_cart_open = true
+                this.ready_to_order = true
+            });
+
+            window.addEventListener("keyup", function (e) {
+
+                switch (e.keyCode) {
+                    case 27:
+                        this.part = 0
+                        break;
+                    case 37:
+                        this.prev();
+                        break;
+                    case 39:
+
+                        this.next();
+                        break;
+                }
+            }.bind(this));
+        },
         methods: {
+            next() {
+
+                window.scrollTo(0, 0);
+
+                if (this.part === 0) {
+                    this.part = 1
+                    return
+                }
+
+                if (this.part === 4)
+                    this.part = 1
+                else
+                    this.part++;
+
+            },
+            prev() {
+
+                window.scrollTo(0, 0);
+
+                if (this.part === 0) {
+                    this.part = 1
+                    return
+                }
+
+                if (this.part === 1)
+                    this.part = 4
+                else
+                    this.part--;
+
+
+            },
             select(index) {
                 this.part = index
             },
@@ -219,6 +278,7 @@
         color: black;
         font-size: 14px;
         transition: .3s;
+        z-index: 10;
 
         li {
             width: 100%;
@@ -255,13 +315,18 @@
     }
 
     .obedygo {
-        background: url('/img/bg_go.jpg') no-repeat center center;
+        background: url('/images/12.jpg') no-repeat center center;
         background-size: cover;
         background-attachment: fixed;
     }
 
     .upper-menu {
-        padding: 15px;
+        //box-shadow: 1px 1px 2px 0px #000000;
+        /* background: url(https://lh3.googleusercontent.com/proxy/S5O2OiLffwro9xyy_sc_j2_SHOTaryH6hXhAVgopPYkW9ECSnH-nH6rtKXjJWW6P5KpY_ewgS3CJSC6k1p7WFNCNaIQszpO8v7pVUhMT0iYZmKgE4DEOtg) center no-repeat; */
+        border-radius: 0px 0px 5px 5px;
+        background-size: cover;
+        background-blend-mode: darken;
+        //background-color: #ddd;
     }
 
     .scroll-area {
@@ -282,6 +347,8 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        box-shadow: 0px 0px 5px 3px #490a04;
+        border-radius: 5px;
 
         img {
             width: 200px;
@@ -302,21 +369,37 @@
 
     .item-tab {
         width: 100%;
-        opacity: 0.6;
+        height: 70px;
+        margin-top: -5px;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 15px 10px;
-        border-radius: 5px;
-        background: #eae9e9;
+        border-radius: 0px 0px 5px 5px;
+        background: #ffffff;
         box-shadow: 1px 1px 2px 0px #000000;
+        transition: .3s;
+
+        &:hover {
+            transition: .3s;
+            margin-top: -5px;
+        }
 
         h3 {
             text-transform: uppercase;
             font-size: small;
             color: #a6a6a6;
             font-family: "Roboto", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
+            img {
+                width: 50px;
+                height: 50px;
+                mix-blend-mode: multiply;
+                display: block;
+            }
 
         }
 
@@ -327,6 +410,7 @@
             background-color: #e3342f;
             cursor: pointer;
             opacity: 1;
+            margin-top: 0px;
 
             h3 {
                 color: white;
@@ -418,9 +502,33 @@
         border-radius: 5px 5px 0px 0px;
         text-transform: uppercase;
         font-weight: 800;
+        z-index: 10;
 
         & > li {
             font-size: 10px;
         }
+    }
+
+    .to-left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100vh;
+        z-index: 1;
+    }
+
+    .to-right {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100vh;
+        z-index: 1;
+    }
+
+    .to-right:hover,
+    .to-left:hover {
+        background: rgba(255, 255, 255, 0.3);
     }
 </style>

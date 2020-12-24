@@ -19,7 +19,9 @@ class CreateLotteryPromocodesTable extends Migration
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->boolean('is_activated')->default(false);
+            $table->integer('max_activation_count')->default(1);
+            $table->integer('current_activation_count')->default(0);
+
             $table->unsignedInteger('lottery_id')->nullable();
             $table->timestamps();
         });

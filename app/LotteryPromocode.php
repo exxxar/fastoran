@@ -13,7 +13,17 @@ class LotteryPromocode extends Model
         'name',
         'phone',
         'email',
-        'is_activated',
+        'max_activation_count',
+        'current_activation_count',
         'lottery_id'
     ];
+
+    protected $appends = [
+        "is_activated"
+    ];
+
+    public function getIsActivatedAttribute()
+    {
+        return $this->current_activation_count == $this->max_activation_count;
+    }
 }

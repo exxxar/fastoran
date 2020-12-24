@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="additions-days" v-if="product.addition&&inCart()>0">
+ <!--       <div class="additions-days" v-if="product.addition&&inCart()>0">
             <div class="row d-flex justify-content-around align-items-center">
 
                 <label class="check-container" v-for="(day, index) in addional_day">{{day}}
@@ -11,46 +11,51 @@
 
 
             </div>
-        </div>
+        </div>-->
 
-        <div class="cnt-container" v-if="inCart()>0">
+        <div class="cnt-container" v-if="inCart()>0" @mouseenter="show_addition_btn=true" @mouseleave="show_addition_btn=false" >
             <div class="group-btn-counter">
-                <button class="btn btn-coutner " @click="remProduct()">
+                <button class="btn btn-coutner " @click="remProduct()" v-b-popover.hover.bottom="'Убрать весь продукт из корзины'">
                     <span><i class="fas fa-trash"></i></span>
                 </button>
-                <button class="btn btn-coutner " @click="decProduct()">
+                <button class="btn btn-coutner " @click="decProduct()" v-b-popover.hover.bottom="'Убрать порцию из корзины'">
                     -
                 </button>
             </div>
-            <p v-html="inCart()"></p>
-            <button class="btn btn-coutner " @click="incProduct()">
+            <p v-html="inCart()" class="text-white"></p>
+            <button class="btn btn-coutner " @click="incProduct()"  v-b-popover.hover.bottom="'Добавить еще порцию в корзину'">
                 <span>+</span>
+
+
             </button>
+            <div class="btn btn-outline-danger sub-btn" @click="openCart()" v-if="show_addition_btn">Оформить</div>
 
         </div>
 
         <button class="btn btn-danger w-100 text-uppercase mt-2 p-3" @click="addToCart()"
                 :disabled="!hasMainProductInCart()"
-                v-if="!(current_day_index<product.day_index)&&inCart()===0">Заказать на
+                v-if="!(current_day_index<product.day_index)&&inCart()===0">В КОРЗИНУ
             <span>{{orderDay(product.day_index)}}</span>
         </button>
         <button class="btn btn-success w-100 text-uppercase mt-2 p-3 custom-btn-color-success"
+                v-b-popover.hover.bottom="'Добавить товар в корзину'"
                 @click="addToCart()"
                 :disabled="!hasMainProductInCart()"
                 v-if="(current_day_index<product.day_index)&&inCart()===0">
-            Заказать <span class="badge badge-primary">{{product.price}}₽</span><span v-if="product.is_week"
-                                                                                     class="badge badge-info">15% скидка</span>
+            В КОРЗИНУ
         </button>
     </div>
 
 </template>
 <script>
     import {v4 as uuidv4} from "uuid";
+    import { EventBus } from '../../app.js';
 
     export default {
         props: ["product"],
         data() {
             return {
+                show_addition_btn:false,
                 uuid: null,
                 current_day_index: 1,
                 addional_day: ["Пн", "Вт", "Ср", "Чт", "Пт"],
@@ -85,6 +90,9 @@
             Vue.ls.on('store_go', callback) //watch change foo key and triggered callbac
         },
         methods: {
+            openCart(){
+                EventBus.$emit('open-cart');
+            },
             selectDay(index) {
 
                 this.$store.dispatch("setGoDaysForItem", {
@@ -156,6 +164,32 @@
 </script>
 
 <style lang="scss">
+
+    .cnt-container {
+        position: relative;
+
+        .sub-btn {
+            position: absolute;
+            padding: 10px;
+            border-radius: 5px;
+            top: -30px;
+            right: -14px;
+            /* opacity: 0.5; */
+            box-shadow: 1px 1px 2px 0px #000000;
+            transition: 0.3s;
+            cursor: pointer;
+            text-transform: uppercase;
+            color: #c31200;
+            font-weight: 800;
+            font-size: 10px;
+
+            &:hover {
+                color:white;
+            }
+
+        }
+
+    }
     .additions-days {
         position: absolute;
         top: 51px;

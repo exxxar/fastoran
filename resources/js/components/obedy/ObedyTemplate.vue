@@ -1,19 +1,26 @@
 <template>
     <div class="tab-content container">
 
-        <div class="row mt-2 mb-2">
-            <div class="col-md-6 col-sm-12">
-                <input type="search" class="search-input w-100" v-model="filteredText"
-                       placeholder="Быстрый поиск по продуктам...">
+        <div class="search" @mouseenter="is_search_opened=true" >
+            <div class="search-icon" v-if="!is_search_opened">
+                <img v-lazy="'/img/search.png'" alt="Поиск">
             </div>
+
+
+            <input type="search" class="search-input" v-if="is_search_opened" v-model="filteredText"
+                   @mouseleave="closeFilter()"
+                   placeholder="Быстрый поиск по продуктам...">
+
         </div>
+
+
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-4 col-12" v-for="product in filteredProducts()"
                  v-if="food_category_selected==product.food_part_id">
 
                 <obedy-product :product="product" v-if="!product.is_week"/>
                 <obedy-product :product="product" v-if="product.is_week"
-                               style="border: 2px solid rgb(103, 136, 22);padding: 15px;background: repeating-linear-gradient( 45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px ), #ceff55;"
+                               class="week-product"
                                :week="true"/>
 
 
@@ -21,7 +28,7 @@
 
 
         </div>
-        <h3 class="mt-4 mb-2 text-uppercase" style="color: #c31200;">А также можно добавить к заказу....</h3>
+        <h3 class="mt-4 mb-2 text-uppercase text-white" >А также можно добавить к заказу....</h3>
 
         <div class="row mt-2 ingredients pb-2">
             <div class="col-sm-12 d-flex justify-content-start">
@@ -33,7 +40,7 @@
         </div>
         <div class="row">
 
-            <div class="col-12 col-sm-6 col-md-6 col-lg-3" v-if="current_category_id==item.category_id"
+            <div class="col-sm-6 col-md-6 col-lg-4 col-12" v-if="current_category_id==item.category_id"
                  v-for="item in getAdditions()">
 
 
@@ -42,9 +49,31 @@
             </div>
         </div>
 
-        <h3 class="mt-4 mb-2 text-uppercase" style="color: #c31200;">Можете посмотреть меню на неделю <a
-            href="/img/go/full_1.jpg" target="_blank">ТУТ</a> и <a href="/img/go/full_2.jpg" target="_blank">ТУТ</a>
+        <h3 class="mt-4 mb-2 text-uppercase text-white">Полное меню на неделю можно глянуть <a
+            href="#" v-b-modal.menu>ТУТ</a>
         </h3>
+
+
+        <b-modal id="menu" hide-footer hide-header size="lg">
+            <b-carousel
+                id="carousel-fade"
+                style=""
+                controls="true"
+                fade
+                indicators
+                img-width="1024"
+                img-height="480"
+            >
+                <b-carousel-slide
+                    img-src="/img/go/full_1.jpg"
+                ></b-carousel-slide>
+                <b-carousel-slide
+                    img-src="/img/go/full_2.jpg"
+                ></b-carousel-slide>
+
+            </b-carousel>
+        </b-modal>
+
 
 
     </div>
@@ -61,6 +90,7 @@
         props: ["food_category_selected"],
         data() {
             return {
+                is_search_opened: false,
                 filteredText: null,
                 current_category_id: 1,
                 current_day: 2,
@@ -85,6 +115,11 @@
             this.$store.dispatch("loadCategories");
         },
         methods: {
+            closeFilter() {
+                if (this.filteredText == null || this.filteredText.length == 0)
+                    this.is_search_opened = false;
+            },
+
             filteredProducts() {
                 return this.filteredText == null ? this.products :
                     this.products.filter(item => item
@@ -129,6 +164,50 @@
 <style lang="scss">
 
 
+    .week-product {
+        border: 2px solid rgb(156 14 0);
+        padding: 15px;
+        background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px), #c31200;
+        box-shadow: 1px 1px 2px 0px #000000;
+        h3 {
+            color: white;
+
+            &:first-letter {
+                color: white;
+            }
+
+        }
+    }
+
+    .search {
+        position: fixed;
+        top: 100px;
+        left: 0px;
+        /* height: 50px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* font-size: 24px; */
+        color: #e3342f;
+        padding: 10px;
+        z-index: 20;
+        background: white;
+        border-radius: 0px 5px 5px 0px;
+        box-shadow: 1px 1px 2px 0px #000000;
+
+        .search-icon {
+            img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        input {
+            width: 250px;
+        }
+
+    }
+
     .search-input {
         padding: 15px;
         border-radius: 5px;
@@ -160,7 +239,7 @@
                 text-transform: uppercase;
                 text-align: center;
                 font-weight: 800;
-                color: black;
+                color: white;
 
                 &:first-letter {
                     color: #c31200;

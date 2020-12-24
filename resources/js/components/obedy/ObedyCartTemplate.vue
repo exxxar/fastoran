@@ -20,9 +20,11 @@
             </vue-custom-scrollbar>
 
             <div class="custom-modal-footer" v-if="countInCart>0">
+
                 <button class="btn btn-danger w-100 p-3 text-uppercase font-weight-bold" v-if="!ready_to_order"
                         :disabled="!hasMainProductInCart()"
                         @click="ready_to_order = true">Оформить
+                    <strong>{{goCartTotalPrice}} руб</strong>
                 </button>
                 <button class="btn btn-outline-danger mt-2 w-100 p-3 text-uppercase font-weight-bold"
                         v-if="!ready_to_order"
@@ -49,6 +51,8 @@
                     </ul>
                     <button class="btn btn-success w-100 p-3 text-uppercase font-weight-bold">Отправить заявку
                     </button>
+                    <p class="end-info">После оформления заявки вам будет предложен для скачивания чек с подробным описанием заказа, его номером и
+                        промокодом для лотереии</p>
                 </form>
             </div>
 
@@ -66,10 +70,9 @@
     import ObedyControls from '../obedy/ObedyControls'
 
     export default {
-
+        props:['ready_to_order'],
         data() {
             return {
-                ready_to_order: false,
                 form: {
                     name: '',
                     address: '',
@@ -83,10 +86,10 @@
             }
         },
         computed: {
-            goCartTotalPrice(){
-              return this.$store.getters.goCartTotalPrice;
+            goCartTotalPrice() {
+                return this.$store.getters.goCartTotalPrice;
             },
-            goCartTotalWeight(){
+            goCartTotalWeight() {
                 return this.$store.getters.goCartTotalWeight;
             },
             countInCart() {
@@ -113,6 +116,7 @@
                 sendOrder() {
                     this.$store.dispatch("sendGoOrder", this.form)
                     this.sendMessage("Ваш заказ успешно отправлен! Ожидайте звонка оператора!")
+
                     this.$emit("close")
                 },
                 sendMessage(message, type = 'success') {
@@ -135,6 +139,15 @@
 
 <style lang="scss">
 
+    .end-info {
+        font-style: italic;
+        line-height: 100%;
+        margin-top: 10px;
+        color: #c31200;
+        font-weight: 800;
+        text-align: justify;
+    }
+
     .summary {
         width: 100%;
         padding: 10px;
@@ -142,6 +155,7 @@
         margin: 5px 0px;
         border-radius: 5px;
         color: black;
+
         li {
             p {
                 span {
@@ -150,6 +164,7 @@
             }
         }
     }
+
     .cart-shadow {
         position: absolute;
         z-index: 1001;
@@ -223,6 +238,7 @@
             box-sizing: border-box;
             /* box-shadow: 0px 0px 3px 1px #8b8b8b; */
             border: 1px #e9e9e9 solid;
+            z-index: 2;
 
             form.order-form {
                 padding: 10px 0px;

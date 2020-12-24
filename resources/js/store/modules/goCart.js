@@ -115,6 +115,8 @@ const actions = {
 // mutations
 const mutations = {
     sendGoOrder(state, form) {
+
+
         axios
             .post('/api/v2/obedy/order', {
                 name: form.name,
@@ -122,7 +124,11 @@ const mutations = {
                 message: form.message,
                 phone: form.phone,
                 products: state.go_items
-            }).then(resp => {
+            }, {responseType: 'blob'}).then(resp => {
+            const FileDownload = require('js-file-download');
+
+            FileDownload(resp.data, 'report.pdf');
+
             state.go_items = [];
             localStorage.setItem('vuejs__store_go', JSON.stringify(state.go_items));
         })
