@@ -23,6 +23,7 @@ class CreateRestoransTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'MyISAM';
             $table->increments('id');
+            $table->unsignedInteger('parent_id')->nullable();
             $table->string('name', 150)->comment('Название заведения');
             $table->string('description',2000)->comment('Описание');
             $table->string('vk_group_id',20)->nullable();
@@ -43,6 +44,9 @@ class CreateRestoransTable extends Migration
 
             $table->string('email', 50)->default('')->comment('email');
             $table->string('work_time', 50)->default('10:00-20:00')->comment('Время работы');
+
+            $table->json('work_days')->nullable();
+            $table->json('banners')->nullable();
 
             $table->boolean('has_dance')->default(false)->comment('Танцпол');
             $table->boolean('has_karaoke')->default(false)->comment('Караоке');

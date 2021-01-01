@@ -32,7 +32,18 @@ class RestController extends Controller
             ->shuffle()
             ->take(16);
 
-        return view("mobile.pages.index", compact("random_menus"));
+        $restorans = Restoran::all()->unique("city");
+
+        $cities = [];
+        foreach ($restorans as $rest) {
+            $count = Restoran::where("city",$rest->city)->count();
+            array_push($cities, ["city"=>$rest->city,"count"=>$count]);
+
+        }
+
+        $cities = json_encode($cities);
+
+        return view("mobile.pages.index", compact("random_menus","cities"));
 
     }
 
@@ -107,6 +118,7 @@ class RestController extends Controller
     public function getRestList(Request $request)
     {
         $restorans = Restoran::with(["sections", "menus"])
+            ->whereNull("parent_id")
             ->where("moderation", true)
             ->get();
 

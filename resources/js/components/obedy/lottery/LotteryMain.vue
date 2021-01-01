@@ -7,14 +7,16 @@
                     Лотерея активна (до {{lottery.date_end}})
                 </div>
                 <div class="badge badge-danger" v-else>Лотерея не активна</div>
+                <p v-if="current_slot_count">Доступное число активаций <strong>{{current_slot_count}}</strong></p>
                 <div class="badge badge-danger" v-if="lottery.is_complete">Лотерея окончена</div>
                 <p>{{lottery.description}}</p>
 
-                <b-progress class="w-100" :value="lottery.place_count - lottery.free_place_count" :max="lottery.place_count" variant="success" height="30px" animated>
+                <b-progress class="w-100" :value="lottery.place_count - lottery.free_place_count"
+                            :max="lottery.place_count" variant="success" height="30px" animated>
 
                 </b-progress>
             </div>
-            <div class="col-sm-6 col-md-4 lottery-item-wrapper" v-for="n in lottery.place_count">
+            <div class="col-sm-4 col-md-3 lottery-item-wrapper" v-for="n in lottery.place_count">
                 <div class="lottery-item" @click="openAuthModal(n)">
                     <img v-lazy="'/img/logo_obed_go.jpg'" alt="" v-if="!isOccuped(n)">
                     <img v-lazy="'/img/logo_obed_go_occuped.jpg'" alt="" v-else>
@@ -71,6 +73,17 @@
             </form>
 
         </b-modal>
+
+        <b-modal id="accept-lottery" hide-footer hide-header>
+            <div class="row d-flex justify-content-center">
+                <p v-if="current_slot_count">Доступное число активаций <strong>{{current_slot_count}}</strong></p>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <button class="mt-3 btn btn-danger mr-2"  @click="$bvModal.hide('accept-lottery')">Отменить</button>
+                <button class="mt-3 btn btn-success"  @click="pick()">Подтвердить</button>
+            </div>
+
+        </b-modal>
     </div>
 
 </template>
@@ -84,6 +97,7 @@
         props: ["lottery_id"],
         data() {
             return {
+                current_slot_count: null,
                 message: null,
                 selected_place: null,
                 name: '',
@@ -93,10 +107,11 @@
                 lottery: null
             }
         },
+
         mounted() {
 
             this.loadLottery()
-            //Subscribe to the channel we specified in our Adonis Application
+
             pusher.subscribe('lottery-chanel').bind('lottery-event', (data) => {
                 console.log("startRaffle", data)
                 this.loadLottery()
@@ -105,8 +120,7 @@
         methods: {
 
             isOccuped(index) {
-                console.log("occuped", JSON.parse(this.lottery.occuped_places))
-                console.log("occuped" + JSON.parse(this.lottery.occuped_places).length)
+
                 let tmp = JSON.parse(this.lottery.occuped_places)
 
                 if (tmp.length === 0)
@@ -126,13 +140,17 @@
                     this.sendMessage("Данный слот уже кем-то занят! Попробуйте занять другой!", "error")
                     return;
                 }
-                console.log("index!=>", index)
+
+                if (this.current_slot_count != null) {
+                    this.selected_place = index;
+                    this.$bvModal.show('accept-lottery')
+                    return;
+                }
                 this.selected_place = index;
                 this.$bvModal.show('personal-info')
 
             },
             pick() {
-
                 if (this.isOccuped(this.selected_place)) {
                     this.sendMessage("Данный слот уже кем-то занят! Попробуйте занять другой!", "error")
                     return
@@ -151,19 +169,20 @@
                         email: this.email,
                         phone: this.phone,
                         index: this.selected_place
-
                     }).then(resp => {
                     this.selected_place = null;
 
+                    this.current_slot_count = resp.data.current_slot_count===0?null:resp.data.current_slot_count;
+
                     this.sendMessage("Спасибо! Слот успешно занят вами!")
 
+                    this.$bvModal.hide('accept-lottery')
                     this.$bvModal.hide('personal-info')
                 }).catch((resp) => {
 
                     this.message = resp.response.data.message
 
                 })
-
 
 
             },

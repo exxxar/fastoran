@@ -2,6 +2,28 @@
 <div class="cardOverlayCarousel owl-carousel mt-2">
     <!-- item -->
     <div class="item">
+        <a href="{{route('obedygo')}}" class="card card-overlay text-white">
+            <img src="/img/logo_obed_go.jpg" class="card-img img-fluid" alt="image">
+            <div class="card-img-overlay">
+                <div class="header row">
+                    <div class="col-8">ОбедыGO</div>
+                    <div class="col-4 text-right">
+                        до 15 %
+                    </div>
+                </div>
+                <div class="content">
+                    <h1>Доступные обеды на каждый день!</h1>
+                    <footer>
+                        <div class="date">
+                           Акции и скидки уже внутри!
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="item">
         <a href="{{route('mobile.sales')}}" class="card card-overlay text-white">
             <img src="{{asset('images/fastoran/sections/skidki.jpg')}}" class="card-img img-fluid" alt="image">
             <div class="card-img-overlay">

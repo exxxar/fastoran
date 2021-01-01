@@ -173,8 +173,8 @@
                                         <div class="row">
                                             <div class="col-12 mb--20">
                                                 <select v-model="delivery.city" required>
-                                                    <option value="Донецк">Донецк</option>
-                                                    <option value="Макеевка">Макеевка</option>
+                                                    <option :value="item.city" v-for="item in cities">{{item.city}}
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="col-12 mb--20">
@@ -191,7 +191,8 @@
                                             </div>
 
                                             <div class="col-12 mb--20">
-                                                <input placeholder="Улица" maxlength="100" type="text" v-model="delivery.street"
+                                                <input placeholder="Улица" maxlength="100" type="text"
+                                                       v-model="delivery.street"
                                                        required>
                                             </div>
                                             <div class="col-md-6  col-12 mb--20">
@@ -205,7 +206,8 @@
                                             </div>
 
                                             <div class="col-md-6 col-12 mb--20">
-                                                <input type="text" maxlength="100" v-model="delivery.first_name" placeholder="Ваше имя"
+                                                <input type="text" maxlength="100" v-model="delivery.first_name"
+                                                       placeholder="Ваше имя"
                                                        required>
                                             </div>
 
@@ -414,6 +416,7 @@
         data() {
             return {
 
+                cities: ["Донецк", "Макеевка"],
                 delivery_path: null,
                 delivery_path_stroke: {
                     color: '#ff0000',
@@ -471,6 +474,8 @@
             }
         },
         mounted() {
+
+            this.loadCities();
             this.is_valid = this.phone == null ? false : this.phone.length === 19
             let callback = (val, oldVal, uri) => {
                 this.$store.dispatch("getProductList")
@@ -498,6 +503,13 @@
             }
         },
         methods: {
+            loadCities() {
+                axios
+                    .get('/api/v1/restoran/cities')
+                    .then(resp => {
+                        this.cities = resp.data.cities
+                    })
+            },
             resetSelectedDatetime() {
                 this.delivery.receiver_delivery_time = '';
             },
@@ -628,7 +640,9 @@
                 let address = `Украина, г. ${this.delivery.city}, ${this.delivery.street}, ${this.delivery.home_number}`;
                 axios
                     .post("../api/v1/range_with_route/" + this.cartProducts[0].product.rest_id, {
-                        "address": address
+                        "address": address,
+                        "city": this.delivery.city,
+                        "parent_id": this.cartProducts[0].product.restoran.parent_id,
                     }).then(resp => {
 
                     this.preparedToSend = true;

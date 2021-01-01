@@ -155,8 +155,10 @@
             getFoodSub() {
                 return this.hasSub() ? JSON.parse(this.product.food_sub) : [];
             },
-            checkFirstRestoran(restId) {
-                return this.products.filter(item => item.product.rest_id !== this.product.rest_id).length === 0 || this.products.length === 0;
+            checkFirstRestoran() {
+                return this.products.filter(item => /*item.product.rest_id !== this.product.rest_id&&*/
+                    item.product.restoran.parent_id!== this.product.restoran.parent_id
+                ).length === 0 || this.products.length === 0;
             },
             inCartWeight(){
                 let tmp = this.products.filter(item => item.product.id === this.product.id);
@@ -167,7 +169,7 @@
                 return tmp.length === 0 ? 0 : tmp[0].quantity
             },
             openSubMenu() {
-                if (!this.checkFirstRestoran(this.product.rest_id)) {
+                if (!this.checkFirstRestoran()) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
                 }
@@ -175,7 +177,7 @@
                 this.$bvModal.show("modal-submenu-" + this.product.id)
             },
             addToCart() {
-                if (!this.checkFirstRestoran(this.product.rest_id)) {
+                if (!this.checkFirstRestoran()) {
                     this.sendMessage("Возможно одновременно заказать только из одного заведения!", 'error')
                     return;
                 }

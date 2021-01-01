@@ -13,6 +13,7 @@ class Restoran extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'parent_id',
         'name',
         'description',
         'vk_group_id',
@@ -33,7 +34,8 @@ class Restoran extends Model
         'site',
         'email',
         'work_time',
-
+        'work_days',
+        'banners',
         'has_dance',
         'has_karaoke',
         'has_wifi',
@@ -81,7 +83,7 @@ class Restoran extends Model
 
     public function getSimpleNameAttribute()
     {
-        $names = explode(" ",$this->name);
+        $names = explode(" ", $this->name);
 
         $vowels = array("'", "\"");
         $name = str_replace($vowels, "", implode(count($names) == 1 ? $names : array_slice($names, 1)));

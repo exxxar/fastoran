@@ -114,7 +114,9 @@ class HomeController extends Controller
                         $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"]) / 100 : 0;
 
 
-                        $rest = Restoran::with(["categories"])->where("name", $item["title"])->first();
+                        $rest = Restoran::with(["categories"])
+                            ->whereNull("parent_id")
+                            ->where("name", $item["title"])->first();
 
                         if (is_null($rest))
                             continue;

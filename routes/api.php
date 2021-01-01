@@ -39,6 +39,8 @@ Route::group(['prefix'=>'v2'],function (){
     });
 });
 
+
+
 Route::group(['prefix' => 'v1'], function () {
 
     Route::get("/maintenance",function (){
@@ -68,6 +70,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/rest-list/kitchen/{id}', 'RestController@getRestListByKitchen');
     Route::post('/send-request', 'RestController@sendRequest')->name("callback.request");
 
+    Route::get("/restoran/cities", "Fastoran\\RestoransController@cities")->name("cities");
 
     Route::group([
         'namespace' => 'Fastoran',
@@ -86,7 +89,9 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::post("check_valid_code", "OrderController@checkValidCode");
 
-
+        Route::get("restorans/cities", 'RestoransController@cities');
+        Route::get("restorans/cities/{name}", 'RestoransController@getRestoransInCity')
+            ->where(["name"=>"[а-яА-Я0-9]{2,20}"]);
 
         Route::resource('restorans', 'RestoransController');
         Route::resource('kitchens', 'SectionController');
@@ -98,6 +103,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::any("orders/{id}", "OrderController@show");
 
         Route::get("restorans/like/{id}", 'RestoransController@like');
+
+
         Route::get("restorans/dislike/{id}", 'RestoransController@dislike');
 
         Route::any('kitchens', 'SectionController@index');

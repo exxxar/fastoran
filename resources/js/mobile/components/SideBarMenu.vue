@@ -25,9 +25,21 @@
             <div class="sidebarGroup">
                 <ul class="sidebarMenu upperSidebar">
                     <li>
+                        <a href="/m/restoran/cities" title="Рестораны по городам" aria-label="Рестораны по городам">
+                            <i class="fas fa-city"></i>
+                            <strong>Рестораны по городам</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/obedygo" title="ОбедыГО" aria-label="ОбедыГО">
+                            <i class="far fa-thumbs-up"></i>
+                            <strong>Обеды GO</strong>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/m/sales" title="Скидкомания" aria-label="Скидкомания">
                             <i class="fas fa-percent mr-1"></i>
-                            <strong>СкидкаМания</strong>
+                            СкидкаМания
                         </a>
                     </li>
                     <li>
@@ -165,13 +177,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a href="https://t.me/it_rest_service_bot" target="_blank" rel="noreferrer"
-                           title="It Rest Service" aria-label="It Rest Service">
-                            <img v-lazy="'/images/fastoran/it-rest-bot.png'" alt="it_rest_service_bot" class="avatar">
-                            It Rest Service
-                        </a>
-                    </li>
 
                 </ul>
             </div>

@@ -2,7 +2,9 @@
 
 @section('content')
     @include("mobile.partials.main.card_carousel")
-
+    @include("mobile.partials.main.section_title",[ "title"=>"Города", "muted"=>"Заведения-партнеры"])
+    <mobile-cities :cities="{{$cities}}"></mobile-cities>
+    <div class="divider mt-1 mb-2"></div>
     @include("mobile.partials.main.section_title",[ "title"=>"Товары", "muted"=>"Наши направления"])
     <mobile-sections></mobile-sections>
     <!-- Post Carousel -->

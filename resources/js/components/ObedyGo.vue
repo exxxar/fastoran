@@ -10,9 +10,12 @@
                                        alt=""></div>
            </div>-->
 
+        <a class="fastoran-go" href="/">
+            <img src="/img/fastoran-icon.png" alt="">
+        </a>
         <div class="row d-flex justify-content-center flex-wrap w-100 m-0" v-if="part===0">
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item" @click="select(1)">
+                <div class="go-item" @click="select(1)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Стандарт</h3>
                     <!--<vue-custom-scrollbar class="scroll-area-1" :settings="settings">
@@ -32,7 +35,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item" @click="select(2)">
+                <div class="go-item" @click="select(2)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Экспрес</h3>
 
@@ -40,13 +43,13 @@
             </div>
             <div class="w-100"></div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item" @click="select(3)">
+                <div class="go-item" @click="select(3)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Премиум</h3>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center mt-2">
-                <div class="item" @click="select(4)">
+                <div class="go-item" @click="select(4)">
                     <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="">
                     <h3 class="text-center w-100">Собери сам</h3>
                 </div>
@@ -82,10 +85,9 @@
 
         <div class="row w-100 d-flex justify-content-center mt-5  mb-2 ">
             <h3 class="text-uppercase text-white text-center col-8 col-sm-8">Полное меню на неделю можно глянуть <a
-                href="#" class="text-danger font-weight-bold" v-b-modal.menu >ТУТ</a>
+                href="#" class="text-danger font-weight-bold" v-b-modal.menu>ТУТ</a>
             </h3>
         </div>
-
 
 
         <div class="row w-100 m-0" v-if="part>0">
@@ -129,7 +131,6 @@
             </ul>
 
         </ul>
-
 
 
         <b-modal id="about" hide-footer title="О Нас">
@@ -224,6 +225,23 @@
         },
         mounted() {
 
+            switch (window.location.hash) {
+                case "#standart":
+                    this.select(1);
+                    break;
+                case "#express":
+                    this.select(2);
+                    break;
+                case "#premium":
+                    this.select(3);
+                    break;
+                case "#self":
+                    this.select(4);
+                    break;
+                default:
+                    this.select(0);
+
+            }
             EventBus.$on('open-cart', () => {
                 this.is_cart_open = true
                 this.ready_to_order = true
@@ -285,6 +303,7 @@
             },
             select(index) {
                 this.part = index
+                window.scrollTo(0, 0);
             },
             selectLottery(id) {
                 console.log("select=>" + id)
@@ -414,69 +433,6 @@
 
     }
 
-    .item {
-        background-color: white;
-        width: 100%;
-        min-height: 275px;
-        box-sizing: border-box;
-        padding: 10px;
-        border: 1px #e9e9e9 solid;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0px 0px 5px 3px #000000;
-        border-radius: 20px 0px;
-        cursor: pointer;
-        position: relative;
-
-        &:after {
-            content: '';
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            border-top: 5px #c92919 solid;
-            border-right: 5px #c92919 solid;
-            width: 50px;
-            height: 50px;
-        }
-
-        &:before {
-            content: "";
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            border-top: 5px #c92919 solid;
-            border-left: 5px #c92919 solid;
-            width: 50px;
-            height: 50px;
-            border-radius: 20px 0px 0px 0px;
-        }
-
-        img {
-            width: 200px;
-            opacity: 0.1;
-            position: absolute;
-        }
-
-        & > p {
-            color: black;
-            font-size: 12px;
-
-        }
-
-        h3 {
-            text-transform: uppercase;
-            font-size: xxx-large;
-            color: #010101;
-            font-family: fantasy;
-
-            &:first-letter {
-                color: #c31200;
-            }
-        }
-
-    }
 
     .item-tab {
         width: 100%;
@@ -640,6 +596,31 @@
 
     .to-right:hover,
     .to-left:hover {
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .fastoran-go {
+        position: fixed;
+        top: 45px;
+        left: 0px;
+        /* height: 50px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* font-size: 24px; */
+        color: #e3342f;
+        padding: 10px;
+        z-index: 20;
+        background: white;
+        border-radius: 0px 5px 5px 0px;
+        box-shadow: 1px 1px 2px 0px #000000;
+        cursor: pointer;
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+
+
     }
 </style>

@@ -16,6 +16,7 @@
                             <ul class="mainmenu">
                                 <li class="drop"><a href="#restorans" aria-label="Переход к разделу ресторанов">Рестораны</a>
                                     <ul class="dropdown__menu">
+                                        <li><a href="{{route("obedygo")}}">ОбедыGO</a></li>
                                         @foreach($restorans as $rest)
                                             <li><a href="{{route("rest",$rest->url)}}">{{$rest->name}}</a></li>
                                         @endforeach

@@ -119,6 +119,7 @@
                     this.$store.dispatch("clearGoCart");
                 },
                 closeCart() {
+                    this.ready_to_order = false;
                     this.$emit("close")
                 },
                 sendOrder() {

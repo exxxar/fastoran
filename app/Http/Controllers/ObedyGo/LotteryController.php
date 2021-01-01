@@ -39,11 +39,17 @@ class LotteryController extends Controller
         ]);
 
         $promocode = LotteryPromocode::where("code", $request->get("code"))
-            ->where("is_activated", false)
+            ->where("max_activation_count", ">", "0")
             ->first();
+
 
         if (is_null($promocode))
             return response()->json(["message" => "Данный Код не найден!"], 404);
+
+        if ($promocode->max_activation_count == $promocode->current_activation_count)
+            return response()->json(["message" => "Данный Код уже использован"], 400);
+
+
         $lotteryId = $request->get("lottery_id");
 
         $lottery = Lottery::where("id", $lotteryId)
@@ -75,22 +81,22 @@ class LotteryController extends Controller
 
         $promocode->name = $request->get("name");
         $promocode->phone = $request->get("phone");
-        $promocode->email = $request->get("email")??'';
-        $promocode->is_activated = true;
+        $promocode->email = $request->get("email") ?? '';
+        $promocode->current_activation_count += 1;
         $promocode->lottery_id = $lotteryId;
         $promocode->save();
 
-        $message =  sprintf("Вы заняли #%s место в розыгрше %s",
+        $message = sprintf("Вы заняли #%s место в розыгрше %s",
             $index,
             $lottery->title
         );
 
         event(new SendSmsEvent($promocode->phone,
-               $message
+                $message
             )
         );
 
-        Mail::to( $promocode->email)
+        Mail::to($promocode->email)
             ->send(new LotteryMail($message));
 
 
@@ -106,7 +112,7 @@ class LotteryController extends Controller
             $lottery->save();
 
 
-            $message =  sprintf("Ваш #%s в розыгрыше %s оказался выигрышным! За деталями обратитесь к администратору сервиса.",
+            $message = sprintf("Ваш #%s в розыгрыше %s оказался выигрышным! За деталями обратитесь к администратору сервиса.",
                 $index,
                 $lottery->title
             );
@@ -116,7 +122,7 @@ class LotteryController extends Controller
                 )
             );
 
-            Mail::to( $promocode->email)
+            Mail::to($promocode->email)
                 ->send(new LotteryMail($message));
 
 
@@ -125,7 +131,10 @@ class LotteryController extends Controller
 
         event(new LotteryEvent($promocode->lottery_id));
 
-        return response()->json(["message" => "Промокод успешно активирован!"]);
+        return response()->json([
+            "message" => "Промокод успешно активирован!",
+            "current_slot_count" => ($promocode->max_activation_count - $promocode->current_activation_count)
+        ]);
 
 
     }

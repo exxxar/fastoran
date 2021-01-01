@@ -74,6 +74,7 @@ Vue.component('obedy-go', require('./components/ObedyGo.vue').default);
 
 Vue.component('tags-cloud-list', require('./components/TagsCloud.vue').default);
 
+Vue.component('cities', require('./components/Cities.vue').default);
 Vue.component('custom-order', require('./components/CustomOrder.vue').default);
 Vue.component('phone-order', require('./components/PhoneOrder.vue').default);
 Vue.component('deliveryman-quest-order', require('./components/DeliverymanQuestOrder.vue').default);
@@ -133,6 +134,7 @@ Vue.component('mobile-latest-order', require('./mobile/components/LatestOrders.v
 Vue.component('mobile-calc-slider', require('./mobile/components/calculators/CalcSlider.vue').default);
 Vue.component('mobile-custom-order', require('./mobile/components/CustomOrder.vue').default);
 Vue.component('mobile-restorans', require('./mobile/components/Restorans.vue').default);
+Vue.component('mobile-cities', require('./mobile/components/Cities.vue').default);
 Vue.component('mobile-sections', require('./mobile/components/SectionList.vue').default);
 Vue.component('mobile-sidebar-menu', require('./mobile/components/SideBarMenu.vue').default);
 

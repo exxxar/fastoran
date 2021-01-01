@@ -130,7 +130,8 @@ class ObedyGoController extends Controller
  <li>Сумма заказа <strong>$total_price руб.</strong></li>
  <li>Масса заказа <strong>$total_weight гр</strong></li>
  <li>Количество позиций в заказе <strong>$total_count ед.</strong></li>
- <li>Бесплатная доставка от 3х позиций!</li>
+ <li>Бесплатная доставка по Ворошиловскому району</li>
+ <li>Минимальный заказ - от <strong>3х</strong> порций</li>
  <li>Дата и время осуществления заказа <strong>$current_date!</strong></li>
 </ul>
 <hr>
@@ -190,7 +191,6 @@ $tmp
 <p>$code - всего доступно <strong>$promo_count</strong> активаций </p>
 <h4>Команда Обеды<span style='color:red'>GO</span> благодарит Вас за использование нашего сервиса! Мы стараемся быть лучше для Вас!</h4>
 ");
-
         $file = $mpdf->Output('report.pdf', \Mpdf\Output\Destination::STRING_RETURN);
 
         Storage::put("report.pdf", $file);

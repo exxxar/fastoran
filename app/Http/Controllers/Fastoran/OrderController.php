@@ -909,10 +909,20 @@ class OrderController extends Controller
     public function getRangeWithRoute(Request $request, $restId)
     {
         $request->validate([
-            'address' => 'required'
+            'address' => 'required',
+             "city"=>'required',
+            "parent_id"=>'required',
         ]);
 
-        $rest = Restoran::find($restId);
+        Log::info("parent_id=".$request->get("parent_id"));
+        Log::info("city=".$request->get("city"));
+
+        $rest = Restoran::where("parent_id",$request->get("parent_id"))
+            ->where("city",$request->get("city"))
+            ->first();
+
+        if (is_null($rest))
+            $rest = Restoran::find($restId);
 
         if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
             $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
@@ -944,10 +954,21 @@ class OrderController extends Controller
     public function getRange(Request $request, $restId)
     {
         $request->validate([
-            'address' => 'required'
+            'address' => 'required',
+            "city"=>'required',
+            "parent_id"=>'required',
         ]);
 
-        $rest = Restoran::find($restId);
+        $rest = Restoran::where("parent_id",$request->get("parent_id"))
+            ->where("city",$request->get("city"))
+            ->first();
+
+
+        if (is_null($rest))
+            $rest = Restoran::find($restId);
+
+
+
 
         if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
             $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);

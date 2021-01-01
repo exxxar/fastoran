@@ -3,10 +3,12 @@
 @section('content')
     @include("fastoran.partials.header")
     @include("fastoran.partials.food_slider_area_one")
+
+    @include("fastoran.partials.food__category__area")
+
     <calc-slider></calc-slider>
     @include("fastoran.partials.fb__service__area")
     @include("fastoran.partials.popular__food__area")
-    {{--    @include("fastoran.partials.food__category__area")--}}
 
     <tags-cloud-list></tags-cloud-list>
     {{--   @include("fastoran.partials.food__all_categories")--}}

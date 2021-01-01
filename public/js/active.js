@@ -481,7 +481,7 @@
 
     /*=========== Mobile Menu ===========*/
 
-    $('nav.main__menu__nav').meanmenu({
+  /*  $('nav.main__menu__nav').meanmenu({
         meanMenuClose: 'X',
         meanMenuCloseSize: '18px',
         meanScreenWidth: '991',
@@ -490,7 +490,7 @@
         onePage: true
     });
 
-    $(".meanmenu-reveal").attr({"aria-label":"Мобильное меню"});
+    $(".meanmenu-reveal").attr({"aria-label":"Мобильное меню"});*/
 
 
 

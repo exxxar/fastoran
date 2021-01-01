@@ -148,8 +148,12 @@
                 return this.hasSub() ? JSON.parse(this.product_data.food_sub) : [];
             },
             checkFirstRestoran(restId) {
-                return this.products.filter(item => item.product.rest_id !== this.product_data.rest_id).length === 0 || this.products.length === 0;
-            },
+                //console.log(this.product_data)
+                return this.products.filter(item => /*item.product.rest_id !== this.product.rest_id&&*/
+                    item.product.restoran.parent_id!== this.product_data.restoran.parent_id
+                ).length === 0 || this.products.length === 0;
+
+      },
             inCartWeight(){
                 let tmp = this.products.filter(item => item.product.id === this.product_id);
                 return tmp.length === 0 ? 0 : tmp[0].weight

@@ -9,6 +9,7 @@ use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class RestoransController extends Controller
@@ -20,7 +21,8 @@ class RestoransController extends Controller
      */
     public function index(Request $request)
     {
-        $restorans = Restoran::orderBy('id', 'DESC')
+        $restorans = Restoran::whereNull("parent_id")
+            ->orderBy('id', 'DESC')
             ->paginate(50);
 
         if ($request->ajax())
@@ -33,6 +35,46 @@ class RestoransController extends Controller
         return view('admin.restorans.index', compact('restorans'))
             ->with('i', ($request->get('page', 1) - 1) * 50);
     }
+
+
+    public function cities(Request $request)
+    {
+        $restorans = Restoran::all()->unique("city");
+
+        $cities = [];
+        foreach ($restorans as $rest) {
+            $count = Restoran::where("city", $rest->city)->count();
+            array_push($cities, ["city" => $rest->city, "count" => $count]);
+
+        }
+
+        if ($request->ajax())
+            return response()->json(["cities" => $cities]);
+
+        return view("mobile.pages.cities", ["cities" => json_encode($cities)]);
+    }
+
+    public function getRestoransInCityWeb(Request $request, $name){
+        $restorans = Restoran::where("city", $name)
+            ->get();
+
+        return view("rest-list", compact("restorans"));
+    }
+    public function getRestoransInCity(Request $request, $name)
+    {
+
+        $restorans = Restoran::where("city", $name)
+            ->get();
+
+        if ($request->ajax())
+            return response()
+                ->json([
+                    'restorans' => $restorans,
+                ]);
+
+        return view("mobile.pages.restorans", compact("restorans"));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -160,21 +202,24 @@ class RestoransController extends Controller
             ]);
     }
 
-    public function sales(){
-        $products = RestMenu::where("food_status",FoodStatusEnum::Promotion)->paginate(20);
+    public function sales()
+    {
+        $products = RestMenu::where("food_status", FoodStatusEnum::Promotion)->paginate(20);
 
         return response()
             ->json($products);
     }
 
-    public function sections(){
+    public function sections()
+    {
         $sections = Section::all();
 
         return response()->json($sections);
     }
 
-    public function showSection($id){
-        $section = Section::with(["restorans"])->where("id",$id)->first();
+    public function showSection($id)
+    {
+        $section = Section::with(["restorans"])->where("id", $id)->first();
 
         return response()->json($section);
     }
