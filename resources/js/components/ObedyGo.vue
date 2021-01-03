@@ -1,10 +1,6 @@
 <template>
     <div class="container-fluid d-flex align-items-center flex-wrap w-100 m-0 obedygo "
-         style="min-height: 100vh;padding:50px 10px 10px 10px;"
-
-         v-touch:swipe.left="swipeHandler(0)"
-         v-touch:swipe.right="swipeHandler(1)"
-    >
+         style="min-height: 100vh;padding:50px 10px 10px 10px;">
 
         <!--         v-touch:swipe.left="swipeHandler(0)"
          v-touch:swipe.right="swipeHandler(1)"-->
