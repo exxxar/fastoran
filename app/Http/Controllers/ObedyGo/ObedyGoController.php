@@ -201,7 +201,7 @@ $tmp
 
          Telegram::sendDocument([
              'chat_id' => env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"),
-             'document' =>InputFile::create(storage_path('app\public')."\\report.pdf"),
+             'document' =>InputFile::create(storage_path('app/public')."/report.pdf"),
          ]);
 
 
