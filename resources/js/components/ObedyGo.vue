@@ -586,18 +586,18 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100px;
+        width: 50px;
         height: 100vh;
-        z-index: 1;
+        z-index: 9;
     }
 
     .to-right {
         position: fixed;
         top: 0;
         right: 0;
-        width: 100px;
+        width: 50px;
         height: 100vh;
-        z-index: 1;
+        z-index: 9;
     }
 
     .to-right:hover,
