@@ -1,0 +1,576 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "food_part_id": 1,
+            "title": "Понедельник",
+            "day_index": 1,
+            "image": "img/go/pn.png",
+            "price": 99,
+            "positions": [
+                {
+                    "title": "Рис с овощами",
+                    "weight": 200
+                },
+                {
+                    "title": "Салат с морковью, медом и орехами",
+                    "weight": 100
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "food_part_id": 1,
+            "title": "Вторник",
+            "day_index": 2,
+            "image": "img/go/vt.png",
+            "price": 99,
+            "positions": [
+                {
+                    "title": "Гречка с грибами и курицей",
+                    "weight": 200
+                },
+                {
+                    "title": "Винегрет",
+                    "weight": 100
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "food_part_id": 1,
+            "title": "Среда",
+            "day_index": 3,
+            "image": "img/go/sr.png",
+            "price": 99,
+            "positions": [
+                {
+                    "title": "Жареный картофель с беконом и луком",
+                    "weight": 200
+                },
+                {
+                    "title": "Салат с капустой и огурцом",
+                    "weight": 100
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "food_part_id": 1,
+            "title": "Четверг",
+            "day_index": 4,
+            "image": "img/go/cht.png",
+            "price": 99,
+            "positions": [
+                {
+                    "title": "Паста Болоньезе",
+                    "weight": 200
+                },
+                {
+                    "title": "Оливье",
+                    "weight": 100
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "food_part_id": 1,
+            "title": "Пятница",
+            "day_index": 5,
+            "image": "img/go/pt.png",
+            "price": 99,
+            "positions": [
+                {
+                    "title": "Пюре с капустой и сосиской",
+                    "weight": 200
+                },
+                {
+                    "title": "Крабовый",
+                    "weight": 100
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "food_part_id": 3,
+            "title": "Понедельник",
+            "day_index": 1,
+            "image": "img/go/premium/pn.jpg",
+            "price": 99,
+            "positions": null
+        },
+        {
+            "id": 7,
+            "food_part_id": 3,
+            "title": "Вторник",
+            "day_index": 2,
+            "image": "img/go/premium/vt.jpg",
+            "price": 99,
+            "positions": null
+        },
+        {
+            "id": 8,
+            "food_part_id": 3,
+            "title": "Среда",
+            "day_index": 3,
+            "image": "img/go/premium/sr.jpg",
+            "price": 99,
+            "positions": null
+        },
+        {
+            "id": 9,
+            "food_part_id": 3,
+            "title": "Четверг",
+            "day_index": 4,
+            "image": "img/go/premium/cht.jpg",
+            "price": 99,
+            "positions": null
+        },
+        {
+            "id": 10,
+            "food_part_id": 3,
+            "title": "Пятница",
+            "day_index": 5,
+            "image": "img/go/premium/pt.jpg",
+            "price": 99,
+            "positions": null
+        },
+        {
+            "id": 11,
+            "food_part_id": 2,
+            "title": "Экспресс Макси",
+            "day_index": 7,
+            "image": "img/go/express/1.jpg",
+            "price": 200,
+            "weight": 430,
+            "positions": null
+        },
+        {
+            "id": 12,
+            "food_part_id": 2,
+            "title": "Экспресс Стандарт",
+            "day_index": 7,
+            "image": "img/go/express/2.jpg",
+            "price": 150,
+            "weight": 520,
+            "positions": null
+        },
+        {
+            "id": 13,
+            "food_part_id": 2,
+            "title": "Экспресс Мини",
+            "day_index": 7,
+            "image": "img/go/express/3.jpg",
+            "price": 125,
+            "weight": 480,
+            "positions": null
+        },
+        {
+            "id": 111,
+            "day_index": 7,
+            "food_part_id": 10,
+            "title": "Борщ",
+            "image": "img/go/additions/1.jpg",
+            "price": 50,
+            "weight": 100,
+            "category_id": 1,
+            "positions": null,
+            "addition": true
+        },
+        {
+            "id": 112,
+            "day_index": 7,
+            "food_part_id": 10,
+            "title": "Солянка",
+            "image": "img/go/additions/2.jpg",
+            "price": 60,
+            "weight": 100,
+            "category_id": 1,
+            "positions": null,
+            "addition": true
+        },
+        {
+            "id": 113,
+            "day_index": 7,
+            "food_part_id": 10,
+            "title": "Суп-лапша",
+            "image": "img/go/additions/3.jpg",
+            "price": 40,
+            "weight": 100,
+            "category_id": 1,
+            "positions": null,
+            "addition": true
+        },
+        {
+            "id":100000,
+            "food_part_id": 1,
+            "title": "Стандарт неделя",
+            "day_index": 7,
+            "image": "/img/logo_obed_go.jpg",
+            "price": 425,
+            "weight":1500,
+            "is_week": true,
+            "positions": [
+                {
+                    "title": "Понедельник",
+                    "weight": 300,
+                    "image": "img/go/pn.png"
+                },
+                {
+                    "title": "Вторник",
+                    "weight": 300,
+                    "image": "img/go/vt.png"
+                },
+                {
+                    "title": "Среда",
+                    "weight": 300,
+                    "image": "img/go/sr.png"
+                },
+                {
+                    "title": "Четверг",
+                    "weight": 300,
+                    "image": "img/go/cht.png"
+                },
+                {
+                    "title": "Пятница",
+                    "weight": 300,
+                    "image": "img/go/pt.png"
+                }
+
+            ]
+        },
+        {
+            "id":100000,
+            "food_part_id": 3,
+            "title": "Премиум неделя",
+            "day_index": 7,
+            "image": "/img/logo_obed_go.jpg",
+            "price": 638,
+            "weight":1500,
+            "is_week": true,
+            "positions": [
+                {
+                    "title": "Понедельник",
+                    "weight": 300,
+                    "image": "img/go/premium/pn.jpg"
+                },
+                {
+                    "title": "Вторник",
+                    "weight": 300,
+                    "image": "img/go/premium/vt.jpg"
+                },
+                {
+                    "title": "Среда",
+                    "weight": 300,
+                    "image": "img/go/premium/sr.jpg"
+                },
+                {
+                    "title": "Четверг",
+                    "weight": 300,
+                    "image": "img/go/premium/cht.jpg"
+                },
+                {
+                    "title": "Пятница",
+                    "weight": 300,
+                    "image": "img/go/premium/pt.jpg"
+                }
+
+            ]
+        },
+        {
+            "id": 201,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Брокколи",
+            "image": "img/go/custom/1.jpg",
+            "price": 99,
+            "weight": 50,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 202,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Томленая свинина",
+            "description": "в кисло-сладком соусе",
+            "image": "img/go/custom/2.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 203,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Куриное филе",
+            "description": "под сливочным соусом",
+            "image": "img/go/custom/3.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 204,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Курица карри",
+            "image": "img/go/custom/4.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 205,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Стручковая фасоль",
+            "image": "img/go/custom/5.jpg",
+            "price": 99,
+            "weight": 50,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 206,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Цветная капуста",
+            "description": "в кляре",
+            "image": "img/go/custom/6.jpg",
+            "price": 99,
+            "weight": 50,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 207,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Чечевица",
+            "image": "img/go/custom/7.jpg",
+            "price": 99,
+            "weight": 150,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 208,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Красный рис",
+            "image": "img/go/custom/8.jpg",
+            "price": 99,
+            "weight": 150,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 209,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Кускус",
+            "image": "img/go/custom/9.jpg",
+            "price": 99,
+            "weight": 150,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 210,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Бефстроганов",
+            "description": "c говядиной",
+            "image": "img/go/custom/10.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 211,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Булгур",
+            "image": "img/go/custom/11.jpg",
+            "price": 99,
+            "weight": 150,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 212,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Зеленый горошек",
+            "image": "img/go/custom/12.jpg",
+            "price": 99,
+            "weight": 50,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 213,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Маш",
+            "image": "img/go/custom/13.jpg",
+            "price": 99,
+            "weight": 150,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 214,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Морковка 'БЕБИ'",
+            "image": "img/go/custom/14.jpg",
+            "price": 99,
+            "weight": 50,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 215,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Окунь в слоусе 'Sweet chilli'",
+            "image": "img/go/custom/15.jpg",
+            "price": 99,
+            "weight": 150,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 216,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Винегрет",
+            "image": "img/go/custom/16.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 217,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Гречка",
+            "description": "c курицей и грибами",
+            "image": "img/go/custom/17.jpg",
+            "price": 99,
+            "weight": 200,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 218,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Салат",
+            "description": "из капусты и огурца",
+            "image": "img/go/custom/18.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 219,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Жареный картофель",
+            "description": "c беконом и луком",
+            "image": "img/go/custom/19.jpg",
+            "price": 99,
+            "weight": 200,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 220,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Салат крабовый",
+            "image": "img/go/custom/20.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 221,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Салат",
+            "description": "морковь, мед, орехи",
+            "image": "img/go/custom/21.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 222,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Салат 'Оливье'",
+            "image": "img/go/custom/22.jpg",
+            "price": 99,
+            "weight": 100,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 223,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Паста 'Болоньезе'",
+            "image": "img/go/custom/23.jpg",
+            "price": 99,
+            "weight": 200,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 224,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Пюре",
+            "description": "c капустой и сосиской",
+            "image": "img/go/custom/24.jpg",
+            "price": 99,
+            "weight": 200,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 225,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Бургер Iburger",
+            "image": "img/go/custom/25.jpg",
+            "price": 99,
+            "weight": 280,
+            "positions": null,
+            "addition": false
+        },
+        {
+            "id": 226,
+            "day_index": 7,
+            "food_part_id": 4,
+            "title": "Бургер Ichicken",
+            "image": "img/go/custom/26.jpg",
+            "price": 99,
+            "weight": 370,
+            "positions": null,
+            "addition": false
+        }
+    ]
+}
