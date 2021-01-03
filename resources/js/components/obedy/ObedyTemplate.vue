@@ -189,7 +189,7 @@
 
         width: 100%;
         min-height: 500px;
-        padding: 15px;
+        padding: 0px;
 
 
     }

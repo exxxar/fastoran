@@ -16,7 +16,7 @@
 
                 </b-progress>
             </div>
-            <div class="col-sm-4 col-md-3 lottery-item-wrapper" v-for="n in lottery.place_count">
+            <div class="col-sm-4 col-md-3 col-12 lottery-item-wrapper" v-for="n in lottery.place_count">
                 <div class="lottery-item" @click="openAuthModal(n)">
                     <img v-lazy="'/img/logo_obed_go.jpg'" alt="" v-if="!isOccuped(n)">
                     <img v-lazy="'/img/logo_obed_go_occuped.jpg'" alt="" v-else>

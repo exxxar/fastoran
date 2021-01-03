@@ -83,15 +83,15 @@
             </div>
         </div>
 
-        <div class="row w-100 d-flex justify-content-center mt-5 mb-5 ">
-            <h3 class="text-uppercase text-white text-center col-8 col-sm-8">Полное меню на неделю можно глянуть <a
+        <div class="row w-100 d-flex justify-content-center mt-5 mb-0 ml-0">
+            <h6 class="text-uppercase text-white text-center col-8 col-sm-8">Полное меню на неделю можно глянуть <a
                 href="#" class="text-danger font-weight-bold" v-b-modal.menu>ТУТ</a>
-            </h3>
+            </h6>
 
-            <h2 v-if="part===1">Стандарт</h2>
-            <h2 v-if="part===2">Экспресс</h2>
-            <h2 v-if="part===3">Премиум</h2>
-            <h2 v-if="part===4">Собери сам</h2>
+            <h1 v-if="part===1" class="text-uppercase w-100 text-white text-center mt-2 ml-0 mr-0">Стандарт</h1>
+            <h1 v-if="part===2" class="text-uppercase w-100 text-white text-center mt-2 ml-0 mr-0">Экспресс</h1>
+            <h1 v-if="part===3" class="text-uppercase w-100 text-white text-center mt-2 ml-0 mr-0">Премиум</h1>
+            <h1 v-if="part===4" class="text-uppercase w-100 text-white text-center mt-2 ml-0 mr-0">Собери сам</h1>
         </div>
 
 
@@ -137,6 +137,7 @@
 
         </ul>
 
+        <div v-if="part===0" class="mb-5 w-100"></div>
 
         <b-modal id="about" hide-footer title="О Нас">
             <img src="/img/logo_obed_go.jpg" class="img-fluid" alt="О нас">
