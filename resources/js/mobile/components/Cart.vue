@@ -106,7 +106,8 @@
                                     <div class="form-group">
                                         <label>Укажие ваше имя</label>
                                         <input type="text" class="form-control"
-                                               v-model="delivery.first_name" placeholder="Ваше имя" pattern="[A-Za-zА-Яа-я ]{2,32}"
+                                               v-model="delivery.first_name" placeholder="Ваше имя"
+                                               pattern="[A-Za-zА-Яа-я ]{2,32}"
                                                required>
                                     </div>
                                 </form>
@@ -181,12 +182,14 @@
                                                required>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Номер дома" type="text" maxlength="100" required
+                                        <input class="form-control" placeholder="Номер дома" type="text" maxlength="100"
+                                               required
                                                v-model="delivery.home_number">
                                     </div>
 
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Номер квартиры" maxlength="100" type="text"
+                                        <input class="form-control" placeholder="Номер квартиры" maxlength="100"
+                                               type="text"
                                                v-model="delivery.flat_number">
                                     </div>
 
@@ -201,7 +204,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                                <textarea class="form-control" maxlength="1000" v-model="delivery.more_info"
+                                                <textarea class="form-control" maxlength="1000"
+                                                          v-model="delivery.more_info"
                                                           placeholder="Дополнительная информация"></textarea>
                                     </div>
 
@@ -386,6 +390,11 @@
                                 v-if="cartProducts.length>0">
                             Очистить корзину
                         </button>
+                    </li>
+                    <li v-if="!isWorkDay()" class="d-flex justify-content-center flex-wrap">
+                        <h5 class="text-center bg-danger w-100 text-white mt-2 mb-2">ВЫХОДНОЙ ДЕНЬ! ВЫБРАННЫЙ ВАМИ
+                            РЕСТОРАН СЕГОДНЯ НЕ ОБСЛУЖИВАЕТ!</h5>
+                        <h6>Рабочие дни: {{getWorkDays()}}</h6>
                     </li>
                     <li>
                         <button class="btn btn-outline-info w-100 mt-1" type="submit"
@@ -579,6 +588,34 @@
                     this.promocode_message = "Ошибочный код!"
                 })
             },
+
+            isWorkDay() {
+                if (!this.cartProducts[0])
+                    return true;
+                let tmp = JSON.parse(this.cartProducts[0].product.restoran.work_days)
+
+                if (!tmp)
+                    return true;
+                let today = new Date();
+                return tmp[today.getDay()];
+            },
+            getWorkDays() {
+                if (!this.cartProducts[0])
+                    return null;
+
+                let tmp = JSON.parse(this.cartProducts[0].product.restoran.work_days)
+
+                if (!tmp)
+                    return null;
+                const days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+                let rez = "";
+
+                for (let index in tmp)
+                    if (tmp[index])
+                        rez += days[index] + ", "
+
+                return rez.slice(0, rez.length - 2)
+            },
             canMakeOrder() {
 
                 let acceptMinPrice = (this.getMinOrderSum() <= this.cartTotalPrice) || this.is_valid_promocode;
@@ -624,8 +661,8 @@
                 axios
                     .post("../api/v1/range_with_route/" + this.cartProducts[0].product.rest_id, {
                         "address": address,
-                        "city":this.delivery.city,
-                        "parent_id":this.cartProducts[0].product.restoran.parent_id,
+                        "city": this.delivery.city,
+                        "parent_id": this.cartProducts[0].product.restoran.parent_id,
                     }).then(resp => {
 
                     this.preparedToSend = true;

@@ -41,6 +41,7 @@
                     <strong>{{product.rest_info.work_time}}</strong>
                 </mark>
             </p>
+
         </div>
 
 

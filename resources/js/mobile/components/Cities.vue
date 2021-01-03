@@ -1,7 +1,7 @@
 <template>
     <div>
           <div class="itemCitiesList">
-            <a  :href="'/m/restoran/cities/'+item.city" class="city-item mb-1" v-for="item in cities">
+            <a  :href="'/m/restoran/cities/'+item.city" class="city-item-mobile mb-1" v-for="item in cities">
                 <h6 class="title">{{item.city}} <span class="badge badge-danger">{{item.count}}</span></h6>
             </a>
         </div>
@@ -15,7 +15,7 @@
 </script>
 <style lang="scss">
     .itemCitiesList {
-       .city-item {
+       .city-item-mobile {
            width: 100%;
            display: flex;
            justify-content: center;

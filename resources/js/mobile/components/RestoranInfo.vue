@@ -1,7 +1,9 @@
 <template>
     <div class="card mb-1">
         <div class="card-body">
-            <h5 class="card-title">{{restoran.name}}</h5>
+
+            <h4 class=" text-center"><span class="badge badge-danger" v-if="!isWorkDay()">ВЫХОДНОЙ ДЕНЬ! НЕ РАБОТАЕМ!</span></h4>
+            <h5 class="card-title text-center">{{restoran.name}}</h5>
 
 
             <figure>
@@ -12,6 +14,30 @@
             </figure>
 
             <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Наши акции
+                                <i class="arrow icon ion-ios-arrow-down"></i>
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                         data-parent="#accordionExample"
+                         style="">
+                        <div class="card-body">
+                            <p class="text-justify" v-if="getBanners()==null">Акций в данный момент нет</p>
+                            <ul class="banner-slider" v-else>
+                                <li v-for="banner in getBanners()">
+                                    <img v-lazy="banner" class="img-fluid" alt="">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
@@ -28,6 +54,8 @@
                         <div class="card-body">
                             <p class="text-justify">{{restoran.description}}</p>
                             <ul>
+                                <li>Время работы: {{restoran.work_time}}</li>
+                                <li v-if="getWorkDays()!=null">Рабочие дни: {{getWorkDays()}}</li>
                                 <li>Минимальная сумма доставки: {{restoran.min_sum}} руб.</li>
                                 <li>Цена доставки от: {{restoran.price_delivery}} руб.</li>
                             </ul>
@@ -70,6 +98,7 @@
 </template>
 <script>
     import {yandexMap, ymapMarker} from 'vue-yandex-maps'
+    import {v4 as uuidv4} from "uuid";
 
     export default {
         props: ["restoran"],
@@ -93,6 +122,35 @@
                 },
             }
         },
+        methods: {
+            getBanners() {
+                let tmp = JSON.parse(this.restoran.banners)
+                return tmp == null ? null : tmp
+            },
+            isWorkDay() {
+                let tmp = JSON.parse(this.restoran.work_days)
+
+                if (!tmp)
+                    return true;
+                let today = new Date();
+                return tmp[today.getDay()];
+            },
+            getWorkDays() {
+                let tmp = JSON.parse(this.restoran.work_days)
+
+                if (!tmp)
+                    return null;
+                const days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+                let rez = "";
+
+                for (let index in tmp)
+                    if (tmp[index])
+                        rez += days[index] + ", "
+
+                return rez.slice(0, rez.length - 2)
+            }
+        },
+
         components: {yandexMap, ymapMarker}
     }
 </script>
@@ -105,6 +163,7 @@
 
     figure {
         border: 1px #fcb414 solid;
+
         figcaption {
             background: #fcb414;
             border-radius: 0;
@@ -112,6 +171,26 @@
             font-weight: 600;
             text-transform: uppercase;
             margin: 0;
+        }
+    }
+
+    .banner-slider {
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+        overflow-y: scroll;
+
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            height: 100%;
+
+            img {
+                height: inherit;
+                object-fit: cover;
+            }
         }
     }
 </style>

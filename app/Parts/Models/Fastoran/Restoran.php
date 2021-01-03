@@ -34,8 +34,10 @@ class Restoran extends Model
         'site',
         'email',
         'work_time',
-        'work_days',
-        'banners',
+
+        'work_days', //new
+        'banners',//new
+
         'has_dance',
         'has_karaoke',
         'has_wifi',
