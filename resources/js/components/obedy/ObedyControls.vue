@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex justify-content-center">
  <!--       <div class="additions-days" v-if="product.addition&&inCart()>0">
             <div class="row d-flex justify-content-around align-items-center">
 
@@ -167,13 +167,18 @@
 
     .cnt-container {
         position: relative;
+        display: flex;
+        justify-content: space-around;
+        width:100%;
+        max-width: 250px;
+        padding: 10px 0px;
 
         .sub-btn {
             position: absolute;
             padding: 10px;
             border-radius: 5px;
             top: -30px;
-            right: -14px;
+            right: 0px;
             /* opacity: 0.5; */
             box-shadow: 1px 1px 2px 0px #000000;
             transition: 0.3s;
