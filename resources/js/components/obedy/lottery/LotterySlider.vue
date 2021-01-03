@@ -1,6 +1,6 @@
 <template>
     <div class="row mt-2 mb-2 d-flex justify-content-center flex-wrap">
-        <div class="col-md-6 col-lg-4 col-sm-6 col-12 " v-for="item in list">
+        <div class="col-md-6 col-lg-4 col-sm-12 col-12 " v-for="item in list">
             <div class="lottery-slide mb-3">
                 <img v-lazy="item.image" alt="">
                 <p class="inf">Мест: <strong>{{ item.place_count - item.free_place_count }} / {{ item.place_count
