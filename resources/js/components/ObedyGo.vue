@@ -1,6 +1,10 @@
 <template>
     <div class="container-fluid d-flex align-items-center flex-wrap w-100 m-0 obedygo "
-         style="min-height: 100vh;padding:50px 10px 10px 10px;">
+         style="min-height: 100vh;padding:50px 10px 10px 10px;"
+
+         v-touch:swipe.left="swipeHandler(0)"
+         v-touch:swipe.right="swipeHandler(1)"
+    >
 
         <!--         v-touch:swipe.left="swipeHandler(0)"
          v-touch:swipe.right="swipeHandler(1)"-->
@@ -83,10 +87,15 @@
             </div>
         </div>
 
-        <div class="row w-100 d-flex justify-content-center mt-5  mb-2 ">
+        <div class="row w-100 d-flex justify-content-center mt-5 mb-5 ">
             <h3 class="text-uppercase text-white text-center col-8 col-sm-8">Полное меню на неделю можно глянуть <a
                 href="#" class="text-danger font-weight-bold" v-b-modal.menu>ТУТ</a>
             </h3>
+
+            <h2 v-if="part===1">Стандарт</h2>
+            <h2 v-if="part===2">Экспресс</h2>
+            <h2 v-if="part===3">Премиум</h2>
+            <h2 v-if="part===4">Собери сам</h2>
         </div>
 
 
