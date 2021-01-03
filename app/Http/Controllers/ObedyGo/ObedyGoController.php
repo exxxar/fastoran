@@ -196,13 +196,13 @@ $tmp
         Storage::put("report.pdf", $file);
 
 
-        /* Mail::to("exxxar@gmail.com")
-             ->send(new \App\Mail\CheckMail(storage_path('app\public')."\\codes.pdf"));
+       /*  Mail::to()
+             ->send(new \App\Mail\CheckMail(storage_path('app\public')."\\codes.pdf"));*/
 
          Telegram::sendDocument([
-             'chat_id' => env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
-             'document' =>InputFile::create(storage_path('app\public')."\\codes.pdf"),
-         ]);*/
+             'chat_id' => env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"),
+             'document' =>InputFile::create(storage_path('app\public')."\\report.pdf"),
+         ]);
 
 
         return $mpdf->Output("report.pdf", 'I');

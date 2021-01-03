@@ -178,7 +178,7 @@
             padding: 10px;
             border-radius: 5px;
             top: -30px;
-            right: 0px;
+            right: -14px;
             /* opacity: 0.5; */
             box-shadow: 1px 1px 2px 0px #000000;
             transition: 0.3s;
