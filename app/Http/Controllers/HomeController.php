@@ -75,7 +75,6 @@ class HomeController extends Controller
                 ]);
 
 
-                //работает
                 foreach ($response["response"]["items"] as $item) {
                     //echo $item["id"].$item["title"]." ".$item["photo"]["photo_807"]."<br>";
 
@@ -113,10 +112,8 @@ class HomeController extends Controller
                         $price = intval($item2["price"]["amount"]) / 100;//$matches[0][0] ?? 0;
                         $tmp_old_price = isset($item2["price"]["old_amount"]) ? intval($item2["price"]["old_amount"]) / 100 : 0;
 
-
                         $rest = Restoran::with(["categories"])
-                            ->whereNull("parent_id")
-                            ->where("name", $item["title"])->first();
+                            ->where("name", $item["title"])->distinct('parent_id')->first();
 
                         if (is_null($rest))
                             continue;

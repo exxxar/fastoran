@@ -70,12 +70,18 @@
                 <div class="d-block text-center">
 
 
-                    <b-form-checkbox-group :id="'modal-submenu-check-'+product.id" v-model="selected" name="flavour-2">
+                    <b-form-checkbox-group :id="'modal-submenu-check-'+product.id" class="sub-list" v-model="selected" name="flavour-2">
 
                         <li class="sub-item" v-for="sub in getFoodSub()">
 
                             <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
                             </b-form-checkbox>
+
+                           <!-- <div class="sub-controls d-flex justify-content-between align-items-center">
+                                <button class="btn btn-danger">+</button>
+                                <p>0</p>
+                                <button class="btn btn-danger">-</button>
+                            </div>-->
 
                         </li>
                     </b-form-checkbox-group>
@@ -217,6 +223,18 @@
 
 <style lang="scss" scoped>
 
+    .sub-list {
+        height: 300px;
+        overflow-y: scroll;
+        .sub-item {
+           .sub-controls {
+               p {
+                   margin: 0;
+                   padding: 0;
+               }
+            }
+        }
+    }
     .custom-control {
         margin-bottom: 0px;
     }

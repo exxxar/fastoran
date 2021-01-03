@@ -38,12 +38,17 @@ use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::get('/eventtest',function (){
-   // event(new \App\Events\LotteryEvent(1));
+
+    $rest = Restoran::with(["categories"])
+        ->where("name", "Ресторан \"Diner\"")->distinct('parent_id')->first();
+
+    dd($rest);
+ /*  // event(new \App\Events\LotteryEvent(1));
 
     Telegram::sendDocument([
         'chat_id' => env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"),
         'document' =>InputFile::create(storage_path('app\public')."\\codes.pdf"),
-    ]);
+    ]);*/
 });
 
 Route::view("/banned", "banned")->name("banned");
@@ -151,7 +156,7 @@ Route::get('/profile', 'Fastoran\\OrderController@getOrderHistory')->middleware(
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/vkontakte', "HomeController@uploadVk")->middleware('auth');
+Route::get('/vkontakte', "HomeController@uploadVk");//->middleware('auth');
 
 
 Route::prefix('admin')->group(function () {

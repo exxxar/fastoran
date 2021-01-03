@@ -30,7 +30,11 @@ const getters = {
             return 0;
 
         let summ = 0;
+        console.log("cartTotalPrice")
         state.items.forEach((item) => {
+            /*console.log(item.product.selected_sub)
+            console.log(item.quantity)*/
+            //console.log(JSON.parse(item.product.food_sub))
             if (item.weight) {
                 summ += item.product.food_price * (item.weight/item.product.food_ext)
             }

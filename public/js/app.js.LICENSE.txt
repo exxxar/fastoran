@@ -13,6 +13,20 @@
  */
 
 /*!
+ * Glide.js v3.4.1
+ * (c) 2013-2019 Jędrzej Chałubek <jedrzej.chalubek@gmail.com> (http://jedrzejchalubek.com/)
+ * Released under the MIT License.
+ */
+
+/*!
+ * Pusher JavaScript Library v7.0.2
+ * https://pusher.com/
+ *
+ * Copyright 2020, Pusher
+ * Released under the MIT licence.
+ */
+
+/*!
  * Sizzle CSS Selector Engine v2.3.5
  * https://sizzlejs.com/
  *
@@ -41,6 +55,12 @@
  * https://jquery.org/license
  *
  * Date: 2020-05-04T22:49Z
+ */
+
+/*!
+ * perfect-scrollbar v1.5.0
+ * Copyright 2020 Hyunje Jun, MDBootstrap and Contributors
+ * Licensed under MIT
  */
 
 /*!
