@@ -105,11 +105,11 @@ class RestController extends Controller
 
     public function getAllMenu(Request $request)
     {
-        $products = RestMenu::paginate(20);
+        $products = RestMenu::paginate(50);
 
         try {
             return view('product-list', compact('products'))
-                ->with('i', ((intval($request->get('page', 1) - 1)) ?? 0) * 20);
+                ->with('i', ((intval($request->get('page', 1) - 1)) ?? 0) * 50);
         } catch (\Exception $e) {
             return view('product-list', compact('products'));
         }
