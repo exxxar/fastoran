@@ -280,7 +280,7 @@ class OrderController extends Controller
             ($order->client ?? "fastoran.com"),
             ($rest->name ?? "Заведение без имени (ошибка)"),
             ($order->receiver_name ?? $user->name ?? 'Без имени'),
-            $this->prepareNumber($order->receiver_phone ?? $user->phone ),
+            $this->preparePhone($order->receiver_phone ?? $user->phone ),
             $delivery_order_tmp,
             ($order->receiver_order_note ?? "Не указана"),
             ($tmp_custom_details ?? "Нет дополнительных позиций"),
