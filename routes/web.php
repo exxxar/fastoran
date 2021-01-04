@@ -60,15 +60,16 @@ Route::view("/obedygo", "fastoran.obedygo")->name("obedygo");
 Route::prefix('m')->group(function () {
     Route::get("/", "RestController@mobile")->name("mobile.index");
     Route::get("/restorans", function () {
-        $restorans = Restoran::where("moderation", true)->get()->shuffle();
+        $restorans = Restoran::where("moderation", true)->get()->unique('parent_id');
+
         return view("mobile.pages.restorans", compact("restorans"));
     })->name("mobile.restorans");
 
-    Route::get("/restoran/{domain}/{city?}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
 
     Route::get("/restoran/cities", "Fastoran\\RestoransController@cities")->name("mobile.cities");
     Route::get("/restoran/cities/{name}", "Fastoran\\RestoransController@getRestoransInCity")->name("mobile.city.restoran");
 
+    Route::get("/restoran/{domain}/{city?}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
 
     Route::view("/tags-cloud", "mobile.pages.tags-cloud")->name("mobile.tags-cloud");
     Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");
