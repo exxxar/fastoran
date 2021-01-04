@@ -264,26 +264,28 @@ class OrderController extends Controller
 
 
         $message_channel = sprintf(
+            "Город: *%s*\n\n".
             "*Заявка #%s* (из %s)\n" .
-            "Ресторан:_%s_\n" .
-            "Ф.И.О.:_%s_\n" .
-            "Телефон:_%s_\n" .
-            "Заказ:\n%s\n" .
-            "Заметка к заказу:\n%s\n\n%s\n" .
+            "Ресторан: _%s_\n" .
+            "Ф.И.О.: _%s_\n" .
+            "Телефон: _%s_\n" .
+            "Заказ: \n%s\n" .
+            "Заметка к заказу: \n%s\n\n%s\n" .
             "Время доставки: %s\n" .
-            "Адрес доставки:%s\n" .
-            "Цена основного заказа:*%s руб.*"
+            "Адрес доставки: %s\n" .
+            "Цена основного заказа: *%s руб.*"
             ,
+            ($request->get("city")??"Ошибка идентификации города"),
             $order->id,
-            $order->client ?? "fastoran.com",
-            $rest->name ?? "Заведение без имени (ошибка)",
-            $order->receiver_name ?? $user->name ?? 'Без имени',
-            $order->receiver_phone ?? $user->phone ?? 'Без номера телефона (ошибка)',
+            ($order->client ?? "fastoran.com"),
+            ($rest->name ?? "Заведение без имени (ошибка)"),
+            ($order->receiver_name ?? $user->name ?? 'Без имени'),
+            $this->prepareNumber($order->receiver_phone ?? $user->phone ),
             $delivery_order_tmp,
-            $order->receiver_order_note ?? "Не указана",
-            $tmp_custom_details ?? "Нет дополнительных позиций",
-            $order->receiver_delivery_time ?? "По готовности",
-            $order->receiver_address ?? "Не задан",
+            ($order->receiver_order_note ?? "Не указана"),
+            ($tmp_custom_details ?? "Нет дополнительных позиций"),
+            ($order->receiver_delivery_time ?? "По готовности"),
+            ($order->receiver_address ?? "Не задан"),
             $order->summary_price
         );
 
@@ -910,15 +912,15 @@ class OrderController extends Controller
     {
         $request->validate([
             'address' => 'required',
-             "city"=>'required',
-            "parent_id"=>'required',
+            "city" => 'required',
+            "parent_id" => 'required',
         ]);
 
-        Log::info("parent_id=".$request->get("parent_id"));
-        Log::info("city=".$request->get("city"));
+        Log::info("parent_id=" . $request->get("parent_id"));
+        Log::info("city=" . $request->get("city"));
 
-        $rest = Restoran::where("parent_id",$request->get("parent_id"))
-            ->where("city",$request->get("city"))
+        $rest = Restoran::where("parent_id", $request->get("parent_id"))
+            ->where("city", $request->get("city"))
             ->first();
 
         if (is_null($rest))
@@ -955,19 +957,17 @@ class OrderController extends Controller
     {
         $request->validate([
             'address' => 'required',
-            "city"=>'required',
-            "parent_id"=>'required',
+            "city" => 'required',
+            "parent_id" => 'required',
         ]);
 
-        $rest = Restoran::where("parent_id",$request->get("parent_id"))
-            ->where("city",$request->get("city"))
+        $rest = Restoran::where("parent_id", $request->get("parent_id"))
+            ->where("city", $request->get("city"))
             ->first();
 
 
         if (is_null($rest))
             $rest = Restoran::find($restId);
-
-
 
 
         if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {

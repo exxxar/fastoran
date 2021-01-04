@@ -54,12 +54,14 @@ class RestoransController extends Controller
         return view("mobile.pages.cities", ["cities" => json_encode($cities)]);
     }
 
-    public function getRestoransInCityWeb(Request $request, $name){
+    public function getRestoransInCityWeb(Request $request, $name)
+    {
         $restorans = Restoran::where("city", $name)
             ->get();
 
         return view("rest-list", compact("restorans"));
     }
+
     public function getRestoransInCity(Request $request, $name)
     {
 
@@ -103,10 +105,15 @@ class RestoransController extends Controller
      * @param \App\Restoran $restorans
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function show(Request $request, $domain)
+    public function show(Request $request, $domain, $city = null)
     {
-        $restoran = Restoran::where("url", $domain)
-            ->first();
+
+        $restoran = is_null($city) ?
+            Restoran::where("url", $domain)
+                ->first() :
+            Restoran::where("url", $domain)
+                ->where("city", $city)
+                ->first();
 
         if (is_null($restoran))
             return redirect()->route("mobile.index");
@@ -114,6 +121,7 @@ class RestoransController extends Controller
 
         return view("mobile.pages.restoran-info", compact("restoran"));
     }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -64,10 +64,12 @@ Route::prefix('m')->group(function () {
         return view("mobile.pages.restorans", compact("restorans"));
     })->name("mobile.restorans");
 
+    Route::get("/restoran/{domain}/{city?}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
+
     Route::get("/restoran/cities", "Fastoran\\RestoransController@cities")->name("mobile.cities");
     Route::get("/restoran/cities/{name}", "Fastoran\\RestoransController@getRestoransInCity")->name("mobile.city.restoran");
 
-    Route::get("/restoran/{domain}", "Fastoran\\RestoransController@show")->name("mobile.restoran");
+
     Route::view("/tags-cloud", "mobile.pages.tags-cloud")->name("mobile.tags-cloud");
     Route::view("/profile", "mobile.pages.restorans")->name("mobile.profile");
 
@@ -98,7 +100,7 @@ Route::any('/search', 'RestController@searchFood')->name("search");
 
 Route::get("/restoran/cities/{name}", "Fastoran\\RestoransController@getRestoransInCityWeb");
 
-Route::get('/rest/{domain}', 'RestController@getRestByDomain')->name("rest");
+Route::get('/rest/{domain}/{city?}', 'RestController@getRestByDomain')->name("rest");
 Route::get('/all-menu', 'RestController@getAllMenu')->name("all.menu");
 
 

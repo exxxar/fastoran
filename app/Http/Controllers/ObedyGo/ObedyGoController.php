@@ -80,7 +80,6 @@ class ObedyGoController extends Controller
             }
 
 
-
             if (!$tmp_product->is_week) {
                 $day_index = $tmp_product->day_index;
 
@@ -90,8 +89,7 @@ class ObedyGoController extends Controller
 
                 $order_date = Carbon::now()->addDays($order_date);
                 $order_date = ($order_date->day . "-" . $order_date->month . "-" . $order_date->year);
-            }
-            else
+            } else
                 $order_date = "Всю следующую неделю";
 
             if ($tmp_product->addition) {
@@ -191,22 +189,46 @@ $tmp
 <p>$code - всего доступно <strong>$promo_count</strong> активаций </p>
 <h4>Команда Обеды<span style='color:red'>GO</span> благодарит Вас за использование нашего сервиса! Мы стараемся быть лучше для Вас!</h4>
 ");
-        $file = $mpdf->Output('report.pdf', \Mpdf\Output\Destination::STRING_RETURN);
+        $file = $mpdf->Output("order-$phone.pdf", \Mpdf\Output\Destination::STRING_RETURN);
 
-        Storage::put("report.pdf", $file);
-
-
-       /*  Mail::to()
-             ->send(new \App\Mail\CheckMail(storage_path('app\public')."\\codes.pdf"));*/
-
-         Telegram::sendDocument([
-             'chat_id' => env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"),
-             'document' =>InputFile::create(storage_path('app/public')."/report.pdf"),
-         ]);
+        Storage::put("order-$phone.pdf", $file);
 
 
-        return $mpdf->Output("report.pdf", 'I');
+        /*  Mail::to()
+              ->send(new \App\Mail\CheckMail(storage_path('app\public')."\\codes.pdf"));*/
+
+
+        Telegram::sendDocument([
+            'chat_id' => env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"),
+            'document' => InputFile::create(storage_path('app/public') . "/order-$phone.pdf"),
+            'parse_mode'=>"Markdown",
+            'caption' => sprintf((
+                "*Заявка ОбедыGO:*\n" .
+                "Время заказа: *%s* \n" .
+                "Номер телефона: *%s*\n" .
+                "Имя покупателя: *%s*\n" .
+                "Адрес доставки: *%s*\n" .
+                "Сообщение от пользователя: *%s*\n" .
+                "Суммарная масса продукции: *%s* гр.\n" .
+                "Суммарная цена продукции: *%s* руб.\n" .
+                "Суммарное число порций: *%s* ед."
+
+            ),
+                $current_date,
+                $phone,
+                $name,
+                $address,
+                $message,
+                $total_weight,
+                $total_price,
+                $total_count
+            ),
+        ]);
+
+        event(new SendSmsEvent($phone, "Мы получили вашу заявку на заказ из сервиса ОбедыGO!"));
+        Storage::delete("order-$phone.pdf");
+        return $mpdf->Output("order-$phone.pdf", 'I');
         //$this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
-        //event(new SendSmsEvent($user->phone, "Ваш заказ #$order->id (fastoran.com) будет принят в обработку с 10:00!"));
+
     }
 }

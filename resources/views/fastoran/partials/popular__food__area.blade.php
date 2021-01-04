@@ -49,7 +49,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-6 foo">
                     <div class="popular__food">
                         <div class="pp_food__thumb">
-                            <a href="{{route("rest",$rest->url)}}">
+                            <a href="{{route("rest",["domain"=>$rest->url,"city"=>$rest->city])}}">
                                 <img class="lazyload" data-src="{{$rest->logo}}"
                                      alt="popular food">
                             </a>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="pp__food__inner">
                             <div class="pp__food__details">
-                                <h4><a href="{{route("rest",$rest->url)}}">
+                                <h4><a href="{{route("rest",["domain"=>$rest->url,"city"=>$rest->city])}}">
                                         {{$rest->name}}</a></h4>
                                 <ul class="pp__meta d-flex flex-wrap">
                                     {{-- <li><a href="#"><i class="zmdi zmdi-comment-outline"></i>{{$rest->comments_count}}
@@ -74,7 +74,7 @@
                                 <div class="pp__food__bottom d-flex justify-content-between align-items-center">
                                     <div class="pp__btn">
                                         <a class="food__btn btn--transparent btn__hover--theme btn__hover--theme"
-                                           href="{{route("rest",$rest->url)}}">Меню ресторана</a>
+                                           href="{{route("rest",["domain"=>$rest->url,"city"=>$rest->city])}}">Меню ресторана</a>
                                     </div>
 
                                 </div>

@@ -7,7 +7,7 @@
         </div>
 
         <div class="itemList">
-            <a :href="'/m/restoran/'+rest.url" class="item" v-for="rest in tmp_restorans">
+            <a :href="'/m/restoran/'+rest.url+'/'+rest.city" class="item" v-for="rest in tmp_restorans">
                 <div class="image">
                     <img v-lazy="rest.logo" alt="image">
                 </div>

@@ -8,6 +8,7 @@ use App\Parts\Models\Fastoran\MenuCategory;
 use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Facades\Agent;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -36,14 +37,14 @@ class RestController extends Controller
 
         $cities = [];
         foreach ($restorans as $rest) {
-            $count = Restoran::where("city",$rest->city)->count();
-            array_push($cities, ["city"=>$rest->city,"count"=>$count]);
+            $count = Restoran::where("city", $rest->city)->count();
+            array_push($cities, ["city" => $rest->city, "count" => $count]);
 
         }
 
         $cities = json_encode($cities);
 
-        return view("mobile.pages.index", compact("random_menus","cities"));
+        return view("mobile.pages.index", compact("random_menus", "cities"));
 
     }
 
@@ -152,16 +153,20 @@ class RestController extends Controller
         return view("rest-list", compact("restorans", "kitchen"));
     }
 
-    public function getRestByDomain(Request $request, $domain)
+    public function getRestByDomain(Request $request, $domain, $city = null)
     {
 
-        $restoran = Restoran::with(["sections", "categories", "categories.menus"])->where("url", $domain)
+
+        $restoran = Restoran::with(["sections", "categories", "categories.menus"])
+            ->where("url", $domain)
             ->first();
+
 
         if (is_null($restoran))
             return redirect()->route("main");
 
-        $products = RestMenu::where("rest_id", $restoran->id)->paginate(200);
+
+        $products = RestMenu::where("rest_id", $restoran->parent_id)->get();
 
         if ($request->ajax())
             return response()
@@ -169,7 +174,7 @@ class RestController extends Controller
                     'restoran' => $restoran
                 ]);
 
-        return view("rest", compact("restoran", "products"))
+        return view("rest", ["restoran" => $restoran, "products" => $products])
             ->with('i', ($request->get('page', 1) - 1) * 200);
     }
 

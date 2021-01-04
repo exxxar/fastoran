@@ -709,7 +709,8 @@
                         receiver_domophone: '',
                         take_by_self: this.take_by_self,
                         order_details: products,
-                        custom_details: this.custom_products
+                        custom_details: this.custom_products,
+                        city: this.delivery.city
 
 
                     })

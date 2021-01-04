@@ -33,6 +33,7 @@
             }
         },
         mounted() {
+
             this.loadCategories()
 
         },
@@ -42,6 +43,7 @@
                 axios
                     .get("/api/v1/fastoran/menu_categories_in_rest/"+this.restoran_id)
                     .then(resp => {
+
                         this.categories = resp.data.menu_categories
                         this.preloader = false;
                         this.loadProducts(this.categories[0].id)

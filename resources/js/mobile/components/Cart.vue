@@ -730,7 +730,8 @@
                         take_by_self: this.take_by_self,
                         order_details: products,
                         custom_details: this.custom_products,
-                        client: 'PWA'
+                        client: 'PWA',
+                        city: this.delivery.city
 
 
                     })

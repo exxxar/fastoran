@@ -35,6 +35,7 @@
         mounted() {
             this.loadCategories()
 
+
         },
         methods: {
             loadCategories() {

@@ -3,7 +3,7 @@
 @section('content')
     @include("mobile.partials.restorans.restoran-info")
     <div class="divider mt-1 mb-1"></div>
-    <mobile-product-list restoran_id="{{$restoran->id}}"></mobile-product-list>
+    <mobile-product-list restoran_id="{{$restoran->parent_id}}"></mobile-product-list>
 
     <div class="divider mt-2 mb-2"></div>
     @include("mobile.partials.main.section_title",[ "title"=>"Категории", "muted"=>"Еще больше категорий", "link"=>route('mobile.tags-cloud')])
