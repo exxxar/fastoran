@@ -70,7 +70,7 @@ class HomeController extends Controller
 
             foreach ($tmp_ids as $tmp_id) {
                 $response = $api->request('market.getAlbums', [
-                    'owner_id' => $tmp_id->id,
+                    'owner_id' => $tmp_id["id"],
                     'count' => 50
                 ]);
 
@@ -79,7 +79,7 @@ class HomeController extends Controller
                     //echo $item["id"].$item["title"]." ".$item["photo"]["photo_807"]."<br>";
 
                     $response2 = $api->request('market.get', [
-                        'owner_id' => $tmp_id->id,
+                        'owner_id' => $tmp_id["id"],
                         'album_id' => $item["id"],
                         'count' => 200,
                     ]);
