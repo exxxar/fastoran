@@ -5,7 +5,7 @@
                 <button class="btn btn-link" @click="closeCart()">Закрыть</button>
             </div>
 
-            <vue-custom-scrollbar class="scroll-area" :settings="settings" :tagname="'ul'">
+            <vue-custom-scrollbar class="scroll-area scroll-area-bottom" :settings="settings" :tagname="'ul'">
                 <li v-for="item in itemsInCart" class="day-item-wrapper" v-if="countInCart>0">
                     <obedy-product :product="item.product"/>
 
@@ -151,6 +151,9 @@
 
 <style lang="scss">
 
+    .scroll-area-bottom {
+        padding-bottom: 200px;
+    }
     .end-info {
         font-style: italic;
         line-height: 100%;

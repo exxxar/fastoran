@@ -85,7 +85,7 @@ class ObedyGoController extends Controller
 
                 $today = Carbon::now()->dayOfWeek;
 
-                $order_date = 7 - $today + $day_index;
+                $order_date = $today>=5?7 - $today + $day_index:$day_index;
 
                 $order_date = Carbon::now()->addDays($order_date);
                 $order_date = ($order_date->day . "-" . $order_date->month . "-" . $order_date->year);

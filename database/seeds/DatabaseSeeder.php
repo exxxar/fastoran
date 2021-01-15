@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
 
         //$this->call(SectionTableSeeder::class);
         $this->call(ObedyGoSeeder::class);
+        //$this->call(OrderHubRuleTableSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }

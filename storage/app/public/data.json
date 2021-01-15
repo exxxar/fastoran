@@ -7,6 +7,8 @@
             "day_index": 1,
             "image": "img/go/pn.png",
             "price": 99,
+            "weight": 300,
+
             "positions": [
                 {
                     "title": "Рис с овощами",
@@ -25,6 +27,7 @@
             "day_index": 2,
             "image": "img/go/vt.png",
             "price": 99,
+            "weight": 300,
             "positions": [
                 {
                     "title": "Гречка с грибами и курицей",
@@ -43,6 +46,7 @@
             "day_index": 3,
             "image": "img/go/sr.png",
             "price": 99,
+            "weight": 300,
             "positions": [
                 {
                     "title": "Жареный картофель с беконом и луком",
@@ -61,6 +65,7 @@
             "day_index": 4,
             "image": "img/go/cht.png",
             "price": 99,
+            "weight": 300,
             "positions": [
                 {
                     "title": "Паста Болоньезе",
@@ -79,6 +84,7 @@
             "day_index": 5,
             "image": "img/go/pt.png",
             "price": 99,
+            "weight": 300,
             "positions": [
                 {
                     "title": "Пюре с капустой и сосиской",
@@ -97,6 +103,7 @@
             "day_index": 1,
             "image": "img/go/premium/pn.jpg",
             "price": 99,
+            "weight": 300,
             "positions": null
         },
         {
@@ -106,6 +113,7 @@
             "day_index": 2,
             "image": "img/go/premium/vt.jpg",
             "price": 99,
+            "weight": 300,
             "positions": null
         },
         {
@@ -115,6 +123,7 @@
             "day_index": 3,
             "image": "img/go/premium/sr.jpg",
             "price": 99,
+            "weight": 300,
             "positions": null
         },
         {
@@ -124,6 +133,7 @@
             "day_index": 4,
             "image": "img/go/premium/cht.jpg",
             "price": 99,
+            "weight": 300,
             "positions": null
         },
         {
@@ -133,6 +143,7 @@
             "day_index": 5,
             "image": "img/go/premium/pt.jpg",
             "price": 99,
+            "weight": 300,
             "positions": null
         },
         {

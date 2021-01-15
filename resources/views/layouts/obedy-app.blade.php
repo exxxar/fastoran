@@ -6,7 +6,7 @@
     <meta name="yandex-verification" content="dc164e606696b6b2"/>
     <meta name="description" content="Доставка самых вкусных обедов из ресторанов для любителей вкусной еды для Донецка и города Макеевки.">
     <title>Обеды GO</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0">
 
     <!-- Favicons -->
     <link rel="shortcut icon" href="{{asset('img/icons/icon-72x72.png')}}">

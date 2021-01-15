@@ -13,6 +13,7 @@
 
 
 use Allanvb\LaravelSemysms\Facades\SemySMS;
+use App\Classes\VKBot\ServerHandler;
 use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Fastoran\MenuCategoryController;
 use App\Mail\LotteryMail;
@@ -36,6 +37,16 @@ use Jenssegers\Agent\Facades\Agent;
 use Mpdf\Mpdf;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
+
+Route::post("/vk_bot_callback",function (Request $request){
+
+
+    $handler = new ServerHandler();
+    $data = json_decode(file_get_contents('php://input'));
+    $handler->parse($data);
+   //return "e990750c";
+});
+
 
 Route::get('/eventtest',function (){
 
