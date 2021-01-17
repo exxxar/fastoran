@@ -103,6 +103,7 @@ trait FastoranVKBotTrait
 
                 $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
                 $this->sendMessageToChat($rule->admin_channel_id,"Заведение приняло заказ #$order");
+                $this->sendMessageToChat($rule->delivery_channel_id,"Заказ для курьера #$order");
                 break;
             case "accept_channel":
                 break;
