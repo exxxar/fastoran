@@ -268,7 +268,7 @@ class OrderController extends Controller
 
         if (!is_null($order->custom_details))
             if (count($order->custom_details) > 0) {
-                $tmp_custom_details = "*Дополнительно к заказу:*\n";
+                $tmp_custom_details = "<b>Дополнительно к заказу:</b>\n";
                 $sum = 0;
                 foreach ($order->custom_details as $key => $custom_detail) {
                     $detail = (object)$custom_detail;
@@ -276,7 +276,7 @@ class OrderController extends Controller
                     $tmp_custom_details .= ($key + 1) . "# " . ($detail->name ?? $detail->title ?? "Не указано") . " (" . $detail->price . " руб.)\n";
                 }
 
-                $tmp_custom_details .= "Предполагаемая сумма:* $sum руб.*\n";
+                $tmp_custom_details .= "Предполагаемая сумма:<b> $sum руб.</b>\n";
             }
 
         $coords = (object)$this->getCoordsByAddress($request->get("receiver_address"));

@@ -95,13 +95,24 @@ trait FastoranVKBotTrait
                 break;
             case "decline_order":
                 $order = Order::where("id",$tmp_id)->first();
+
+                if (is_null($order)){
+                    $this->sendMessage("Ошибка по номеру заказа #$tmp_id");
+                    return;
+                }
+
                 $rule = OrderHubRule::where("rest_id",$order->rest_id)->first();
 
                 $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
                 $this->sendMessageToChat($rule->admin_channel_id,"Заведение отклонило заказ #$order");
                 break;
             case "accept_order":
-                $order = Order::where("id",$tmp_id)->first();
+                $order = Order::where("id",intval($tmp_id))->first();
+
+                if (is_null($order)){
+                    $this->sendMessage("Ошибка по номеру заказа #$tmp_id=>".print_r($order,true));
+                    return;
+                }
                 $rule = OrderHubRule::where("rest_id",$order->rest_id)->first();
 
                 $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
