@@ -326,16 +326,16 @@ class OrderController extends Controller
 
 
         $message_channel = sprintf(
-            "Город: *%s*\n\n" .
-            "*Заявка #%s* (из %s)\n" .
-            "Ресторан: _%s_\n" .
-            "Ф.И.О.: _%s_\n" .
-            "Телефон: _%s_\n" .
+            "Город: <b>%s</b>\n\n" .
+            "<b>Заявка #%s</b> (из %s)\n" .
+            "Ресторан: <i>%s</i>\n" .
+            "Ф.И.О.: <i>%s</i>\n" .
+            "Телефон: <i>%s</i>\n" .
             "Заказ: \n%s\n" .
             "Заметка к заказу: \n%s\n\n%s\n" .
             "Время доставки: %s\n" .
             "Адрес доставки: %s\n" .
-            "Цена основного заказа: *%s руб.*"
+            "Цена основного заказа: <b>%s руб.</b>"
             ,
             ($request->get("city") ?? "Ошибка идентификации города"),
             $order->id,
@@ -351,7 +351,7 @@ class OrderController extends Controller
             $order->summary_price
         );
 
-        $message_admin = sprintf("%s\nПолная цена доставки:*%s руб.*(Дистанция:%.2fкм)\n",
+        $message_admin = sprintf("%s\nПолная цена доставки:<b>%s руб.</b>(Дистанция:%.2fкм)\n",
             $message_channel,
             (!$order->take_by_self ? $price2 : "самовывоз, 0"),
             $range

@@ -281,7 +281,7 @@ trait Utilits
         try {
             Telegram::sendMessage([
                 'chat_id' => $id,
-                'parse_mode' => 'Markdown',
+                'parse_mode' => 'HTML',
                 'text' => $message,
                 'reply_markup' => json_encode([
                     'inline_keyboard' => $keyboard

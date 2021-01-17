@@ -38,6 +38,9 @@ trait FastoranVKBotTrait
 
         $command = $tmp_command ?? $this->textCommand;
 
+        $this->sendMessage("command=>$command");
+        $this->sendMessage("id=>$tmp_id");
+
         $is_action_request = false;
         //not need auth
         switch ($command) {
