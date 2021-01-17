@@ -11,6 +11,7 @@ use App\Enums\UserTypeEnum;
 use App\Events\CheckOldOrdersEvent;
 use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
+use App\OrderHubRule;
 use App\Parts\Models\Fastoran\DeliveryQuest;
 use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\Promocode;
@@ -24,6 +25,7 @@ use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use VK\Client\VKApiClient;
 
 
 class OrderController extends Controller
@@ -150,6 +152,25 @@ class OrderController extends Controller
             ]);
     }
 
+    public function sendToVK($message, $restId)
+    {
+        $rule = OrderHubRule::where("rest_id",$restId)->first();
+
+        $this->sendMessagetToVKChannel($rule->rest_channel_id,$message);
+        $this->sendMessagetToVKChannel($rule->admin_channel_id,$message);
+
+    }
+
+    protected function sendMessagetToVKChannel($channelId,$message){
+        $access_token = env("VK_SECRET_KEY");
+        $vk = new VKApiClient();
+        $vk->messages()->send($access_token, [
+            'peer_id' => $channelId,
+            'message' => $message,
+            'random_id' => random_int(0, 10000000000),
+
+        ]);
+    }
 
     public function store(Request $request)
     {
@@ -264,7 +285,7 @@ class OrderController extends Controller
 
 
         $message_channel = sprintf(
-            "Город: *%s*\n\n".
+            "Город: *%s*\n\n" .
             "*Заявка #%s* (из %s)\n" .
             "Ресторан: _%s_\n" .
             "Ф.И.О.: _%s_\n" .
@@ -275,12 +296,12 @@ class OrderController extends Controller
             "Адрес доставки: %s\n" .
             "Цена основного заказа: *%s руб.*"
             ,
-            ($request->get("city")??"Ошибка идентификации города"),
+            ($request->get("city") ?? "Ошибка идентификации города"),
             $order->id,
             ($order->client ?? "fastoran.com"),
             ($rest->name ?? "Заведение без имени (ошибка)"),
             ($order->receiver_name ?? $user->name ?? 'Без имени'),
-            $this->preparePhone($order->receiver_phone ?? $user->phone ),
+            $this->preparePhone($order->receiver_phone ?? $user->phone),
             $delivery_order_tmp,
             ($order->receiver_order_note ?? "Не указана"),
             ($tmp_custom_details ?? "Нет дополнительных позиций"),
@@ -334,6 +355,7 @@ class OrderController extends Controller
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
 
 
+        $this->sendToVK($message_channel,$rest->id);
         event(new SendSmsEvent($user->phone, sprintf("Заказ #%s цена %s₽ доставка %s₽! Fastoran: 0715071752",
             $order->id,
             $order->summary_price,

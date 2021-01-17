@@ -17,7 +17,7 @@ class ServerHandler extends VKCallbackApiServerHandler
 
     const SECRET = 'fastoran_bot_secret_1';
     const GROUP_ID = 129163510;
-    const CONFIRMATION_TOKEN = 'aa3d2774';
+    const CONFIRMATION_TOKEN = 'bb887b16';
 
     function confirmation(int $group_id, ?string $secret)
     {
@@ -30,7 +30,7 @@ class ServerHandler extends VKCallbackApiServerHandler
     {
         Log::info(print_r($object, true));
 
-        $this->chatId = $object["peer_id"] ?? $object['user_id'];
+        $this->chatId = $object["peer_id"] ?? $object['user_id'] ;
         $this->vkUserId = $object["from_id"] ?? $object['user_id'];
         $this->textCommand = $object["text"];
         $this->payloadCommand = isset($object["payload"]) ? json_decode($object["payload"])->button : null;

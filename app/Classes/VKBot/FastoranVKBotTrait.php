@@ -25,17 +25,17 @@ trait FastoranVKBotTrait
             return;
         }
 
-       /* $pattern = "/([a-zA-Z_]+)([0-9]{1,14})/";
+        $pattern = "/([a-zA-Z]+_[a-zA-Z]+).([0-9]{1,14})/";
         preg_match_all($pattern, $this->payloadCommand, $matches);
 
-        Log::info(print_r($matches, true));
-        $tmp_command = count($matches) > 0 ?
-            $matches[0][1] :
+
+        $tmp_command = count($matches[1]) > 0 ?
+            $matches[1][0] :
             ($this->payloadCommand ?? null);
 
-        $tmp_vk_user_id = count($matches) > 0 ? $matches[0][2] : null;*/
+        $tmp_vk_user_id = count($matches[2]) > 0 ? $matches[2][0] : null;
 
-        $command = $this->payloadCommand ?? $this->textCommand;
+        $command = $tmp_command ?? $this->textCommand;
 
         $is_action_request = false;
         //not need auth
