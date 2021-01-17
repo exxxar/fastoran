@@ -6,6 +6,7 @@ namespace App\Classes\VKBot;
 
 use App\HUBRequest;
 use App\OrderHubRule;
+use App\Parts\Models\Fastoran\Order;
 use Illuminate\Support\Facades\Log;
 
 trait FastoranVKBotTrait
@@ -33,7 +34,7 @@ trait FastoranVKBotTrait
             $matches[1][0] :
             ($this->payloadCommand ?? null);
 
-        $tmp_vk_user_id = count($matches[2]) > 0 ? $matches[2][0] : null;
+        $tmp_id = count($matches[2]) > 0 ? $matches[2][0] : null;
 
         $command = $tmp_command ?? $this->textCommand;
 
@@ -90,8 +91,18 @@ trait FastoranVKBotTrait
                 $this->requestUpdateProductsAction();
                 break;
             case "decline_order":
+                $order = Order::where("id",$tmp_id)->first();
+                $rule = OrderHubRule::where("rest_id",$order->rest_id)->first();
+
+                $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
+                $this->sendMessageToChat($rule->admin_channel_id,"Заведение отклонило заказ #$order");
                 break;
             case "accept_order":
+                $order = Order::where("id",$tmp_id)->first();
+                $rule = OrderHubRule::where("rest_id",$order->rest_id)->first();
+
+                $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
+                $this->sendMessageToChat($rule->admin_channel_id,"Заведение приняло заказ #$order");
                 break;
             case "accept_channel":
                 break;
