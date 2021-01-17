@@ -152,24 +152,65 @@ class OrderController extends Controller
             ]);
     }
 
-    public function sendToVK($message, $restId)
+    public function sendToVK($message, $restId, $orderId)
     {
-        $rule = OrderHubRule::where("rest_id",$restId)->first();
+        $rule = OrderHubRule::where("rest_id", $restId)->first();
 
-        $this->sendMessagetToVKChannel($rule->rest_channel_id,$message);
-        $this->sendMessagetToVKChannel($rule->admin_channel_id,$message);
+        $keyboard = [
+            [
+                [
+                    "action" => [
+                        "type" => "text",
+                        "payload" => "{\"button\":\"accept_order_$orderId\"}",
+                        "label" => "Подтвердить!"
+                    ],
+                    "color" => "positive"
+                ],
+                [
+                    "action" => [
+                        "type" => "text",
+                        "payload" => "{\"button\":\"decline_order_$orderId\"}",
+                        "label" => "Отклонить!"
+                    ],
+                    "color" => "negative"
+                ]
+            ]
+        ];
+
+        $this->sendMessageToVKChannelKeyboard($rule->rest_channel_id, $message, $keyboard);
+        $this->sendMessageToVKChannelKeyboard($rule->admin_channel_id, $message,$keyboard);
 
     }
 
-    protected function sendMessagetToVKChannel($channelId,$message){
+    protected function sendMessageToVKChannel($chanelId, $message)
+    {
         $access_token = env("VK_SECRET_KEY");
         $vk = new VKApiClient();
         $vk->messages()->send($access_token, [
-            'peer_id' => $channelId,
+            'peer_id' => $chanelId,
             'message' => $message,
             'random_id' => random_int(0, 10000000000),
 
         ]);
+    }
+
+    public function sendMessageToVKChannelKeyboard($chaneldId, $message, $keyboard)
+    {
+
+        $access_token = env("VK_SECRET_KEY");
+        $vk = new VKApiClient();
+        $vk->messages()->send($access_token, [
+            'peer_id' => $chaneldId,
+            'message' => $message,
+            'random_id' => random_int(0, 10000000000),
+            'keyboard' =>
+                json_encode([
+                    "one_time" => false,
+                    'inline' => true,
+                    "buttons" => $keyboard
+                ])
+        ]);
+
     }
 
     public function store(Request $request)
@@ -355,7 +396,7 @@ class OrderController extends Controller
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
 
 
-        $this->sendToVK($message_channel,$rest->id);
+        $this->sendToVK($message_channel, $rest->id, $order->id );
         event(new SendSmsEvent($user->phone, sprintf("Заказ #%s цена %s₽ доставка %s₽! Fastoran: 0715071752",
             $order->id,
             $order->summary_price,

@@ -89,6 +89,10 @@ trait FastoranVKBotTrait
             case "request_update_products":
                 $this->requestUpdateProductsAction();
                 break;
+            case "decline_order":
+                break;
+            case "accept_order":
+                break;
             case "accept_channel":
                 break;
             case "accept_deliveryman":
