@@ -26,6 +26,74 @@ class ObedyGoController extends Controller
         return response()->json(ObedyGoProduct::all());
     }
 
+    public function sendWish(Request $request)
+
+    {
+        $request->validate([
+            'phone' => "required",
+            'email' => "nullable|email",
+            "from" => "string|required",
+            "message" => "required"
+        ]);
+
+        $phone = $request->get("phone") ?? '';
+        $email = $request->get("email") ?? '';
+        $from = $request->get("from") ?? '';
+        $address = $request->get("address") ?? '';
+        $message = $request->get("message") ?? '';
+
+
+        $tmp_message = sprintf("<b>Заявка:</b>\nТелефон: %s\nПочта: %s\nФ.И.О.: %s\nАдресс: %s\nСообщение: %s",
+            $phone,
+            $email,
+            $from,
+            $address,
+            $message
+        );
+
+        $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"), $tmp_message);
+        if ($request->ajax())
+            return response()
+                ->json([
+                    "message" => "success",
+                    "status" => 200
+                ]);
+
+        return redirect()
+            ->back()
+            ->with("message", "Сообщение отправлено!");
+
+    }
+
+    public function sendVoice(Request $request)
+    {
+
+        $phone = $request->phone ?? "+380710000000";
+        $username = $request->name ?? "-";
+
+        $files = $request->file('files');
+
+        array_map('unlink', glob(storage_path("app/public/uploads/*")));
+
+        if ($request->hasFile('files')) {
+            foreach ($files as $file) {
+                $name = "record-obedy-" . time() . ".mp3";
+                $file->storeAs("/uploads/", $name);
+                Telegram::sendAudio([
+                    'chat_id' => env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"),
+                    "caption" => "<b>Голосовая заявка от пользователя [$username]</b>\nНомер телефона:<i> $phone </i>",
+                    'parse_mode' => 'HTML',
+                    'audio' => \Telegram\Bot\FileUpload\InputFile::create(storage_path('app/public') . "/uploads/$name"),
+                ]);
+
+                Storage::delete("/uploads/$name");
+            }
+        }
+
+
+        return "success";
+    }
+
     public function getCategoryList()
     {
         return response()->json(ObedyGoCategory::all());
@@ -85,7 +153,7 @@ class ObedyGoController extends Controller
 
                 $today = Carbon::now()->dayOfWeek;
 
-                $order_date = $today>=5?7 - $today + $day_index:$day_index;
+                $order_date = $today >= 5 ? 7 - $today + $day_index : $day_index;
 
                 $order_date = Carbon::now()->addDays($order_date);
                 $order_date = ($order_date->day . "-" . $order_date->month . "-" . $order_date->year);
@@ -201,7 +269,7 @@ $tmp
         Telegram::sendDocument([
             'chat_id' => env("TELEGRAM_FASTORAN_OBEDY_GO_CHANNEL"),
             'document' => InputFile::create(storage_path('app/public') . "/order-$phone.pdf"),
-            'parse_mode'=>"Markdown",
+            'parse_mode' => "Markdown",
             'caption' => sprintf((
                 "*Заявка ОбедыGO:*\n" .
                 "Время заказа: *%s* \n" .

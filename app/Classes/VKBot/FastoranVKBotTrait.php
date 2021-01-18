@@ -26,9 +26,14 @@ trait FastoranVKBotTrait
             return;
         }
 
+
         $pattern = "/([a-zA-Z]+_[a-zA-Z]+).([0-9]{1,14})/";
         preg_match_all($pattern, $this->payloadCommand, $matches);
 
+        if (count($matches[1])==0){
+            $pattern = "/([a-zA-Z]+_[a-zA-Z]+_[a-zA-Z]+).([0-9]{1,14})/";
+            preg_match_all($pattern, $this->payloadCommand, $matches);
+        }
 
         $tmp_command = count($matches[1]) > 0 ?
             $matches[1][0] :
@@ -103,21 +108,21 @@ trait FastoranVKBotTrait
 
                 $rule = OrderHubRule::where("rest_id",$order->rest_id)->first();
 
-                $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
-                $this->sendMessageToChat($rule->admin_channel_id,"Заведение отклонило заказ #$order");
+                $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order->id");
+                $this->sendMessageToChat($rule->admin_channel_id,"Заведение отклонило заказ #$order->id");
                 break;
             case "accept_order":
                 $order = Order::where("id",intval($tmp_id))->first();
 
                 if (is_null($order)){
-                    $this->sendMessage("Ошибка по номеру заказа #$tmp_id=>".print_r($order,true));
+                    $this->sendMessage("Ошибка по номеру заказа #$tmp_id");
                     return;
                 }
                 $rule = OrderHubRule::where("rest_id",$order->rest_id)->first();
 
-                $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order");
-                $this->sendMessageToChat($rule->admin_channel_id,"Заведение приняло заказ #$order");
-                $this->sendMessageToChat($rule->delivery_channel_id,"Заказ для курьера #$order");
+                $this->sendMessageToChat($rule->rest_channel_id,"Заказ #$order->id");
+                $this->sendMessageToChat($rule->admin_channel_id,"Заведение приняло заказ #$order->id");
+                $this->sendMessageToChat($rule->delivery_channel_id,"Заказ для курьера #$order->id");
                 break;
             case "accept_channel":
                 break;

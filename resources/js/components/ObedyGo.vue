@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid d-flex align-items-center flex-wrap w-100 m-0 obedygo mb-2"
+    <div class="container-fluid d-flex align-items-center flex-wrap w-100 m-0 obedygo"
          style="min-height: 100vh;padding:50px 10px 10px 10px;">
 
         <!--         v-touch:swipe.left="swipeHandler(0)"
@@ -95,11 +95,18 @@
         </div>
 
 
-        <div class="row w-100 m-0" v-if="part>0">
-
+        <div class="row w-100 m-0" v-if="part>0&&part<4">
             <obedy :food_category_selected="part"></obedy>
+        </div>
+
+        <div class="row w-100 m-0 d-flex justify-content-center " v-if="part===4">
 
 
+            <div class="col-lg-6 col-md-6 col-sm-8 col-12">
+                <h4 class="text-white "><em>В данный момент этот раздел не доступен, но это не должно Вас огорчать - теперь вы можете <span class="text-danger">оформить заказ
+                    голосом!</span></em></h4>
+                <obedy-callback></obedy-callback>
+            </div>
         </div>
 
 
@@ -112,6 +119,7 @@
                 v-if="countInCart>0">{{countInCart}}</span>
             </div>
             <div class="cart-icon about" v-b-modal.about>О нас</div>
+            <div class="cart-icon callback" v-b-modal.callback>Напиши нам</div>
             <div class="cart-icon delivery" v-b-modal.delivery>Доставка</div>
             <div class="cart-icon lottery" @click="openLotteryModal()">Акции</div>
         </div>
@@ -130,6 +138,7 @@
                 <li @click="is_cart_open = true">Корзина <span class="badge badge-danger" v-if="countInCart>0">{{countInCart}}</span>
                 </li>
                 <li v-b-modal.about>О нас</li>
+                <li v-b-modal.callback>Напиши нам</li>
                 <li v-b-modal.delivery>Доставка</li>
                 <li @click="openLotteryModal()">Акции</li>
 
@@ -151,7 +160,7 @@
         <b-modal id="delivery" hide-footer title="Условия доставки">
             <ul class="about-list">
                 <li>
-                    Доставка осуществляется с 12:00 до 15:00 только в будние дни.
+                    Доставка осуществляется с 12:00 до 14:00 только в будние дни.
                 </li>
 
                 <li>
@@ -166,6 +175,14 @@
                 </li>
 
             </ul>
+        </b-modal>
+
+        <b-modal id="callback" hide-footer title="Обратная связь">
+            <div class="row">
+                <div class="col-12">
+                    <obedy-callback :selected_type="1"></obedy-callback>
+                </div>
+            </div>
         </b-modal>
 
         <b-modal id="lottery" size="lg" hide-footer title="Розыгрыши и призы">
@@ -206,6 +223,8 @@
 <script>
     import Obedy from './obedy/ObedyTemplate';
     import ObedyProduct from './obedy/ObedyProduct'
+    import ObedyCallback from './obedy/ObedyCallback'
+
     import ObedyCartTemplate from './obedy/ObedyCartTemplate'
     import LotterySlider from './obedy/lottery/LotterySlider'
     import LotteryGame from './obedy/lottery/LotteryMain'
@@ -213,6 +232,7 @@
 
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import "vue-custom-scrollbar/dist/vueScrollbar.css"
+    import ObedyVoiceCallback from "./obedy/ObedyVoiceCallback";
 
     export default {
         data() {
@@ -328,7 +348,7 @@
 
         },
         components: {
-            Obedy, vueCustomScrollbar, ObedyProduct, ObedyCartTemplate, LotterySlider, LotteryGame
+            Obedy, vueCustomScrollbar, ObedyProduct, ObedyCartTemplate, LotterySlider, LotteryGame, ObedyCallback,ObedyVoiceCallback
         }
     }
 </script>
@@ -547,15 +567,21 @@
                 border-left: 5px #ff4000 solid;
             }
 
-            &.delivery {
+            &.callback {
                 top: -30px;
                 z-index: 98;
+                border-left: 5px #0c5460 solid;
+            }
+
+            &.delivery {
+                top: -42px;
+                z-index: 97;
                 border-left: 5px #ffa819 solid;
             }
 
             &.lottery {
-                top: -42px;
-                z-index: 97;
+                top: -56px;
+                z-index: 96;
                 border-left: 5px #a5cc44 solid;
                 color: #678816;
             }

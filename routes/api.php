@@ -28,6 +28,8 @@ Route::group(['prefix'=>'v2'],function (){
         Route::get('categories', 'ObedyGoController@getCategoryList');
         Route::post('order', 'ObedyGoController@order');
 
+        Route::post('/wish', 'ObedyGoController@sendWish')->name("obedygo.wish"); //RestController
+        Route::post('/voice', 'ObedyGoController@sendVoice')->name("obedygo.voice"); //RestController
 
         Route::group([
            'prefix' => 'lottery'
