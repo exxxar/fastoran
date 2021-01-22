@@ -126,7 +126,9 @@ const mutations = {
                 products: state.go_items,
                 total_weight:form.total_weight,
                 total_price:form.total_price,
-                total_count:form.total_count
+                total_count:form.total_count,
+                delivery_price:form.delivery_price,
+                delivery_range:form.delivery_range
             }, {responseType: 'blob'}).then(resp => {
             const FileDownload = require('js-file-download');
 
