@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
         // $this->call(KitchenTableSeeder::class);
         //  $this->call(RestoransTableSeeder::class);
         //   $this->call(MenuCategoryTableSeeder::class);
-
+        $this->call(BotTableSeeder::class);
 
         //$this->call(SectionTableSeeder::class);
-        $this->call(ObedyGoSeeder::class);
+        //$this->call(ObedyGoSeeder::class);
         //$this->call(OrderHubRuleTableSeeder::class);
         Schema::enableForeignKeyConstraints();
     }

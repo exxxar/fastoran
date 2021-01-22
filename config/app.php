@@ -181,7 +181,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Allanvb\LaravelSemysms\SemySmsServiceProvider::class,
         BenSampo\Enum\EnumServiceProvider::class,
-        ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
+        //ATehnix\LaravelVkRequester\VkRequesterServiceProvider::class,
         Yandex\Geocode\YandexGeocodeServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,

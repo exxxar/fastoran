@@ -20,7 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-
+        '/bot/*',
         '/vk_bot_callback'
     ];
 }

@@ -39,7 +39,8 @@
                            maxlength="19"
                            v-mask="['+38 (071) ###-##-##']"
                            required>
-                    <input type="text" placeholder="Адрес доставки" v-model="form.address" required>
+                    <p v-if="message" class="text-success">{{message}}</p>
+                    <input type="text" placeholder="Адрес доставки" v-model="form.address" @blur="calcRange" required>
                     <textarea placeholder="Текстовое сообщение" v-model="form.message"></textarea>
                     <ul class="summary">
                         <li>
@@ -48,8 +49,11 @@
                         <li>
                             <p>Масса заказа: <span>{{goCartTotalWeight}} гр</span></p>
                         </li>
+                        <li v-if="delivery_price">
+                            <p>Примерная цена доставки: <span>{{delivery_price}} руб.</span></p>
+                        </li>
                     </ul>
-                    <button class="btn btn-success w-100 p-3 text-uppercase font-weight-bold">Отправить заявку
+                    <button class="btn btn-success w-100 p-3 text-uppercase font-weight-bold" :disabled="!is_calc_distance">Отправить заявку
                     </button>
                     <p class="end-info">После оформления заявки вам будет предложен для скачивания чек с подробным
                         описанием заказа, его номером и
@@ -75,6 +79,9 @@
         data() {
             return {
                 ready_to_order: false,
+                is_calc_distance:false,
+                delivery_price: null,
+                message:null,
                 form: {
                     name: '',
                     address: '',
@@ -110,6 +117,20 @@
         directives: {mask},
         methods:
             {
+
+                calcRange(){
+                    this.delivery_price = null
+                    this.message = "Мы ищем ваш Адрес, пожалуйста, ожидайте!";
+                    axios
+                    .post('/api/v2/obedy/range',{
+                        address: this.form.address
+                    }).then(resp=>{
+                        this.message = "Цена доставки к Вам "+resp.data.price+" руб.";
+                        this.is_calc_distance = true;
+                        this.delivery_price = resp.data.price
+                    })
+
+                },
                 hasMainProductInCart() {
                     let tmp = this.itemsInCart.filter(item => item.product.addition === 0);
 

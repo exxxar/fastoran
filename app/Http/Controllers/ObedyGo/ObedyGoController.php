@@ -7,6 +7,7 @@ use App\Events\SendSmsEvent;
 use App\Http\Controllers\Controller;
 use App\ObedyGoCategory;
 use App\ObedyGoProduct;
+use App\Parts\Models\Fastoran\Restoran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,34 @@ class ObedyGoController extends Controller
         return response()->json(ObedyGoProduct::all());
     }
 
+    public function getDeliveryRange(Request $request)
+    {
+        $request->validate([
+            'address' => 'required',
+        ]);
+
+        $coords = (object)$this->getCoordsByAddress($request->get("address"));
+
+        $range = ($this->calculateTheDistance(
+            $coords->latitude,
+            $coords->longitude,
+            env("OBEDYGO_LATITUDE"),
+            env("OBEDYGO_LONGITUDE")));
+
+        $price = $range <= 3 ?
+            env("OBEDYGO_BASE_DELIVERY_PRICE") :
+            ceil(env("OBEDYGO_BASE_DELIVERY_PRICE") + (($range ) * env("OBEDYGO_BASE_DELIVERY_PRICE_PER_KM")));
+
+        return response()
+            ->json([
+                "range" => floatval(sprintf("%.2f", ($range <= 2 ? $range : ($range + 2)))),
+                "price" => $price,
+                "latitude" => $coords->latitude,
+                "longitude" => $coords->longitude
+            ]);
+
+
+    }
     public function sendWish(Request $request)
 
     {
