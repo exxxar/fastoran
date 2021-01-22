@@ -49,8 +49,8 @@
                         <li>
                             <p>Масса заказа: <span>{{goCartTotalWeight}} гр</span></p>
                         </li>
-                        <li v-if="delivery_price">
-                            <p>Примерная цена доставки: <span>{{delivery_price}} руб.</span></p>
+                        <li v-if="form.delivery_price">
+                            <p>Примерная цена доставки: <span>{{form.delivery_price}} руб.</span></p>
                         </li>
                     </ul>
                     <button class="btn btn-success w-100 p-3 text-uppercase font-weight-bold" :disabled="!is_calc_distance">Отправить заявку
@@ -80,13 +80,14 @@
             return {
                 ready_to_order: false,
                 is_calc_distance:false,
-                delivery_price: null,
                 message:null,
                 form: {
                     name: '',
                     address: '',
                     phone: '',
                     message: '',
+                    delivery_price: null,
+                    delivery_range: null,
                     total_weight: 0,
                     total_price: 0,
                     total_count: 0
@@ -123,11 +124,13 @@
                     this.message = "Мы ищем ваш Адрес, пожалуйста, ожидайте!";
                     axios
                     .post('/api/v2/obedy/range',{
-                        address: this.form.address
+                        address: this.form.address,
+
                     }).then(resp=>{
                         this.message = "Цена доставки к Вам "+resp.data.price+" руб.";
                         this.is_calc_distance = true;
-                        this.delivery_price = resp.data.price
+                        this.form.delivery_price = resp.data.price
+                        this.form.delivery_range = resp.data.range
                     })
 
                 },

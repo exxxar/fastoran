@@ -135,6 +135,8 @@ class ObedyGoController extends Controller
             "phone" => "required",
             "name" => "required",
             "address" => "required",
+            "delivery_price" => "required",
+            "delivery_range" => "required",
             "products" => "required",
         ]);
 
@@ -147,6 +149,8 @@ class ObedyGoController extends Controller
         $total_weight = $request->get("total_weight") ?? 0;
         $total_price = $request->get("total_price") ?? 0;
         $total_count = $request->get("total_count") ?? 0;
+        $delivery_price = $request->get("delivery_price") ?? 0;
+        $delivery_range = $request->get("delivery_range") ?? 0;
 
         $arr = ["Без категории", "Стандарт", "Экспрес", "Премиум", "Собери сам"];
         $tmp = "";
@@ -308,7 +312,8 @@ $tmp
                 "Сообщение от пользователя: *%s*\n" .
                 "Суммарная масса продукции: *%s* гр.\n" .
                 "Суммарная цена продукции: *%s* руб.\n" .
-                "Суммарное число порций: *%s* ед."
+                "Суммарное число порций: *%s* ед.".
+                "Примерная цена доставки: *%s* руб. (%s км)"
 
             ),
                 $current_date,
@@ -318,7 +323,9 @@ $tmp
                 $message,
                 $total_weight,
                 $total_price,
-                $total_count
+                $total_count,
+                $delivery_price,
+            $delivery_range
             ),
         ]);
 
