@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\BlackList;
+use App\BotUserInfo;
 use App\Classes\Utilits;
 use App\Enums\FoodStatusEnum;
 use App\Enums\OrderStatusEnum;
@@ -178,7 +179,28 @@ class OrderController extends Controller
         ];
 
         $this->sendMessageToVKChannelKeyboard($rule->rest_channel_id, $message, $keyboard);
-        $this->sendMessageToVKChannelKeyboard($rule->admin_channel_id, $message,$keyboard);
+        $this->sendMessageToVKChannelKeyboard($rule->admin_channel_id, $message, $keyboard);
+
+    }
+
+    public function sendToTelegramBot($message, $restId, $orderId)
+    {
+        $users = BotUserInfo::where("rest_id", $restId)
+            ->where("user_type", UserTypeEnum::Admin)
+            ->where("is_working", true)
+            ->get();
+
+        if (count($users) == 0)
+            return;
+
+        foreach ($users as $user) {
+            $this->sendMessageToTelegramChannel($user->chat_id, $message, [
+                [
+                    ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
+                    ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
+                ]
+            ]);
+        }
 
     }
 
@@ -395,8 +417,9 @@ class OrderController extends Controller
 
         $this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);
 
+        $this->sendToTelegramBot($message_channel, $rest->id, $order->id);
 
-       // $this->sendToVK($message_channel, $rest->id, $order->id );
+        // $this->sendToVK($message_channel, $rest->id, $order->id );
         event(new SendSmsEvent($user->phone, sprintf("Заказ #%s цена %s₽ доставка %s₽! Fastoran: 0715071752",
             $order->id,
             $order->summary_price,

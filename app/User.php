@@ -30,9 +30,12 @@ class User extends Authenticatable
         'email',
         'phone',
         'auth_code',
-        'user_type',
+
         'deliveryman_type',
+
         'telegram_chat_id',
+        'user_type',
+
         'birthday',
         'bonus',
         'adress',

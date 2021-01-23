@@ -6,543 +6,535 @@ namespace App\Conversations;
 
 use App\BotUserInfo;
 
+use App\Enums\OrderStatusEnum;
+use App\Enums\UserTypeEnum;
+use App\Events\SendSmsEvent;
+use App\Parts\Models\Fastoran\Order;
+use App\Parts\Models\Fastoran\Restoran;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 
-class MainConversation
+class MainConversation extends Conversation
 {
 
     public static function start($bot)
     {
         $bot->stopConversation();
+
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Введите ключевое слово!");
+            $bot->startConversation("keyword_ask");
+            return;
+        }
+
         $bot->getMainMenu("Добро пожаловать в Систему правления заказами Fastoran!");
     }
 
-    public static function profile($bot)
+    public static function keyword($bot, $message)
     {
+        $bot->reply("Вы ввели: *$message*");
         $user = $bot->getUser();
+        $rest = Restoran::where("keyword", $message)->first();
 
-        $profile = Profile::where("user_id", $user->user_id)->first();
-
-        $keyboard = [
-            [
-                ["text" => is_null($profile) ? "\xF0\x9F\x93\x9DСоздать анкету" : "\xF0\x9F\x93\x9DИзменить анкету", "callback_data" => "/edit_current_prof"]
-            ]
-        ];
-
-        $work_admin_count = BotUserInfo::where("is_admin", true)
-                ->where("is_working", true)
-                ->get()
-                ->count() ?? 0;
-
-        if ($work_admin_count > 0)
-            array_push($keyboard, [
-                ['text' => "Запрос Администратора", 'switch_inline_query_current_chat' => ""],
-            ]);
-
-
-        if ($user->is_admin)
-            array_push($keyboard, [
-                ["text" => "Админ. панель", "callback_data" => "/admin_panel"]
-            ]);
-
-        $tmp_id = (string)$user->user_id;
-        while (strlen($tmp_id) < 10)
-            $tmp_id = "0" . $tmp_id;
-
-        $code = base64_encode("001" . $tmp_id);
-        $qr_url = env("QR_URL") . "https://t.me/" . env("APP_BOT_NAME") . "?start=$code";
-
-        $keyboard_link = [
-            [
-                ["text" => "Рефферальная ссылка", "url" => "https://t.me/" . env("APP_BOT_NAME") . "?start=$code"]
-            ]
-        ];
-        $bot->sendPhoto("Делись своим QR-кодом", "$qr_url", $keyboard_link);
-
-        $bot->sendMessage(sprintf("*Ваши анкетные данные:*\n"
-            . "\xF0\x9F\x94\xB9Ф.И.О.: _%s_\n"
-            . "\xF0\x9F\x94\xB9Номер телефона: _%s_\n"
-            . "\xF0\x9F\x94\xB9Ваш рост: %s\n"
-            . "\xF0\x9F\x94\xB9Ваш возраст: %s (%s.%s)\n"
-            . "\xF0\x9F\x94\xB9Ваш город: %s\n"
-            . "\xF0\x9F\x94\xB9Ваш пол: %s\n"
-            . "\xF0\x9F\x94\xB9Обучались ли Вы в модельной школе: %s\n"
-            . "\xF0\x9F\x94\xB9Хотели бы вы обучаться фотопроектам: %s\n"
-            . "\xF0\x9F\x94\xB9Желаете обучаться: %s\n",
-            ($profile->full_name ?? "Без имени"),
-            ($profile->phone ?? "Не указан"),
-            ($profile->height ?? "Не указан"),
-            ($profile->age ?? "Не указан"),
-            ($profile->birth_day ?? "01"),
-            ($profile->birth_month ?? "01"),
-            ($profile->city ?? "Не указан"),
-            ($profile->sex ?? "Не указан"),
-            ($profile->model_school_education ?? "Не указан"),
-            ($profile->wish_photoproject ?? "Не указан"),
-            ($profile->wish_learn ?? "Не указан")
-
-        ), $keyboard);
-    }
-
-    public static function currentProfile($bot)
-    {
-
-        $user = $bot->getUser();
-
-        $profile = Profile::where("user_id", $user->user_id)->first();
-
-        $keyboard = [
-            [
-                ["text" => is_null($profile) ? "\xF0\x9F\x93\x9DСоздать анкету" : "\xF0\x9F\x93\x9DИзменить анкету", "callback_data" => "/edit_current_prof"]
-            ]
-        ];
-
-        $bot->sendMessage(
-            sprintf("*Ваши анкетные данные:*\n"
-                . "\xF0\x9F\x94\xB9Ф.И.О.: _%s_\n"
-                . "\xF0\x9F\x94\xB9Номер телефона: _%s_\n"
-                . "\xF0\x9F\x94\xB9Ваш рост: %s\n"
-                . "\xF0\x9F\x94\xB9Ваш возраст: %s (%s.%s)\n"
-                . "\xF0\x9F\x94\xB9Ваш город: %s\n"
-                . "\xF0\x9F\x94\xB9Ваш пол: %s\n"
-                . "\xF0\x9F\x94\xB9Обучались ли Вы в модельной школе: %s\n"
-                . "\xF0\x9F\x94\xB9Хотели бы вы обучаться фотопроектам: %s\n"
-                . "\xF0\x9F\x94\xB9Желаете обучаться: %s\n",
-                ($profile->full_name ?? "Без имени"),
-                ($profile->phone ?? "Не указан"),
-                ($profile->height ?? "Не указан"),
-                ($profile->age ?? "Не указан"),
-                ($profile->birth_day ?? "01"),
-                ($profile->birth_month ?? "01"),
-                ($profile->city ?? "Не указан"),
-                ($profile->sex ?? "Не указан"),
-                ($profile->model_school_education ?? "Не указан"),
-                ($profile->wish_photoproject ?? "Не указан"),
-                ($profile->wish_learn ?? "Не указан")
-
-            ), $keyboard);
-    }
-
-    public static function admin($bot)
-    {
-        $bot->reply("Панель администратора");
-    }
-
-    public function products($bot, $type, $page, $link)
-    {
-
-        $user = $bot->getUser();
-        $products = Product::where("type", $type)
-            ->orderBy("position", "asc")
-            ->take(env("PAGINATION_PER_PAGE"))
-            ->skip($page * env("PAGINATION_PER_PAGE"))
-            ->get();
-
-        if (count($products) === 0) {
-            $bot->sendMessage("К сожалению, товаров еще нет, но они появятся в скором времени!");
+        if (is_null($rest) &&
+            strtolower($message) !== strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD"))) {
+            $bot->reply("Неверный код, попробуйте другой!");
+            $bot->next("keyword_ask");
             return;
         }
 
-        foreach ($products as $product) {
+        if (strtolower($message) === strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD"))) {
+            $user->user_type = 1;
+            $user->save();
 
-            $in_cart = !is_null($order = Order::where("product_id", $product->id)
-                ->where("user_id", $user->user_id)
-                ->where("is_confirmed", false)
-                ->first());
-            if (!$in_cart)
-                $keyboard = [
-                    [
-                        ["text" => "\xF0\x9F\x92\xA1Подробнее", "callback_data" => "/more_info $product->id"]
-                    ],
-                    [
-                        ["text" => "\xF0\x9F\x92\xB3Добавить в корзину ($product->price ₽)", "callback_data" => "/add_to_cart $product->id"]
-                    ]
-                ];
-            else
-                $keyboard = [
-                    [
-                        ["text" => "\xF0\x9F\x92\xA1Подробнее", "callback_data" => "/more_info " . $order->product_id]
-                    ],
-                    [
-                        ["text" => "Убрать из корзины", "callback_data" => "/remove_product_from_cart $order->id"],
-                        ["text" => "Перейти в корзину", "callback_data" => "/show_cart"]
-                    ],
-
-                ];
-
-            $bot->sendMediaGroup($product->images);
-
-            $bot->sendMessage(sprintf("*%s*\n_%s..._",
-                $product->title,
-                mb_strcut($product->description, 0, 250)),
-                $keyboard);
-        }
-        $bot->pagination($link, $products, $page, "Наша продукция");
-    }
-
-    public static function brandedGoods($bot, ...$d)
-    {
-        $page = isset($d[1]) ? intval($d[1]) : 0;
-        (new self())->products($bot, ProductTypeEnum::Items, $page, "/product_list");
-    }
-
-    public static function lmaCourses($bot, ...$d)
-    {
-        $page = isset($d[1]) ? intval($d[1]) : 0;
-        (new self())->products($bot, ProductTypeEnum::LMACourses, $page, "/lma_courses_list");
-    }
-
-    public static function lkcCourses($bot, ...$d)
-    {
-        $page = isset($d[1]) ? intval($d[1]) : 0;
-        (new self())->products($bot, ProductTypeEnum::LKCCourses, $page, "/lkc_courses_list");
-    }
-
-    public static function equipmentRent($bot, ...$d)
-    {
-        $page = isset($d[1]) ? intval($d[1]) : 0;
-        (new self())->products($bot, ProductTypeEnum::Services, $page, "/equipment_rent_list");
-    }
-
-    public static function moreInfo($bot, ...$d)
-    {
-        $id = isset($d[1]) ? intval($d[1]) : 0;
-        $user = $bot->getUser();
-
-        $product = Product::find($id);
-
-        if (is_null($product)) {
-            $bot->reply("Товар не найден!");
-            return;
-        }
-
-        $order = Order::with(["product"])
-            ->where("user_id", $user->user_id)
-            ->where("product_id", $product->id)
-            ->where("is_confirmed", false)
-            ->first();
-
-
-        $keyboard = [
-            [
-                ["text" => "\xF0\x9F\x92\xB3Добавить в корзину ($product->price ₽)", "callback_data" => "/add_to_cart $product->id"]
-            ]
-        ];
-
-        if (!is_null($order))
             $keyboard = [
                 [
-                    ["text" => "Убрать из корзины", "callback_data" => "/remove_product_from_cart $order->id"],
-                    ["text" => "Перейти в корзину", "callback_data" => "/show_cart"]
-                ],
-
-            ];
-
-        // $bot->sendPhoto($product->title,$product->image,$keyboard);
-        $bot->editMessageText("*$product->title*\n_$product->description _");
-        $bot->editReplyKeyboard($keyboard);
-
-    }
-
-
-    public static function addProductToCart($bot, ...$d)
-    {
-        $id = isset($d[1]) ? intval($d[1]) : 0;
-        $user = $bot->getUser();
-
-        $product = Product::find($id);
-
-        if (is_null($product)) {
-            $bot->reply("Товар не найден!");
-            return;
-        }
-
-        $tmp_order = Order::where("user_id", $user->user_id)
-            ->where("product_id", $product->id)
-            ->where("is_confirmed", false)
-            ->first();
-
-        $productInOrder = !is_null($tmp_order);
-
-
-        if ($productInOrder) {
-            $keyboard = [
-                [
-                    ["text" => "\xF0\x9F\x92\xA1Подробнее", "callback_data" => "/more_info " . $tmp_order->product->id]
+                    ["text" => "\xF0\x9F\x93\x8DДонецк", "callback_data" => "Донецк"], ["text" => "\xF0\x9F\x93\x8DМакеевка", "callback_data" => "Макеевка"],
                 ],
                 [
-                    ["text" => "Убрать из корзины", "callback_data" => "/remove_product_from_cart $tmp_order->id"],
-                    ["text" => "Перейти в корзину", "callback_data" => "/show_cart"]
-                ],
-
-            ];
-
-            //$bot->editMessageText("*Товар уже в корзине!*");
-            $bot->editReplyKeyboard($keyboard);
-            return;
-        }
-
-        $order = Order::create([
-            "user_id" => $user->user_id,
-            "product_id" => $product->id,
-            "comment" => "",
-            "is_confirmed" => false,
-        ]);
-
-        $keyboard = [
-            [
-                ["text" => "\xF0\x9F\x92\xA1Подробнее", "callback_data" => "/more_info " . $product->id]
-            ],
-            [
-                ["text" => "Убрать из корзины", "callback_data" => "/remove_product_from_cart $order->id"],
-                ["text" => "Перейти в корзину", "callback_data" => "/show_cart"]
-            ],
-
-        ];
-        $bot->editReplyKeyboard($keyboard);
-        $bot->getMainMenu("Ваш товар успешно добавлен в корзину! Спасибо что используете наш сервис!");
-
-    }
-
-    public static function showProductInCart($bot, ...$d)
-    {
-        $user = $bot->getUser();
-
-        $orders = Order::with(["product"])
-            ->where("user_id", $user->user_id)
-            ->where("is_confirmed", false)
-            ->get();
-
-        if (count($orders) === 0) {
-            $bot->getMainMenu("Ваша корзина пуста");
-            return;
-        }
-
-        foreach ($orders as $order) {
-            $keyboard = [
-                [
-                    ["text" => "\xF0\x9F\x92\xA1Подробнее", "callback_data" => "/more_info " . $order->product->id]
-                ],
-                [
-                    ["text" => "\xE2\x9D\x8CУдалить товар из корзины", "callback_data" => "/remove_product_from_cart $order->id"]
+                    ["text" => "\xF0\x9F\x93\x8DЯсиноватая", "callback_data" => "Ясиноватая"], ["text" => "\xF0\x9F\x93\x8DХарцызск", "callback_data" => "Харцызск"],
                 ]
             ];
 
-            $bot->sendPhoto(sprintf("*%s*\n_%s..._",
-                $order->product->title,
-                mb_strcut($order->product->description, 0, 255)),
-                $order->product->image, $keyboard);
 
+            $bot->reply("Вы ставли доставщиком, теперь выберите город в котором работаете!", $keyboard);
 
-        }
-    }
-
-    public static function cart($bot, ...$d)
-    {
-
-        $user = $bot->getUser();
-
-        $orders = Order::with(["product"])
-            ->where("user_id", $user->user_id)
-            ->where("is_confirmed", false)
-            ->get();
-
-        if (count($orders) === 0) {
-            $bot->getMainMenu("Ваша корзина пуста");
+            $bot->next("keyword_city");
             return;
         }
 
-        $price = 0;
-        $tmp = sprintf("*Корзина с товарами (%s ед.)*:\n", count($orders));
-        foreach ($orders as $order) {
-            $tmp .= sprintf("\xF0\x9F\x94\xB9 #%s *%s* (%s руб.)\n",
-                $order->product->id,
-                $order->product->title,
-                $order->product->price
+        $user->user_type = 2;
+        $user->rest_id = $rest->id;
+        $user->save();
+        $bot->stopConversation();
+        $bot->getMainMenu(sprintf("Спасибо! Вы стали Администратором заведения %s!",
+            $rest->name
+        ));
+    }
+
+    public static function selectCity($bot, $message)
+    {
+        $cities = ["Донецк", "Макеевка", "Ясиноватая", "Харцызск"];
+
+        if (!in_array($message, $cities)) {
+            $bot->reply("Введите свой город:");
+            $bot->next("keyword_city");
+            return;
+        }
+
+        $user = $bot->getUser();
+        $user->delivery_city = $message;
+        $user->save();
+
+        $bot->stopConversation();
+        $bot->getMainMenu(sprintf("Спасибо! Вы выбрали основной город доставки %s",
+            $message
+        ));
+
+    }
+
+    public static function isWork($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $user->is_working = true;
+        $user->save();
+        $bot->getMainMenu("Ваш статус изменен на *работаю*");
+
+    }
+
+    public static function isNotWork($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $user->is_working = false;
+        $user->save();
+        $bot->getMainMenu("Ваш статус изменен на *не работаю*");
+    }
+
+    public static function changeUserType($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+
+        $user->user_type = 0;
+        $user->is_working = false;
+        $user->save();
+        $bot->getFallbackMenu("Введите ключевое слово!");
+        $bot->startConversation("keyword_ask");
+    }
+
+    public static function faq($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $bot->getMainMenu("Как пользоваться");
+    }
+
+    public static function day($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $bot->reply("Заказы за день");
+
+
+        $orders = $user->user_type == 2 ?
+            Order::with(["details", "restoran", "details.product", "user"])
+                ->where("rest_id", $user->rest_id)
+                ->where("status", OrderStatusEnum::InProcessing)
+                ->where('created_at', '>', Carbon::now()->subDay())
+                ->get() :
+            Order::with(["details", "restoran", "details.product", "user"])
+                ->where("deliveryman_id", $user->user_id)
+                ->where("status", OrderStatusEnum::InDeliveryProcess)
+                ->where('created_at', '>', Carbon::now()->subDay())
+                ->get();
+
+
+        if (count($orders) == 0) {
+            $bot->reply("Список заказов пуст!");
+            return;
+        }
+
+        foreach ($orders as $key => $order) {
+
+            $delivery_order_tmp = "";
+            foreach ($order->details as $detail) {
+                $product = $detail->product_details;
+                $local_tmp = sprintf("%s %s шт. %s руб.\n",
+                    $product->food_name ?? "не указано",
+                    $detail->count,
+                    $product->food_price ?? "не указано"
+                );
+
+                $delivery_order_tmp .= $local_tmp;
+            }
+
+            $custom_details = "";
+            if (count($order->custom_details) > 0) {
+                foreach ($order->custom_details as $detail) {
+                    $local_tmp = sprintf("%s - %s руб.\n",
+                        $detail->name,
+                        $detail->price
+                    );
+                    $custom_details .= $local_tmp;
+                }
+            }
+
+            $message_admin = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена заказа:*%s руб.*\n",
+                $order->id,
+                $order->restoran->name ?? "не указано",
+                $order->restoran->adress ?? "не указано",
+                $order->user->name ?? "имя не указано",
+                $order->receiver_phone ?? "не указано",
+                $order->receiver_delivery_time ?? "По готовности",
+                $order->receiver_address ?? "не указано",
+                $delivery_order_tmp,
+                $order->order->receiver_order_note ?? "",
+                $order->delivery_note ?? "не указано",
+                $custom_details ?? "нет",
+                $order->summary_price ?? "не указано"
             );
-            $price += $order->product->price;
-        }
 
-        $tmp .= "Суммарно к оплате: *$price руб.*";
-        $bot->getBasketMenu($tmp);
-    }
-
-    public static function clearCart($bot, ...$d)
-    {
-        $user = $bot->getUser();
-
-        $orders = Order::where("user_id", $user->user_id)
-            ->where("is_confirmed", false)
-            ->get();
-
-        if (count($orders) === 0) {
-            $bot->getMainMenu("Корзина пуста!");
-            return;
-        }
-
-        foreach ($orders as $order)
-            $order->delete();
-        $bot->getMainMenu("Корзина успешно очищена!");
-    }
-
-    public static function removeFromCart($bot, ...$d)
-    {
-        $id = isset($d[1]) ? intval($d[1]) : 0;
-
-        $order = Order::where("id", $id)
-            ->where("is_confirmed", false)
-            ->first();
-
-        if (is_null($order)) {
-            $bot->reply("Данный заказ не найден!");
-            return;
-        }
-
-        $order->delete();
-
-        $tmp_product_id = $order->product->id;
-        $tmp_product_price = $order->product->price;
-
-        $keyboard = [
-            [
-                ["text" => "\xF0\x9F\x92\xA1Подробнее", "callback_data" => "/more_info $tmp_product_id"]
-            ],
-            [
-                ["text" => "\xF0\x9F\x92\xB3Добавить в корзину ($tmp_product_price ₽)", "callback_data" => "/add_to_cart $tmp_product_id"]
-            ]
-        ];
-        //$bot->editMessageText("*Данный заказ успешно удален!*");
-        $bot->editReplyKeyboard($keyboard);
-        $bot->getMainMenu("Ваш товар успешно убран из корзины! Спасибо что используете наш сервис!");
+            $message_deliveryman = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена доставки:*%s руб. (Расстояние %s км)*\nЦена заказа:*%s руб.*\n",
+                $order->id,
+                $order->restoran->name ?? "не указано",
+                $order->restoran->adress ?? "не указано",
+                $order->user->name ?? "имя не указано",
+                $order->receiver_phone ?? "не указано",
+                $order->receiver_delivery_time ?? "По готовности",
+                $order->receiver_address ?? "не указано",
+                $delivery_order_tmp,
+                $order->order->receiver_order_note ?? "",
+                $order->delivery_note ?? "не указано",
+                $custom_details ?? "нет",
+                $order->delivery_price ?? "не указано",
+                $order->delivery_range ?? "не указано",
+                $order->summary_price ?? "не указано"
+            );
 
 
-    }
-
-    public static function lmaMenu($bot)
-    {
-        $bot->getLMAMenu("Lotus Model Agency меню!");
-    }
-
-    public static function lpMenu($bot)
-    {
-        $bot->getLPMenu("Lotus Photostudio меню!");
-    }
-
-    public static function lcMenu($bot)
-    {
-        $bot->getLCMenu("Lotus Camp меню!");
-    }
-
-    public static function ldMenu($bot)
-    {
-        $bot->getLDMenu("Lotus Dance меню!");
-    }
-
-    public static function lkMenu($bot)
-    {
-        $bot->getLKCMenu("Lotus Kids меню!");
-    }
-
-
-    public static function lcpMenu($bot)
-    {
-        $bot->getLCPMenu("Lotus Combo Photoprojekt меню!");
-    }
-
-
-    public static function askQuestion($bot)
-    {
-        $keyboard = [
-            [
-                ["text" => "\xF0\x9F\x93\x9DВопрос администратору", "callback_data" => "/ask_question LMA"]
-            ],
-            [
-                ["text" => "\xF0\x9F\x93\x96Общие вопросы", "url" => "https://telegra.ph/CHasto-zadavaemye-voprosy-i-otvety-09-19"]
-            ],
-            [
-                ["text" => "\xF0\x9F\x93\x96Часты вопросы по фотосъемке", "url" => "https://telegra.ph/Uslugi-01-06"]
-            ]
-        ];
-
-        $bot->sendMessage("Вопросы и ответы!", $keyboard);
-    }
-
-    public static function monthPhotoprojects($bot, ...$d)
-    {
-        $page = isset($d[1]) ? intval($d[1]) : 0;
-
-        $products = PhotoProject::orderBy("position", "asc")
-            ->take(env("PAGINATION_PER_PAGE"))
-            ->skip($page * env("PAGINATION_PER_PAGE"))
-            ->get();
-
-        if (count($products) === 0) {
-            $bot->sendMessage("К сожалению, фотопроектов еще нет, но они появятся в скором времени!");
-            return;
-        }
-
-        foreach ($products as $product) {
-
-            $price = $product->price == 0 ? "Индивидуально" : "$product->price ₽";
-
-            $keyboard = [
+            $keyboard_deliveryman = [
                 [
-                    ["text" => "Записаться на проект (цена: $price)", "callback_data" => "/i_want_to_photo_project $product->id"]
+                    ["text" => "Подтвердить доставку", "callback_data" => "/delivered " . ($order->id)],
+                ],
+                [
+
+                    ["text" => "Отказаться от заказа", "callback_data" => "/decline_delivery " . ($order->id)]
                 ]
             ];
 
+            $keyboard_admin = [
+                [
+                    ["text" => "Подтвердить", "callback_data" => "/accept_order " . ($order->id)],
+                    ["text" => "Отклонить", "callback_data" => "/decline_order " . ($order->id)],
+                ],
+            ];
 
-            $tmp = "Название проекта: *%s*\n\xF0\x9F\x94\xB9Дата и время проведения: *%s* в *%s*\n\xF0\x9F\x94\xB9Место проведения: *%s*\n\xF0\x9F\x94\xB9Организатор: *%s*\n\xF0\x9F\x94\xB9Фотограф: *%s*\n\xF0\x9F\x94\xB9Преподаватель: *%s*\n";
+            $bot->reply(
+                $user->user_type == 1 ?
+                    $message_deliveryman :
+                    $message_admin,
+                $user->user_type == 1 ?
+                    $keyboard_deliveryman :
+                    $keyboard_admin
+            );
 
-            $bot->sendPhoto(sprintf($tmp,
-                $product->title,
-                $product->date,
-                $product->time,
-                $product->place,
-                $product->sponsor,
-                $product->photographer,
-                $product->teacher),
-                $product->image, $keyboard);
+
         }
-        $bot->pagination("/test", $products, $page, "Наша продукция");
     }
 
-    public static function findModel($bot)
+    public static function acceptOrder($bot, ...$d)
     {
-        $keyboard = [
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = $bot->getUser();
+
+        $validator = Validator::make(
             [
-                ["text" => "Перейти на сайте для поиска", "url" => "http://lotus-model.ru/test-search.php"],
+                "user" => $user,
+                "order" => $order,
+            ],
+            [
+                'user' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value->user_type === 0) {
+                            $fail('Пользователь не является доставщиком или администратором');
+                        }
+                    },
+                ],
+                'order' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if (!is_null($value->deliveryman_id)) {
+                            $fail('Заказ уже взят доставщиком!');
+                        }
+                    },
+                ]
 
             ],
             [
-                ["text" => "Найти через БОТа", "callback_data" => "/search_model_in_bot"]
-            ]
-        ];
-        $bot->sendMessage("Ссылка на страницу поиска моделей", $keyboard);
+                'user.required' => 'Пользователь не найден',
+                'order.required' => 'Заказ не найден',
+            ]);
+
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->toArray() as $error)
+                $bot->reply($error);
+            return;
+        }
+
+
+        $order->status = OrderStatusEnum::InDeliveryProcess;
+        $order->deliveryman_id = $user->user_id;
+        $order->save();
+
+        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
+            "Заказ *#%s* (%s) взят доставщиком *#%s (%s)*" :
+            "Заказ *#%s* (%s) помечен как 'взят' администратором *#%s (%s)*"),
+            $order->id,
+            $order->receiver_phone,
+            $user->user_id,
+            $user->fio ?? "Без имени"
+        );
+
+
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+        if ($user->user_type==UserTypeEnum::Admin){
+            $restCity = (Restoran::where("id",$order->rest_id)->first())->city??'Донецк';
+
+            $users = BotUserInfo::where("rest_id", $order->rest_id)
+                ->where("user_type", UserTypeEnum::Deliveryman)
+                ->where("delivery_city", $restCity)
+                ->where("is_working", true)
+                ->get();
+
+            if (count($users) == 0)
+                return;
+
+            foreach ($users as $user) {
+                $bot->sendMessageToChat($user->chat_id, $message, [
+                    [
+                        ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
+                        ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
+                    ]
+                ]);
+            }
+        }
+
+        event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
+
+        $bot->reply($message);
     }
 
-
-    public static function goToChannel($bot, ...$d)
+    public static function declineOrder($bot, ...$d)
     {
-        $type = isset($d[1]) ? $d[1] : 'LMA';
+        $user = $bot->getUser();
 
-        $channels = [
-            "LMA" => ["link" => env("LMA_CHANNEL_LINK"), "logo" => "http://lotus-model.ru/assets/app/img/lotus%20agency.png"],
-            "LKC" => ["link" => env("LKC_CHANNEL_LINK"), "logo" => "http://lotus-model.ru/assets/app/img/lotus%20kids.png"],
-            "LD" => ["link" => env("LD_CHANNEL_LINK"), "logo" => "http://lotus-model.ru/assets/app/img/lotus%20agency.png"],
-            "LC" => ["link" => env("LC_CHANNEL_LINK"), "logo" => "http://lotus-model.ru/assets/app/img/lotus%20camp.jpg"],
-            "LP" => ["link" => env("LP_CHANNEL_LINK"), "logo" => "http://lotus-model.ru/assets/app/img/lotus%20photo.png"],
-            "LCP" => ["link" => env("LCP_CHANNEL_LINK"), "logo" => "http://lotus-model.ru/assets/app/img/lotus%20agency.png"]
-        ];
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
 
-        $keyboard = [
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = $bot->getUser();
+
+
+        $validator = Validator::make(
             [
-                ["text" => "Перейти в канал $type", "url" => $channels[$type]["link"]]
-            ]
-        ];
-        $bot->sendPhoto("Ссылка на переход в канал", $channels[$type]["logo"], $keyboard);
+                "user" => $user,
+                "order" => $order,
+            ],
+            [
+                'user' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value->user_type === 0) {
+                            $fail('Пользователь не является доставщиком или администратором');
+                        }
+                    },
+                ],
+                'order' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($user) {
+                        if (is_null($user)) {
+                            $fail("Ошибка валидации пользователя");
+                            return false;
+                        }
+
+                        if ($user->user_type === UserTypeEnum::Admin)
+                            return true;
 
 
+                        if ($value->deliveryman_id !== $user->user_id) {
+                            $fail(sprintf("Заказ #%s не принадлежит доставщику #%s",
+                                $value->id,
+                                $user->id
+                            ));
+                        }
+                    },
+                ]
+
+            ],
+            [
+                'user.required' => 'Пользователь не найден',
+                'order.required' => 'Заказ не найден',
+            ]);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->toArray() as $error)
+                $bot->reply($error);
+            return;
+        }
+
+        $order->status = OrderStatusEnum::InProcessing;
+        $order->deliveryman_id = null;
+        $order->save();
+
+
+        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
+            "Доставщик *#%s* отказася от заказа *#%s*" :
+            "Администратор *#%s* установил пометку 'отказ' к заказу *#%s*"),
+            $user->id,
+            $order->id
+        );
+
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+        $bot->reply($message);
     }
+
+    public static function delivered($bot, ...$d)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $order = Order::with(["restoran", "user"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = $bot->getUser();
+
+        $validator = Validator::make(
+            [
+                "user" => $user,
+                "order" => $order,
+            ],
+            [
+                'user' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value->user_type === 0) {
+                            $fail('Пользователь не является доставщиком или администратором');
+                        }
+                    },
+                ],
+                'order' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($user) {
+                        if (is_null($user)) {
+                            $fail("Ошибка валидации пользователя");
+                            return;
+                        }
+
+                        if ($user->user_type === UserTypeEnum::Admin)
+                            return;
+
+                        if ($value->deliveryman_id !== $user->user_id) {
+                            $fail(sprintf("Заказ #%s не принадлежит доставщику #%s",
+                                $value->id,
+                                $user->user_id
+                            ));
+                        }
+                    },
+                ]
+
+            ],
+            [
+                'user.required' => 'Пользователь не найден',
+                'order.required' => 'Заказ не найден',
+            ]);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->toArray() as $error)
+                $bot->reply($error);
+            return;
+        }
+
+        $order->status = OrderStatusEnum::Delivered;
+        $order->save();
+
+        $message = sprintf($user->user_type === UserTypeEnum::Deliveryman ?
+            "Доставщик *#%s* успешно доставил заказ *#%s*" :
+            "Администратор *#%s* установил пометку 'доставлено' к заказу *#%s*",
+            $user->user_id,
+            $order->id
+        );
+
+
+        if (!is_null($order->user->phone))
+            event(new SendSmsEvent($order->user->phone, "Ваш заказ доставлен! https://fastoran.com"));
+
+
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+        $bot->reply($message);
+    }
+
+
 }

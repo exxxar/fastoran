@@ -301,12 +301,13 @@ abstract class AbstractBot
         ];
         $this->sendPhoto("",
             "https://sun9-16.userapi.com/c858232/v858232349/173635/lTlP7wMcZEA.jpg", $keyboard);
-        $this->sendMenu("Сервер находится на техническом обслуживании!", $this->keyboard_fallback_3);
+        $this->getFallbackMenu("Сервер находится на техническом обслуживании!");
         return true;
     }
 
     private function routeHandler()
     {
+        Log::info("route=>".$this->query);
         $find = false;
 
         $matches = [];
@@ -494,10 +495,8 @@ abstract class AbstractBot
                 'fio' => "$firstName $lastName",
                 'cash_back' => 0,
                 'phone' => null,
-                'is_vip' => false,
-                'is_admin' => false,
-                'is_developer' => false,
-                'is_working' => false,
+                'user_type' => 0,
+                'rest_id' => null,
                 'parent_id' => $parent_id,
                 'user_id' => $user->id
             ]);

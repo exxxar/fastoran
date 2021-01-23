@@ -3,12 +3,10 @@
 namespace App;
 
 
+use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Log;
+
 
 class BotUserInfo extends Model
 {
@@ -20,14 +18,27 @@ class BotUserInfo extends Model
         'fio',
         'cash_back',
         'phone',
-        'is_vip',
-        'is_admin',
-        'is_developer',
+
+        'user_type',
         'is_working',
+        'rest_id',
+
+        'delivery_city',
+
         'parent_id',
         'user_id'
     ];
 
+
+    public function isActive()
+    {
+        return $this->user_type > 0;
+    }
+
+    public function rest()
+    {
+        return $this->hasOne(Restoran::class, 'id', 'rest_id');
+    }
 
     public function user()
     {

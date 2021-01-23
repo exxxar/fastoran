@@ -10,7 +10,10 @@ class Conversation
     public static function fallback($bot, $message, $error = null)
     {
         if ($message === "Продолжить позже") {
-            $bot->getMainMenu("Хорошо! Продолжим позже!");
+            if ($bot->getUser()->isActive())
+                $bot->getMainMenu("Хорошо! Продолжим позже!");
+            else
+                $bot->getFallbackMenu2("Хорошо! Продолжим позже!");
             $bot->stopConversation();
             return true;
         } else {

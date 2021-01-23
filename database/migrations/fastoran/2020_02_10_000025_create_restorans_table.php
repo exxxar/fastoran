@@ -35,6 +35,8 @@ class CreateRestoransTable extends Migration
 
             $table->string('region')->default('')->comment('район');
 
+            $table->string('keyword')->unique();
+
             $table->string('latitude')->nullable()->comment('широта');
             $table->string('longitude')->nullable()->comment('долгота');
 

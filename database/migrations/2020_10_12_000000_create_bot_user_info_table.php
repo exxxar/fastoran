@@ -21,12 +21,14 @@ class CreateBotUserInfoTable extends Migration
             $table->string('fio')->default('');
             $table->string('phone')->nullable();
 
-            $table->boolean('is_admin')->default(false);
-            $table->boolean('is_developer')->default(false);
+            $table->string('delivery_city')->nullable();
+
+            $table->integer('user_type')->default(0);
             $table->boolean('is_working')->default(false);
-            $table->boolean('is_vip')->default(false);
+
             $table->double('cash_back')->default(0.0);
 
+            $table->unsignedInteger('rest_id')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->timestamps();

@@ -28,6 +28,8 @@ class Restoran extends Model
 
         'region',
 
+        'keyword',
+
         'phone1',
         'phone2',
 
