@@ -405,7 +405,11 @@ class MainConversation extends Conversation
             $user->fio ?? "Без имени"
         );
 
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
 
+        $bot->reply($message);
+
+        event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
 
         if ($user->user_type == UserTypeEnum::Admin) {
             $restCity = (Restoran::where("id", $order->rest_id)->first())->city ?? 'Донецк';
@@ -420,7 +424,7 @@ class MainConversation extends Conversation
                 return;
 
             foreach ($users as $user) {
-                $bot->sendMessageToChat($user->chat_id, $message??"Ошибка...", [
+                $bot->sendMessageToChat($user->chat_id, $message, [
                     [
                         ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
                         ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
@@ -429,12 +433,8 @@ class MainConversation extends Conversation
             }
         }
 
-        Log::info("start");
-        $bot->reply($message);
 
-        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
-        Log::info("end");
-        event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
+
 
     }
 
