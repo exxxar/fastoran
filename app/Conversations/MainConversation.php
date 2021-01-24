@@ -147,7 +147,7 @@ class MainConversation extends Conversation
     {
         $user = $bot->getUser();
 
-        $bot->getMainMenu("Как пользоваться:\n https://telegra.ph/FASTORAN-BOT-01-24");
+        $bot->reply("Как пользоваться:\n https://telegra.ph/FASTORAN-BOT-01-24");
     }
 
     public static function myDeliveryOrders($bot)

@@ -17,7 +17,6 @@ trait tDeliveryBot
 
     protected $fallback_keyboard = [
         ["Продолжить позже"],
-        ["Как пользоваться"],
     ];
 
     protected $fallback_keyboard_2 = [
