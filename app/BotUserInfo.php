@@ -22,6 +22,7 @@ class BotUserInfo extends Model
         'user_type',
         'is_working',
         'rest_id',
+        'bot_id',
 
         'delivery_city',
 

@@ -17,6 +17,7 @@ class CreateBotUserInfoTable extends Migration
             $table->increments('id');
 
             $table->string('chat_id')->nullable();
+            $table->unsignedInteger('bot_id')->nullable();
             $table->string('account_name')->default('');
             $table->string('fio')->default('');
             $table->string('phone')->nullable();

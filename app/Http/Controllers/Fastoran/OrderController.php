@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fastoran;
 
 use App\BlackList;
+use App\Bot;
 use App\BotUserInfo;
 use App\Classes\Utilits;
 use App\Enums\FoodStatusEnum;
@@ -26,6 +27,8 @@ use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Telegram\Bot\Api;
+use Telegram\Bot\Exceptions\TelegramSDKException;
 use VK\Client\VKApiClient;
 
 
@@ -185,6 +188,7 @@ class OrderController extends Controller
 
     public function sendToTelegramBot($message, $restId, $orderId)
     {
+
         $users = BotUserInfo::where("rest_id", $restId)
             ->where("user_type", UserTypeEnum::Admin)
             ->where("is_working", true)
@@ -193,13 +197,36 @@ class OrderController extends Controller
         if (count($users) == 0)
             return;
 
+
         foreach ($users as $user) {
-            $this->sendMessageToTelegramChannel($user->chat_id, $message, [
-                [
-                    ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
-                    ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
-                ]
-            ]);
+
+            try {
+
+                $tmp_bot = Bot::where("id", $user->bot_id)->first();
+
+                $bot = new Api($tmp_bot->token_prod
+                    , false);
+
+                $bot->sendMessage([
+                    'chat_id' => $user->chat_id,
+                    'parse_mode' => 'HTML',
+                    'text' => $message,
+                    'reply_markup' => json_encode([
+                        'inline_keyboard' => [
+                            [
+                                ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
+                                ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
+                            ]
+                        ]
+                    ])
+                ]);
+
+
+            } catch (TelegramSDKException $e) {
+                $this->bot = null;
+            }
+
+
         }
 
     }

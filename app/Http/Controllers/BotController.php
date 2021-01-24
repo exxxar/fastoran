@@ -23,7 +23,7 @@ class BotController extends Controller
             $local_bot = Bot::where("bot_url", $name)->first();
             $this->bot = new BaseBot(env("APP_DEBUG") ?
                 $local_bot->token_dev :
-                $local_bot->token_prod);
+                $local_bot->token_prod, $local_bot->id);
             $updates = $this->bot->getWebhookUpdates();
             $tmp_result = $this->bot->handler($updates);
         } catch (\Exception $e) {

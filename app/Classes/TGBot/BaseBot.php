@@ -19,9 +19,9 @@ class BaseBot extends AbstractBot implements iBaseBot
 {
 
 
-    public function __construct($token=null)
+    public function __construct($token=nul,$botId=null)
     {
-        $this->initBot($token);
+        $this->initBot($token,$botId);
     }
 
     public function reply($message, $keyboard = [], $parseMode = 'Markdown')

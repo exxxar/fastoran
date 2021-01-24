@@ -5,6 +5,7 @@ namespace App\Classes\TGBot;
 
 
 
+use App\Bot;
 use App\BotUserInfo;
 use App\Conversations\Conversation;
 use App\User;
@@ -26,6 +27,8 @@ use Telegram\Bot\TelegramRequest;
 abstract class AbstractBot
 {
     use tBotConversation, tDeliveryBot, tBotWebStorage, tBotStorage;
+
+    protected $bot_id;
 
     protected $bot;
 
@@ -91,13 +94,15 @@ abstract class AbstractBot
     }
 
 
-    public function initBot($token = null)
+    public function initBot($token = null, $botId = null)
     {
         $this->list = [];
 
         $this->current_ask = [];
 
         try {
+
+            $this->bot_id = $botId;
 
             $this->bot = new Api(is_null($token) ? (config("app.debug") ?
                 env("TELEGRAM_DEBUG_BOT") :
@@ -471,7 +476,7 @@ abstract class AbstractBot
         }
     }
 
-    public function createNewBotUser($parent_id = null)
+    public function createNewBotUser($parent_id = null,$bot_id=null)
     {
         $id = $this->telegram_user->id;
         $username = $this->telegram_user->username;
@@ -491,6 +496,7 @@ abstract class AbstractBot
 
             BotUserInfo::create([
                 'chat_id' => $id,
+                'bot_id' => $bot_id,
                 'account_name' => $username,
                 'fio' => "$firstName $lastName",
                 'cash_back' => 0,
