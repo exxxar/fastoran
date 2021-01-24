@@ -29,6 +29,7 @@ $this->hears("/is_not_work|.*Я не работаю", MainConversation::class . 
 $this->hears("/change_type|.*Сменить статус", MainConversation::class . "::changeUserType");
 $this->hears("/faq|.*Как пользоваться", MainConversation::class . "::faq");
 $this->hears("/day|.*Заказы за день", MainConversation::class . "::day");
+$this->hears("/self|.*Моя доставка", MainConversation::class . "::myDeliveryOrders");
 
 $this->hears("/accept_order ([0-9]+)", MainConversation::class . "::acceptOrder");
 $this->hears("/decline_order ([0-9]+)", MainConversation::class . "::declineOrder");
