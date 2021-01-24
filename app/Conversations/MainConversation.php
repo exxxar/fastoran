@@ -389,8 +389,8 @@ class MainConversation extends Conversation
 
 
         if ($validator->fails()) {
-            foreach ($validator->errors() as $error)
-                $bot->reply("Ошибочка....".print_r($error,true));
+            foreach ($validator->errors()->toArray() as $error)
+                $bot->reply("Ошибочка....".$error[0]);
             return;
         }
 
