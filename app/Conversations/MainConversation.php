@@ -429,11 +429,12 @@ class MainConversation extends Conversation
             }
         }
 
-        event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
-
+        Log::info("start");
         $bot->reply($message);
 
         $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+        Log::info("end");
+        event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
 
     }
 
