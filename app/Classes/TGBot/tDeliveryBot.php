@@ -34,7 +34,7 @@ trait tDeliveryBot
         if ($user->user_type == UserTypeEnum::Deliveryman)
             array_push($this->main_menu_keyboard[1], "Моя доставка");
 
-        $this->sendMenu(($user->user_type == UserTypeEnum::Deliveryman ? "*Ваш статус Доставщик:*\n" : "*Ваш статус Администратор:*\n") . $message, $this->main_menu_keyboard);
+        $this->sendMenu(($user->user_type == UserTypeEnum::Deliveryman ? "Тип пользователя *Доставщик:*\n" : "Тип пользователя *Администратор:*\n") . $message, $this->main_menu_keyboard);
     }
 
     public function getFallbackMenu($message)
