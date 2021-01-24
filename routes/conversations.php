@@ -18,6 +18,11 @@ $this->ask("keyword_city", MainConversation::class . "::selectCity")
         "Город \"%s\" должно быть *на русском*!"
     );
 
+$this->ask("decline_message", MainConversation::class . "::declineMessage")
+    ->where("/[a-zA-Z0-9а-яА-Я ]{1,50}/ui")
+    ->fall(MainConversation::class . "::fallback",
+        "Хм, а %s точно правильная формулировка отказа?");
+
 
 
 
