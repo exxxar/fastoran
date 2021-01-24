@@ -412,6 +412,8 @@ class MainConversation extends Conversation
 
         $bot->reply($message);
 
+        $bot->editReplyKeyboard();
+
         event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
 
         if ($user->user_type == UserTypeEnum::Admin) {
@@ -504,7 +506,7 @@ class MainConversation extends Conversation
 
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
-                $bot->reply($error);
+                $bot->reply("Ошибочка....".$error[0]);
             return;
         }
 
@@ -524,6 +526,7 @@ class MainConversation extends Conversation
 
         $bot->reply($message);
         $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+        $bot->editReplyKeyboard();
 
 
     }
@@ -587,7 +590,7 @@ class MainConversation extends Conversation
 
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
-                $bot->reply($error);
+                $bot->reply("Ошибочка....".$error[0]);
             return;
         }
 
@@ -607,6 +610,7 @@ class MainConversation extends Conversation
 
         $bot->reply($message);
         $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+        $bot->editReplyKeyboard();
 
     }
 
