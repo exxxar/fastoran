@@ -615,6 +615,19 @@ class MainConversation extends Conversation
 
         $bot->reply($message);
         $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
+
+        $users = BotUserInfo::where("rest_id", $order->rest_id)
+            ->where("user_type", UserTypeEnum::Admin)
+            ->where("is_working", true)
+            ->get();
+
+        if (count($users) == 0)
+            return;
+
+        foreach ($users as $user)
+            $bot->sendMessageToChat($user->chat_id, $message);
+
         $bot->editReplyKeyboard();
 
     }
