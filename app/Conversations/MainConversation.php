@@ -357,7 +357,9 @@ class MainConversation extends Conversation
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
         $time = isset($d[2]) ? intval($d[2]) : null;
 
-        Log::info(print_r($d, true));
+        if (!is_null($time))
+            $bot->reply("Установлено время готовности *$time* минут.");
+
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
