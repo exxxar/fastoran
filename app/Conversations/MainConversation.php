@@ -195,7 +195,7 @@ class MainConversation extends Conversation
                 }
             }
 
-            $message_admin = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена заказа:*%s руб.*\n",
+            $message = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена заказа:*%s руб.*\nЦена доставки:*%s руб. (Расстояние %s км)*\n",
                 $order->id,
                 $order->restoran->name ?? "не указано",
                 $order->restoran->adress ?? "не указано",
@@ -207,25 +207,11 @@ class MainConversation extends Conversation
                 $order->order->receiver_order_note ?? "",
                 $order->delivery_note ?? "не указано",
                 $custom_details ?? "нет",
-                $order->summary_price ?? "не указано"
+                $order->summary_price ?? "не указано",
+                $order->delivery_price ?? "не указано",
+                $order->delivery_range ?? "не указано"
             );
 
-            $message_deliveryman = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена доставки:*%s руб. (Расстояние %s км)*\nЦена заказа:*%s руб.*\n",
-                $order->id,
-                $order->restoran->name ?? "не указано",
-                $order->restoran->adress ?? "не указано",
-                $order->user->name ?? "имя не указано",
-                $order->receiver_phone ?? "не указано",
-                $order->receiver_delivery_time ?? "По готовности",
-                $order->receiver_address ?? "не указано",
-                $delivery_order_tmp,
-                $order->order->receiver_order_note ?? "",
-                $order->delivery_note ?? "не указано",
-                $custom_details ?? "нет",
-                $order->delivery_price ?? "не указано",
-                $order->delivery_range ?? "не указано",
-                $order->summary_price ?? "не указано"
-            );
 
 
             $keyboard_deliveryman = [
@@ -241,7 +227,7 @@ class MainConversation extends Conversation
 
 
             $bot->reply(
-                $message_deliveryman,
+                $message,
                 $keyboard_deliveryman
             );
         }
@@ -264,7 +250,7 @@ class MainConversation extends Conversation
                 ->get() :
             Order::with(["details", "restoran", "details.product", "user"])
                 ->whereNull("deliveryman_id")
-                ->where("status", OrderStatusEnum::InDeliveryProcess)
+                ->where("status", OrderStatusEnum::GettingReady)
                 ->where('created_at', '>', Carbon::now()->subDay())
                 ->get();
 
@@ -314,21 +300,10 @@ class MainConversation extends Conversation
                 $order->summary_price ?? "не указано"
             );
 
-            $message_deliveryman = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена доставки:*%s руб. (Расстояние %s км)*\nЦена заказа:*%s руб.*\n",
-                $order->id,
-                $order->restoran->name ?? "не указано",
-                $order->restoran->adress ?? "не указано",
-                $order->user->name ?? "имя не указано",
-                $order->receiver_phone ?? "не указано",
-                $order->receiver_delivery_time ?? "По готовности",
-                $order->receiver_address ?? "не указано",
-                $delivery_order_tmp,
-                $order->order->receiver_order_note ?? "",
-                $order->delivery_note ?? "не указано",
-                $custom_details ?? "нет",
+            $message_deliveryman = sprintf("%s\nЦена доставки:*%s руб. (Расстояние %s км)*\n",
+                $message_admin,
                 $order->delivery_price ?? "не указано",
-                $order->delivery_range ?? "не указано",
-                $order->summary_price ?? "не указано"
+                $order->delivery_range ?? "не указано"
             );
 
 
@@ -350,10 +325,10 @@ class MainConversation extends Conversation
             ];
 
             $bot->reply(
-                $user->user_type == 1 ?
+                $user->user_type == UserTypeEnum::Deliveryman ?
                     $message_deliveryman :
                     $message_admin,
-                $user->user_type == 1 ?
+                $user->user_type == UserTypeEnum::Deliveryman ?
                     $keyboard_deliveryman :
                     $keyboard_admin
             );
@@ -362,8 +337,7 @@ class MainConversation extends Conversation
         }
     }
 
-    public
-    static function acceptOrder($bot, ...$d)
+    public static function acceptOrder($bot, ...$d)
     {
         $user = $bot->getUser();
 
@@ -374,6 +348,7 @@ class MainConversation extends Conversation
 
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
 
+        Log::info("Order=>$orderId");
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
@@ -460,8 +435,7 @@ class MainConversation extends Conversation
         $bot->reply($message);
     }
 
-    public
-    static function declineOrder($bot, ...$d)
+    public static function declineOrder($bot, ...$d)
     {
         $user = $bot->getUser();
 
@@ -469,8 +443,6 @@ class MainConversation extends Conversation
             $bot->getFallbackMenu("Вы не являетесь сотрудником!");
             return;
         }
-
-        $orderId = isset($d[1]) ? intval($d[1]) : 0;
 
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
 
@@ -528,7 +500,9 @@ class MainConversation extends Conversation
             return;
         }
 
-        $order->status = OrderStatusEnum::InProcessing;
+        $order->status = $user->user_type === UserTypeEnum::Deliveryman?
+            OrderStatusEnum::InProcessing:
+            OrderStatusEnum::DeclineByAdmin;
         $order->deliveryman_id = null;
         $order->save();
 
@@ -540,13 +514,13 @@ class MainConversation extends Conversation
             $order->id
         );
 
+        $bot->reply($message);
         $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
 
-        $bot->reply($message);
+
     }
 
-    public
-    static function delivered($bot, ...$d)
+    public static function delivered($bot, ...$d)
     {
         $user = $bot->getUser();
 
@@ -623,9 +597,9 @@ class MainConversation extends Conversation
         if (!is_null($order->user->phone))
             event(new SendSmsEvent($order->user->phone, "Ваш заказ доставлен! https://fastoran.com"));
 
-
-        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
         $bot->reply($message);
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
     }
 
 
