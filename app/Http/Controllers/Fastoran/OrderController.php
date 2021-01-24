@@ -1032,8 +1032,6 @@ class OrderController extends Controller
             "parent_id" => 'required',
         ]);
 
-        Log::info("parent_id=" . $request->get("parent_id"));
-        Log::info("city=" . $request->get("city"));
 
         $rest = Restoran::where("parent_id", $request->get("parent_id"))
             ->where("city", $request->get("city"))

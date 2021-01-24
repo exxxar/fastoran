@@ -312,7 +312,7 @@ abstract class AbstractBot
 
     private function routeHandler()
     {
-        Log::info("route=>".$this->query);
+
         $find = false;
 
         $matches = [];
@@ -389,7 +389,6 @@ abstract class AbstractBot
 
             $needValidate = !is_null($item["pattern"]);
 
-            Log::info($needValidate ? "need" : "not need");
             $pattern = $needValidate ? preg_match($item["pattern"], $this->query, $matches) : null;
 
             $is_valid = $pattern != null;

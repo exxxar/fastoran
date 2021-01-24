@@ -278,7 +278,7 @@ class MainConversation extends Conversation
 
             $delivery_order_tmp = "";
             foreach ($order->details as $detail) {
-                $product = $detail->product_details;
+                $product = (object)$detail->product_details;
                 $local_tmp = sprintf("%s %s шт. %s руб.\n",
                     $product->food_name ?? "не указано",
                     $detail->count,
@@ -368,7 +368,7 @@ class MainConversation extends Conversation
             $delivery_order_tmp = "";
             foreach ($order->details as $detail) {
                 $product = (object)$detail->product_details;
-                Log::info("detail=>".print_r($product,true));
+
                 $local_tmp = sprintf("%s %s шт. %s руб.\n",
                     $product->food_name ?? "не указано",
                     $detail->count,
