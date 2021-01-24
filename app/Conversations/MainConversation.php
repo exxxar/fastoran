@@ -406,7 +406,6 @@ class MainConversation extends Conversation
         );
 
 
-        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
 
         if ($user->user_type == UserTypeEnum::Admin) {
             $restCity = (Restoran::where("id", $order->rest_id)->first())->city ?? 'Донецк';
@@ -433,6 +432,9 @@ class MainConversation extends Conversation
         event(new SendSmsEvent($order->receiver_phone, "Ваш #$order->id заказ готовится!"));
 
         $bot->reply($message);
+
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+
     }
 
     public static function declineOrder($bot, ...$d)
