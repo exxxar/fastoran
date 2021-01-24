@@ -213,7 +213,6 @@ class MainConversation extends Conversation
             );
 
 
-
             $keyboard_deliveryman = [
                 [
 
@@ -390,13 +389,15 @@ class MainConversation extends Conversation
 
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
-                $bot->reply("Ошибочка....".$error[0]);
+                $bot->reply("Ошибочка...." . $error[0]);
             return;
         }
 
 
-        $order->status = OrderStatusEnum::InDeliveryProcess;
-        $order->deliveryman_id = $user->user_id;
+        $order->status = $user->user_type == UserTypeEnum::Deliveryman ?
+            OrderStatusEnum::InDeliveryProcess :
+            OrderStatusEnum::GettingReady;
+        $order->deliveryman_id = $user->user_type == UserTypeEnum::Deliveryman ? $user->user_id : null;
         $order->save();
 
         $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
@@ -433,14 +434,12 @@ class MainConversation extends Conversation
                     [
                         ["text" => "Начать доставку заказа!", "callback_data" => "/accept_order $orderId"],
 
-                    ],[
+                    ], [
                         ["text" => "Отменить доставку заказ!", "callback_data" => "/decline_order $orderId"]
                     ]
                 ]);
             }
         }
-
-
 
 
     }
@@ -506,12 +505,12 @@ class MainConversation extends Conversation
 
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
-                $bot->reply("Ошибочка....".$error[0]);
+                $bot->reply("Ошибочка...." . $error[0]);
             return;
         }
 
-        $order->status = $user->user_type === UserTypeEnum::Deliveryman?
-            OrderStatusEnum::InProcessing:
+        $order->status = $user->user_type === UserTypeEnum::Deliveryman ?
+            OrderStatusEnum::InProcessing :
             OrderStatusEnum::DeclineByAdmin;
         $order->deliveryman_id = null;
         $order->save();
@@ -590,7 +589,7 @@ class MainConversation extends Conversation
 
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
-                $bot->reply("Ошибочка....".$error[0]);
+                $bot->reply("Ошибочка...." . $error[0]);
             return;
         }
 
