@@ -420,7 +420,7 @@ class MainConversation extends Conversation
                 return;
 
             foreach ($users as $user) {
-                $bot->sendMessageToChat($user->chat_id, $message, [
+                $bot->sendMessageToChat($user->chat_id, $message??"Ошибка...", [
                     [
                         ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
                         ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
