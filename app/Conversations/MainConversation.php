@@ -45,7 +45,7 @@ class MainConversation extends Conversation
 
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
 
-        $bot->getFallbackMenu("Введите ключевое слово!");
+        $bot->reply("Введите причину отказа!");
         $bot->startConversation("decline_message",[
             "order_id" => $orderId
         ]);
