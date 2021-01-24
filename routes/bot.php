@@ -32,6 +32,7 @@ $this->hears("/day|.*Заказы за день", MainConversation::class . "::d
 $this->hears("/self|.*Моя доставка", MainConversation::class . "::myDeliveryOrders");
 
 $this->hears("/accept_order ([0-9]+)", MainConversation::class . "::acceptOrder");
+$this->hears("/decline_order_dialog ([0-9]+)", MainConversation::class . "::declineOrderDialog");
 $this->hears("/accept_time_order ([0-9]+) ([0-9]+)", MainConversation::class . "::acceptOrder");
 $this->hears("/set_time_and_accept ([0-9]+)", MainConversation::class . "::setTimeAndAccept");
 $this->hears("/decline_order ([0-9]+)", MainConversation::class . "::declineOrder");

@@ -34,6 +34,108 @@ class MainConversation extends Conversation
         $bot->getMainMenu("Добро пожаловать в Систему правления заказами Fastoran!");
     }
 
+    public static function declineOrderDialog($bot, ...$d)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $bot->getFallbackMenu("Введите ключевое слово!");
+        $bot->startConversation("decline_message",[
+            "order_id" => $orderId
+        ]);
+
+    }
+
+    public static function declineMessage($bot, $comment)
+    {
+        $bot->reply("Вы ввели: *$comment*");
+
+        $orderId =  $bot->storeGet("order_id");
+
+        $bot->stopConversation();
+
+        $order = Order::with(["restoran"])
+            ->where("id", $orderId)
+            ->first();
+
+        $user = $bot->getUser();
+
+
+        $validator = Validator::make(
+            [
+                "user" => $user,
+                "order" => $order,
+            ],
+            [
+                'user' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value->user_type === 0) {
+                            $fail('Пользователь не является доставщиком или администратором');
+                        }
+                    },
+                ],
+                'order' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($user) {
+                        if (is_null($user)) {
+                            $fail("Ошибка валидации пользователя");
+                            return false;
+                        }
+
+                        if ($user->user_type === UserTypeEnum::Admin)
+                            return true;
+
+
+                        if ($value->deliveryman_id !== $user->user_id) {
+                            $fail(sprintf("Заказ #%s не принадлежит доставщику #%s",
+                                $value->id,
+                                $user->id
+                            ));
+                        }
+                    },
+                ]
+
+            ],
+            [
+                'user.required' => 'Пользователь не найден',
+                'order.required' => 'Заказ не найден',
+            ]);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->toArray() as $error)
+                $bot->reply("Ошибочка...." . $error[0]);
+            $bot->editReplyKeyboard();
+            return;
+        }
+
+        $order->status = $user->user_type === UserTypeEnum::Deliveryman ?
+            OrderStatusEnum::InProcessing :
+            OrderStatusEnum::DeclineByAdmin;
+        $order->deliveryman_id = null;
+        $order->save();
+
+
+        $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
+            "Доставщик *#%s* отказася от заказа *#%s с комментарием %s*" :
+            "Администратор *#%s* установил пометку 'отказ' к заказу *#%s* с комментарием %s"),
+            $user->id,
+            $order->id,
+            $comment
+        );
+
+        $bot->reply($message);
+        $bot->sendMessageToChat(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message);
+        $bot->editReplyKeyboard();
+
+    }
+
     public static function keyword($bot, $message)
     {
         $bot->reply("Вы ввели: *$message*");
@@ -141,6 +243,8 @@ class MainConversation extends Conversation
         $user->save();
         $bot->getFallbackMenu("Введите ключевое слово!");
         $bot->startConversation("keyword_ask");
+
+
     }
 
     public static function faq($bot)
@@ -328,7 +432,7 @@ class MainConversation extends Conversation
 
                 ],
                 [
-                    ["text" => "Отклонить заказ", "callback_data" => "/decline_order " . ($order->id)],
+                    ["text" => "Отклонить заказ", "callback_data" => "/decline_order_dialog " . ($order->id)],
                 ]
             ];
 
