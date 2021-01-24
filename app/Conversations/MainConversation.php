@@ -307,14 +307,20 @@ class MainConversation extends Conversation
 
 
             $keyboard_deliveryman = [
-                [
-                    ["text" => "Подтвердить доставку", "callback_data" => "/delivered " . ($order->id)],
-                ],
+
                 [
 
                     ["text" => "Отказаться от заказа", "callback_data" => "/decline_delivery " . ($order->id)]
                 ]
             ];
+
+
+            array_push($keyboard_deliveryman,
+                is_null($order->deliveryman_id) ?
+                    [["text" => "Начать доставку заказа!", "callback_data" => "/accept_order $order->id"]] :
+                    [["text" => "Подтвердить доставку", "callback_data" => "/delivered " . ($order->id)]]
+            );
+
 
             $keyboard_admin = [
                 [
