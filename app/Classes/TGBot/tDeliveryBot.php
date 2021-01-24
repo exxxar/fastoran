@@ -13,10 +13,7 @@ trait tDeliveryBot
         ["Заказы за день"],
         ["Сменить статус"],
         ["Как пользоваться"],
-        [
-            ["text" => "Отправить мой номер",
-                "request_contact" => true]
-        ]
+
     ];
 
     protected $fallback_keyboard = [
@@ -33,8 +30,13 @@ trait tDeliveryBot
         $user = $this->getUser();
         $is_work = $user->is_working;
 
-
         $this->main_menu_keyboard[0][0] = sprintf($this->main_menu_keyboard[0][0], $is_work ? "\xE2\x9D\x8EЯ не работаю" : "\xE2\x9C\x85Я работаю");
+
+        if (is_null($user->phone))
+            array_push($this->main_menu_keyboard, [
+                ["text" => "Отправить мой номер",
+                    "request_contact" => true]
+            ]);
 
         if ($user->user_type == UserTypeEnum::Deliveryman)
             array_push($this->main_menu_keyboard[1], "Моя доставка");
