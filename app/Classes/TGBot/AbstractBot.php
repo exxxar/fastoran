@@ -476,7 +476,7 @@ abstract class AbstractBot
         }
     }
 
-    public function createNewBotUser($parent_id = null,$bot_id=null)
+    public function createNewBotUser($parent_id = null)
     {
         $id = $this->telegram_user->id;
         $username = $this->telegram_user->username;
@@ -496,7 +496,7 @@ abstract class AbstractBot
 
             BotUserInfo::create([
                 'chat_id' => $id,
-                'bot_id' => $bot_id,
+                'bot_id' => $this->bot_id,
                 'account_name' => $username,
                 'fio' => "$firstName $lastName",
                 'cash_back' => 0,

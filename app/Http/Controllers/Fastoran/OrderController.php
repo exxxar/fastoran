@@ -214,8 +214,11 @@ class OrderController extends Controller
                     'reply_markup' => json_encode([
                         'inline_keyboard' => [
                             [
-                                ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
-                                ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
+                                ["text" => "Подтвердить заказ!", "callback_data" => "/set_time_and_accept $orderId"],
+
+                            ],
+                            [
+                                ["text" => "Отменить заказ!", "callback_data" => "/decline_order_dialog $orderId"]
                             ]
                         ]
                     ])
