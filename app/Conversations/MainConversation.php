@@ -357,6 +357,7 @@ class MainConversation extends Conversation
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
         $time = isset($d[2]) ? intval($d[2]) : null;
 
+        Log::info(print_r($d,true));
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
