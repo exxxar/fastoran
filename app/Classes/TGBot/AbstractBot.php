@@ -187,7 +187,7 @@ abstract class AbstractBot
 
             $tmp_user->phone = $this->contact;
             $tmp_user->save();
-            $this->sendMessage("Спасибо! Ваш номер добавлен!");
+            $this->getMainMenu("Спасибо! Ваш номер добавлен!");
             return;
         }
 
