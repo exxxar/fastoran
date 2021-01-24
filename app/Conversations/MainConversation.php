@@ -319,9 +319,12 @@ class MainConversation extends Conversation
 
             $keyboard_admin = [
                 [
-                    ["text" => "Подтвердить", "callback_data" => "/accept_order " . ($order->id)],
-                    ["text" => "Отклонить", "callback_data" => "/decline_order " . ($order->id)],
+                    ["text" => "Передать в доставку", "callback_data" => "/accept_order " . ($order->id)],
+
                 ],
+                [
+                    ["text" => "Отклонить заказ", "callback_data" => "/decline_order " . ($order->id)],
+                ]
             ];
 
             $bot->reply(
@@ -387,7 +390,7 @@ class MainConversation extends Conversation
 
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
-                $bot->reply($error);
+                $bot->reply("Ошибочка....");
             return;
         }
 
@@ -426,8 +429,10 @@ class MainConversation extends Conversation
             foreach ($users as $user) {
                 $bot->sendMessageToChat($user->chat_id, $message, [
                     [
-                        ["text" => "Подтвердить заказ!", "callback_data" => "/accept_order $orderId"],
-                        ["text" => "Отменить заказ!", "callback_data" => "/decline_order $orderId"]
+                        ["text" => "Начать доставку заказа!", "callback_data" => "/accept_order $orderId"],
+
+                    ],[
+                        ["text" => "Отменить доставку заказ!", "callback_data" => "/decline_order $orderId"]
                     ]
                 ]);
             }
