@@ -405,7 +405,7 @@ class MainConversation extends Conversation
             OrderStatusEnum::InDeliveryProcess :
             OrderStatusEnum::GettingReady;
         $order->deliveryman_id = $user->user_type == UserTypeEnum::Deliveryman ? $user->user_id : null;
-        $order->delivery_note = $time ?? 15;
+        $order->delivery_note = $time;
         $order->save();
 
         $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
