@@ -13,6 +13,10 @@ trait tDeliveryBot
         ["Заказы за день"],
         ["Сменить статус"],
         ["Как пользоваться"],
+        [
+            ["text" => "Отправить мой номер",
+                "request_contact" => true]
+        ]
     ];
 
     protected $fallback_keyboard = [

@@ -141,8 +141,12 @@ abstract class AbstractBot
             return;
 
 
+        $need_add_phone = false;
         if (isset($update->message->contact))
+        {
             $this->contact = $update->message->contact->phone_number;
+            $need_add_phone = true;
+        }
 
         if (isset($update->inline_query))
             $this->inlineQueryHandler($update->inline_query);
@@ -171,6 +175,19 @@ abstract class AbstractBot
             return;
 
         $this->createNewBotUser();
+
+        if ($need_add_phone)
+        {
+
+
+            $tmp_user = BotUserInfo::where("chat_id", $this->getChatId())->first();
+
+            if (is_null($tmp_user))
+                return;
+
+            $tmp_user->phone = $this->contact;
+            $tmp_user->save();
+        }
 
         if (is_null($this->query))
             return;

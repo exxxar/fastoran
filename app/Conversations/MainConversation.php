@@ -163,7 +163,7 @@ class MainConversation extends Conversation
             ];
 
 
-            $bot->reply("Вы ставли доставщиком, теперь выберите город в котором работаете!", $keyboard);
+            $bot->reply("Вы стали доставщиком, теперь выберите город в котором работаете!", $keyboard);
 
             $bot->next("keyword_city");
             return;
