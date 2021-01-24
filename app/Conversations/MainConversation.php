@@ -284,7 +284,7 @@ class MainConversation extends Conversation
                 }
             }
 
-            $message_admin = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s минут\n*Дополнение к заказу:*\n%s\nЦена заказа:*%s руб.*\n",
+            $message_admin = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s\n*Дополнение к заказу:*\n%s\nЦена заказа:*%s руб.*\n",
                 $order->id,
                 $order->restoran->name ?? "не указано",
                 $order->restoran->adress ?? "не указано",
@@ -294,7 +294,7 @@ class MainConversation extends Conversation
                 $order->receiver_address ?? "не указано",
                 $delivery_order_tmp,
                 $order->order->receiver_order_note ?? "",
-                $order->delivery_note ?? "не указано",
+                (($order->delivery_note ?? "не указано") . " минут"),
                 $custom_details ?? "нет",
                 $order->summary_price ?? "не указано"
             );
