@@ -368,6 +368,7 @@ class MainConversation extends Conversation
             $delivery_order_tmp = "";
             foreach ($order->details as $detail) {
                 $product = $detail->product_details;
+                Log::info("detail=>".print_r($product,true));
                 $local_tmp = sprintf("%s %s шт. %s руб.\n",
                     $product->food_name ?? "не указано",
                     $detail->count,
@@ -388,9 +389,6 @@ class MainConversation extends Conversation
                 }
             }
 
-            Log::info("user=>".$order->user->id);
-            Log::info("order=>".$order->id);
-            Log::info("rest=>".$order->restoran->id);
 
             $message_admin = sprintf("*Заявка #%s*\nРесторан:_%s_\nАдрес ресторана: %s\nФ.И.О.: _%s_\nТелефон заказчика:_%s_\nВремя доставки: _%s_\nАдрес доставки:_%s_\nЗаказ:\n%s\nЗаметка к заказу:%s\nВремя готовности: %s\n*Дополнение к заказу:*\n%s\nЦена заказа:*%s руб.*\n",
                 $order->id,
