@@ -147,12 +147,7 @@ class MainConversation extends Conversation
     {
         $user = $bot->getUser();
 
-        if (!$user->isActive()) {
-            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
-            return;
-        }
-
-        $bot->getMainMenu("Как пользоваться");
+        $bot->getMainMenu("Как пользоваться:\n https://telegra.ph/FASTORAN-BOT-01-24");
     }
 
     public static function myDeliveryOrders($bot)
