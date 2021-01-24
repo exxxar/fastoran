@@ -17,3 +17,7 @@ $this->ask("keyword_city", MainConversation::class . "::selectCity")
     ->fall(MainConversation::class . "::fallback",
         "Город \"%s\" должно быть *на русском*!"
     );
+
+
+
+

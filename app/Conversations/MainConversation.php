@@ -324,7 +324,7 @@ class MainConversation extends Conversation
 
             $keyboard_admin = [
                 [
-                    ["text" => "Передать в доставку", "callback_data" => "/accept_order " . ($order->id)],
+                    ["text" => "Передать в доставку", "callback_data" => "/set_time_and_accept " . ($order->id)],
 
                 ],
                 [
@@ -355,8 +355,8 @@ class MainConversation extends Conversation
         }
 
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
+        $time = isset($d[2]) ? intval($d[2]) : null;
 
-        Log::info("Order=>$orderId");
         $order = Order::with(["restoran"])
             ->where("id", $orderId)
             ->first();
@@ -404,6 +404,7 @@ class MainConversation extends Conversation
             OrderStatusEnum::InDeliveryProcess :
             OrderStatusEnum::GettingReady;
         $order->deliveryman_id = $user->user_type == UserTypeEnum::Deliveryman ? $user->user_id : null;
+        $order->delivery_note = $time ?? 15;
         $order->save();
 
         $message = sprintf(($user->user_type === UserTypeEnum::Deliveryman ?
@@ -448,6 +449,33 @@ class MainConversation extends Conversation
         }
 
 
+    }
+
+    public static function setTimeAndAccept($bot, ...$d)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $bot->reply("Выберите время доставки, в минутах:", [
+            [
+                ["text" => "5 мин", "callback_data" => "/accept_time_order $orderId 5"],
+                ["text" => "10 мин", "callback_data" => "/accept_time_order $orderId 10"],
+                ["text" => "15 мин", "callback_data" => "/accept_time_order $orderId 15"],
+                ["text" => "25 мин", "callback_data" => "/accept_time_order $orderId 25"],
+            ],
+            [
+                ["text" => "30 мин", "callback_data" => "/accept_time_order $orderId 30"],
+                ["text" => "40 мин", "callback_data" => "/accept_time_order $orderId 40"],
+                ["text" => "60 мин", "callback_data" => "/accept_time_order $orderId 60"],
+                ["text" => "90 мин", "callback_data" => "/accept_time_order $orderId 90"],
+            ]
+        ]);
     }
 
     public static function declineOrder($bot, ...$d)
@@ -512,6 +540,7 @@ class MainConversation extends Conversation
         if ($validator->fails()) {
             foreach ($validator->errors()->toArray() as $error)
                 $bot->reply("Ошибочка...." . $error[0]);
+            $bot->editReplyKeyboard();
             return;
         }
 
