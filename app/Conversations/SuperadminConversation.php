@@ -181,11 +181,16 @@ $tmp
             $rest->keyword = $keyword;
             $rest->save();
 
-            config(['app.deliveryman_keyword' => 'America/Chicago']);
 
             $mpdf->WriteHTML(sprintf("<tr><td>%s</td><td><strong>%s</strong></td></tr>", $rest->name, $keyword));
         }
 
+
+        $keyword = substr(Str::uuid(), 0, 8);
+
+        config(['app.deliveryman_keyword' => $keyword]);
+
+        $mpdf->WriteHTML(sprintf("<tr><td>Доставка</td><td><strong>%s</strong></td></tr>", $keyword));
         $mpdf->WriteHTML("</table>");
 
         $file = $mpdf->Output("keywords-list.pdf", \Mpdf\Output\Destination::STRING_RETURN);
