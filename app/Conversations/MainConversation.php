@@ -174,7 +174,7 @@ class MainConversation extends Conversation
         if (strtolower($message) === strtolower(env("FASTORAN_MAINADMIN_KEYWORD"))) {
             $user->user_type = UserTypeEnum::SuperAdmin;
             $user->save();
-
+            $bot->stopConversation();
             $bot->getMainMenu("Спасибо, вы стали СУПЕРАдминистратором!");
             return;
         }
