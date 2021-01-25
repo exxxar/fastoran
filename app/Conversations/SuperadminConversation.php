@@ -112,11 +112,15 @@ $tmp
             ->where('created_at', '>', Carbon::now()->subDay())
             ->get();
 
+        $bot->editReplyKeyboard();
 
         if (count($orders) == 0) {
             $bot->reply("Список заказов пуст!");
             return;
         }
+
+        $summary_orders = 0;
+        $summary_delivery = 0;
 
         foreach ($orders as $key => $order) {
 
@@ -151,6 +155,8 @@ $tmp
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано")
             );
 
+            $summary_orders += ($order->changed_summary_price ?? $order->summary_price ?? 0);
+            $summary_delivery += ($order->changed_delivery_price ?? $order->delivery_price ?? 0);
 
             $keyboard = [
 
@@ -170,6 +176,11 @@ $tmp
 
         }
 
+        $bot->reply(sprintf("Всего заказов за день: *%s*\nСумма заказов: *%s* руб.\nСумма доставки: %s руб",
+            count($orders),
+            $summary_orders,
+            $summary_delivery
+        ));
     }
 
     public static function deliverymanList($bot)
