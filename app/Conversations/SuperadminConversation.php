@@ -53,6 +53,11 @@ class SuperadminConversation extends Conversation
 
         $tmp = "";
         $prev_rest_id = $orders[0]->rest_id;
+        $local_rest_order_price = 0;
+        $local_rest_delivery_price = 0;
+
+        $summary_orders = 0;
+        $summary_delivery = 0;
         foreach ($orders as $key => $order) {
 
             $bot_user = !is_null($order->deliveryman) ?
@@ -61,9 +66,21 @@ class SuperadminConversation extends Conversation
 
             if ($prev_rest_id != $order->rest_id) {
                 $prev_rest_id = $order->rest_id;
-                $tmp .= "     <tr style='background-color: #00a8e6;'>
+                $tmp .= sprintf("<tr>
+<td colspan='3'>
+Цена заказа: %s руб
+</td>
+<td colspan='3'>
+Цена доставки: %s руб
+</td>
+</tr>", $local_rest_order_price, $local_rest_delivery_price);
+
+                $tmp .= "<tr style='background-color: #00a8e6;'>
 <td colspan='6'></td>
 </tr>";
+
+                $local_rest_order_price = 0;
+                $local_rest_delivery_price = 0;
             }
 
             $tmp .= sprintf("
@@ -91,7 +108,15 @@ class SuperadminConversation extends Conversation
             );
 
 
+            $local_rest_order_price += ($order->changed_summary_price ?? $order->summary_price ?? 0);
+            $local_rest_delivery_price += ($order->changed_delivery_price ?? $order->delivery_price ?? 0);
+
+            $summary_orders += ($order->changed_summary_price ?? $order->summary_price ?? 0);
+            $summary_delivery += ($order->changed_delivery_price ?? $order->delivery_price ?? 0);
+
+
         }
+
 
         $mpdf->WriteHTML("<h1>Сводка за день (сгенерировано $current_date )</h1>");
 
@@ -110,6 +135,16 @@ $tmp
 
 </table>
 ");
+
+        $mpdf->WriteHTML(sprintf("<hr><ul>
+<li>Всего заказов за день: %s</li>
+<li>Сумма заказов: %s руб.</li>
+<li>Сумма доставки: %s руб.</li>
+</ul>",
+            count($orders),
+            $summary_orders,
+            $summary_delivery
+        ));
         $file = $mpdf->Output("order-list.pdf", \Mpdf\Output\Destination::STRING_RETURN);
 
         Storage::put("order-list.pdf", $file);
