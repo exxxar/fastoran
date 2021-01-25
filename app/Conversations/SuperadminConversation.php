@@ -38,7 +38,7 @@ class SuperadminConversation extends Conversation
 
         $current_date = Carbon::now("+3:00");
 
-        $orders = Order::with(["details", "restoran", "details.product", "user"])
+        $orders = Order::with(["details", "restoran", "details.product", "user","deliveryman"])
             ->where('created_at', '>', Carbon::now()->subDay())
             ->get();
 
@@ -108,7 +108,7 @@ $tmp
             return;
         }
 
-        $orders = Order::with(["details", "restoran", "details.product", "user"])
+        $orders = Order::with(["details", "restoran", "details.product", "user","deliveryman"])
             ->where('created_at', '>', Carbon::now()->subDay())
             ->get();
 
