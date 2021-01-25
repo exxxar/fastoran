@@ -39,6 +39,8 @@ class CreateOrdersTable extends Migration
             $table->boolean('take_by_self')->default(false);
 
             $table->integer('delivery_price')->default(0);
+            $table->integer('changed_summary_price')->default(0);
+            $table->integer('changed_delivery_price')->default(0);
             $table->integer('delivery_range')->default(0);
             $table->string('delivery_note', 2000)->default('');
 

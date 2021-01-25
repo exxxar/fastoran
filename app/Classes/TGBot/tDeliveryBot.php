@@ -47,7 +47,7 @@ trait tDeliveryBot
                         "request_contact" => true]
                 ]);
 
-            $this->sendMenu("Тип пользователя *Суперадмин*\n:" . $message, $this->main_super_menu_keyboard);
+            $this->sendMenu("Тип пользователя *Суперадмин*:\n" . $message, $this->main_super_menu_keyboard);
             return;
         }
 

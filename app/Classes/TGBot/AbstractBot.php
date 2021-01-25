@@ -563,6 +563,38 @@ abstract class AbstractBot
 
     }
 
+    public function sendDocument($caption, $document, $parseMode = 'Markdown')
+    {
+
+        if (is_null($this->bot))
+            return;
+
+        try {
+            $message = [
+                "chat_id" => $this->telegram_user->id,
+                "caption" => $caption,
+                "document" => $document,
+                'parse_mode' => $parseMode
+            ];
+
+            $this->setForWeb([
+                "result" => $message
+            ]);
+
+            $this->bot->sendDocument($message);
+
+
+        } catch (\Exception $e) {
+            Log::info(sprintf("%s %s %s",
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
+            ));
+        }
+
+
+    }
+
     public function sendMessage($message, $keyboard = [], $parseMode = 'Markdown')
     {
 
