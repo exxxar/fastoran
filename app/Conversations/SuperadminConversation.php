@@ -61,6 +61,7 @@ class SuperadminConversation extends Conversation
             <tr>
 <td>%s</td>
 <td>%s</td>
+<td>%s</td>
 <td>%s руб</td>
 <td>%s руб</td>
 <td>%s</td>
