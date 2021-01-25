@@ -38,7 +38,7 @@ class SuperadminConversation extends Conversation
 
         $current_date = Carbon::now("+3:00");
 
-        $orders = Order::with(["details", "restoran", "details.product", "user","deliveryman"])
+        $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
             ->where('created_at', '>', Carbon::now()->subDay())
             ->get();
 
@@ -51,8 +51,8 @@ class SuperadminConversation extends Conversation
         $tmp = "";
         foreach ($orders as $key => $order) {
 
-            $bot_user = !is_null($order->deliveryman)?
-                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first():
+            $bot_user = !is_null($order->deliveryman) ?
+                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first() :
                 null;
             $tmp .= sprintf("
             <tr>
@@ -64,10 +64,16 @@ class SuperadminConversation extends Conversation
 </tr>
 ",
                 $order->id,
-                ($order->restoran->name??"не указано"),
+                ($order->restoran->name ?? "не указано"),
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
-                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? $order->deliveryman->phone?? $order->deliveryman->id??"не указано")
+                ($bot_user->phone ??
+                    $bot_user->fio ??
+                    $bot_user->account_name ??
+                    $order->deliveryman->phone ??
+                    $order->deliveryman->telegram_chat_id ??
+                    $order->deliveryman->id
+                    ?? "не указано")
             );
 
 
@@ -110,7 +116,7 @@ $tmp
             return;
         }
 
-        $orders = Order::with(["details", "restoran", "details.product", "user","deliveryman"])
+        $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
             ->where('created_at', '>', Carbon::now()->subDay())
             ->get();
 
@@ -127,16 +133,22 @@ $tmp
         foreach ($orders as $key => $order) {
 
 
-            $bot_user = !is_null($order->deliveryman)?
-                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first():
+            $bot_user = !is_null($order->deliveryman) ?
+                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first() :
                 null;
 
             $message = sprintf("*Заявка #%s*, цена заказа *%s руб*, цена доставки *%s руб*, ресторан *%s*, доставщик *%s*",
                 $order->id,
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
-                ($order->restoran->name??"не указано"),
-                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? $order->deliveryman->phone?? $order->deliveryman->id??"не указано")
+                ($order->restoran->name ?? "не указано"),
+                ($bot_user->phone ??
+                    $bot_user->fio ??
+                    $bot_user->account_name ??
+                    $order->deliveryman->phone ??
+                    $order->deliveryman->telegram_chat_id ??
+                    $order->deliveryman->id
+                    ?? "не указано")
             );
 
             $summary_orders += ($order->changed_summary_price ?? $order->summary_price ?? 0);
