@@ -40,6 +40,7 @@ class SuperadminConversation extends Conversation
 
         $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
             ->where('created_at', '>', Carbon::now()->subDay())
+            ->orderBy("rest_id", "ASC")
             ->get();
 
 
@@ -47,6 +48,8 @@ class SuperadminConversation extends Conversation
             $bot->reply("Список заказов пуст!");
             return;
         }
+
+        $order_status_arr = ["В процессе", "Взят рестораном", "Взят доставщиком","Доставлено", "Отменено админом", "В очереди"];
 
         $tmp = "";
         foreach ($orders as $key => $order) {
@@ -58,13 +61,14 @@ class SuperadminConversation extends Conversation
             <tr>
 <td>%s</td>
 <td>%s</td>
-<td>%s</td>
-<td>%s</td>
+<td>%s руб</td>
+<td>%s руб</td>
 <td>%s</td>
 </tr>
 ",
                 $order->id,
                 ($order->restoran->name ?? "не указано"),
+                $order_status_arr[ $order->status],
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
                 ($bot_user->phone ??
@@ -86,7 +90,8 @@ class SuperadminConversation extends Conversation
 <tr>
 <td><strong>№ заказа</strong></td>
 <td><strong>Ресторан</strong></td>
-<td><strong>Цена зака</strong></td>
+<td><strong>Статус</strong></td>
+<td><strong>Цена заказа</strong></td>
 <td><strong>Цена доставки</strong></td>
 <td><strong>Доставщик</strong></td>
 </tr>
@@ -118,6 +123,7 @@ $tmp
 
         $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
             ->where('created_at', '>', Carbon::now()->subDay())
+            ->orderBy("rest_id", "ASC")
             ->get();
 
         $bot->editReplyKeyboard();
@@ -158,9 +164,15 @@ $tmp
 
                 [
 
-                    ["text" => "Цена заказа", "callback_data" => "/change_summary_price " . ($order->id)],
-                    ["text" => "Цена доставки", "callback_data" => "/change_delivery_price " . ($order->id)]
+                    ["text" => "Цена заказ", "callback_data" => "/change_summary_price " . ($order->id)],
+                    ["text" => "Цена доставки", "callback_data" => "/change_delivery_price " . ($order->id)],
+
+                ],
+                [
+                    ["text" => "Доставлен", "callback_data" => "/delivered " . ($order->id)],
+                    ["text" => "Отмена", "callback_data" => "/decline_order " . ($order->id)]
                 ]
+
             ];
 
 
