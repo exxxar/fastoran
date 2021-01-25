@@ -51,7 +51,9 @@ class SuperadminConversation extends Conversation
         $tmp = "";
         foreach ($orders as $key => $order) {
 
-            $bot_user = BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first();
+            $bot_user = !is_null($order->deliveryman)?
+                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first():
+                null;
             $tmp .= sprintf("
             <tr>
 <td>%s</td>
@@ -65,7 +67,7 @@ class SuperadminConversation extends Conversation
                 ($order->restoran->name??"не указано"),
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
-                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? "не указано")
+                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? $order->deliveryman->phone?? $order->deliveryman->id??"не указано")
             );
 
 
@@ -134,7 +136,7 @@ $tmp
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
                 ($order->restoran->name??"не указано"),
-                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? "не указано")
+                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? $order->deliveryman->phone?? $order->deliveryman->id??"не указано")
             );
 
             $summary_orders += ($order->changed_summary_price ?? $order->summary_price ?? 0);
