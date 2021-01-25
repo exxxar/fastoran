@@ -39,7 +39,7 @@ class SuperadminConversation extends Conversation
         $current_date = Carbon::now("+3:00");
 
         $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
-            ->where('created_at', '>', Carbon::now("-3:00")->subDay())
+            ->where('created_at', '>', Carbon::now("+3:00")->subDay())
             ->orderBy("rest_id", "ASC")
             ->get();
 
@@ -68,10 +68,10 @@ class SuperadminConversation extends Conversation
                 $prev_rest_id = $order->rest_id;
                 $tmp .= sprintf("<tr>
 <td colspan='3'>
-Цена заказа: %s руб
+Сумма с заказов: %s руб
 </td>
 <td colspan='3'>
-Цена доставки: %s руб
+Сумма за доставку: %s руб
 </td>
 </tr>", $local_rest_order_price, $local_rest_delivery_price);
 
@@ -136,11 +136,11 @@ $tmp
 </table>
 ");
 
-        $mpdf->WriteHTML(sprintf("<hr><ul>
-<li>Всего заказов за день: %s</li>
-<li>Сумма заказов: %s руб.</li>
-<li>Сумма доставки: %s руб.</li>
-</ul>",
+        $mpdf->WriteHTML(sprintf("<hr>
+<p>Всего заказов за день: %s</p>
+<p>Сумма заказов: %s руб.</p>
+<p>Сумма доставки: %s руб.</p>
+",
             count($orders),
             $summary_orders,
             $summary_delivery
