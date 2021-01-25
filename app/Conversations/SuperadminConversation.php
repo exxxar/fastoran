@@ -69,7 +69,7 @@ class SuperadminConversation extends Conversation
 ",
                 $order->id,
                 ($order->restoran->name ?? "не указано"),
-                ($order_status_arr[$order->status]??$order->status??"Ошибка"),
+                ($order_status_arr[$order->status->value]??$order->status->value??"Ошибка"),
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
                 ($bot_user->phone ??
