@@ -124,35 +124,14 @@ $tmp
 
         foreach ($orders as $key => $order) {
 
-            $delivery_order_tmp = "";
-            foreach ($order->details as $detail) {
-                $product = (object)$detail->product_details;
+            $bot_user = BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first();
 
-                $local_tmp = sprintf("%s %s шт. %s руб.\n",
-                    $product->food_name ?? "не указано",
-                    $detail->count,
-                    $product->food_price ?? "не указано"
-                );
-
-                $delivery_order_tmp .= $local_tmp;
-            }
-
-            $custom_details = "";
-            if (count($order->custom_details) > 0) {
-                foreach ($order->custom_details as $detail) {
-                    $local_tmp = sprintf("%s - %s руб.\n",
-                        $detail->name,
-                        $detail->price
-                    );
-                    $custom_details .= $local_tmp;
-                }
-            }
-
-
-            $message = sprintf("*Заявка #%s*, цена заказа %s руб, цена доставки %s руб.",
+            $message = sprintf("*Заявка #%s*, цена заказа *%s руб*, цена доставки *%s руб*, ресторан *%s*, доставщик *%s*",
                 $order->id,
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
-                ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано")
+                ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
+                $order->rest->name,
+                ($bot_user->phone ?? $bot_user->fio ?? $bot_user->account_name ?? "не указано")
             );
 
             $summary_orders += ($order->changed_summary_price ?? $order->summary_price ?? 0);
@@ -176,7 +155,7 @@ $tmp
 
         }
 
-        $bot->reply(sprintf("Всего заказов за день: *%s*\nСумма заказов: *%s* руб.\nСумма доставки: %s руб",
+        $bot->reply(sprintf("Всего заказов за день: *%s заказов*\nСумма заказов: *%s руб*\nСумма доставки: *%s руб*",
             count($orders),
             $summary_orders,
             $summary_delivery
