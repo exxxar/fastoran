@@ -212,10 +212,6 @@ $tmp
                     ["text" => "Цена заказа", "callback_data" => "/change_summary_price " . ($order->id)],
                     ["text" => "Цена доставки", "callback_data" => "/change_delivery_price " . ($order->id)],
 
-                ],
-                [
-                    ["text" => "Доставлен", "callback_data" => "/delivered " . ($order->id)],
-                    ["text" => "Отмена", "callback_data" => "/decline_order " . ($order->id)]
                 ]
 
             ];
