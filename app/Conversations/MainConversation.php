@@ -143,14 +143,16 @@ class MainConversation extends Conversation
         $rest = Restoran::where("keyword", $message)->first();
 
         if (is_null($rest) &&
-            strtolower($message) !== strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD"))) {
+            strtolower($message) !== strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD")) &&
+            strtolower($message) !== strtolower(env("FASTORAN_MAINADMIN_KEYWORD"))
+        ) {
             $bot->reply("Неверный код, попробуйте другой!");
             $bot->next("keyword_ask");
             return;
         }
 
         if (strtolower($message) === strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD"))) {
-            $user->user_type = 1;
+            $user->user_type = UserTypeEnum::Deliveryman;
             $user->save();
 
             $keyboard = [
@@ -169,7 +171,15 @@ class MainConversation extends Conversation
             return;
         }
 
-        $user->user_type = 2;
+        if (strtolower($message) === strtolower(env("FASTORAN_MAINADMIN_KEYWORD"))) {
+            $user->user_type = UserTypeEnum::SuperAdmin;
+            $user->save();
+
+            $bot->getMainMenu("Спасибо, вы стали СУПЕРАдминистратором!");
+            return;
+        }
+
+        $user->user_type = UserTypeEnum::Admin;
         $user->rest_id = $rest->id;
         $user->save();
         $bot->stopConversation();

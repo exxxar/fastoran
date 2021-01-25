@@ -15,6 +15,7 @@ use App\Conversations\PollsFormConversation;
 use App\Conversations\QuestionConversation;
 use App\Conversations\SearchModelConversation;
 use App\Conversations\StartDataConversation;
+use App\Conversations\SuperadminConversation;
 use App\Conversations\WannaComboPPConversation;
 use App\Conversations\WannaFitnessConversation;
 use Illuminate\Support\Facades\Log;
@@ -30,6 +31,12 @@ $this->hears("/change_type|.*Сменить статус", MainConversation::cla
 $this->hears("/faq|.*Как пользоваться", MainConversation::class . "::faq");
 $this->hears("/day|.*Заказы за день", MainConversation::class . "::day");
 $this->hears("/self|.*Моя доставка", MainConversation::class . "::myDeliveryOrders");
+
+$this->hears("/pdf|.*PDF-сводка за день", SuperadminConversation::class . "::generatePdf");
+$this->hears("/all|.*Все заказы за день", SuperadminConversation::class . "::allDayOrders");
+$this->hears("/deliveryman_list|.*Доставщики", SuperadminConversation::class . "::deliverymanList");
+$this->hears("/admin_list|.*Администраторы", SuperadminConversation::class . "::adminList");
+
 
 $this->hears("/accept_order ([0-9]+)", MainConversation::class . "::acceptOrder");
 $this->hears("/decline_order_dialog ([0-9]+)", MainConversation::class . "::declineOrderDialog");
