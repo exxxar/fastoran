@@ -39,7 +39,7 @@ class SuperadminConversation extends Conversation
         $current_date = Carbon::now("+3:00");
 
         $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
-            ->where('created_at', '>', Carbon::now()->subDay())
+            ->where('created_at', '>', Carbon::now("-3:00")->subDay())
             ->orderBy("rest_id", "ASC")
             ->get();
 
@@ -49,14 +49,23 @@ class SuperadminConversation extends Conversation
             return;
         }
 
-        $order_status_arr = ["В процессе", "Взят рестораном", "Взят доставщиком","Доставлено", "Отменено админом", "В очереди"];
+        $order_status_arr = ["В процессе", "Взят рестораном", "Взят доставщиком", "Доставлено", "Отменено админом", "В очереди"];
 
         $tmp = "";
+        $prev_rest_id = $orders[0]->rest_id;
         foreach ($orders as $key => $order) {
 
             $bot_user = !is_null($order->deliveryman) ?
                 BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first() :
                 null;
+
+            if ($prev_rest_id != $order->rest_id) {
+                $prev_rest_id = $order->rest_id;
+                $tmp .= "     <tr style='background-color: #00a8e6;'>
+<td colspan='6'></td>
+</tr>";
+            }
+
             $tmp .= sprintf("
             <tr>
 <td>%s</td>
@@ -69,7 +78,7 @@ class SuperadminConversation extends Conversation
 ",
                 $order->id,
                 ($order->restoran->name ?? "не указано"),
-                ($order_status_arr[$order->status->value]??$order->status->value??"Ошибка"),
+                ($order_status_arr[$order->status->value] ?? $order->status->value ?? "Ошибка"),
                 ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
                 ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
                 ($bot_user->phone ??
@@ -84,7 +93,7 @@ class SuperadminConversation extends Conversation
 
         }
 
-        $mpdf->WriteHTML("<h1>Сводка за день $current_date</h1>");
+        $mpdf->WriteHTML("<h1>Сводка за день (сгенерировано $current_date )</h1>");
 
         $mpdf->WriteHTML("<table>
 
@@ -123,7 +132,7 @@ $tmp
         }
 
         $orders = Order::with(["details", "restoran", "details.product", "user", "deliveryman"])
-            ->where('created_at', '>', Carbon::now()->subDay())
+            ->where('created_at', '>', Carbon::now("+3:00")->subDay())
             ->orderBy("rest_id", "ASC")
             ->get();
 
@@ -165,7 +174,7 @@ $tmp
 
                 [
 
-                    ["text" => "Цена заказ", "callback_data" => "/change_summary_price " . ($order->id)],
+                    ["text" => "Цена заказа", "callback_data" => "/change_summary_price " . ($order->id)],
                     ["text" => "Цена доставки", "callback_data" => "/change_delivery_price " . ($order->id)],
 
                 ],
