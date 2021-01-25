@@ -190,6 +190,9 @@ $tmp
 
         config(['app.deliveryman_keyword' => $keyword]);
 
+        $mpdf->WriteHTML("<tr style='background-color: #00a8e6;'>
+<td colspan='2'></td>
+</tr>");
         $mpdf->WriteHTML(sprintf("<tr><td>Доставка</td><td><strong>%s</strong></td></tr>", $keyword));
         $mpdf->WriteHTML("</table>");
 
