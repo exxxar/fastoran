@@ -143,7 +143,7 @@ class MainConversation extends Conversation
         $rest = Restoran::where("keyword", $message)->first();
 
         if (is_null($rest) &&
-            strtolower($message) !== strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD")) &&
+            strtolower($message) !== strtolower(config("app.deliveryman_keyword")) &&
             strtolower($message) !== strtolower(env("FASTORAN_MAINADMIN_KEYWORD"))
         ) {
             $bot->reply("Неверный код, попробуйте другой!");
@@ -151,7 +151,7 @@ class MainConversation extends Conversation
             return;
         }
 
-        if (strtolower($message) === strtolower(env("FASTORAN_DELIVERYMAN_KEYWORD"))) {
+        if (strtolower($message) === strtolower(config("app.deliveryman_keyword"))) {
             $user->user_type = UserTypeEnum::Deliveryman;
             $user->save();
 

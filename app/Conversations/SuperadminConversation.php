@@ -157,6 +157,46 @@ $tmp
 
     }
 
+
+    public static function refreshAllKeywords($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $mpdf = new Mpdf();
+
+        $current_date = Carbon::now("+3:00");
+
+        $restorans = Restoran::all();
+        $mpdf->WriteHTML("<h1>Список ключей заведений (сгенерировано $current_date)</h1>");
+        foreach($restorans as $rest){
+
+            $keyword = substr(Str::uuid(),0,8);
+
+            $rest->keyword=$keyword;
+            $rest->save();
+
+            config(['app.deliveryman_keyword' => 'America/Chicago']);
+
+            $mpdf->WriteHTML(sprintf("<p>%s<strong>%s</strong></p>",$rest->name,$keyword));
+        }
+
+        $file = $mpdf->Output("keywords-list.pdf", \Mpdf\Output\Destination::STRING_RETURN);
+
+        Storage::put("keywords-list.pdf", $file);
+
+        $bot->sendDocument(
+            "Ключи заведений за $current_date",
+            InputFile::create(storage_path('app/public') . "/keywords-list.pdf")
+        );
+
+        $bot->getMainMenu("Все ключи обновлены");
+    }
+
     public static function allDayOrders($bot)
     {
         $user = $bot->getUser();

@@ -52,6 +52,7 @@ return [
     | your application so that it is used when running Artisan tasks.
     |
     */
+    'deliveryman_keyword' => env("FASTORAN_DELIVERYMAN_KEYWORD", "test"),
 
     'url' => env('APP_URL', 'https://fastoran.com'),
 
@@ -235,7 +236,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
+        'Telegram' => Telegram\Bot\Laravel\Facades\Telegram::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'SemySMS' => Allanvb\LaravelSemysms\Facades\SemySMS::class,
         'YaGeo' => Yandex\Geocode\Facades\YandexGeocodeFacade::class,

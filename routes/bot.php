@@ -36,6 +36,7 @@ $this->hears("/pdf|.*PDF-сводка за день", SuperadminConversation::cl
 $this->hears("/all|.*Все заказы за день", SuperadminConversation::class . "::allDayOrders");
 $this->hears("/deliveryman_list|.*Доставщики", SuperadminConversation::class . "::deliverymanList");
 $this->hears("/admin_list|.*Администраторы", SuperadminConversation::class . "::adminList");
+$this->hears("/refresh_all_keywords|.*Обновить все ключи", SuperadminConversation::class . "::refreshAllKeywords");
 
 
 $this->hears("/accept_order ([0-9]+)", MainConversation::class . "::acceptOrder");
