@@ -172,18 +172,21 @@ $tmp
         $current_date = Carbon::now("+3:00");
 
         $restorans = Restoran::all();
-        $mpdf->WriteHTML("<h1>Список ключей заведений (сгенерировано $current_date)</h1>");
-        foreach($restorans as $rest){
+        $mpdf->WriteHTML("<h1>Список ключей заведений (сгенерировано $current_date)</h1><table>");
+        $mpdf->WriteHTML("<tr><td>Ресторан</td><td>Ключ</td></tr>");
+        foreach ($restorans as $rest) {
 
-            $keyword = substr(Str::uuid(),0,8);
+            $keyword = substr(Str::uuid(), 0, 8);
 
-            $rest->keyword=$keyword;
+            $rest->keyword = $keyword;
             $rest->save();
 
             config(['app.deliveryman_keyword' => 'America/Chicago']);
 
-            $mpdf->WriteHTML(sprintf("<p>%s<strong>%s</strong></p>",$rest->name,$keyword));
+            $mpdf->WriteHTML(sprintf("<tr><td>%s</td><td><strong>%s</strong></td></tr>", $rest->name, $keyword));
         }
+
+        $mpdf->WriteHTML("</table>");
 
         $file = $mpdf->Output("keywords-list.pdf", \Mpdf\Output\Destination::STRING_RETURN);
 
