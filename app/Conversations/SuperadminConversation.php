@@ -124,7 +124,10 @@ $tmp
 
         foreach ($orders as $key => $order) {
 
-            $bot_user = BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first();
+
+            $bot_user = is_null($order->deliveryman->telegram_chat_id)?
+                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first():
+                null;
 
             $message = sprintf("*Заявка #%s*, цена заказа *%s руб*, цена доставки *%s руб*, ресторан *%s*, доставщик *%s*",
                 $order->id,
