@@ -125,7 +125,7 @@ $tmp
         foreach ($orders as $key => $order) {
 
 
-            $bot_user = is_null($order->deliveryman->telegram_chat_id)?
+            $bot_user = !is_null($order->deliveryman)?
                 BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first():
                 null;
 
