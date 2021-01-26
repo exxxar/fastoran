@@ -144,6 +144,7 @@ class MainConversation extends Conversation
         $rest = Restoran::where("keyword", $message)->first();
 
         $tmp = json_encode(Storage::get('deliveryman.json'));
+        Log::info(print_r($tmp, true));
         $deliveryman_keyword = is_null($tmp) ? config("app.deliveryman_keyword") : $tmp->keyword;
 
         if (is_null($rest) &&
