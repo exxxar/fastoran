@@ -379,7 +379,7 @@ $tmp
         $order->save();
 
         $bot->stopConversation();
-        $bot->getMainMenu("Спасибо, цена заказа успешно обновелна на $message руб.");
+        $bot->getMainMenu("Спасибо, цена заказа *#$order->id* успешно обновелна на *$message руб.*");
 
     }
 
@@ -398,7 +398,7 @@ $tmp
         $order->save();
 
         $bot->stopConversation();
-        $bot->getMainMenu("Спасибо, цена за доставку успешно обновелна на $message руб.");
+        $bot->getMainMenu("Спасибо, цена за доставку заказа *#$order->id* успешно обновелна на *$message руб.*");
 
     }
 
