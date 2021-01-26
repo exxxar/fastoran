@@ -329,7 +329,7 @@ $tmp
             ),
         ]);
 
-        event(new SendSmsEvent($phone, "Мы получили вашу заявку на заказ из сервиса ОбедыGO!"));
+        //event(new SendSmsEvent($phone, "Мы получили вашу заявку на заказ из сервиса ОбедыGO!"));
         Storage::delete("order-$phone.pdf");
         return $mpdf->Output("order-$phone.pdf", 'I');
         //$this->sendMessageToTelegramChannel(env("TELEGRAM_FASTORAN_ADMIN_CHANNEL"), $message_admin);

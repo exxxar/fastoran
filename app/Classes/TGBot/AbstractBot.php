@@ -494,6 +494,38 @@ abstract class AbstractBot
         }
     }
 
+    public function sendMenuToChat($chatId, $message, $keyboard)
+    {
+        if (is_null($this->bot))
+            return;
+        try {
+
+            $message = [
+                "chat_id" => $chatId,
+                "text" => $message,
+                'parse_mode' => 'Markdown',
+                'reply_markup' => json_encode([
+                    'keyboard' => $keyboard,
+                    'one_time_keyboard' => false,
+                    'resize_keyboard' => true
+                ])
+            ];
+
+            $this->setForWeb([
+                "result" => $message
+            ]);
+
+            $this->bot->sendMessage($message);
+
+        } catch (\Exception $e) {
+            Log::info(sprintf("%s %s %s",
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
+            ));
+        }
+    }
+
     public function createNewBotUser($parent_id = null)
     {
         $id = $this->telegram_user->id;

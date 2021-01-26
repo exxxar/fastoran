@@ -188,7 +188,7 @@ $tmp
         $keyword = substr(Str::uuid(), 0, 8);
 
         Storage::put('deliveryman.json', json_encode([
-            "keyword"=>$keyword
+            "keyword" => $keyword
         ]));
 
         config(['app.deliveryman_keyword' => $keyword]);
@@ -324,6 +324,153 @@ $tmp
 
             ]);
         }
+
+    }
+
+    public static function changeSummaryPrice($bot, ...$d)
+    {
+
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $bot->reply("Введите новую полную цену заказа:");
+        $bot->startConversation("change_summary_price", [
+            "order_id" => $orderId
+        ]);
+    }
+
+    public static function changeDeliveryPrice($bot, ...$d)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orderId = isset($d[1]) ? intval($d[1]) : 0;
+
+        $bot->reply("Введите новую полную цену доставки:");
+        $bot->startConversation("change_delivery_price", [
+            "order_id" => $orderId
+        ]);
+    }
+
+    public static function summaryPrice($bot, $message)
+    {
+
+        $order = Order::where("id",$bot->storeGet("order_id"))->first();
+
+        if (is_null($order)){
+            $bot->stopConversation();
+            $bot->getMainMenu("Ошибка, заказ не найден в системе");
+            return;
+        }
+/*
+        'changed_summary_price',
+        'changed_delivery_price',*/
+        $order->changed_summary_price = intval($message);
+        $order->save();
+
+        $bot->stopConversation();
+        $bot->getMainMenu("Спасибо, цена заказа успешно обновелна на $message руб.");
+
+    }
+
+    public static function deliveryPrice($bot, $message)
+    {
+
+        $order = Order::where("id",$bot->storeGet("order_id"))->first();
+
+        if (is_null($order)){
+            $bot->stopConversation();
+            $bot->getMainMenu("Ошибка, заказ не найден в системе");
+            return;
+        }
+
+        $order->changed_delivery_price = intval($message);
+        $order->save();
+
+        $bot->stopConversation();
+        $bot->getMainMenu("Спасибо, цена за доставку успешно обновелна на $message руб.");
+
+    }
+
+
+    public static function completeDayOrders($bot)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $orders = Order::with(["details", "restoran", "details.product", "user"])
+            ->where("status", OrderStatusEnum::Delivered)
+            ->where('created_at', '>', Carbon::now()->subDay())
+            ->get();
+
+        if (count($orders) == 0) {
+            $bot->reply("Список заказов пуст!");
+            return;
+        }
+
+        $message = "";
+        foreach ($orders as $key => $order) {
+
+            $bot_user = !is_null($order->deliveryman) ?
+                BotUserInfo::where("chat_id", $order->deliveryman->telegram_chat_id)->first() :
+                null;
+
+            $message .= sprintf("*Заявка #%s*, цена заказа *%s руб*, цена доставки *%s руб*, ресторан *%s*, доставщик *%s*\n",
+                $order->id,
+                ($order->changed_summary_price ?? $order->summary_price ?? "не указано"),
+                ($order->changed_delivery_price ?? $order->delivery_price ?? "не указано"),
+                ($order->restoran->name ?? "не указано"),
+                ($bot_user->phone ??
+                    $bot_user->fio ??
+                    $bot_user->account_name ??
+                    $order->deliveryman->phone ??
+                    $order->deliveryman->telegram_chat_id ??
+                    $order->deliveryman->id
+                    ?? "не указано")
+            );
+
+        }
+
+        $bot->reply($message);
+    }
+
+    public static function unsetUserType($bot, ...$d)
+    {
+        $user = $bot->getUser();
+
+        if (!$user->isActive()) {
+            $bot->getFallbackMenu("Вы не являетесь сотрудником!");
+            return;
+        }
+
+        $bot_user_id = isset($d[1]) ? intval($d[1]) : 0;
+
+        $bot_user = BotUserInfo::where("id", $bot_user_id)->first();
+
+        if (is_null($bot_user_id)) {
+            $bot->reply("Ошибка, пользователь не найден!");
+            return;
+        }
+        $bot_user->user_type = 0;
+        $bot_user->save();
+
+        $bot->getFallbackMenuToChat($bot_user->chat_id, "Вам сбросили вашу роль! Введите ключевое слово:");
+
+        $bot->reply("Сброс успешно произведен!");
 
     }
 

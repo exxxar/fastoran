@@ -71,6 +71,11 @@ trait tDeliveryBot
         $this->sendMenu($message, $this->fallback_keyboard);
     }
 
+    public function getFallbackMenuToChat($chatId, $message)
+    {
+        $this->sendMenuToChat($chatId, $message, $this->fallback_keyboard);
+    }
+
     public function getFallbackMenu2($message)
     {
         $this->sendMenu($message, $this->fallback_keyboard_2);

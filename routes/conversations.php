@@ -2,6 +2,7 @@
 
 
 use App\Conversations\MainConversation;
+use App\Conversations\SuperadminConversation;
 use Illuminate\Support\Facades\Log;
 
 
@@ -23,6 +24,14 @@ $this->ask("decline_message", MainConversation::class . "::declineMessage")
     ->fall(MainConversation::class . "::fallback",
         "Хм, а %s точно правильная формулировка отказа?");
 
+$this->ask("change_summary_price", SuperadminConversation::class . "::summaryPrice")
+    ->where("/[0-9]{1,10}/ui")
+    ->fall(MainConversation::class . "::fallback",
+        "Хм, а %s точно адекватная цена заказа?");
 
+$this->ask("change_delivery_price", SuperadminConversation::class . "::deliveryPrice")
+    ->where("/[0-9]{1,10}/ui")
+    ->fall(MainConversation::class . "::fallback",
+        "Хм, а %s точно адекватная цена доставки?");
 
 
