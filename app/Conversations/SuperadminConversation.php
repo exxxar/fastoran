@@ -187,7 +187,7 @@ $tmp
 
         $keyword = substr(Str::uuid(), 0, 8);
 
-        Storage::disk('public')->put('deliveryman.json', json_encode([
+        Storage::put('deliveryman.json', json_encode([
             "keyword"=>$keyword
         ]));
 
