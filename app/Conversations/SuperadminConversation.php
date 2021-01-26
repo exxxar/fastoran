@@ -157,7 +157,6 @@ $tmp
 
     }
 
-
     public static function refreshAllKeywords($bot)
     {
         $user = $bot->getUser();
@@ -187,6 +186,10 @@ $tmp
 
 
         $keyword = substr(Str::uuid(), 0, 8);
+
+        Storage::disk('public')->put('deliveryman.json', json_encode([
+            "keyword"=>$keyword
+        ]));
 
         config(['app.deliveryman_keyword' => $keyword]);
 

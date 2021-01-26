@@ -13,6 +13,7 @@ use App\Parts\Models\Fastoran\Order;
 use App\Parts\Models\Fastoran\Restoran;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -46,7 +47,7 @@ class MainConversation extends Conversation
         $orderId = isset($d[1]) ? intval($d[1]) : 0;
 
         $bot->reply("Введите причину отказа!");
-        $bot->startConversation("decline_message",[
+        $bot->startConversation("decline_message", [
             "order_id" => $orderId
         ]);
 
@@ -56,7 +57,7 @@ class MainConversation extends Conversation
     {
         $bot->reply("Вы ввели: *$comment*");
 
-        $orderId =  $bot->storeGet("order_id");
+        $orderId = $bot->storeGet("order_id");
 
         $bot->stopConversation();
 
@@ -142,8 +143,11 @@ class MainConversation extends Conversation
         $user = $bot->getUser();
         $rest = Restoran::where("keyword", $message)->first();
 
+        $tmp = json_encode(Storage::disk('public')->get('deliveryman.json'));
+        $deliveryman_keyword = is_null($tmp) ? config("app.deliveryman_keyword") : $tmp->keyword;
+
         if (is_null($rest) &&
-            strtolower($message) !== strtolower(config("app.deliveryman_keyword")) &&
+            strtolower($message) !== strtolower($deliveryman_keyword) &&
             strtolower($message) !== strtolower(env("FASTORAN_MAINADMIN_KEYWORD"))
         ) {
             $bot->reply("Неверный код, попробуйте другой!");
@@ -151,7 +155,7 @@ class MainConversation extends Conversation
             return;
         }
 
-        if (strtolower($message) === strtolower(config("app.deliveryman_keyword"))) {
+        if (strtolower($message) === strtolower($deliveryman_keyword)) {
             $user->user_type = UserTypeEnum::Deliveryman;
             $user->save();
 
