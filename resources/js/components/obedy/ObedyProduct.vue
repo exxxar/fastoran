@@ -8,7 +8,7 @@
 
         <obedy-controls :product="product" />
 
-        <div class="week-label" v-if="product.is_week">15% скидка</div>
+        <div class="week-label" v-if="product.is_week">Бесплатная доставка</div>
 
         <b-modal :id="'modal-'+uuid" size="lg" hide-footer>
             <template #modal-title>

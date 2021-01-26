@@ -218,7 +218,7 @@
             "title": "Стандарт неделя",
             "day_index": 7,
             "image": "/img/logo_obed_go.jpg",
-            "price": 425,
+            "price": 500,
             "weight":1500,
             "is_week": true,
             "positions": [
@@ -256,7 +256,7 @@
             "title": "Премиум неделя",
             "day_index": 7,
             "image": "/img/logo_obed_go.jpg",
-            "price": 638,
+            "price": 750,
             "weight":1500,
             "is_week": true,
             "positions": [
