@@ -403,7 +403,7 @@ $tmp
     }
 
 
-    public static function completeDayOrders($bot)
+    public static function completeDayOrders($bot, ...$d)
     {
         $user = $bot->getUser();
 
@@ -412,8 +412,11 @@ $tmp
             return;
         }
 
+        $deliveryman_id = isset($d[1]) ? intval($d[1]) : 0;
+
         $orders = Order::with(["details", "restoran", "details.product", "user"])
             ->where("status", OrderStatusEnum::Delivered)
+            ->where("deliveryman_id", $deliveryman_id)
             ->where('created_at', '>', Carbon::now()->subDay())
             ->get();
 

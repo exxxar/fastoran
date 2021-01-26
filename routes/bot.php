@@ -52,11 +52,6 @@ $this->hears("/decline_delivery ([0-9]+)", MainConversation::class . "::declineO
 $this->hears("/delivered ([0-9]+)", MainConversation::class . "::delivered");
 
 
-$this->hears("/unset_user_type ([0-9]+)", SuperadminConversation::class . "::unsetUserType");
-$this->hears("/complete_day_orders ([0-9]+)", SuperadminConversation::class . "::completeDayOrders");
-
-
-
 
 $this->fallback(function ($bot) {
     $arr = [
