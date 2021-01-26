@@ -172,7 +172,7 @@ $tmp
 
         $restorans = Restoran::all();
         $mpdf->WriteHTML("<h1>Список ключей заведений (сгенерировано $current_date)</h1><table>");
-        $mpdf->WriteHTML("<tr><td>Ресторан</td><td>Ключ</td></tr>");
+        $mpdf->WriteHTML("<tr><td>Ресторан</td><td>Город</td><td>Ключ</td></tr>");
         foreach ($restorans as $rest) {
 
             $keyword = substr(Str::uuid(), 0, 8);
@@ -181,7 +181,7 @@ $tmp
             $rest->save();
 
 
-            $mpdf->WriteHTML(sprintf("<tr><td>%s</td><td><strong>%s</strong></td></tr>", $rest->name, $keyword));
+            $mpdf->WriteHTML(sprintf("<tr><td>%s</td><td>%s</td><td><strong>%s</strong></td></tr>", $rest->name, $rest->city,$keyword));
         }
 
 
