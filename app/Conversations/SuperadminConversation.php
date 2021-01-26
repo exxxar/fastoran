@@ -194,9 +194,9 @@ $tmp
         config(['app.deliveryman_keyword' => $keyword]);
 
         $mpdf->WriteHTML("<tr style='background-color: #00a8e6;'>
-<td colspan='2'></td>
+<td colspan='3'></td>
 </tr>");
-        $mpdf->WriteHTML(sprintf("<tr><td>Доставка</td><td><strong>%s</strong></td></tr>", $keyword));
+        $mpdf->WriteHTML(sprintf("<tr><td td colspan='2'>Доставка</td><td><strong>%s</strong></td></tr>", $keyword));
         $mpdf->WriteHTML("</table>");
 
         $file = $mpdf->Output("keywords-list.pdf", \Mpdf\Output\Destination::STRING_RETURN);
