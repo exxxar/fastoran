@@ -271,7 +271,7 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->withTrashed()->first();//$this->getUser();
 
-        $banned = BlackList::where("ip", $request->ip())->first();
+       /* $banned = BlackList::where("ip", $request->ip())->first();
 
 
         if (!is_null($banned))
@@ -280,7 +280,7 @@ class OrderController extends Controller
                     "message" => "Пользователь заблокирован",
                     "order_id" => null,
                     "status" => 404
-                ]);
+                ]);*/
 
 
         if (is_null($user)) {

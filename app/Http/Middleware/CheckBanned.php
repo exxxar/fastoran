@@ -17,10 +17,10 @@ class CheckBanned
      */
     public function handle($request, Closure $next)
     {
-        $banned = BlackList::where("ip", $request->ip())->first();
+     /*   $banned = BlackList::where("ip", $request->ip())->first();
 
         if (!is_null($banned))
-            die("Access denied");
+            die("Access denied");*/
 
         return $next($request);
     }
