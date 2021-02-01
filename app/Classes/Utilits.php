@@ -97,10 +97,7 @@ trait Utilits
         try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
         } catch (\Exception $e) {
-            return [
-                "distance" => 10,
-                "coordinates" => [0,0],
-            ];
+
 
         }
 
@@ -110,14 +107,11 @@ trait Utilits
                 array_push($tmp_coords, [$coords[1], $coords[0]]);
             }
         } catch (\Exception $e) {
-            return [
-                "distance" => 10,
-                "coordinates" => [0,0],
-            ];
+
         }
 
         return [
-            "distance" => mathDist($fA, $lA, $fB, $lB)+5,//floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
+            "distance" => mathDist($fA, $lA, $fB, $lB)+2,//floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
             "coordinates" => $tmp_coords,
         ];
 
