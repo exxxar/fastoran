@@ -1058,13 +1058,24 @@ class OrderController extends Controller
 
             $coords = (object)$this->getCoordsByAddress($request->get("address"));
 
-            $rangeObject = (object)($this->calculateTheDistanceWithRoute(
+          /*  $rangeObject = (object)($this->calculateTheDistanceWithRoute(
                 $coords->latitude,
                 $coords->longitude,
                 $rest->latitude,
                 $rest->longitude));
 
             $price = $rangeObject->distance <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($rangeObject->distance + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+       */
+
+            $range = ($this->calculateTheDistance(
+                $coords->latitude,
+                $coords->longitude,
+                $rest->latitude,
+                $rest->longitude));
+
+            $price = $range <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($range + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+
+
         } catch (Exception $e) {
             Log::info($e->getMessage());
             return response()
