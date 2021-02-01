@@ -111,7 +111,7 @@ trait Utilits
         }
 
         $tmp_coords = [[0,0]];
-        $tmp =  $this->mathDist($fA, $lA, $fB, $lB)/100;
+        $tmp =  $this->mathDist($fA, $lA, $fB, $lB)/1000;
         return [
             "distance" =>($tmp<10?$tmp+2:$tmp+7),//floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
             "coordinates" => $tmp_coords,
