@@ -272,16 +272,16 @@ class OrderController extends Controller
 
         $user = User::where("phone", $phone)->withTrashed()->first();//$this->getUser();
 
-       /* $banned = BlackList::where("ip", $request->ip())->first();
+        /* $banned = BlackList::where("ip", $request->ip())->first();
 
 
-        if (!is_null($banned))
-            return response()
-                ->json([
-                    "message" => "Пользователь заблокирован",
-                    "order_id" => null,
-                    "status" => 404
-                ]);*/
+         if (!is_null($banned))
+             return response()
+                 ->json([
+                     "message" => "Пользователь заблокирован",
+                     "order_id" => null,
+                     "status" => 404
+                 ]);*/
 
 
         if (is_null($user)) {
@@ -1034,8 +1034,8 @@ class OrderController extends Controller
         ]);
 
         Log::info(sprintf("getRangeWithRoute=>%s (address) %s (city) %s (parent_id) %s (rest_id)",
-        $request->get("address"),
-        $request->get("city"),
+            $request->get("address"),
+            $request->get("city"),
             $request->get("parent_id"),
             $restId
         ));
@@ -1047,35 +1047,35 @@ class OrderController extends Controller
 
             if (is_null($rest))
                 $rest = Restoran::find($restId);
-        }catch (Exception $e){
+
+
+            if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
+                $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
+                $rest->latitude = $coords->latitude;
+                $rest->longitude = $coords->longitude;
+                $rest->save();
+            }
+
+            $coords = (object)$this->getCoordsByAddress($request->get("address"));
+
+            $rangeObject = (object)($this->calculateTheDistanceWithRoute(
+                $coords->latitude,
+                $coords->longitude,
+                $rest->latitude,
+                $rest->longitude));
+
+            $price = $rangeObject->distance <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($rangeObject->distance + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
             return response()
                 ->json([
-                    "range" =>10,
+                    "range" => 10,
                     "price" => 200,
-                    "coordinates" => json_encode([0,0]),
+                    "coordinates" => json_encode([0, 0]),
                     "latitude" => 0,
                     "longitude" => 0
                 ]);
         }
-
-
-        if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
-            $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);
-            $rest->latitude = $coords->latitude;
-            $rest->longitude = $coords->longitude;
-            $rest->save();
-        }
-
-        $coords = (object)$this->getCoordsByAddress($request->get("address"));
-
-        $rangeObject = (object)($this->calculateTheDistanceWithRoute(
-            $coords->latitude,
-            $coords->longitude,
-            $rest->latitude,
-            $rest->longitude));
-
-        $price = $rangeObject->distance <= 2 ? 80 : ceil(env("BASE_DELIVERY_PRICE") + (($rangeObject->distance + 2) * env("BASE_DELIVERY_PRICE_PER_KM")));
-
         return response()
             ->json([
                 "range" => floatval(sprintf("%.2f", ($rangeObject->distance <= 2 ? $rangeObject->distance : ($rangeObject->distance + 2)))),
