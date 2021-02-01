@@ -111,7 +111,7 @@ trait Utilits
         }
 
         return [
-            "distance" => mathDist($fA, $lA, $fB, $lB)+2,//floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
+            "distance" => $this->mathDist($fA, $lA, $fB, $lB)+2,//floatval(min(json_decode($content)->properties->distance, 20) ?? 0),
             "coordinates" => $tmp_coords,
         ];
 
