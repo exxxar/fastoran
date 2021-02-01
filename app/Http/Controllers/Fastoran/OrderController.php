@@ -26,6 +26,7 @@ use App\Parts\Models\Fastoran\RestMenu;
 use App\Parts\Models\Fastoran\Restoran;
 use App\User;
 use Illuminate\Http\Request;
+use mysql_xdevapi\Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -1032,13 +1033,31 @@ class OrderController extends Controller
             "parent_id" => 'required',
         ]);
 
+        Log::info(sprintf("getRangeWithRoute=>%s (address) %s (city) %s (parent_id) %s (rest_id)",
+        $request->get("address"),
+        $request->get("city"),
+            $request->get("parent_id"),
+            $restId
+        ));
 
-        $rest = Restoran::where("parent_id", $request->get("parent_id"))
-            ->where("city", $request->get("city"))
-            ->first();
+        try {
+            $rest = Restoran::where("parent_id", $request->get("parent_id"))
+                ->where("city", $request->get("city"))
+                ->first();
 
-        if (is_null($rest))
-            $rest = Restoran::find($restId);
+            if (is_null($rest))
+                $rest = Restoran::find($restId);
+        }catch (Exception $e){
+            return response()
+                ->json([
+                    "range" =>10,
+                    "price" => 200,
+                    "coordinates" => json_encode([0,0]),
+                    "latitude" => 0,
+                    "longitude" => 0
+                ]);
+        }
+
 
         if (is_null($rest->latitude) || is_null($rest->longitude) || $rest->latitude === 0 || $rest->longitude === 0) {
             $coords = (object)$this->getCoordsByAddress("Украина, " . $rest->address);

@@ -38,6 +38,26 @@ use Mpdf\Mpdf;
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Yandex\Geocode\Exception;
+use Yandex\Geocode\Facades\YandexGeocodeFacade;
+
+Route::get("/yandex",function (){
+    $data = null;
+    try {
+
+        $data = YandexGeocodeFacade::setQuery("г. Донецк, ул. Артема, 2а")->load();
+
+        $data = $data->getResponse();
+        dd($data);
+    } catch (Exception $e) {
+        Log::error(sprintf("%s:%s %s",
+            $e->getLine(),
+            $e->getFile(),
+            $e->getMessage()
+        ));
+    }
+
+});
 
 Route::any('/bot/{bot}', 'BotController@handle');
 

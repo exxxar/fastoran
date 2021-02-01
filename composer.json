@@ -31,7 +31,8 @@
         "socialiteproviders/vkontakte": "^4.0",
         "socialiteproviders/yandex": "^3.0",
         "vkcom/vk-php-sdk": "^5.101",
-      "ext-json": "*"
+      "ext-json": "*",
+      "ext-mysql_xdevapi": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
