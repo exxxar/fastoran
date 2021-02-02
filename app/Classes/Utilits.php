@@ -78,10 +78,13 @@ trait Utilits
         try {
             $content = file_get_contents("http://www.yournavigation.org/api/1.0/gosmore.php?flat=$fA&flon=$lA&tlat=$fB&tlon=$lB&v=motorcar&fast=1&layer=mapnik&format=geojson");
         } catch (\Exception $e) {
-            return $this->calculateTheDistance($fA, $lA, $fB, $lB);
+       //     return $this->calculateTheDistance($fA, $lA, $fB, $lB);
         }
 
-        return floatval(min(json_decode($content)->properties->distance, 20) ?? 0);
+        $tmp_coords = [[0,0]];
+        $tmp =  $this->mathDist($fA, $lA, $fB, $lB)/1000;
+
+        return ($tmp<10?$tmp+2:$tmp+7);//floatval(min(json_decode($content)->properties->distance, 20) ?? 0);
 
     }
 
