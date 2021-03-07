@@ -46,15 +46,17 @@ class HomeController extends Controller
         $auth = new Auth('7384241', 'eNYSaEk3l2FuZzAePCnH', 'https://fastoran.com/vkontakte', 'market');
 
 
-        Schema::disableForeignKeyConstraints();
-        MenuCategory::truncate();
-        RestoranInCategory::truncate();
-        RestMenu::truncate();
-        Schema::enableForeignKeyConstraints();
-
         $token = null;
 
         if ($request->has("code")) {
+
+            Schema::disableForeignKeyConstraints();
+            MenuCategory::truncate();
+            RestoranInCategory::truncate();
+            RestMenu::truncate();
+            Schema::enableForeignKeyConstraints();
+
+
             $token = $auth->getToken($request->get('code'));
 
             $api = new Client('5.131');

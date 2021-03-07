@@ -208,7 +208,7 @@ Route::get('/profile', 'Fastoran\\OrderController@getOrderHistory')->middleware(
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/vkontakte', "HomeController@uploadVk");//->middleware('auth');
+Route::get('/vkontakte', "HomeController@uploadVk")->middleware('auth');
 
 
 Route::prefix('admin')->group(function () {
