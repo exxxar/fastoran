@@ -37,7 +37,7 @@
 
                     <burger-bar-calc v-if="slideIndex===3"></burger-bar-calc>
 
-                    <svinya-calc v-if="slideIndex===4"></svinya-calc>
+                    <!--<svinya-calc v-if="slideIndex===4"></svinya-calc>  -->
                 </div>
             </div>
         </div>
