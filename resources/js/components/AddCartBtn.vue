@@ -26,7 +26,7 @@
                         <b-form-checkbox-group :id="'modal-submenu-check-'+product_id" v-model="selected"
                                                name="flavour-2">
 
-                            <li class="sub-item" v-for="sub in getFoodSub()">
+                            <li class="sub-item" v-bind:key="sub" v-for="sub in getFoodSub() ">
 
                                 <b-form-checkbox v-model="selected" :value="sub.name">{{sub.name}}
                                 </b-form-checkbox>
