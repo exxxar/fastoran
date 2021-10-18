@@ -32,10 +32,7 @@
                                     <div class="circle-button-group">
                                         <a data-toggle="modal" data-target="#customCartModal" data-whatever="@mdo"
                                            class="custom-btn c-btn-1 ">Продукты</a>
-                                        <a href="/obedygo"
-                                           class="custom-btn c-btn-2 ">Обеды</a>
-                                        <a href="/rest/ona_hochet_dn"
-                                           class="custom-btn c-btn-3 ">Цветы</a>
+
 
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
                                         <a data-toggle="modal" data-target="#customPhoneModal" data-whatever="@mdo"
