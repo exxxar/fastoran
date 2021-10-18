@@ -15,14 +15,10 @@
                                     <div class="circle-button-group">
                                         <a href="{{route("custom-order")}}"
                                            class="custom-btn c-btn-1 ">Продукты</a>
-                                        <a href="/rest/ona_hochet_dn"
-                                           class="custom-btn c-btn-3 ">Цветы</a>
-                                        <a href="/obedygo"
-                                           class="custom-btn c-btn-2 ">Обеды</a>
+                                        
                                      {{--   <a href="{{route("custom-order")}}"
                                            class="custom-btn c-btn-2 ">Медикаменты</a>--}}
-                                        <a href="{{route("custom-order")}}"
-                                           class="custom-btn c-btn-1 ">Цветы</a>
+                                        
                                         <a href="#restorans" class="custom-btn c-btn-3">Рестораны</a>
                                         <a href="{{route("phone-order")}}"
                                            class="custom-btn c-btn-2 ">Заказать по телефону</a>
